@@ -1,0 +1,12 @@
+<query id="getMonthlyData" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="monthly_count" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="monthly" pipe="and"/>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+    </conditions>
+</query>

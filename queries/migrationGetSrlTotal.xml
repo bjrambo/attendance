@@ -1,0 +1,8 @@
+<query id="migrationGetSrlTotal" action="select">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+    <columns>
+        <column name="member_srl" alias="member_srl"/>
+    </columns>
+</query>

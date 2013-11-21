@@ -1,0 +1,49 @@
+@charset "utf-8";
+#att_board_body a:link,
+#att_board_body a:visited {text-decoration:none; color:#000000;}
+#att_board_body a:focus,
+#att_board_body a:hover {text-decoration:none; color:#afafaf; }
+
+/* att Header */
+#at_header a:link,
+#at_header a:focus,
+#at_header a:visited {text-decoration:none; color:#000000;}
+#at_header a:hover {text-decoration:none; color:#dfdfdf !important; }
+#at_header *{ margin:0 0 20px 0; padding:0; }
+#at_header .boardTitle{ font-size:1em; letter-spacing:-.1em; margin-bottom:10px; border-bottom:1px dashed #000000; *zoom:1; background-repeat:no-repeat; background-position:left center; }
+#at_header .boardTitle:after{ content:""; display:block; clear:both;}
+#at_header .boardTitleText { float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 12px; background-repeat:no-repeat; background-position:right bottom;}
+#at_header .boardTitleText a{ text-decoration:none; color:#000000;}
+#at_header .boardTitleText a:hover { color:#afafaf; }
+#at_header .boardTitleText em{ font-style:normal; font-weight:normal;}
+
+.at_board { width:100%; color:#000000; list-style:none; padding:0; border-bottom:1px solid #000000;}
+.at_board .at_board_title { padding:10px 5px; background:#dfdfdf; }
+.at_board .at_board_body { padding: 7px 2px; border-top:1px dashed #000000; /*white-space:nowrap; overflow:hidden;*/}
+.at_board .f_blue {color:#0000ff;}
+.at_board .f_red {color:#ff0000;}
+.at_board .f_gray {color:#7f7f7f;}
+
+.at_top_box { padding:0; color:#000000; margin-top:10px; font-size:.9em; overflow:hidden; }
+.at_top_box .at_date_pick { color:#afafaf; width:auto; float:left; margin:0; padding:0; }
+.at_top_box .buttons_box { float:right; width:auto; padding:0; margin:0; }
+
+.a_text { border-bottom:1px dashed; border-top:none; border-left:none; border-right:none; border-color:#afafaf; height:1.6em; padding:.2em 0 0 .3em; background:#afafaf; font-size:1em; _font-size:9pt; width:100%; }
+
+.attendance_button { width:100%; margin:0 auto; overflow:hidden;}
+.att_btn_align{padding:0; text-align:right; margin:0;}
+
+.at_greetings { padding:5px 10px 5px 10px; display:none; color:#000000; position:relative; line-height:1.6; border-top:1px dashed #000000; }
+.at_greetings ul { padding:0; margin:0; list-style-type:none; font-size:.9em;}
+
+.at_info_msg { margin:0; }
+
+/* at_pagenation Reset */
+.at_pagenation { padding:15px 0; margin:0; text-align:center; clear:both; color:#000000; }
+.at_pagenation *{ margin:0; padding:0;}
+
+.point_list { margin:5px; padding:5px 5px; border:1px dashed #000000; color:#000000; display:none; font:.9em; overflow:hidden; }
+.point_list ul { padding:4px; margin:0; list-style-type:none; }
+.calendar_view { padding:5px; color:#000000; display:none; }
+
+.attendance_denied {text-align:center; width:100%; font-size:1.2em; color:#ff0000;}

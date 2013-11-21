@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">출석부 Mobile 기본 스킨</title>
+    <title xml:lang="zh-CN">Attendance Mobile Default Skin</title>
+    <title xml:lang="zh-TW">Attendance Mobile Default Skin</title>
+    <title xml:lang="jp">Attendance Mobile Default Skin</title>
+    <description xml:lang="ko">
+        출석부 Mobile 기본 스킨
+        제작: 매실茶(http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <description xml:lang="jp">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <description xml:lang="zh-CN">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <description xml:lang="en">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <description xml:lang="es">
+        Attendance Mobile Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <description xml:lang="zh-TW">
+        Attendance Mobile Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+    </description>
+    <version>0.1</version>
+    <date>2010-07-10</date>
+
+    <author email_address="pppljh@gmail.com" link="http://maesiltea.linuxstudy.pe.kr">
+        <name xml:lang="ko">매실茶</name>
+		<name xml:lang="zh-CN">maesiltea</name>
+        <name xml:lang="jp">maesiltea</name>
+    </author>
+
+    <license>BSD/LGPL2 Dual</license>
+
+    <extra_vars />
+</skin>

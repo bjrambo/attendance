@@ -1,0 +1,13 @@
+<query id="getYearlyAttendance" action="select">
+    <tables>
+        <table name="attendance_yearly" />
+    </tables>
+    <columns>
+        <column name="yearly" alias="yearly" />
+        <column name="yearly_point" alias="yearly_point" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="year" pipe="and"/>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+    </conditions>
+</query>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">출석부 기본 스킨</title>
+    <title xml:lang="zh-CN">Attendance Default Skin</title>
+    <title xml:lang="zh-TW">Attendance Default Skin</title>
+    <title xml:lang="jp">Attendance Default Skin</title>
+    <description xml:lang="ko">
+        출석부 기본 스킨
+        제작: 매실茶(http://maesiltea.linuxstudy.pe.kr)
+		수정: BJ람보(http://sosifam.com)
+    </description>
+    <description xml:lang="jp">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+		config by BJRambo (http://sosifam.com)
+    </description>
+    <description xml:lang="zh-CN">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+		config by BJRambo (http://sosifam.com)
+    </description>
+    <description xml:lang="en">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+		config by BJRambo (http://sosifam.com)
+    </description>
+    <description xml:lang="es">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+		config by BJRambo (http://sosifam.com)
+    </description>
+    <description xml:lang="zh-TW">
+        Attendance Default Skin
+        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
+		config by BJRambo (http://sosifam.com)
+    </description>
+    <version>0.2</version>
+    <date>2012-04-23</date>
+
+    <author email_address="pppljh@gmail.com" link="http://maesiltea.linuxstudy.pe.kr">
+        <name xml:lang="ko">매실茶</name>
+		<name xml:lang="zh-CN">maesiltea</name>
+        <name xml:lang="jp">maesiltea</name>
+    </author>
+
+    <license>GPL v2</license>
+
+    <colorset>
+        <color name="gray" src="screenshots/gray.jpg">
+            <title xml:lang="ko">회색(기본)</title>
+            <title xml:lang="jp">Gray（デフォルト）</title>
+            <title xml:lang="zh-CN">Gray（基本）</title>
+            <title xml:lang="en">Gray (default)</title>
+            <title xml:lang="es">Gray (por defecto)</title>
+            <title xml:lang="zh-TW">Gray(預設)</title>
+        </color>
+        <color name="black" src="screenshots/black.jpg">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="ru">Черного</title>
+            <title xml:lang="es">Negro</title>
+            <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
+        </color>
+        <color name="blue" src="screenshots/black.jpg">
+            <title xml:lang="ko">파란색</title>
+            <title xml:lang="jp">靑</title>
+            <title xml:lang="en">Blue</title>
+            <title xml:lang="ru">Blue</title>
+            <title xml:lang="es">Blue</title>
+            <title xml:lang="zh-CN">靑色</title>
+            <title xml:lang="zh-TW">靑色</title>
+        </color>
+    </colorset>
+
+    <extra_vars>
+        <var name="display_bonus_button" type="select">
+            <title xml:lang="ko">보너스 항목 표시</title>
+            <title xml:lang="en">Display Bonus List</title>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">表示</title>
+                <title xml:lang="zh-CN">显示</title>
+                <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">非表示</title>
+                <title xml:lang="zh-CN">不显示</title>
+                <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
+            </options>
+        </var>
+        <var name="display_setup_button" type="select">
+            <title xml:lang="ko">설정 표시</title>
+            <title xml:lang="zh-CN">显示管理设置组</title>
+            <title xml:lang="jp">設定表示</title>
+            <title xml:lang="en">Display Setup</title>
+            <title xml:lang="es">Muestra la información de la Configuración</title>
+            <title xml:lang="zh-TW">顯示設置</title>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">表示</title>
+                <title xml:lang="zh-CN">显示</title>
+                <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">非表示</title>
+                <title xml:lang="zh-CN">不显示</title>
+                <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
+            </options>
+            <description />
+        </var>
+        <var name="title" type="text">
+            <title xml:lang="ko">게시판 제목</title>
+            <title xml:lang="jp">掲示板タイトル</title>
+            <title xml:lang="zh-CN">版面标题</title>
+            <title xml:lang="en">Title of Board</title>
+            <title xml:lang="es">Title of Board</title>
+            <title xml:lang="zh-TW">討論板標題</title>
+            <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
+            <description xml:lang="jp">掲示板タイトルを入力して下さい。</description>
+            <description xml:lang="zh-CN">请输入版面标题(留空为不显示)。</description>
+            <description xml:lang="en">Plase input the title of board.</description>
+            <description xml:lang="es">Plase input the title of board.</description>
+            <description xml:lang="zh-TW">請輸入討論板標題(留白為隱藏)。</description>
+        </var>
+        <var name="sub_title" type="text">
+            <title xml:lang="ko">게시판 부제목</title>
+            <title xml:lang="jp">掲示板サブタイトル</title>
+            <title xml:lang="zh-CN">版面副标题</title>
+            <title xml:lang="en">Subtitle of Board</title>
+            <title xml:lang="zh-TW">討論板副標題</title>
+            <description xml:lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
+            <description xml:lang="jp">掲示板タイトルの隣りに表示されるサブタイトルを入力して下さい。</description>
+            <description xml:lang="zh-CN">请输入版面副标题(留空为不显示)。</description>
+            <description xml:lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
+            <description xml:lang="es">Please input the subtitle of board which will be displayed beside of board title.</description>
+            <description xml:lang="zh-TW">請輸入討論板副標題(留白為隱藏)。</description>
+        </var>
+        <var name="comment" type="textarea">
+            <title xml:lang="ko">게시판 상세 설명</title>
+            <title xml:lang="jp">掲示板の詳細</title>
+            <title xml:lang="zh-CN">版面详细说明</title>
+            <title xml:lang="en">Description of Board</title>
+            <title xml:lang="es">Description of Board</title>
+            <title xml:lang="zh-TW">討論板說明</title>
+            <description xml:lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+            <description xml:lang="jp">掲示板タイトルの下に表示される説明文を入力して下さい。</description>
+            <description xml:lang="zh-CN">请输入版面说明(留空为不显示)。</description>
+            <description xml:lang="en">You may input description which will be displayed under the board title.</description>
+            <description xml:lang="es">You may input description which will be displayed under the board title.</description>
+            <description xml:lang="zh-TW">請輸入討論板說明(留白為隱藏)。</description>
+        </var>
+        <var name="greetings_cut_size" type="text">
+            <title xml:lang="ko">인사말 글자수</title>
+            <title xml:lang="jp">length of greetings characters</title>
+            <title xml:lang="zh-CN">length of greetings characters</title>
+            <title xml:lang="en">Length of greetings</title>
+            <title xml:lang="es">Length of greetings</title>
+            <title xml:lang="zh-TW">Length of greetings</title>
+            <description xml:lang="ko">인사말의 글자수를 지정할 수 있습니다. (기본 : 20)</description>
+            <description xml:lang="jp">You may set length of greetings. (default : 20)</description>
+            <description xml:lang="zh-CN">You may set length of greetings. (default : 20)</description>
+            <description xml:lang="en">You may set length of greetings. (default : 20)</description>
+            <description xml:lang="es">You may set length of greetings. (default : 20)</description>
+            <description xml:lang="zh-TW">You may set length of greetings. (default : 20)</description>
+        </var>
+        <var name="display_user_id" type="select">
+            <title xml:lang="ko">아이디 표시</title>
+            <title xml:lang="jp">Display user id</title>
+            <title xml:lang="zh-CN">Display user id</title>
+            <title xml:lang="en">Display user id</title>
+            <title xml:lang="es">Display user id</title>
+            <title xml:lang="zh-TW">Display user id</title>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">非表示</title>
+                <title xml:lang="zh-CN">不显示</title>
+                <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
+            </options>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">表示</title>
+                <title xml:lang="zh-CN">显示</title>
+                <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
+            </options>
+            <description />
+        </var>
+        <var name="display_ip_address" type="select">
+            <title xml:lang="ko">아이피주소 표시</title>
+            <title xml:lang="en">Display ip address</title>
+            <title xml:lang="jp">IPアドレス表示</title>
+            <title xml:lang="zh-CN">显示IP地址</title>
+            <title xml:lang="es-CN">Display ip address</title>
+            <title xml:lang="zh-TW">顯示IP位址</title>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">表示</title>
+                <title xml:lang="zh-CN">显示</title>
+                <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">非表示</title>
+                <title xml:lang="zh-CN">不显示</title>
+                <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
+            </options>
+        </var>
+    </extra_vars>
+</skin>

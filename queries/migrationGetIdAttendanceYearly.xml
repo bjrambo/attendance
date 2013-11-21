@@ -1,0 +1,8 @@
+<query id="migrationGetIdAttendanceYearly" action="select">
+    <tables>
+        <table name="attendance_yearly" />
+    </tables>
+    <columns>
+        <column name="user_id" />
+    </columns>
+</query>

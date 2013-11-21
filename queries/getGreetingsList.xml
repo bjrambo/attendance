@@ -1,0 +1,12 @@
+<query id="getGreetingsList" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="greetings" alias="greetings" />
+    </columns>
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+    </conditions>
+
+</query>

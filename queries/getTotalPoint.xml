@@ -1,0 +1,12 @@
+<query id="getTotalPoint" action="select">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+    <columns>
+        <column name="total_point" alias="total_point"/>
+    </columns>
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+    </conditions>
+
+</query>

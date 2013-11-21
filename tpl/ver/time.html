@@ -1,0 +1,22 @@
+{@$total_count = $oAttendanceAdminModel->getTodayTotalCount($selected_date)}
+<table cellspacing="0" class="rowTable">
+    <!--@for($time=0;$time<24;$time++)-->
+    {@$today_time = $selected_date.sprintf("%02d",$time)}
+    {@$count = $oAttendanceAdminModel->getTodayTimeCount($today_time)}
+    <tr>
+        <th width="40px">{$time}{$lang->attendance_time}</th>
+        <td style="min-width:240px;">
+            <div class="admin_graph">
+                {@$percent=(int)($count/$total_count * 100)}
+                <div class="progress" style="width:{$percent}%">
+                    <!--@if($percent>=50)-->{$percent}%<!--@else-->&nbsp;<!--@end-->
+                </div>
+                <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
+                <strong>{$count}</strong>/{$total_count}<!--@if($percent<50)-->({$percent}%)<!--@end-->
+			    </div>
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+</table>
+

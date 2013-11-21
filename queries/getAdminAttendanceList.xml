@@ -1,0 +1,29 @@
+<query id="getAdminAttendanceList" action="select">
+    <tables>
+        <table name="attendance" />
+        <table name="member" type="left join">
+        <conditions>
+                <condition operation="equal" column="attendance.member_srl" default="member.member_srl" />
+        </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="attendance.attendance_srl" alias="attendance_srl" />
+        <column name="attendance.regdate" alias="regdate" />
+        <column name="attendance.member_srl" alias="member_srl" />
+        <column name="attendance.greetings" alias="greetings" />
+        <column name="attendance.today_point" alias="today_point" />
+        <column name="attendance.ipaddress" alias="ipaddress" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="attendance.regdate" var="now" />
+		<condition operation="equal" column="attendance.member_srl" default="member.member_srl"  pipe="and"/>
+    </conditions>
+
+    <navigation>
+        <index var="sort_index" default="attendance.regdate" order="asc" />
+        <list_count var="list_count" default="5" />
+        <page_count var="page_count" default="5" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

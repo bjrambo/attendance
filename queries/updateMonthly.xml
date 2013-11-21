@@ -1,0 +1,15 @@
+<query id="updateMonthly" action="update">
+    <tables>
+        <table name="attendance_monthly" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <column name="monthly" var="monthly" />
+        <column name="monthly_point" var="monthly_point" />
+    </columns>
+
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" default="admin" notnull="notnull" pipe="and" />
+        <condition operation="like_prefix" column="regdate" var="month" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

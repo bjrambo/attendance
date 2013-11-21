@@ -1,0 +1,32 @@
+<query id="getConfigData" action="select">
+    <tables>
+        <table name="attendance_config" />
+    </tables>
+    <columns>
+	    <column name="add_point" alias="add_point" /> 
+	    <column name="first_point"  alias="first_point" />
+	    <column name="second_point" alias="second_point" />
+	    <column name="third_point"  alias="third_point" />
+	    <column name="yearly_point" alias="yearly_point" />
+	    <column name="monthly_point" alias="monthly_point" />
+	    <column name="weekly_point" alias="weekly_point"  />
+	    <column name="about_target" alias="about_target" />
+	    <column name="target_day" alias="target_day"  />
+	    <column name="target_point" alias="target_point"  />
+	    <column name="about_continuity" alias="about_continuity"  />
+	    <column name="continuity_day" alias="continuity_day" />
+	    <column name="continuity_point" alias="continuity_point" />
+	    <column name="about_time_control" alias="about_time_control" />
+	    <column name="start_time" alias="start_time" />
+	    <column name="end_time" alias="end_time" />
+	    <column name="about_diligence_yearly" alias="about_diligence_yearly" />
+	    <column name="diligence_yearly" alias="diligence_yearly" />
+	    <column name="diligence_yearly_point" alias="diligence_yearly_point" />
+	    <column name="about_diligence_monthly" alias="about_diligence_monthly" />
+	    <column name="diligence_monthly" alias="diligence_monthly" />
+	    <column name="diligence_monthly_point" alias="diligence_monthly_point" />
+	    <column name="about_diligence_weekly" alias="about_diligence_weekly" />
+	    <column name="diligence_weekly" alias="diligence_weekly" />
+	    <column name="diligence_weekly_point" alias="diligence_weekly_point" />
+    </columns>
+</query>

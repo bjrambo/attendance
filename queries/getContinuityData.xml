@@ -1,0 +1,16 @@
+<query id="getContinuityData" action="select">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+    <columns>
+        <column name="continuity" alias="continuity"/>
+        <column name="continuity_point" alias="continuity_point"/>
+        <column name="total_point" alias="total_point"/>
+        <column name="total" alias="total"/>
+    </columns>
+    <conditions>
+		<condition operation="equal" column="substr(regdate,1,8)" var="yesterday"  />
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+    </conditions>
+
+</query>

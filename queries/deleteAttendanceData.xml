@@ -1,0 +1,15 @@
+<query id="deleteAttendanceData" action="delete">
+    <tables>
+        <table name="attendance" />
+    </tables>
+
+    <columns>
+        <column name="*"/>
+    </columns>
+
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="check_day" pipe="and"  />
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+    </conditions>
+
+</query>

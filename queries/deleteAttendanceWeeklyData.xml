@@ -1,0 +1,16 @@
+<query id="deleteAttendanceWeeklyData" action="delete">
+    <tables>
+        <table name="attendance_weekly" />
+    </tables>
+
+    <columns>
+        <column name="*"/>
+    </columns>
+
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+	    <condition operation="more" column="regdate" var="monday" pipe="and" />
+	    <condition operation="less" column="regdate" var="sunday" pipe="and" />
+    </conditions>
+
+</query>

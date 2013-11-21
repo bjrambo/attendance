@@ -1,0 +1,8 @@
+<include target="./ver/check.inc.html" />
+<include target="./ver/grant_list.html" cond="$v15" />
+<block cond="$v17">
+<!--@if(!$module)-->
+    <!--#include("./header.html")-->
+<!--@end-->
+{$grant_content}
+</block>

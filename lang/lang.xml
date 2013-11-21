@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lang>
+	<item name = "attendance_module">
+		<value xml:lang="ko"><![CDATA[출석부]]></value>
+	</item>
+	<item name = "mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 뷰]]></value>
+	</item>
+	<item name = "about_mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 출석부를 사용합니다.]]></value>
+	</item>
+	<item name = "select_date">
+		<value xml:lang="ko"><![CDATA[달력아이콘을 눌러서 날짜를 선택하세요]]></value>
+	</item>
+	<item name = "user_id">
+		<value xml:lang="ko"><![CDATA[사용자 ID]]></value>
+	</item>
+	<item name = "user_name">
+		<value xml:lang="ko"><![CDATA[이름]]></value>
+	</item>
+	<item name = "nick_name">
+		<value xml:lang="ko"><![CDATA[별명]]></value>
+	</item>
+	<item name = "time">
+		<value xml:lang="ko"><![CDATA[출석시각]]></value>
+	</item>
+	<item name = "point">
+		<value xml:lang="ko"><![CDATA[포인트]]></value>
+	</item>
+	<item name = "position">
+		<value xml:lang="ko"><![CDATA[순위]]></value>
+	</item>
+	<item name = "attend_point_list">
+		<value xml:lang="ko"><![CDATA[포인트 목록]]></value>
+	</item>
+	<item name = "bonus_point">
+		<value xml:lang="ko"><![CDATA[보너스]]></value>
+	</item>
+	<item name = "greetings">
+		<value xml:lang="ko"><![CDATA[인사말]]></value>
+	</item>
+	<item name = "attend_ipaddress">
+		<value xml:lang="ko"><![CDATA[IP주소]]></value>
+	</item>
+	<item name = "default_greetings">
+		<value xml:lang="ko"><![CDATA[출석했어요]]></value>
+	</item>
+	<item name = "confirm_attend">
+		<value xml:lang="ko"><![CDATA[출석하시겠습니까?]]></value>
+	</item>
+	<item name = "view_type" type="array">
+		<item name="config">
+			<value xml:lang="ko"><![CDATA[설정]]></value>
+		</item>
+		<item name="time">
+			<value xml:lang="ko"><![CDATA[시간대별]]></value>
+		</item>
+		<item name="day">
+			<value xml:lang="ko"><![CDATA[일별]]></value>
+		</item>
+		<item name="rank_weekly">
+			<value xml:lang="ko"><![CDATA[주간정보]]></value>
+		</item>
+		<item name="rank_monthly">
+			<value xml:lang="ko"><![CDATA[월간정보]]></value>
+		</item>
+		<item name="rank_yearly">
+			<value xml:lang="ko"><![CDATA[연간정보]]></value>
+		</item>
+		<item name="rank_total">
+			<value xml:lang="ko"><![CDATA[총 출석정보(관리)]]></value>
+		</item>
+		<item name="speed_search">
+			<value xml:lang="ko"><![CDATA[종합정보검색]]></value>
+		</item>
+	</item>
+	<item name = "attendance_perfect">
+		<value xml:lang="ko"><![CDATA[개근]]></value>
+	</item>
+	<item name = "monthly_perfect">
+		<value xml:lang="ko"><![CDATA[月]]></value>
+	</item>
+	<item name = "yearly_perfect">
+		<value xml:lang="ko"><![CDATA[年]]></value>
+	</item>
+	<item name = "target_day">
+		<value xml:lang="ko"><![CDATA[지]]></value>
+	</item>
+	<item name = "week">
+		<value xml:lang="ko"><![CDATA[주]]></value>
+	</item>
+	<item name = "attendance_diligence_year">
+		<value xml:lang="ko"><![CDATA[♥]]></value>
+	</item>
+	<item name = "attendance_diligence_month">
+		<value xml:lang="ko"><![CDATA[♠]]></value>
+	</item>
+	<item name = "attendance_diligence_week">
+		<value xml:lang="ko"><![CDATA[♨]]></value>
+	</item>
+	<item name = "input_text">
+		<value xml:lang="ko"><![CDATA[인사말과 함께 출석하세요!]]></value>
+	</item>
+	<item name = "today_added_point">
+		<value xml:lang="ko"><![CDATA[당일기록]]></value>
+	</item>
+	<item name = "click">
+		<value xml:lang="ko"><![CDATA[도장 콱!]]></value>
+	</item>
+	<item name = "continuity">
+		<value xml:lang="ko"><![CDATA[연]]></value>
+	</item>
+	<item name = "view_total_day">
+		<value xml:lang="ko"><![CDATA[총 출석일]]></value>
+	</item>
+	<item name = "view_total_point">
+		<value xml:lang="ko"><![CDATA[총 출석 포인트]]></value>
+	</item>
+	<item name = "view_yearly_day">
+		<value xml:lang="ko"><![CDATA[연간 출석일]]></value>
+	</item>
+	<item name = "view_yearly_point">
+		<value xml:lang="ko"><![CDATA[연간 출석 포인트]]></value>
+	</item>
+	<item name = "view_monthly_day">
+		<value xml:lang="ko"><![CDATA[월간 출석일]]></value>
+	</item>
+	<item name = "view_monthly_point">
+		<value xml:lang="ko"><![CDATA[월간 출석 포인트]]></value>
+	</item>
+	<item name = "view_weekly_day">
+		<value xml:lang="ko"><![CDATA[주간 출석일]]></value>
+	</item>
+	<item name = "view_weekly_point">
+		<value xml:lang="ko"><![CDATA[주간 출석 포인트]]></value>
+	</item>
+	<item name = "yearly_info">
+		<value xml:lang="ko"><![CDATA[연간 출석정보]]></value>
+	</item>
+	<item name = "monthly_info">
+		<value xml:lang="ko"><![CDATA[월간 출석정보]]></value>
+	</item>
+	<item name = "weekly_info">
+		<value xml:lang="ko"><![CDATA[주간 출석정보]]></value>
+	</item>
+	<item name = "days">
+		<value xml:lang="ko"><![CDATA[일]]></value>
+	</item>
+	<item name = "graph">
+		<value xml:lang="ko"><![CDATA[그래프]]></value>
+	</item>
+	<item name = "getpoint">
+		<value xml:lang="ko"><![CDATA[획득 포인트]]></value>
+	</item>
+	<item name = "messages">
+		<value xml:lang="ko"><![CDATA[찾고싶은 회원의 정보로 검색하세요.]]></value>
+	</item>
+	<item name = "attendance_add_point">
+		<value xml:lang="ko"><![CDATA[출석 포인트]]></value>
+	</item>
+	<item name = "attendance_first_point">
+		<value xml:lang="ko"><![CDATA[1등 가산점]]></value>
+	</item>
+	<item name = "attendance_second_point">
+		<value xml:lang="ko"><![CDATA[2등 가산점]]></value>
+	</item>
+	<item name = "attendance_third_point">
+		<value xml:lang="ko"><![CDATA[3등 가산점]]></value>
+	</item>
+	<item name = "attendance_yearly_point">
+		<value xml:lang="ko"><![CDATA[한 해 개근 가산점]]></value>
+	</item>
+	<item name = "attendance_monthly_point">
+		<value xml:lang="ko"><![CDATA[한 달 개근 가산점]]></value>
+	</item>
+	<item name = "attendance_weekly_point">
+		<value xml:lang="ko"><![CDATA[한 주 개근 가산점]]></value>
+	</item>
+	<item name = "attendance_about_target">
+		<value xml:lang="ko"><![CDATA[지정일 출석 여부]]></value>
+	</item>
+	<item name = "attendance_target_day">
+		<value xml:lang="ko"><![CDATA[지정일]]></value>
+	</item>
+	<item name = "attendance_target_day_info">
+		<value xml:lang="ko"><![CDATA[다음과 같은 형식으로 입력하세요. 2009년 1월 3일의 경우, 20090103]]></value>
+	</item>
+	<item name = "attendance_target_point">
+		<value xml:lang="ko"><![CDATA[지정일 가산점]]></value>
+	</item>
+	<item name = "attendance_about_continuity">
+		<value xml:lang="ko"><![CDATA[연속출석 여부]]></value>
+	</item>
+	<item name = "attendance_continuity_day">
+		<value xml:lang="ko"><![CDATA[연속출석일]]></value>
+	</item>
+	<item name = "attendance_after_day">
+		<value xml:lang="ko"><![CDATA[일 이상]]></value>
+	</item>
+	<item name = "attendance_continuity_point">
+		<value xml:lang="ko"><![CDATA[연속출석 포인트]]></value>
+	</item>
+	<item name = "attendance_about_time_control">
+		<value xml:lang="ko"><![CDATA[시간제한 여부]]></value>
+	</item>
+	<item name = "attendance_start_time">
+		<value xml:lang="ko"><![CDATA[시작시각]]></value>
+	</item>
+	<item name = "attendance_end_time">
+		<value xml:lang="ko"><![CDATA[종료시각]]></value>
+	</item>
+	<item name = "attendance_about_diligence_yearly">
+		<value xml:lang="ko"><![CDATA[연간 정근 가산점 사용]]></value>
+	</item>
+	<item name = "attendance_about_diligence_monthly">
+		<value xml:lang="ko"><![CDATA[월간 정근 가산점 사용]]></value>
+	</item>
+	<item name = "attendance_about_diligence_weekly">
+		<value xml:lang="ko"><![CDATA[주간 정근 가산점 사용]]></value>
+	</item>
+	<item name = "attendance_insert">
+		<value xml:lang="ko"><![CDATA[값 입력]]></value>
+	</item>
+	<item name = "attendance_diligence_yearly">
+		<value xml:lang="ko"><![CDATA[일 / 1년 중<br/>(32부터 입력가능, 1년 초과 불가)]]></value>
+	</item>
+	<item name = "attendance_diligence_monthly">
+		<value xml:lang="ko"><![CDATA[일 / 1개월 중<br/>(8부터 입력가능 1개월 초과 불가)]]></value>
+	</item>
+	<item name = "attendance_diligence_weekly">
+		<value xml:lang="ko"><![CDATA[일 / 1주일 중<br/>(1부터 입력가능, 6일 초과 불가)]]></value>
+	</item>
+	<item name = "attendance_diligence_yearly_point">
+		<value xml:lang="ko"><![CDATA[연간 정근포인트]]></value>
+	</item>
+	<item name = "attendance_diligence_monthly_point">
+		<value xml:lang="ko"><![CDATA[월간 정근포인트]]></value>
+	</item>
+	<item name = "attendance_diligence_weekly_point">
+		<value xml:lang="ko"><![CDATA[주간 정근포인트]]></value>
+	</item>
+	<item name = "attendance_description_ban_time">
+		<value xml:lang="ko"><![CDATA[설정하신 시간대 사이에는 출석체크가 불가능하게 됩니다.]]></value>
+	</item>
+	<item name = "attendance_yes">
+		<value xml:lang="ko"><![CDATA[예]]></value>
+	</item>
+	<item name = "attendance_no">
+		<value xml:lang="ko"><![CDATA[아니오]]></value>
+	</item>
+	<item name = "attendance_time">
+		<value xml:lang="ko"><![CDATA[시]]></value>
+	</item>
+	<item name = "attendance_admin_checked">
+		<value xml:lang="ko"><![CDATA[<b>관리자출석</b>]]></value>
+	</item>
+	<item name = "attendance_about_unjoined_member">
+		<value xml:lang="ko"><![CDATA[탈퇴회원 미출력]]></value>
+	</item>
+	<item name = "attendance_unjoined_member">
+		<value xml:lang="ko"><![CDATA[탈퇴회원 포함 출력]]></value>
+	</item>
+	<item name = "attendance_search_help">
+		<value xml:lang="ko"><![CDATA[탈퇴회원 포함 선택 시, 그룹검색이 되지 않습니다. 또한, 그룹을 선택하여 검색할 때는, 탈퇴회원 검색이 불가능합니다. ]]></value>
+	</item>
+	<item name = "attendance_perfectly_delete">
+		<value xml:lang="ko"><![CDATA[삭제]]></value>
+	</item>
+	<item name = "attendance_total_help">
+		<value xml:lang="ko"><![CDATA[완전삭제를 누르시면 해당 회원의 모든 출석정보가 제거(초기화)됩니다. 단, 회원의 개인포인트(포인트모듈)는 차감하지 않습니다.]]></value>
+	</item>
+	<item name = "attend_deleted">
+		<value xml:lang="ko"><![CDATA[삭제되었습니다.\n단, 포인트모듈의 개인회원포인트는 차감하지 않았습니다.]]></value>
+	</item>
+	<item name = "attend_admin_check">
+		<value xml:lang="ko"><![CDATA[관리자 출석 허용여부]]></value>
+	</item>
+	<item name = "attend_fix_error">
+		<value xml:lang="ko"><![CDATA[고치기]]></value>
+	</item>
+	<item name = "attend_insert_continuity">
+		<value xml:lang="ko"><![CDATA[<strong>재 계산시 설정할 회원의 연속출석일을 입력하세요:</strong>]]></value>
+	</item>
+	<item name = "attend_warn">
+		<value xml:lang="ko"><![CDATA[중복출석 방지를 위해 한번만 눌러주세요.]]></value>
+	</item>
+	<item name = "attend_warn2">
+		<value xml:lang="ko"><![CDATA[이 버튼은 1회만 클릭 가능합니다. \n한번 더 누르시게 되면 포인트가 중복지급됩니다.\n다시 누르시려면 새로고침하세요.]]></value>
+	</item>
+	<item name = "attend_fix_att">
+		<value xml:lang="ko"><![CDATA[님의 중복출석데이터를 올바르게 수정합니다. 중복지급된 출석포인트 및 개인포인트 또한 1회 출석분량으로 수정됩니다.]]></value>
+	</item>
+	<item name = "attend_fix_total_1">
+		<value xml:lang="ko"><![CDATA[님의 출석정보를 기존 출석 데이터를 바탕으로 올바르게 갱신합니다.\n단, 관리자가 임의로 지급한 보너스는 복구되지 않으므로, 신중하게 사용해 주시기바랍니다.\n연속출석일수는 상단 입력폼에서 입력된 값으로 초기화됩니다.\n또한 갱신되는 총 출석포인트는 ]]></value>
+	</item>
+	<item name = "attend_fix_total_2">
+		<value xml:lang="ko"><![CDATA[님의 개인포인트와는 연동되지 않습니다.]]></value>
+	</item>
+	<item name = "attend_warn_ip">
+		<value xml:lang="ko"><![CDATA[ip정보가 없습니다.]]></value>
+	</item>
+	<item name = "attend_init_all">
+		<value xml:lang="ko"><![CDATA[모든 출석정보 재계산]]></value>
+	</item>
+	<item name = "attend_init_all_msg">
+		<value xml:lang="ko"><![CDATA[출석정보가 있는 모든 회원의 출석정보를 다시 계산하여 고치고 포인트 모듈에 반영합니다. 중복클릭시 재계산된 출석포인트가 중복지급될 수 있으므로 주의바랍니다. 회원의 <strong>모든 포인트 재계산</strong>을 위해서는 <strong>회원관리->포인트시스템->기본설정</strong> 에서 <strong>포인트 초기화</strong> 기능을 이용하신 후 눌러주시기 바랍니다. 단, 통계데이터의 경우는 선택된 날짜가 속한 단위기간의 정보만 재계산 하여 정리됩니다.]]></value>
+	</item>
+	<item name = "attend_calendar">
+		<value xml:lang="ko"><![CDATA[달력]]></value>
+	</item>
+	<item name = "attend_week_name" type="array">
+		<item name = "mon">
+			<value xml:lang="ko"><![CDATA[월]]></value>
+		</item>
+		<item name = "tue">
+			<value xml:lang="ko"><![CDATA[화]]></value>
+		</item>
+		<item name = "wed">
+			<value xml:lang="ko"><![CDATA[수]]></value>
+		</item>
+		<item name = "thu">
+			<value xml:lang="ko"><![CDATA[목]]></value>
+		</item>
+		<item name = "fri">
+			<value xml:lang="ko"><![CDATA[금]]></value>
+		</item>
+		<item name = "sat">
+			<value xml:lang="ko"><![CDATA[토]]></value>
+		</item>
+		<item name = "sun">
+			<value xml:lang="ko"><![CDATA[일]]></value>
+		</item>
+	</item>
+	<item name = "attend_cal_type" type="array">
+		<item name = "back">
+			<value xml:lang="ko"><![CDATA[돌아가기]]></value>
+		</item>
+	</item>
+	<item name = "attend_absence">
+		<value xml:lang="ko"><![CDATA[미출석]]></value>
+	</item>
+	<item name = "attend_return">
+		<value xml:lang="ko"><![CDATA[돌아가기]]></value>
+	</item>
+	<item name = "attend_attended_time">
+		<value xml:lang="ko"><![CDATA[최근출석일시]]></value>
+	</item>
+	<item name = "attend_maintenance">
+		<value xml:lang="ko"><![CDATA[<b>출석부 관리</b>]]></value>
+	</item>
+	<item name = "attend_total_day">
+		<value xml:lang="ko"><![CDATA[총 출석일 : ]]></value>
+	</item>
+	<item name = "attend_total_point">
+		<value xml:lang="ko"><![CDATA[총 출석포인트 : ]]></value>
+	</item>
+	<item name = "attend_continuity">
+		<value xml:lang="ko"><![CDATA[일째 연속출석중]]></value>
+	</item>
+	<item name = "attend_today_point">
+		<value xml:lang="ko"><![CDATA[오늘 출석포인트 : ]]></value>
+	</item>
+	<item name = "attend_admin_checked">
+		<value xml:lang="ko"><![CDATA[관리자 <b>임의출석</b>상태입니다.]]></value>
+	</item>
+	<item name = "attend_time">
+		<value xml:lang="ko"><![CDATA[출석시각 : ]]></value>
+	</item>
+	<item name = "attend_target_available">
+		<value xml:lang="ko"><![CDATA[지정일포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_monthly_available">
+		<value xml:lang="ko"><![CDATA[월간개근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_weekly_available">
+		<value xml:lang="ko"><![CDATA[주간개근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_yearly_available">
+		<value xml:lang="ko"><![CDATA[연간개근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_yearly_diligence">
+		<value xml:lang="ko"><![CDATA[연간정근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_monthly_diligence">
+		<value xml:lang="ko"><![CDATA[월간정근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_insert_continuity">
+		<value xml:lang="ko"><![CDATA[연속출석 포인트 지급 가능]]></value>
+	</item>
+	<item name = "attend_weekly_diligence">
+		<value xml:lang="ko"><![CDATA[주간정근포인트 지급가능]]></value>
+	</item>
+	<item name = "attend_get_point">
+		<value xml:lang="ko"><![CDATA[지급받을 포인트 : ]]></value>
+	</item>
+	<item name = "last_attend">
+		<value xml:lang="ko"><![CDATA[마지막 출석일]]></value>
+	</item>
+	<item name = "attend_none">
+		<value xml:lang="ko"><![CDATA[없음]]></value>
+	</item>
+	<item name = "attend_available_time">
+		<value xml:lang="ko"><![CDATA[출석 <b>가능</b>시간입니다.]]></value>
+	</item>
+	<item name = "attend_banned_time">
+		<value xml:lang="ko"><![CDATA[출석<b>금지</b> 시간입니다.]]></value>
+	</item>
+	<item name = "attend_now">
+		<value xml:lang="ko"><![CDATA[지금 출석하시면]]></value>
+	</item>
+	<item name = "attend_position">
+		<value xml:lang="ko"><![CDATA[등입니다.]]></value>
+	</item>
+	<item name = "attend_click_msg">
+		<value xml:lang="ko"><![CDATA[출석도장 찍으세요]]></value>
+	</item>
+	<item name = "attend_qook">
+		<value xml:lang="ko"><![CDATA[쿡!]]></value>
+	</item>
+	<item name = "attend_join">
+		<value xml:lang="ko"><![CDATA[회원가입]]></value>
+	</item>
+	<item name = "attend_find_id">
+		<value xml:lang="ko"><![CDATA[ID/PW찾기]]></value>
+	</item>
+	<item name = "attend_banned_admin">
+		<value xml:lang="ko"><![CDATA[관리자는 출석하실 수 없습니다.]]></value>
+	</item>
+	<item name = "attend_no_greetings">
+		<value xml:lang="ko"><![CDATA[인사말이 없습니다.]]></value>
+	</item>
+	<item name = "attend_no_checked">
+		<value xml:lang="ko"><![CDATA[출석한 회원이 없습니다.]]></value>
+	</item>
+	<item name = "attend_link_board">
+		<value xml:lang="ko"><![CDATA[출석게시판 바로가기]]></value>
+	</item>
+	<item name = "attend_mid">
+		<value xml:lang="ko"><![CDATA[mid명]]></value>
+	</item>
+	<item name = "attend_remove_board">
+		<value xml:lang="ko"><![CDATA[출석게시판 삭제]]></value>
+	</item>
+	<item name = "attend_board_info">
+		<value xml:lang="ko"><![CDATA[※주의:출석게시판을 삭제하시면 출석기능이 작동하지 않습니다. 이 기능은 출석부 모듈을 삭제해야 할 때에만 <strong>출석부 삭제 전</strong>에 사용해 주시기 바랍니다. 삭제하시면 그동안 작성된 인사말들이 모두 삭제되며, 출석부 위젯의 인사말 항목에 document_srl만 출력됩니다. 실수로 삭제하셨을 경우에는 관리자페이지 메인에서 <strong>업데이트</strong>버튼을 눌러주시면 출석게시판이 다시 생성됩니다.]]></value>
+	</item>
+	<item name = "attend_board_config">
+		<value xml:lang="ko"><![CDATA[출석게시판 설정]]></value>
+	</item>
+	<item name = "attend_config">
+		<value xml:lang="ko"><![CDATA[설정]]></value>
+	</item>
+	<item name = "attend_auto_check">
+		<value xml:lang="ko"><![CDATA[자동출석입니다.]]></value>
+	</item>
+	<item name = "attend_modify_err_admin_check">
+		<value xml:lang="ko"><![CDATA[관리자 출석 회원은 수정하실 수 없습니다.]]></value>
+	</item>
+	<item name = "attend_greetings_error">
+		<value xml:lang="ko"><![CDATA[중복IP 허용횟수]]></value>
+	</item>
+	<item name = "attend_duplication_ip_error">
+		<value xml:lang="ko"><![CDATA[^와 #로 시작하는 인사말은 입력하실 수 없습니다.]]></value>
+	</item>
+	<item name = "attend_allow_duplicaton_ip_count">
+		<value xml:lang="ko"><![CDATA[같은아이피로 설정된 횟수 이상 중복출석하실 수 없습니다.]]></value>
+	</item>
+	<item name = "attend_no_board">
+		<value xml:lang="ko"><![CDATA[출석게시판이 없습니다. 관리자페이지에서 출석게시판을 생성 후 다시 시도하여 주십시오.]]></value>
+	</item>
+	<item name = "attend_no_zero">
+		<value xml:lang="ko"><![CDATA[0점은 입력하실 수 없습니다.]]></value>
+	</item>
+	<item name = "attend_updated_points">
+		<value xml:lang="ko"><![CDATA[개인포인트와 출석포인트가 입력하신 값으로 변경되었습니다.]]></value>
+	</item>
+	<item name = "attend_fixed_doublecheck">
+		<value xml:lang="ko"><![CDATA[중복출석이 수정되었습니다.]]></value>
+	</item>
+	<item name = "attend_already_checked">
+		<value xml:lang="ko"><![CDATA[이미 출석하셨습니다.]]></value>
+	</item>
+	<item name = "attend_error_mid">
+		<value xml:lang="ko"><![CDATA['attendance'이름의 mid를 사용중인 다른 모듈이 있습니다. 다른 출석부 모듈의 정상적인 설치를 위해서 사용중인 모듈의 mid를 다른 이름으로 변경해 주시기 바랍니다.]]></value>
+	</item>
+	<item name = "attend_error_no_greetings">
+		<value xml:lang="ko"><![CDATA[인사말이 정상적으로 등록되지 않았습니다. 다시 출석해주세요.]]></value>
+	</item>
+	<item name = "attend_about_auto_attend">
+		<value xml:lang="ko"><![CDATA[자동출석 설정 여부]]></value>
+	</item>
+	<item name = "attend_about_auto_attend_more">
+		<value xml:lang="ko"><![CDATA[로그인 시 자동출석을 하도록 설정합니다.]]></value>
+	</item>
+	<item name = "attend_display_bonus">
+		<value xml:lang="ko"><![CDATA[보너스 항목 표시]]></value>
+	</item>
+	<item name = "about_attend_display_bonus">
+		<value xml:lang="ko"><![CDATA[지급받은 포인트 항목의 목록을 출력합니다.]]></value>
+	</item>
+	<item name = "attend_modify">
+		<value xml:lang="ko"><![CDATA[출석정보 수정]]></value>
+	</item>
+	<item name = "attend_modify_info">
+		<value xml:lang="ko"><![CDATA[관리자는 출석정보를 수정하실 수 있습니다. 등록시각의 경우는 <strong>시분초</strong>형식으로 입력해 주시고, 당일기록의 경우 원하시는 수치를 입력하시면 기존 수치와의 차이만큼 회원 포인트도 가산/감산 됩니다.]]></value>
+	</item>
+	<item name = "attend_allow_duplicaton_ip_msg">
+		<value xml:lang="ko"><![CDATA[회 (기본값:3회)<br/>포인트 선물기능이 있는 홈페이지의 경우, 악의적인 방법으로 출석포인트를 획득할 수 있어 같은ip의 사용자는 출석횟수를 제한하도록 합니다.]]></value>
+	</item>
+	<item name = "s_mobile">
+		<value xml:lang="ko"><![CDATA[모바일]]></value>
+		<value xml:lang="en"><![CDATA[mobile]]></value>
+	</item>
+</lang>

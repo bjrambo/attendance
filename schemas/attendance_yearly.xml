@@ -1,0 +1,6 @@
+<table name="attendance_yearly">
+    <column name="regdate" type="varchar" size="14" notnull="notnull"  />
+    <column name="member_srl" type="number" size="11" notnull="notnull"  />
+    <column name="yearly" type="number" size="11" notnull="notnull" />
+    <column name="yearly_point" type="number" size="20" notnull="notnull" />
+</table>

@@ -1,0 +1,20 @@
+@charset "utf-8";
+#attendance_board_modify a:link,
+#attendance_board_modify a:visited { text-decoration:none; color:#50BCDF; }
+#attendance_board_modify a:hover,
+#attendance_board_modify a:focus { color:#797979; text-decoration:none;}
+
+.at_modify_title { font-size:1em; font-weight:bold; color:#50BCDF; }
+.at_info_msg { color:#50BCDF; margin-bottom:5px; font-size:.9em; }
+.at_info_msg:hover { color:#C4E4F1; }
+
+.modify_table { font-weight:bold; color:#50BCDF; width:100%; }
+.modify_table th { border-bottom:1px dashed #50BCDF; text-align:center; }
+.modify_table th:hover { color:#ffffff; background:#d0d0d0; }
+.modify_table td { text-align:center; color:#50BCDF; }
+.modify_table tr { height:3em; }
+
+.modify_text { background:none; border-top:none; border-left:none; border-right:none; border-bottom:1px dashed #50BCDF; font-size:.9em; color:#50BCDF; text-align:center; height:1.5em; }
+.modify_text:hover { background:#d0d0d0; color:#ffffff; border-bottom:none; }
+
+.submit_button {padding:0; margin:0; text-align:right; text-decoration:none; }

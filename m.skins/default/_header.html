@@ -1,0 +1,14 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+<!--%import("css/black.css")-->
+<!--//제목 출력-->
+<div id="at_header">
+    <!--@if($module_info->title)-->
+    <div class="boardTitle">
+	    <h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->browser_title}</a></h2>
+    </div>
+    <!--@end-->
+</div>

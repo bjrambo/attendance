@@ -1,0 +1,6 @@
+<table name="attendance_weekly">
+    <column name="regdate" type="varchar" size="14" notnull="notnull"  />
+    <column name="member_srl" type="number" size="11" notnull="notnull"  />
+    <column name="weekly" type="number" size="11" notnull="notnull" />
+    <column name="weekly_point" type="number" size="20" notnull="notnull" />
+</table>

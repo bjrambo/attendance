@@ -1,0 +1,141 @@
+@charset "utf-8";
+
+.att img{border:0}
+.att table,
+.att input,
+.att textarea,
+.att select{font-size:12px;letter-spacing:normal; }
+.att .iCheck{width:13px;height:13px;margin:0;vertical-align:middle}
+.att .iText{position:relative;padding:3px 4px;_margin:-1px 0;height:17px;line-height:17px;border:1px solid #a6a6a6;border-right-color:#d8d8d8;border-bottom-color:#d8d8d8;background:transparent}
+.att textarea{margin:0;padding:3px 4px;border:1px solid #a6a6a6;border-right-color:#d8d8d8;border-bottom-color:#d8d8d8}
+
+
+
+/* 상단 날짜 */
+
+.navi {padding:10px 10px 5px 5px; margin:0; width:95%; height:30px; display:block; font-size:12px;}
+.navi a{ text-decoration:none; color:#000000}
+
+
+/* 출석 리스트 */
+
+.at_board_title {font-size:12px;}
+.at_board_title table{border:0;color:#000;width:100%;   }
+.at_board_title th{border:0;padding:8px 10px 8px 10px; text-align:center; white-space:nowrap; height:16px;background:#f8f8f8; border-top:1px solid #999;border-bottom:1px solid #cdcdcd;}
+.at_board_title th span{display:block;border-left:1px solid #c7c7c7;padding:0 0 0 15px;}
+.at_board_title th.title {width:100%;}
+.at_board_title td {border:0;border-bottom:1px solid #e6e6e6;padding:6px 10px;white-space:nowrap; color:#000000; line-height:17px;}
+.at_board_title tr:hover { background:#f8f8f8}
+.at_board_title td.author,
+.at_board_title td.author a{color:#000000; text-decoration:none; padding:0px 5px;}
+.at_board_title td.title {width:100%; white-space:normal; text-align:left;letter-spacing:0px;}
+.at_board_title .no{ padding-right:0;}
+.at_board_title td.point{ font-size:11px; padding:0 13px 0 0px; color:#690; text-align:center; }
+.at_board_title td.point a{ text-decoration:none; color:#690; }
+.at_board_title td.time {font-size:11px; text-align:center; padding:0 0 0 15px;}
+.at_board_title td.ip { font-size:11px;}
+.at_board_title .intrambo{ font-weight:bold; font-size:11px; padding:0 -17px 0 0; color:#ffc2f4; text-align:center; }
+.at_board_title .intrambo a{ font-weight:bold; text-decoration:none; color:#ffc2f4; }
+.ssfnick { font-weight:bold; font-size:16px;  color:#2e2e2e; }
+
+
+/* 출석 입력, 버튼 */
+
+.att .cal { font-weight:bold; text-align:center; border:1px solid #ccc; font-size:15px; margin:20px 0 0 0; position:relative; padding:15px; letter-spacing:-1px;background:#f8f8f8;}
+.int { color:#0000FF; font-weight:bold; text-align:center; font-size:12px; margin:20px 0 0 0; position:relative; padding:15px;}
+.bu{ background:none; border:0; list-style:none;}
+
+.at_header a:link,
+.at_header a:focus,
+.at_header a:visited {text-decoration:none; color:#797979;}
+.at_header a:hover {text-decoration:none; color:#000000 !important; }
+.at_header *{ margin:0; padding:0; }
+.at_header .at_w{width:200px; height:23px;border:1px solid #ccc; background:#fff; position:relative; text-align:left}
+
+.attendance_button { font-weight:normal; padding:0; }
+.attendance_button table{ border:0; padding:0; margin:0; position:relative; }
+.attendance_button .item{position:relative;display:inline-block;_margin:0 4px 0 0;}
+.attendance_button .iLabel{top:6px;left:5px;color:#666; position:absolute; }
+.attendance_button label{margin:0 10px 0 0; }
+.attendance_button .iText{margin:0 10px 0 0;background:transparent;width:120px; font-size:12px; padding:3px 5px 3px 5px; border:none;}
+
+.attendance_button .bc {position:absolute; right:0; top:0; font-size:12px; padding:1px 10px;}
+.attendance_button .cout{border:none; width:15px; padding:0 1px; height:20px; margin:0 2px; color:#000; font-size:12px; text-align:center}
+.attendance_button .gret{ background:url(greeting.png) no-repeat center right; font-weight:bold; padding-right:25px;}
+.att_btn_click {padding:0; margin:0 0 0 10px; float:right}
+
+
+/* 받는 포인트 리스트 */
+
+.point_list_body{ margin:20px 0;}
+.point_list { width:100%; color:#797979; overflow:hidden;  border:0; padding:0; border-top:1px solid #ccc; border-left:1px solid #ccc; font-size:11px;  }
+.point_list table{border:1px solid #333; border:1px solid #ccc; text-align:center}
+.point_list td{border:0; padding:8px 5px 8px 5px; border-right:1px solid #ccc; border-bottom:1px solid #CCC;font-weight:normal; white-space:nowrap; color:#F00; font-size:11px; text-align:center }
+.point_list td.title{ text-align:left; padding-left:10px; background:#f8f8f8; color:#333}
+
+.per{ background: #39F; color:#FFF; padding:2px 5px; font-size:11px;}
+.perm{ background: #693; color:#FFF; padding:2px 5px; font-size:11px;}
+.pery{ background: #F90; color:#FFF; padding:2px 5px; font-size:11px;}
+
+
+/* 달력 */
+
+/*personalTable*/
+.personalTable { width:100%; border:0; margin:0 auto; padding:0; table-layout:fixed; color:#333; border-left:1px solid #f0f0f0; }
+.personalTable a { text-decoration:none; color:#333; }
+.personalTable th div { white-space:nowrap; }
+.personalTable tr.bg0{ background:#f8f8f8;}
+.personalTable tr.bg1{ background:#f8f8f8;}
+.personalTable th,
+.personalTable td{ border:0; padding:2px 5px 0px 5px; border-right:1px solid #f0f0f0; vertical-align:top;  text-align:left; white-space:nowrap; overflow:hidden; }
+.personalTable td:hover {background:#f8f8f8; }
+.personalTable th{ background:#f8f8f8;white-space:nowrap; border-top:1px solid #999;border-bottom:1px solid #cdcdcd; padding:5px 0; }
+.personalTable td{ border-bottom:1px solid #f0f0f0; font-weight:normal; white-space:nowrap; background:#f8f8f8; }
+.personalTable .sunday { color:red;}
+.personalTable .sunday a { text-decoration:none; color:#F00;}
+.personalTable .saturday { color:blue;}
+.personalTable .saturday a { text-decoration:none; color:#36C;}
+.personalTable .center { text-align:center; }
+.personalTable .same_height { height:auto; font-weight:bold; }
+.personalTable .check { margin:0; text-align:center; font-weight:bold; padding:0; border:0;}
+.personalTable td.stamp { background:#fff;}
+
+
+/*수정*/
+
+#attendance_board_modify{ color:#000000; font-size:12px; }
+.at_modify_title{ width:100%; font-weight:bold; position:relative; margin:0; padding:10px 0; }
+.modify_table {width:100%; text-align:center; border-bottom:1px solid #ccc; border-top:1px solid #ccc;}
+.modify_table th{ background:#f8f8f8; padding:7px; border-bottom:1px solid #ccc; }
+.modify_table th span{display:block;border-left:1px solid #c7c7c7;padding:0 10px;}
+.modify_table td{ padding:7px;}
+.modify_text { padding:5px; text-align:center}
+.fo{ position:relative; padding:10px; margin-bottom:10px; border:1px solid #ccc; background:#f8f8f8;}
+.mod,
+.mod a {width:100%; padding:5px 0; text-align:right;  text-decoration:none; color:#000;}
+.mod a:hover,
+.mod a:active,
+.mod a:focus{ text-decoration:none; color:#000;}
+.mod span{ padding-left:10px;}
+
+
+/*네비게이션*/
+
+.pagination{margin:10px 0;padding:0;line-height:normal; letter-spacing:-0.5px;}
+.pagination a,
+.pagination strong{position:relative;color:#767676; font-size:12px; vertical-align:top;display:inline-block;text-decoration:none;padding:0 3px; height:15px; line-height:15px; background-color:#fff;z-index:2}
+.pagination a:hover,
+.pagination a:active,
+.pagination a:focus{background-color:#f8f8f8}
+.pagination strong{color:#f60;font-size:12px;}
+.pagination .direction{font-weight:normal;color:#767676;text-decoration:none !important;z-index:1;height:15px; line-height:15px;}
+.pagination .direction:hover,
+.pagination .direction:active,
+.pagination .direction:focus{color:#333;background-color:#fff}
+
+.pagination .direction span{position:relative;display:inline-block;width:0;height:0;font-size:0;line-height:0;vertical-align:top;top:5px;}
+.pagination .prev span{border:3px solid;border-top:solid #fff;border-bottom:solid #fff;border-left:0;margin-right:1px;}
+.pagination .next span{border:3px solid;border-top:solid #fff;border-bottom:solid #fff;border-right:0;margin-left:1px}
+
+/*추가*/
+.mycal {float:right; margin-right:10px; font-weight:none; }

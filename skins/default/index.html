@@ -1,0 +1,255 @@
+<!--#include("./_header.html")-->
+<!--%import("./js/at.js")-->
+<!--%import("filter/insert_attendance.xml")-->
+{@$year=substr($selected_date,0,4)}
+{@$month=substr($selected_date,4,2)}
+{@$day=substr($selected_date,6,2)}
+{@$week=$oAttendanceModel->getWeek($selected_date)}
+<script type="text/javascript">
+    var warn_msg = '{$lang->attend_warn}';
+</script>
+
+<div id="att_board_body">
+    <!--//도장버튼 노출-->
+    <!--@if($is_logged)-->
+	    <!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
+	    <!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
+            <!--@if($config->about_admin_check!='no')-->
+                <div class="attendance_button">
+                    <p class="at_info_msg">{$lang->input_text}</p>
+	                <form action="./" method="post" id="click_button" onsubmit="return attendance_check()">
+		                <input type="text" name="greetings" class="a_text" onclick="this.value='';" onkeypress="return text_entercheck(event); "/>
+		                <input type="hidden" name="about_position" value="yes" />
+		                <p class="att_btn_click"><input type="image" src="images/button_{$module_info->colorset}.gif" alt="{$lang->click}"/></p>
+	                </form>
+                </div>
+            <!--@else-->
+                <!--@if($logged_info->is_admin != 'Y')-->
+                    <div class="attendance_button">
+                        <p class="at_info_msg">{$lang->input_text}</p>
+	                    <form action="./" method="post" id="click_button" onsubmit="return attendance_check();">
+		                    <input type="text" name="greetings" class="a_text" onclick="this.value='';" onkeypress="return text_entercheck(event); "/>
+		                    <input type="hidden" name="about_position" value="yes" />
+		                    <p class="att_btn_click"><input type="image" src="images/button_{$module_info->colorset}.gif" alt="{$lang->click}"/></p>
+	                    </form>
+                    </div>
+                <!--@end-->
+            <!--@end-->
+        <!--@elseif($is_available == 1)-->
+            <!--//출석불가능 시간대 설명-->
+            <div class="attendance_denied">
+                {$lang->attend_banned_time} ({substr($config_data->start_time,0,2)}:{substr($config_data->start_time,2,2)}~{substr($config_data->end_time,0,2)}:{substr($config_data->end_time, 2,2)})
+            </div>
+	    <!--@end-->
+    <!--@end-->
+
+    <!--//지금 출석하시면 받을 수 있는 포인트 목록-->
+    <div class="point_list" id="point_list">
+        <ul style="line-height:1.6;">
+            <li>{$lang->attendance_add_point} : {$config_data->add_point}</li>
+            <li>{$lang->attendance_first_point} : {$config_data->first_point}</li>
+            <li>{$lang->attendance_second_point} : {$config_data->second_point}</li>
+            <li>{$lang->attendance_third_point} : {$config_data->third_point}</li>
+            <li>{$lang->attendance_yearly_point} : {$config_data->yearly_point}</li>
+            <li>{$lang->attendance_monthly_point} : {$config_data->monthly_point}</li>
+            <li>{$lang->attendance_weekly_point} : {$config_data->weekly_point}</li>
+            <!--@if($config_data->target_day==$selected_date && $config_data->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config_data->target_point}</li><!--@end-->
+            <!--@if($config_data->about_continuity=='yes')-->
+                <li>{$lang->attendance_continuity_day} : {$config_data->continuity_day}{$lang->attendance_after_day}</li>
+                <li>{$lang->attendance_continuity_point} : {$config_data->continuity_point}</li>
+            <!--@end-->
+            <!--@if($config_data->about_diligence_yearly == 'yes')-->
+                <li>{$lang->attendance_diligence_yearly_point} : {$config_data->diligence_yearly_point}({$config_data->diligence_yearly}{$lang->attendance_after_day})</li>
+            <!--@end-->
+            <!--@if($config_data->about_diligence_monthly == 'yes')-->
+                <li>{$lang->attendance_diligence_monthly_point} : {$config_data->diligence_monthly_point}({$config_data->diligence_monthly}{$lang->attendance_after_day})</li>
+            <!--@end-->
+            <!--@if($config_data->about_diligence_weekly == 'yes')-->
+                <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
+            <!--@end-->
+        </ul>
+        <!--//출석달력 출력-->
+        <!--@if($is_logged)-->
+        <div class="calendar_view" id="calendar_view">
+            <!--#include("calendar.html")-->
+        </div>
+        <!--@end-->
+    </div>
+
+    <!--//달력 선택-->
+    <div class="at_top_box">
+        <p class="at_date_pick">
+            <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day-1, $year)),'Ymd'))}">←</a>
+             <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),"Ymd"))}"> {$year}-{$month}-{$day} </a>
+            <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day+1, $year)),'Ymd'))}"> →</a>
+        </p>
+        <p class="buttons_box">
+            <!--//설정버튼 표시가 Y이면-->
+            <!--@if($module_info->display_setup_button!="N" && ($logged_info->is_admin=="Y" || $grant->manager == 1) )-->
+                <a href="{getUrl('module','','mid','attendance','document','','act','dispAttendanceAdminBoardConfig')}">※{$lang->attend_config}</a> |
+            <!--@end-->
+            <!--@if($logged_info->is_admin=='Y')-->
+                <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->attend_maintenance}</a>  |
+            <!--@end-->
+                <!--@if($is_logged)-->
+                    <a id="calendar_click" href="#point_list" alt="{$lang->attend_calendar}">{$lang->attend_point_list}&{$lang->attend_calendar}</a>
+                <!--@else--><a id="list_open" href="#point_list" >{$lang->attend_point_list}</a>
+                <!--@end-->
+        </p>
+    </div>
+
+    <!--//등수변수 초기화-->
+    <!--@if($module_info->order_type=='desc')-->
+        {@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}
+    <!--@else-->
+        {@$position=1+($oAttendance->page-1)*$module_info->list_count}
+    <!--@end-->
+
+    <table class="at_board_title" cellspacing="0">
+
+        <tbody>
+        <!--@if($oAttendanceAdminModel->getTodayTotalCount($selected_date)==0)-->
+        <tr class="board_title">
+            <td>{$lang->attend_no_checked}</td>
+        </tr>
+        <!--@else-->
+        <tr class="board_title" >
+            <td style="width:30px; ">{$lang->position}</td>
+            <td>{$lang->greetings}</td>
+            <td style="width:80px; ">{$lang->nick_name}</td>
+            <!--@if($module_info->display_user_id == 'Y')--><td style="width:80px;">{$lang->user_id}</td><!--@end-->
+            <td style="width:60px; ">{$lang->time}</td>
+            <td style="width:100px;">{$lang->today_added_point}</td>
+            <!--@if($module_info->display_ip_address == 'Y')--><td style="width:100px;">{$lang->ipaddress}</td><!--@end-->
+            <!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)--><td style="width:30px;">{$lang->cmd_modify}</td><!--@end-->
+        </tr>
+        <!--@end-->
+        </tbody>
+    </table>
+
+    <!--//출석한 사람이 있다면 반복문 시작-->
+    <!--//쿼리를 통해 받은 사용자정보를 순서대로 얻어오는 구문-->
+    <!--@foreach($oAttendance->data as $data)-->
+        {@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
+        {@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
+            {@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
+            <!--@if(ereg("^#[0-9]+$",$data->greetings))-->
+                {@$length_greetings = strlen($data->greetings) -1}
+                {@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
+                <!--@if($oDocument->document_srl)-->
+                    {@$exist_document = 1}
+                <!--@else-->
+                    {@$exist_document = 0}
+                <!--@end-->
+            <!--@else-->
+                {@$exist_document = 0}
+            <!--@end-->
+            <table cellspacing="0" class="table_body">
+            <tbody>
+            <tr class="lines">
+                <td style="width:30px; text-align:center;">{$position}</td>
+                <td class="at_greetings_cut">
+                    <!--@if($data->greetings)-->
+                        <!--@if($exist_document == 1)-->
+                            <a href="#{$oDocument->document_srl}" onclick="documentView('d_{$oDocument->document_srl}')">{cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')}</a>
+                        <!--@else-->
+                            {@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
+                            <!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
+                            <!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
+                            <!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
+                            <!--@else-->{$lang->default_greetings}
+                            <!--@end-->
+                        <!--@end-->
+                    <!--@else-->
+                        {$lang->attend_no_greetings}
+                    <!--@end-->
+                </td>
+                <td style="width:80px;"><div class="member_{$member->member_srl}">{$member->nick_name}</div></td>
+                <!--@if($module_info->display_user_id == 'Y')--><td style="width:80px;">{$member->user_id}</td><!--@end-->
+                <td style="width:60px; text-align:center;">{substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)}</td>
+                <td style="width:100px; text-align:center; "><!--@if($module_info->display_bonus_button=='Y')--><a onclick="bonusView('bonus_{$member->member_srl}')" href="#bonus_{$member->member_srl}"><!--@end-->{$data->today_point}<!--@if($module_info->display_bonus_button=='Y')--></a><!--@end--></td>
+                <!--@if($module_info->display_ip_address == 'Y')-->
+                <td style="width:100px; text-align:center;">
+                    <!--@if($data->ipaddress == 'none')-->
+                        {$data->ipaddress}
+                    <!--@elseif(!$data->ipaddress)-->
+                        {$lang->attend_warn_ip}
+                    <!--@else-->
+                        <!--@if($data->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->
+                            {$data->ipaddress}
+                        <!--@else-->
+                            {@$ip_tmp = explode('.',$data->ipaddress)}
+                            {@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
+                        <!--@end-->
+                    <!--@end-->
+                </td>
+                <!--@end-->
+                <!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)--><td style="width:30px; text-align:center;"><a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">{$lang->cmd_modify}</a></td><!--@end-->
+            </tr>
+            </tbody>
+            </table>
+            <!--@if($module_info->display_bonus_button=='Y')-->
+            <div class="at_greetings" id="bonus_{$member->member_srl}">
+			        <!--@if($member->email_address)-->
+                    <ul>
+                        {$selected_date}
+                        {$data->member_srl}
+                        {$oAttendanceModel->checkWeeklyDiligence($data->member_srl, 1, $selected_date)}
+                        <li>{$lang->attendance_add_point} : {$config_data->add_point}</li>
+		                <!--@if($position==1 && $data->greetings!='^admin_checked^')-->
+			                <li>{$lang->attendance_first_point} : {$config_data->first_point}</li>
+		                <!--@elseif($position==2 && $data->greetings!='^admin_checked^')-->
+                            <li>{$lang->attendance_second_point} : {$config_data->second_point}</li>
+		                <!--@elseif($position==3 && $data->greetings!='^admin_checked^')-->
+                            <li>{$lang->attendance_third_point} : {$config_data->third_point}</li>
+                        <!--@end-->
+			            <!--@if($is_perfect->yearly_perfect)--><li>{$lang->attendance_yearly_point} : {$config_data->yearly_point}</li><!--@end-->
+			            <!--@if($is_perfect->monthly_perfect)--><li>{$lang->attendance_monthly_point} : {$config_data->monthly_point}</li><!--@end-->
+			            <!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><li>{$lang->attendance_weekly_point} : {$config_data->weekly_point}</li><!--@end-->
+			            <!--@if($config_data->target_day==$selected_date && $config_data->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config_data->target_point}</li><!--@end-->
+			            <!--@if($oAttendanceModel->isExistContinuity($data->member_srl, $selected_date)>0 && $config_data->about_continuity=='yes')-->
+				            {@$cont = $oAttendanceModel->getContinuityData($data->member_srl, $selected_date)}
+				            <!--@if($cont->data >= $config_data->continuity_day)--><li>{$lang->attendance_continuity_point} : {$config_data->continuity_point}</li><!--@end-->
+			            <!--@end-->
+                        <!--@if($config_data->about_diligence_yearly == 'yes' && $oAttendanceModel->checkYearlyDiligence($data->member_srl, $config_data->diligence_yearly, $year) == 1)-->
+                            <li>{$lang->attendance_diligence_yearly_point} : {$config_data->diligence_yearly_point}({$config_data->diligence_yearly}{$lang->attendance_after_day})</li>
+                        <!--@end-->
+                        <!--@if($config_data->about_diligence_monthly == 'yes' && $oAttendanceModel->checkMonthlyDiligence($data->member_srl, $config_data->diligence_monthly, $year.$month) == 1)-->
+                            <li>{$lang->attendance_diligence_monthly_point} : {$config_data->diligence_monthly_point}({$config_data->diligence_monthly}{$lang->attendance_after_day})</li>
+                        <!--@end-->
+                        <!--@if($config_data->about_diligence_weekly == 'yes' && $oAttendanceModel->checkWeeklyDiligence($data->member_srl, $config_data->diligence_weekly, $selected_date) == 1)-->
+                            <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
+                        <!--@end-->
+                    </ul>
+                    <!--@else-->
+                        -
+                    <!--@end-->
+                </div>
+                <!--@end-->
+            <!--@if($data->greetings)-->
+                <!--@if($exist_document == 1)-->
+                    <div class="at_greetings" id="d_{$oDocument->document_srl}" <!--@if($document_srl==$oDocument->document_srl)-->style="display:block;"<!--@end-->>
+                        {$oDocument->getContentText(text)}
+                    </div>
+                <!--@end-->
+            <!--@end-->
+        <!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
+    <!--@end-->
+
+    <!--//페이지 내비게이션-->
+    <div class="at_pagenation">
+       <a href="{getUrl('page',$oAttendance->page_navigation->first_page,'module_srl','')}" class="prevEnd">←</a> 
+	    <!--@while($page_no = $oAttendance->page_navigation->getNextPage())-->
+		    <!--@if($oAttendance->page == $page_no)-->
+			    <strong>{$page_no}</strong>
+		    <!--@else-->
+			    <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+		    <!--@end-->
+	    <!--@end--><a href="{getUrl('page',$oAttendance->page_navigation->last_page,'module_srl','')}" class="nextEnd">→</a>
+    </div>
+
+</div>
+
+<!--@if($module_info->footer_text)-->
+<p class="boardDescription">{$module_info->footer_text}</p>
+<!--@end-->

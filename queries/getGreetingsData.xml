@@ -1,0 +1,16 @@
+<query id="getGreetingsData" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="attendance_srl" alias="attendance_srl" />
+        <column name="regdate" alias="regdate" />
+        <column name="member_srl" alias="member_srl" />
+        <column name="today_point" alias="today_point" />
+        <column name="ipaddress" alias="ipaddress" />
+    </columns>
+    <conditions>
+		<condition operation="equal" column="greetings" var="greetings" />
+    </conditions>
+
+</query>

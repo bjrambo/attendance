@@ -1,0 +1,13 @@
+<query id="insertAttendance" action="insert">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="attendance_srl" var="attendance_srl" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <column name="member_srl" var="member_srl" />
+        <column name="ipaddress" var="ipaddress" default="none" />
+    	<column name="greetings" var="greetings" default="" />
+	    <column name="today_point" var="today_point" />
+    </columns>
+</query>

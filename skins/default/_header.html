@@ -1,0 +1,26 @@
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset == "gray"}
+<!--@end-->
+
+<!--@if($module_info->colorset == "black")-->
+	<!--%import("css/black.css")-->
+<!--@elseif($module_info->colorset == "gray")-->
+	<!--%import("css/gray.css")-->
+<!--@elseif($module_info->colorset == "blue")-->
+	<!--%import("css/blue.css")-->
+<!--@else-->
+	<!--%import("css/gray.css")-->
+<!--@end-->
+<!--//제목 출력-->
+{$module_info->header_text}
+<div id="at_header">
+	<!--@if($module_info->title)-->
+	<div class="boardTitle">
+		<h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+	</div>
+	<!--@end-->
+
+	<!--@if($module_info->comment)-->
+	<p class="boardDescription">{$module_info->comment}</p>
+	<!--@end-->
+</div>

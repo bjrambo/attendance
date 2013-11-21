@@ -1,0 +1,17 @@
+<query id="getPositionData" action="select">
+    <tables>
+        <table name="attendance" />
+        <table name="member" type="left join" />
+        <conditions>
+            <condition operation="equal" column="attendance.member_srl" default="member.member_srl" />
+        </conditions>
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count"/>
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="attendance.regdate" var="today" pipe="and" />
+		<condition operation="notequal" column="attendance.greetings" var="greetings" pipe="and" />
+		<condition operation="equal" column="attendance.member_srl" default="member.member_srl"  pipe="and"/>
+    </conditions>
+</query>

@@ -1,0 +1,16 @@
+<query id="updateWeekly" action="update">
+    <tables>
+        <table name="attendance_weekly" />
+    </tables>
+    <columns>
+	    <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+	    <column name="weekly" var="weekly" />
+	    <column name="weekly_point" var="weekly_point" />
+    </columns>
+
+    <conditions>
+        <condition column="member_srl" operation="equal"  var="member_srl" default="admin" pipe="and"/>
+        <condition operation="more" column="regdate" var="monday" pipe="and" />
+        <condition operation="less" column="regdate" var="sunday" pipe="and" />
+    </conditions>
+</query>

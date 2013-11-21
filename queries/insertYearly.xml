@@ -1,0 +1,11 @@
+<query id="insertYearly" action="insert">
+    <tables>
+        <table name="attendance_yearly" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <column name="member_srl" var="member_srl" default="admin" />
+	    <column name="yearly" var="yearly" />
+	    <column name="yearly_point" var="yearly_point" />
+    </columns>
+</query>

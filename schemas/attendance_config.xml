@@ -1,0 +1,27 @@
+<table name="attendance_config">
+    <column name="add_point" type="number" size="11" notnull="notnull" /> 
+    <column name="first_point" type="number" size="11" notnull="notnull"  />
+    <column name="second_point" type="number" size="11" notnull="notnull"  />
+    <column name="third_point" type="number" size="11" notnull="notnull"  />
+    <column name="yearly_point" type="number" size="11" notnull="notnull"  />
+    <column name="monthly_point" type="number" size="11" notnull="notnull"  />
+    <column name="weekly_point" type="number" size="11" notnull="notnull"  />
+    <column name="about_target" type="varchar" size="5" notnull="notnull"  />
+    <column name="target_day" type="varchar" size="8" notnull="notnull"  />
+    <column name="target_point" type="number" size="11" notnull="notnull"  />
+    <column name="about_continuity" type="varchar" size="5" notnull="notnull"  />
+    <column name="continuity_day" type="number" size="11" notnull="notnull"  />
+    <column name="continuity_point" type="number" size="11" notnull="notnull"  />
+    <column name="about_time_control" type="varchar" size="5" notnull="notnull"  />
+    <column name="start_time" type="varchar" size="4" notnull="notnull"  />
+    <column name="end_time" type="varchar" size="4" notnull="notnull"  />
+    <column name="about_diligence_yearly" type="varchar" size="5" notnull="notnull"  />
+    <column name="diligence_yearly" type="number" size="11" notnull="notnull"  />
+    <column name="diligence_yearly_point" type="number" size="11" notnull="notnull"  />
+    <column name="about_diligence_monthly" type="varchar" size="5" notnull="notnull"  />
+    <column name="diligence_monthly" type="number" size="11" notnull="notnull"  />
+    <column name="diligence_monthly_point" type="number" size="11" notnull="notnull"  />
+    <column name="about_diligence_weekly" type="varchar" size="5" notnull="notnull"  />
+    <column name="diligence_weekly" type="number" size="11" notnull="notnull"  />
+    <column name="diligence_weekly_point" type="number" size="11" notnull="notnull"  />
+</table>

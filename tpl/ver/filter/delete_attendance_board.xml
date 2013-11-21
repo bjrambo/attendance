@@ -1,0 +1,8 @@
+<filter name="delete_attendance_board" module="attendance" act="procAttendanceAdminDeleteBoard" confirm_msg_code="confirm_delete">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

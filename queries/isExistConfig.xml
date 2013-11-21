@@ -1,0 +1,10 @@
+<query id="IsExistConfig" action="select">
+    <tables>
+        <table name="attendance_config" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count"/>
+    </columns>
+	<conditions>
+	</conditions>
+</query>

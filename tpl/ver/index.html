@@ -1,0 +1,92 @@
+<!--//출석부 관리 페이지-->
+<!--//제작자 : 매실茶(http://maesiltea.linuxstudy.pe.kr)-->
+
+<!--%import("js/attendance_admin.js")-->
+<!--%import("css/attendance.css")-->
+
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<!--@if(!$selected_date)-->
+	{@$selected_date = zDate(date('YmdHis'),"Ymd")}
+<!--@end-->
+<!--@if(!$type)-->
+	{@$type='config'}
+<!--@end-->
+
+<script type="text/javascript">
+    function moveDate() {
+        xGetElementById('fo_calendar').submit();
+        return true;
+    }
+</script>
+
+<h3 class="xeAdmin">{$lang->attendance_module}<span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4 gap1">
+
+    <form action="./index.php" method="get" id="fo_calendar">
+    <input type="hidden" name="error_return_url" value="" />
+    <input type="hidden" name="mid" value="" />
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="type" value="{$type}" />
+    <input type="hidden" name="selected_date" id="selected_date" value="{$selected_date}" />
+
+<div class="center" style="color:#5c5c5c; margin-bottom:5px;">{$lang->select_date}
+<span id="str_selected_date">&nbsp;&nbsp; [{zdate($selected_date, "Y-m-d")}]</span>
+<input type="hidden" class="inputDate" value="{zdate($selected_date, "Ymd")}" />
+<input type="hidden" name="type" value="{$type}" />
+                <script type="text/javascript">
+(function($){
+    $(function(){
+        var option = {
+            changeMonth: true,
+            changeYear: true,
+            gotoCurrent: false
+            ,yearRange:'-100:+10'
+            ,showOn:"button"
+            ,buttonImage:"./modules/attendance/tpl/images/buttonCalendar.gif"
+            ,buttonImageOnly:true
+            ,mandatory:true
+            ,onSelect:function(){
+                $("#str_selected_date").html(this.value);
+                $("#selected_date").val(this.value.replace(/-/g,''));
+                moveDate();
+            }
+        };
+
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+                </script>
+            </div>
+
+    </form>
+
+    <ul class="localNavigation">
+        <!--@foreach($lang->view_type as $key => $val)-->
+        <li <!--@if($type==$key || (!$type))-->class="on"<!--@end-->><a href="{getUrl('type',$key,'page',1)}">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+<!--@if($type=='day')-->
+	<!--#include("day.html")-->
+<!--@elseif($type=='rank_total')-->
+	<!--#include("rank_total.html")-->
+<!--@elseif($type=='rank_yearly')-->
+	<!--#include("rank_yearly.html")-->
+<!--@elseif($type=='rank_monthly')-->
+	<!--#include("rank_monthly.html")-->
+<!--@elseif($type=='rank_weekly')-->
+	<!--#include("rank_weekly.html")-->
+<!--@elseif($type=='speed_search')-->
+	<!--#include("speed_search.html")-->
+<!--@elseif($type=='config')-->
+	<!--#include("config.html")-->
+<!--@elseif($type=='time')-->
+	<!--#include("time.html")-->
+<!--@end-->
+

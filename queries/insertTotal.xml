@@ -1,0 +1,13 @@
+<query id="insertTotal" action="insert">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+    <columns>
+        <column name="regdate" default="curdate()" var="regdate" notnull="notnull" />
+        <column name="member_srl" var="member_srl" default="admin" />
+	    <column name="total" var="total" />
+	    <column name="total_point" var="total_point" />
+	    <column name="continuity" var="continuity" />
+	    <column name="continuity_point" var="continuity_point" />
+    </columns>
+</query>

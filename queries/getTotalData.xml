@@ -1,0 +1,16 @@
+<query id="getTotalData" action="select">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+    <columns>
+        <column name="total_point" alias="total_point"/>
+        <column name="total" alias="total"/>
+        <column name="continuity_point" alias="continuity_point"/>
+        <column name="continuity" alias="continuity"/>
+        <column name="regdate" alias="regdate"/>
+    </columns>
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+    </conditions>
+
+</query>

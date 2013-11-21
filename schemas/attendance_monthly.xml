@@ -1,0 +1,6 @@
+<table name="attendance_monthly">
+    <column name="regdate" type="varchar" size="14" notnull="notnull"  />
+    <column name="member_srl" type="number" size="11" notnull="notnull"  />
+    <column name="monthly" type="number" size="11" notnull="notnull" />
+    <column name="monthly_point" type="number" size="20" notnull="notnull" />
+</table>

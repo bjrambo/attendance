@@ -1,0 +1,18 @@
+<!--%import("css/attendance.css")-->
+<h3 class="xeAdmin">{$lang->attendance_module}<span class="gray">{$lang->cmd_management}</span></h3>
+
+<!--@if($module_info)-->
+<div class="header4">
+    <!--@if($module_info->mid)-->
+    <h4 class="xeAdmin">{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <!--@end-->
+
+    <ul class="x_nav x_nav-tabs">
+        <li class="x_active"|cond="$act=='dispAttendanceAdminBoardConfig'"><a href="{getUrl('act','dispAttendanceAdminBoardConfig')}">{$lang->attend_board_config}</a></li>
+        <li class="x_active"|cond="$act=='dispAttendanceAdminGrantList'"><a href="{getUrl('act','dispAttendanceAdminGrantList')}">{$lang->cmd_manage_grant}</a></li>
+        <li class="x_active"|cond="$act=='dispAttendanceAdminBoardSkinConfig'"><a href="{getUrl('act','dispAttendanceAdminBoardSkinConfig')}">{$lang->cmd_manage_skin}</a></li>
+		<li class="x_active"|cond="$act=='dispAttendanceAdminMobileBoardSkinConfig'"><a href="{getUrl('act','dispAttendanceAdminMobileBoardSkinConfig')}">{$lang->s_mobile} {$lang->cmd_manage_skin}</a></li>
+    </ul>
+</div>
+<!--@end-->
+

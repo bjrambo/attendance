@@ -1,0 +1,15 @@
+<query id="getWeeklyPoint" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="today_point"/>
+    </columns>
+
+    <conditions>
+		<condition operation="more" column="regdate" var="monday"  pipe="and" />
+		<condition operation="less" column="regdate" var="sunday" pipe="and"/>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+    </conditions>
+
+</query>

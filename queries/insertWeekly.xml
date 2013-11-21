@@ -1,0 +1,11 @@
+<query id="insertWeekly" action="insert">
+    <tables>
+        <table name="attendance_weekly" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <column name="member_srl" var="member_srl" default="admin"/>
+	    <column name="weekly" var="weekly" />
+	    <column name="weekly_point" var="weekly_point" />
+    </columns>
+</query>

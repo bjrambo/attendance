@@ -1,0 +1,8 @@
+<query id="migrationGetIdAttendance" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="user_id"/>
+    </columns>
+</query>

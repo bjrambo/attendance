@@ -1,0 +1,234 @@
+<!--%import("filter/insert_attendance_config.xml")-->
+<!--%import("filter/init_all.xml")-->
+<!--%import("filter/delete_attendance_board.xml")-->
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attend_board_config}</h3>
+<table cellspacing="0" class="rowTable" >
+    <tr>
+        <th width="150px">{$lang->attend_link_board}</th>
+        <td>{$lang->attend_mid} : <a href="{getUrl('mid','attendance','module','','act','')}" ><u>attendance</u></a></td>
+    </tr>
+    <tr>
+        <th>{$lang->attend_board_config}</th><td><a href="{getUrl('mid','attendance','module','','act','dispAttendanceAdminBoardConfig')}"><u>click</u></a></td>
+    </tr>
+</table>
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attendance_module} {$lang->cmd_management}</h3>
+<form action="./" method="post" onsubmit="return procFilter(this, insert_attendance_config);">
+    <table cellspacing="0" class="rowTable">
+	    <tr>
+		    <th width="150px"><b>{$lang->attendance_add_point}</b></th>
+		    <td><input type="text" name="add_point" class="inputTypeText" value="{$config_data->add_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_first_point}</b></th>
+		    <td><input type="text" name="first_point" class="inputTypeText" value="{$config_data->first_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_second_point}</b></th>
+		    <td><input type="text" name="second_point" class="inputTypeText" value="{$config_data->second_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_third_point}</b></th>
+		    <td><input type="text" name="third_point" class="inputTypeText"value="{$config_data->third_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_yearly_point}</b></th>
+		    <td><input type="text" name="yearly_point" class="inputTypeText" value="{$config_data->yearly_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_monthly_point}</b></th>
+		    <td><input type="text" name="monthly_point" class="inputTypeText" value="{$config_data->monthly_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_weekly_point}</b></th>
+		    <td><input type="text" name="weekly_point" class="inputTypeText" value="{$config_data->weekly_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_about_target}</b></th>
+		    <td>
+			    <select name="about_target" >
+				    <option value="yes" <!--@if($config_data->about_target=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_target=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+		    </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_target_day}</th>
+		    <td><input type="text" name="target_day" class="inputTypeText" value="{$config_data->target_day}"/><br/>{$lang->attendance_target_day_info}</td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_target_point}</th>
+		    <td><input type="text" name="target_point" class="inputTypeText" value="{$config_data->target_point}"/></td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attendance_about_continuity}</b></th>
+		    <td>
+			    <select name="about_continuity">
+				    <option value="yes" <!--@if($config_data->about_continuity=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_continuity=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+		    </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_continuity_day}</th>
+		    <td><input type="text" name="continuity_day" class="inputTypeText" value="{$config_data->continuity_day}"/></td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_continuity_point}</th>
+		    <td><input type="text" name="continuity_point" class="inputTypeText" value="{$config_data->continuity_point}"/></td>
+	    </tr>
+        <tr>
+		    <th><b>{$lang->attendance_about_time_control}</b></th>
+		    <td>
+			    <select name="about_time_control">
+				    <option value="yes" <!--@if($config_data->about_time_control=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_time_control=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select><br/>{$lang->attendance_description_ban_time}
+		    </td>
+        </tr>
+	    <tr>
+		    <th>{$lang->attendance_start_time}</th>
+		    <td>
+                <input type="text" name="start_hour" class="inputTypeText" value="{$start_time->hour}" style="width:30px;"/> :
+                <input type="text" name="start_min" class="inputTypeText" value="{$start_time->min}" style="width:30px;"/>
+            </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_end_time}</th>
+	        <td>
+                <input type="text" name="end_hour" class="inputTypeText" value="{$end_time->hour}" style="width:30px;"/> :
+                <input type="text" name="end_min" class="inputTypeText" value="{$end_time->min}" style="width:30px;"/>
+            </td>
+	    </tr>
+        <tr>
+		    <th><b>{$lang->attendance_about_diligence_yearly}</b></th>
+		    <td>
+			    <select name="about_diligence_yearly">
+				    <option value="yes" <!--@if($config_data->about_diligence_yearly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_diligence_yearly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+		    </td>
+        </tr>
+	    <tr>
+		    <th>{$lang->attendance_insert}</th>
+		    <td>
+                <input type="text" name="diligence_yearly" class="inputTypeText" value="{$config_data->diligence_yearly}" style="width:30px;"/>{$lang->attendance_diligence_yearly}
+            </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_diligence_yearly_point}</th>
+		    <td>
+                <input type="text" name="diligence_yearly_point" class="inputTypeText" value="{$config_data->diligence_yearly_point}" />
+            </td>
+	    </tr>
+        <tr>
+		    <th><b>{$lang->attendance_about_diligence_monthly}</b></th>
+		    <td>
+			    <select name="about_diligence_monthly">
+				    <option value="yes" <!--@if($config_data->about_diligence_monthly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_diligence_monthly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+		    </td>
+        </tr>
+	    <tr>
+		    <th>{$lang->attendance_insert}</th>
+		    <td>
+                <input type="text" name="diligence_monthly" class="inputTypeText" value="{$config_data->diligence_monthly}" style="width:30px;"/>{$lang->attendance_diligence_monthly}
+            </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_diligence_monthly_point}</th>
+		    <td>
+                <input type="text" name="diligence_monthly_point" class="inputTypeText" value="{$config_data->diligence_monthly_point}" />
+            </td>
+	    </tr>
+        <tr>
+		    <th><b>{$lang->attendance_about_diligence_weekly}</b></th>
+		    <td>
+			    <select name="about_diligence_weekly">
+				    <option value="yes" <!--@if($config_data->about_diligence_weekly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config_data->about_diligence_weekly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+		    </td>
+        </tr>
+	    <tr>
+		    <th>{$lang->attendance_insert}</th>
+		    <td>
+                <input type="text" name="diligence_weekly" class="inputTypeText" value="{$config_data->diligence_weekly}" style="width:30px;"/>{$lang->attendance_diligence_weekly}
+            </td>
+	    </tr>
+	    <tr>
+		    <th>{$lang->attendance_diligence_weekly_point}</th>
+		    <td>
+                <input type="text" name="diligence_weekly_point" class="inputTypeText" value="{$config_data->diligence_weekly_point}" />
+            </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attend_admin_check}</b></th>
+		    <td>
+                <select name="about_admin_check">
+				    <option value="no" <!--@if($config2->about_admin_check!='yes')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_admin_check=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+			    </select>
+            </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attend_allow_duplicaton_ip_count}</b></th>
+		    <td>
+                <input type="text" name="allow_duplicaton_ip_count" class="inputTypeText" value="{$config2->allow_duplicaton_ip_count}" style="width:30px;"/>{$lang->attend_allow_duplicaton_ip_msg}
+            </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->attend_about_auto_attend}</b></th>
+		    <td>
+			    <select name="about_auto_attend" >
+				    <option value="yes" <!--@if($config2->about_auto_attend=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_auto_attend=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+			    </select>
+			    {$lang->attend_about_auto_attend_more}
+		    </td>
+	    </tr>
+    </table>
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="type" value="{$type}" />
+    <input type="hidden" name="selected_date" value="{$selected_date}" />
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+</form>
+<br />
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attend_init_all}</h3>
+<form action="./" method="post" onsubmit="return procFilter(this, init_all);">
+    <table cellspacing="0" class="rowTable" >
+        <tr>
+            <td rowspan="2" width="50%">{$lang->attend_init_all_msg}</td>
+            <td>
+                <input type="hidden" name="module" value="{$module}" />
+                <input type="hidden" name="act" value="{$act}" />
+                <input type="hidden" name="type" value="{$type}" />
+                <input type="hidden" name="selected_date" value="{$selected_date}" />
+                {$lang->attend_insert_continuity}<input type="text" name="continuity" value="1" class="inputTypeText w40" onclick=""/>
+            </td>
+        </tr>
+        <tr>
+            <td class="center"><span class="button black strong"><input type="submit" value="{$lang->attend_init_all}" onclick="return att_ban_dclick('{$lang->attend_warn2}');"/></span></td>
+        </tr>
+    </table>
+</form>
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attend_remove_board}</h3>
+<table cellspacing="0" class="rowTable">
+    <tr>
+        <th width="150px">{$lang->attend_remove_board}</th>
+        <td>
+            {$lang->attend_board_info}<br/>
+            <form action="./" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
+                <input type="hidden" name="module" value="{$module}" />
+                <input type="hidden" name="act" value="{$act}" />
+                <input type="hidden" name="type" value="{$type}" />
+                <span class="button black small"><input type="submit" value="{$lang->attendance_perfectly_delete}" /></span>
+            </form>
+        </td>
+    </tr>
+</table>

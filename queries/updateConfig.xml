@@ -1,0 +1,32 @@
+<query id="updateConfig" action="update">
+    <tables>
+        <table name="attendance_config" />
+    </tables>
+    <columns>
+	    <column name="add_point" var="add_point" /> 
+	    <column name="first_point"  var="first_point" />
+	    <column name="second_point" var="second_point"  />
+	    <column name="third_point"  var="third_point"  />
+	    <column name="yearly_point" var="yearly_point"  />
+	    <column name="monthly_point" var="monthly_point"  />
+	    <column name="weekly_point" var="weekly_point"  />
+	    <column name="about_target" var="about_target"  />
+	    <column name="target_day" var="target_day"   />
+	    <column name="target_point" var="target_point"   />
+	    <column name="about_continuity" var="about_continuity"  />
+	    <column name="continuity_day" var="continuity_day"   />
+	    <column name="continuity_point" var="continuity_point"  />
+	    <column name="about_time_control" var="about_time_control"  />
+	    <column name="start_time" var="start_time"   />
+	    <column name="end_time" var="end_time"  />
+	    <column name="about_diligence_yearly" var="about_diligence_yearly"  />
+	    <column name="diligence_yearly" var="diligence_yearly" />
+	    <column name="diligence_yearly_point" var="diligence_yearly_point"  />
+	    <column name="about_diligence_monthly" var="about_diligence_monthly" />
+	    <column name="diligence_monthly" var="diligence_monthly" />
+	    <column name="diligence_monthly_point" var="diligence_monthly_point"  />
+	    <column name="about_diligence_weekly" var="about_diligence_weekly" />
+	    <column name="diligence_weekly" var="diligence_weekly" />
+	    <column name="diligence_weekly_point" var="diligence_weekly_point" />
+    </columns>
+</query>

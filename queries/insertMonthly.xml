@@ -1,0 +1,11 @@
+<query id="insertMonthly" action="insert">
+    <tables>
+        <table name="attendance_monthly" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+        <column name="member_srl" var="member_srl" default="admin" />
+        <column name="monthly" var="monthly" />
+        <column name="monthly_point" var="monthly_point" />
+    </columns>
+</query>

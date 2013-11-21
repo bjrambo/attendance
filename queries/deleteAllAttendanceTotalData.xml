@@ -1,0 +1,14 @@
+<query id="deleteAllAttendanceTotalData" action="delete">
+    <tables>
+        <table name="attendance_total" />
+    </tables>
+
+    <columns>
+        <column name="*"/>
+    </columns>
+
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+    </conditions>
+
+</query>

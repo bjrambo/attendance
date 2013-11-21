@@ -1,0 +1,19 @@
+/*personalTable*/
+.personalTable { width:100%; border:0; margin:0 auto; padding:0; table-layout:fixed; color:#000000; border-left:1px solid #f0f0f0; }
+.personalTable a { text-decoration:none; color:#000000; }
+.personalTable th div { white-space:nowrap; }
+.personalTable tr.bg0{ background:#fff;}
+.personalTable tr.bg1{ background:#f8f8f8;}
+.personalTable th,
+.personalTable td{ border:0; padding:3px 1px; border-right:1px solid #f0f0f0; vertical-align:top;  text-align:left; white-space:nowrap; overflow:hidden; }
+.personalTable td:hover {background:#dfdfdf; }
+.personalTable th{ background:#f4f4f4;white-space:nowrap; }
+.personalTable td{ border-bottom:1px solid #f0f0f0; font-weight:normal; white-space:nowrap; }
+.personalTable .sunday { color:red;}
+.personalTable .sunday a { text-decoration:none; color:red;}
+.personalTable .saturday { color:blue;}
+.personalTable .saturday a { text-decoration:none; color:blue;}
+.personalTable .center { text-align:center; }
+.personalTable .same_height { height:auto; font-weight:bold; }
+
+.check { margin:0; text-align:center; font-weight:bold;}

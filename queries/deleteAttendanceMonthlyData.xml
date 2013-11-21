@@ -1,0 +1,15 @@
+<query id="deleteAttendanceMonthlyData" action="delete">
+    <tables>
+        <table name="attendance_monthly" />
+    </tables>
+
+    <columns>
+        <column name="*"/>
+    </columns>
+
+    <conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+		<condition operation="like_prefix" column="regdate" var="monthly" pipe="and"/>
+    </conditions>
+
+</query>

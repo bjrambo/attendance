@@ -1,0 +1,15 @@
+<query id="updateYearly" action="update">
+    <tables>
+        <table name="attendance_yearly" />
+    </tables>
+    <columns>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+	    <column name="yearly" var="yearly" />
+	    <column name="yearly_point" var="yearly_point" />
+    </columns>
+
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" default="admin" notnull="notnull" pipe="and" />
+        <condition operation="like_prefix" column="regdate" var="year" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

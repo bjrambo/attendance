@@ -1,0 +1,16 @@
+<query id="getUserAttendanceData" action="select">
+    <tables>
+        <table name="attendance" />
+    </tables>
+    <columns>
+        <column name="regdate" alias="regdate" />
+        <column name="greetings" alias="greetings" />
+        <column name="today_point" alias="today_point" />
+        <column name="ipaddress" alias="ipaddress" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="date"  />
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
+    </conditions>
+
+</query>

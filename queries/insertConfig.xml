@@ -1,0 +1,32 @@
+<query id="insertConfig" action="insert">
+    <tables>
+        <table name="attendance_config" />
+    </tables>
+    <columns>
+	    <column name="add_point" var="add_point" default="5" /> 
+	    <column name="first_point"  var="first_point" default="0"/>
+	    <column name="second_point" var="second_point" default="0" />
+	    <column name="third_point"  var="third_point" default="0" />
+	    <column name="yearly_point" var="yearly_point" default="0" />
+	    <column name="monthly_point" var="monthly_point" default="0" />
+	    <column name="weekly_point" var="weekly_point" default="0" />
+	    <column name="about_target" var="about_target" default="no" />
+	    <column name="target_day" var="target_day" default="00000000"  />
+	    <column name="target_point" var="target_point" default="0"  />
+	    <column name="about_continuity" var="about_continuity" default="no"  />
+	    <column name="continuity_day" var="continuity_day" default="2"  />
+	    <column name="continuity_point" var="continuity_point" default="0"  />
+	    <column name="about_time_control" var="about_time_control" default="no"  />
+	    <column name="start_time" var="start_time" default="0000"  />
+	    <column name="end_time" var="end_time" default="0000"  />
+	    <column name="about_diligence_yearly" var="about_diligence_yearly" default="no" />
+	    <column name="diligence_yearly" var="diligence_yearly" default="364" />
+	    <column name="diligence_yearly_point" var="diligence_yearly_point" default="0"  notnull="notnull"/>
+	    <column name="about_diligence_monthly" var="about_diligence_monthly" default="no"/>
+	    <column name="diligence_monthly" var="diligence_monthly" default="27"/>
+	    <column name="diligence_monthly_point" var="diligence_monthly_point" default="0"  notnull="notnull"/>
+	    <column name="about_diligence_weekly" var="about_diligence_weekly" default="no"/>
+	    <column name="diligence_weekly" var="diligence_weekly" default="6"/>
+	    <column name="diligence_weekly_point" var="diligence_weekly_point" default="0"  notnull="notnull"/>
+    </columns>
+</query>

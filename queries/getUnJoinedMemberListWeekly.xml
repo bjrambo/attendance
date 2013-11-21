@@ -1,0 +1,38 @@
+<query id="getUnJoinedMemberListWeekly" action="select">
+    <tables>
+        <table name="attendance_weekly" />
+        <table name="member" type="left join" >
+        <conditions>
+            <condition operation="equal" column="attendance_weekly.member_srl" default="member.member_srl" />
+        </conditions>
+        </table>
+    </tables>
+
+    <columns>
+        <column name="attendance_weekly.*"/>
+    </columns>
+
+    <conditions>
+        <condition operation="null" column="member.member_srl" />
+	    <condition operation="more" column="attendance_weekly.regdate" var="monday" pipe="and" />
+	    <condition operation="less" column="attendance_weekly.regdate" var="sunday" pipe="and" />
+        <group pipe="and">
+            <condition operation="notequal" column="attendance_weekly.member_srl" defualt="member.member_srl" />
+            <condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="member.user_id" var="s_user_id" pipe="or"/>
+            <condition operation="like" column="member.email_address" var="s_email_address" pipe="or" />
+        </group>
+    </conditions>
+
+    <groups>
+        <group column="member.member_srl" />
+    </groups>
+
+    <navigation>
+        <index var="sort_index" default="attendance_weekly.weekly" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>
