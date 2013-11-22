@@ -104,19 +104,13 @@ class attendanceAdminView extends attendance{
         $oModuleModel = &getModel('module');
         $module_info = $oModuleModel->getModuleInfoByMid('attendance');
         $skin_list = $oModuleModel->getSkins($this->module_path);
-		Context::set('skin_list',$skin_list);
-
-		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
-		Context::set('mskin_list', $mskin_list);
+        Context::set('skin_list',$skin_list);
 
             // 레이아웃 목록을 구해옴
         $oLayoutModel = &getModel('layout');
         $layout_list = $oLayoutModel->getLayoutList();
         Context::set('layout_list', $layout_list);
 
-			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
-			Context::set('mlayout_list', $mobile_layout_list);
-		
             // 모듈 카테고리 목록을 구함
         $module_category = $oModuleModel->getModuleCategories();
         Context::set('module_category', $module_category);
@@ -131,26 +125,6 @@ class attendanceAdminView extends attendance{
 		    /*템플릿 설정*/
         $this->setTemplatePath($this->module_path.'tpl');
         $this->setTemplateFile('index');
-
-     Context::set('mid_list', $mid_list);
-		// 사용환경정보 전송 확인
-		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
-
-		if(file_exists($agreement_file))
-		{
-			$agreement = FileHandler::readFile($agreement_file);
-			Context::set('_attendance_env_agreement', $agreement);
-			if($agreement == 'Y')
-			{
-				$_attendance_iframe_url = 'http://sosifam.com/index.php?mid=attendance_iframe';
-				$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $attendance_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
-				Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
-				Context::set('attendance_module_info', $attendance_module_info);
-			}
-		}
-		else Context::set('_attendance_env_agreement', 'NULL');
-
 	}
 
     /**
@@ -162,7 +136,7 @@ class attendanceAdminView extends attendance{
         $skin_list = $oModuleModel->getSkins($this->module_path);
         Context::set('skin_list',$skin_list);
 
-		$mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
 		Context::set('mskin_list', $mskin_list);
 
         // 레이아웃 목록을 구해옴
@@ -195,24 +169,6 @@ class attendanceAdminView extends attendance{
         // 공통 모듈 권한 설정 페이지 호출
         $oModuleAdminModel = &getAdminModel('module');
         $skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
-        Context::set('skin_content', $skin_content);
-        /*Context::set('module_info', $module_info);
-        Context::set('module_srl', $module_info->module_srl);
-        Context::set('mid', $module_info->mid);*/
-
-		/*템플릿 설정*/
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('skin_info');
-    }
-	//모바일 스킨
-    function dispAttendanceAdminMobileBoardSkinConfig() {
-        //모듈정보 로드
-        $oModuleModel = &getModel('module');
-        $module_info = $oModuleModel->getModuleInfoByMid('attendance');
-
-        // 공통 모듈 권한 설정 페이지 호출
-        $oModuleAdminModel = &getAdminModel('module');
-        $skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
         Context::set('skin_content', $skin_content);
         /*Context::set('module_info', $module_info);
         Context::set('module_srl', $module_info->module_srl);
