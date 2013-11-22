@@ -735,8 +735,8 @@ class attendanceModel extends attendance {
             $start->min = substr($config_data->start_time,2,2);
             $end->hour = substr($config_data->end_time,0,2);
             $end->min = substr($config_data->end_time,2,2);
-            $now->hour = zDate(date('YmdHis'),"H");
-            $now->min = zDate(date('YmdHis'),"i");
+            $now->hour = zDate(date('Ymdhis'),"h");
+            $now->min = zDate(date('Ymdhis'),"i");
             if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) 
                 && mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0)){
                 return 1;   //금지시간대일 경우
