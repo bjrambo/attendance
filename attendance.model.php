@@ -420,10 +420,6 @@ class attendanceModel extends attendance {
     /**
     * @brief 개근 여부 파악
     **/
-		// $current_day1 = substr($arg->selected_date,4,4);
-		// $current_day2 = substr($today);
-
-
 	function isPerfect($member_srl, $today, $real=true){
 		$current_month = substr($today,4,2);
 		$current_year = substr($today,0,4);
@@ -444,7 +440,7 @@ class attendanceModel extends attendance {
 			else
 				$arg->monthly_perfect = 0;
 
-			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
+			if($is_perfect_y >= $end_of_year && $current_day==$end_of_year)
 				$arg->yearly_perfect = 1;
 			else
 				$arg->yearly_perfect = 0;
@@ -454,7 +450,7 @@ class attendanceModel extends attendance {
 			else
 				$arg->monthly_perfect = 0;
 
-			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_month)
+			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_year)
 				$arg->yearly_perfect = 1;
 			else
 				$arg->yearly_perfect = 0;
@@ -664,7 +660,6 @@ class attendanceModel extends attendance {
 	function getWeek($today){   //today의 값이 xe설정시각으로 변형되어있을것이므로 여기에선 zDate()사용 안함.
         if(!$today){ return 0; }
     $week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today)))."235959";
-	$week->sunday1 = date('Ymd', strtotime('SUNDAY', strtotime($today)));
     $week->monday = date('Ymd', strtotime('last MONDAY', strtotime($week->sunday)))."000000";
     return $week;
 	}
@@ -740,8 +735,8 @@ class attendanceModel extends attendance {
             $start->min = substr($config_data->start_time,2,2);
             $end->hour = substr($config_data->end_time,0,2);
             $end->min = substr($config_data->end_time,2,2);
-            $now->hour = zDate(date('Ymdhis'),"h");
-            $now->min = zDate(date('Ymdhis'),"i");
+            $now->hour = zDate(date('YmdHis'),"H");
+            $now->min = zDate(date('YmdHis'),"i");
             if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) 
                 && mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0)){
                 return 1;   //금지시간대일 경우
