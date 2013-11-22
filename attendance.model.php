@@ -440,7 +440,7 @@ class attendanceModel extends attendance {
 			else
 				$arg->monthly_perfect = 0;
 
-			if($is_perfect_y >= $end_of_year && $current_day==$end_of_year)
+			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
 				$arg->yearly_perfect = 1;
 			else
 				$arg->yearly_perfect = 0;
@@ -450,7 +450,7 @@ class attendanceModel extends attendance {
 			else
 				$arg->monthly_perfect = 0;
 
-			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_year)
+			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_month)
 				$arg->yearly_perfect = 1;
 			else
 				$arg->yearly_perfect = 0;
@@ -660,6 +660,7 @@ class attendanceModel extends attendance {
 	function getWeek($today){   //today의 값이 xe설정시각으로 변형되어있을것이므로 여기에선 zDate()사용 안함.
         if(!$today){ return 0; }
     $week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today)))."235959";
+	$week->sunday1 = date('Ymd', strtotime('SUNDAY', strtotime($today)));
     $week->monday = date('Ymd', strtotime('last MONDAY', strtotime($week->sunday)))."000000";
     return $week;
 	}
