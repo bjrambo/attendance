@@ -420,15 +420,12 @@ class attendanceModel extends attendance {
     /**
     * @brief 개근 여부 파악
     **/
-		// $current_day1 = substr($arg->selected_date,4,4);
-		// $current_day2 = substr($today);
-
-
 	function isPerfect($member_srl, $today, $real=true){
 		$current_month = substr($today,4,2);
 		$current_year = substr($today,0,4);
 		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
 		$current_day = substr($today,6,2);
+
 		if(date('t', mktime(0,0,0,02,1,$current_year))==29)
 			$end_of_year = 366;
 		else
