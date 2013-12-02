@@ -423,8 +423,9 @@ class attendanceModel extends attendance {
 	function isPerfect($member_srl, $today, $real=true){
 		$current_month = substr($today,4,2);
 		$current_year = substr($today,0,4);
-		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
 		$current_day = substr($today,6,2);
+		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
+		$end_of_sosi = date('z', mktime(0,0,0,$current_month,$current_day,$current_year))+1;
 		if(date('t', mktime(0,0,0,02,1,$current_year))==29)
 			$end_of_year = 366;
 		else
@@ -440,7 +441,7 @@ class attendanceModel extends attendance {
 			else
 				$arg->monthly_perfect = 0;
 
-			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
+			if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
 				$arg->yearly_perfect = 1;
 			else
 				$arg->yearly_perfect = 0;
