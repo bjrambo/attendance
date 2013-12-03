@@ -1,7 +1,7 @@
 <?PHP
 /**
 * @class 출석부 모듈의 attendanceModel 클래스
-* @author 매실茶 (pppljh@gmail.com)
+* @author BJRambo (sosifam@070805.co.kr)
 * @출석부 프로그램이 참조하는 일종의 라이브러리
 *
 * 각종 쿼리 처리 및 주요 계산을 담당하는 함수들이 모여있는 파일입니다.

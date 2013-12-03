@@ -1,7 +1,7 @@
 <?PHP
 /**
 * @class 출석부 모듈의 attendance 클래스
-* @author 매실茶 (pppljh@gmail.com)
+* @author BJRambo (sosifam@070805.co.kr)
 * @출석부 모듈의 기본적인 작업을 담당
 *
 * 설치/업데이트에 관한 작업내용을 기록합니다.

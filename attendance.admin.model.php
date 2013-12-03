@@ -1,7 +1,7 @@
 <?php
 /**
 * @class 출석부 모듈의 attendanceAdminModel 클래스
-* @author 매실茶 (pppljh@gmail.com)
+* @author BJRambo (sosifam@070805.co.kr)
 * @관리자가 건드리는 함수 기록
 *
 *

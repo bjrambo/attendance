@@ -1,7 +1,7 @@
 <?PHP
 /**
 * @class 출석부 모듈의 attendanceController 클래스
-* @author 매실茶 (pppljh@gmail.com)
+* @author BJRambo (sosifam@070805.co.kr)
 * @JS필터를 통해 요청된 작업 수행
 *
 * 출석부 기록, 관리자의 임의 출석내용 변경 시 호출되는 함수들이 있습니다.

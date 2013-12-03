@@ -1,4 +1,12 @@
 <?php
+/**
+* @class 출석부 모듈의 attendancemobile 클래스
+* @author BJRambo (sosifam@070805.co.kr)
+* @모바일에서 요청된 작업 수행
+*
+* 모바일에서 요청된 함수등이 들어 있습니다.
+**/
+
 
 require_once(_XE_PATH_.'modules/attendance/attendance.view.php');
 

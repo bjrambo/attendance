@@ -1,7 +1,7 @@
 <?PHP
 /**
 * @class 출석부 모듈의 attendanceView 클래스
-* @author 매실茶 (pppljh@gmail.com)
+* @author BJRambo (sosifam@070805.co.kr)
 * @개인의 출석정보 출력 담당
 *
 * 관리자페이지에 표시할 내용과 사용변수에 대한 정의/전달
