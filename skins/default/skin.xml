@@ -6,41 +6,15 @@
     <title xml:lang="jp">Attendance Default Skin</title>
     <description xml:lang="ko">
         출석부 기본 스킨
-        제작: 매실茶(http://maesiltea.linuxstudy.pe.kr)
-		수정: BJ람보(http://sosifam.com)
+        제작: BJ람보(http://sosifam.com)
     </description>
-    <description xml:lang="jp">
-        Attendance Default Skin
-        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
-		config by BJRambo (http://sosifam.com)
-    </description>
-    <description xml:lang="zh-CN">
-        Attendance Default Skin
-        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
-		config by BJRambo (http://sosifam.com)
-    </description>
-    <description xml:lang="en">
-        Attendance Default Skin
-        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
-		config by BJRambo (http://sosifam.com)
-    </description>
-    <description xml:lang="es">
-        Attendance Default Skin
-        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
-		config by BJRambo (http://sosifam.com)
-    </description>
-    <description xml:lang="zh-TW">
-        Attendance Default Skin
-        Written by maesiltea (http://maesiltea.linuxstudy.pe.kr)
-		config by BJRambo (http://sosifam.com)
-    </description>
-    <version>0.2</version>
-    <date>2012-04-23</date>
+    <version>0.1</version>
+    <date>2013-12-04</date>
 
-    <author email_address="pppljh@gmail.com" link="http://maesiltea.linuxstudy.pe.kr">
-        <name xml:lang="ko">매실茶</name>
-		<name xml:lang="zh-CN">maesiltea</name>
-        <name xml:lang="jp">maesiltea</name>
+    <author email_address="sosifam@070805.co.kr" link="http://sosifam.com">
+        <name xml:lang="ko">BJ람보</name>
+		<name xml:lang="zh-CN">BJRambo</name>
+        <name xml:lang="jp">BJRambo</name>
     </author>
 
     <license>GPL v2</license>
