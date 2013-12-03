@@ -22,6 +22,8 @@ Author
 
 * website : http://sosifam.com
 * email : sosifam@070805.co.kr
+* 문의 : http://sosifam.com/question
+* github : https://github.com/qw5414/attendance
 
 Thanks to...
 ------------
