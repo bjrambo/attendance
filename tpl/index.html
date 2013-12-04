@@ -1,7 +1,31 @@
 <!--//출석부 관리 페이지-->
 <!--//제작자 : BJ람보(http://sosifam.com/)-->
+<div cond="$_attendance_env_agreement == 'NULL'" style="margin-top:20px;">
+  <form action="./" method="post" class="message info x_clearfix">
+   <input type="hidden" name="module" value="attendance" />
+   <input type="hidden" name="act" value="procAttendanceAdminEnviromentGatheringAgreement" />
+    <h2><span class="x_label x_label-important">도와주세요!</span> 사용 환경 정보 제공 동의</h2>
+    <p>'출석부'는 <a href="http://ko.wikipedia.org/wiki/자유소프트웨어" target="_blank">자유소프트웨어</a>로 제공하고 있습니다.</p>
+   <p>'출석부'는 사용자의 버그 보고, 의견 제출을 통해 공동의 힘으로 발전하고 있습니다.<br>'제공 동의'를 선택하면 아래와 같은 항목이 전송되며, 출석부의 기능을 개선하는데 참고하겠습니다. 감사합니다.</p>
+   <ul>
+     <li>이 사이트의 도메인</li>
+      <li>출석부의 버전</li>
+    <li>XE 버전</li>
+      <li>PHP 버전</li>
+  </ul>
+   <div class="x_pull-right" style="margin-bottom:10px">
+    <button type="submit" name="is_agree" value="Y" class="x_btn x_btn-small x_btn-primary">제공 동의</button>
+    <button type="submit" name="is_agree" value="N" class="x_btn x_btn-small">제공 안 함</button>
+   </div>
+  </form>
+</div>
+
+<div cond="$_attendance_iframe_url" style="margin-top:20px;">
+	<p>설치된 출석부 스킨 버전 : ver{$attendance_module_info->version}</p>
+	<iframe frameborder="0" src="{$_attendance_iframe_url}" style="display:block; margin:10px auto; padding:0; width:90%;border:3px solid #7361d6; border-radius:10px; height:200px; overflow:scroll; "></iframe>
+</div>
 <include target="./ver/check.inc.html" />
-<include target="./ver/index.html" cond="$v15 && $v14" />
+<include target="./ver/index.html" cond="$v15" />
 <block cond="$v17">
 <!--%import("js/attendance_admin.js")-->
 <!--%import("css/attendance.css")-->
@@ -16,6 +40,7 @@
 	{@$type='config'}
 <!--@end-->
 
+
 <script type="text/javascript">
     function moveDate() {
         xGetElementById('fo_calendar').submit();
@@ -25,6 +50,8 @@
 <div class="x_page-header">
 	<h1>{$lang->attendance_module}<span class="gray">{$lang->cmd_management}</span></h1>
 </div>
+
+
 <div class="header4 gap1">
 
     <form action="./index.php" method="get" id="fo_calendar">

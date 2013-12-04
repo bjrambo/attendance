@@ -163,7 +163,7 @@ class attendanceAdminController extends attendance {
         $args->member_srl = $obj->member_srl;
         $args->greetings = $greetings;
         $args->today_point = $today_point;
-        executeQuery("attendance.insertAttendance", $args);
+        executeQuery('attendance.insertAttendance', $args);
         $this->setMessage('attend_fixed_doublecheck');
     }
 
