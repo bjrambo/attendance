@@ -174,4 +174,7 @@
     $lang->attend_display_bonus = '보너스 항목 표시';
     $lang->about_attend_display_bonus = '지급받은 포인트 항목의 목록을 출력합니다.';
 	$lang->s_mobile = '모바일';
+	$lang->yyear = '년';
+	$lang->mmo = '월';
+	$lang->dday = '일';
 ?>

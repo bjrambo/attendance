@@ -511,4 +511,13 @@
 		<value xml:lang="ko"><![CDATA[모바일]]></value>
 		<value xml:lang="en"><![CDATA[mobile]]></value>
 	</item>
+	<item name = "yyear">
+		<value xml:lang="ko"><![CDATA[년]]></value>
+	</item>
+	<item name = "mmo">
+		<value xml:lang="ko"><![CDATA[월]]></value>
+	</item>
+	<item name = "dday">
+		<value xml:lang="ko"><![CDATA[일]]></value>
+	</item>
 </lang>

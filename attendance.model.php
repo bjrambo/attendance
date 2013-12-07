@@ -281,6 +281,13 @@ class attendanceModel extends attendance {
                 }
             }
 
+		/* 랜덤포인트 추가 */
+		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
+		$arg->member_srl = $member_srl;
+		if($config_data->about_random == 'yes'){
+			$obj->today_point += $sosirandom;
+		}
+
     if(!$logged_info->member_srl){ return ;}
 
     $oModule = &getModel('module');

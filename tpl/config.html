@@ -241,6 +241,24 @@
 				{$lang->attend_about_auto_attend_more}
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">random point use</label>
+			<div class="x_controls">
+				<select name="about_random">
+					<option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
+
+					<option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">random point</label>
+			<div class="x_controls">
+				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
+				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
+			</p>
+			</div>
+		</div>
 	</section>
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />

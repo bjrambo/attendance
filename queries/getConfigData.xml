@@ -28,5 +28,8 @@
 	    <column name="about_diligence_weekly" alias="about_diligence_weekly" />
 	    <column name="diligence_weekly" alias="diligence_weekly" />
 	    <column name="diligence_weekly_point" alias="diligence_weekly_point" />
+		<column name="about_random" alias="about_random" />
+		<column name="minimum" alias="minimum" />
+		<column name="maximum" alias="maximum" />
     </columns>
 </query>

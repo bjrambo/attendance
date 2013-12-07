@@ -83,7 +83,8 @@ class attendanceAdminView extends attendance{
         Context::set('ipaddress',$_SERVER['REMOTE_ADDR']);
         Context::set('oMemberModel',$oMemberModel);
 
-		    /*2009.04.01 설정값 꺼내오기*/
+
+			/*2009.04.01 설정값 꺼내오기*/
         $output = executeQuery('attendance.getConfigData');
         Context::set('config_data',$output->data);
 
@@ -128,11 +129,12 @@ class attendanceAdminView extends attendance{
         Context::set('module_info',$module_info);
         Context::set('module_srl', $module_info->module_srl);
 
-		    /*템플릿 설정*/
-        $this->setTemplatePath($this->module_path.'tpl');
-        $this->setTemplateFile('index');
 
-     Context::set('mid_list', $mid_list);
+
+
+
+
+
 		// 사용환경정보 전송 확인
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
 		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
@@ -150,6 +152,9 @@ class attendanceAdminView extends attendance{
 			}
 		}
 		else Context::set('_attendance_env_agreement', 'NULL');
+		/*템플릿 설정*/
+        $this->setTemplatePath($this->module_path.'tpl');
+        $this->setTemplateFile('index');
 
 	}
 
@@ -204,7 +209,9 @@ class attendanceAdminView extends attendance{
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('skin_info');
     }
-	//모바일 스킨
+    /**
+    * @brief 출석부 모바일 게시판스킨 설정페이지
+    **/
     function dispAttendanceAdminMobileBoardSkinConfig() {
         //모듈정보 로드
         $oModuleModel = &getModel('module');

@@ -115,6 +115,18 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance_config", "diligence_weekly_point");
 		if(!$act) return true;
 
+		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "about_random");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 minimum 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "minimum");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 maximum 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "maximum");
+		if(!$act) return true;
+
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
 		$act = $oDB->isColumnExists("attendance", "ipaddress");
 		if(!$act) return true;
@@ -254,6 +266,21 @@ class attendance extends ModuleObject
 		// attendance_config 테이블에 diligence_weekly_point 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "diligence_weekly_point")){
             $oDB->addColumn("attendance_config", "diligence_weekly_point", "number",11);
+        }
+
+		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "about_random")){
+            $oDB->addColumn("attendance_config", "about_random", "varchar", 5);
+        }
+
+		// attendance_config 테이블에 minimum 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "minimum")){
+            $oDB->addColumn("attendance_config", "minimum", "number",11);
+        }
+
+		// attendance_config 테이블에 diligence_weekly_point 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "maximum")){
+            $oDB->addColumn("attendance_config", "maximum", "number",11);
         }
 
         //attendance 테이블에 ipaddress 필드 추가

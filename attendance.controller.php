@@ -240,7 +240,10 @@ class attendanceController extends attendance {
 				if($obj->check_day == $config_data->target_day){
 					$obj->today_point += $config_data->target_point;
 				}
+
 			}
+			/*랜덤포인트 관련 추가*/
+
 
 			/*개근포인트 지급*/
 			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);
@@ -271,6 +274,7 @@ class attendanceController extends attendance {
                     $obj->today_point += $config_data->diligence_weekly_point;
                 }
             }
+
 
 			$args->regdate = $regdate;
 			$args->attendance_srl = getNextSequence();

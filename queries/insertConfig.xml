@@ -28,5 +28,8 @@
 	    <column name="about_diligence_weekly" var="about_diligence_weekly" default="no"/>
 	    <column name="diligence_weekly" var="diligence_weekly" default="6"/>
 	    <column name="diligence_weekly_point" var="diligence_weekly_point" default="0"  notnull="notnull"/>
+		<column name="about_random" var="about_random" default="no"/>
+		<column name="minimum" var="minimum" default="0000" />
+		<column name="maximum" var="maximum" default="0000" />
     </columns>
 </query>
