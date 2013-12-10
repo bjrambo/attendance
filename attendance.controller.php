@@ -110,7 +110,8 @@ class attendanceController extends attendance {
 
             //포인트도 감소
             $oPointController->setPoint($member_info->member_srl, $daily_info->today_point, 'minus');
-
+			//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
+			$_SESSION['is_attended'] = 0;
             //등록된 인사말 제거
         if(substr($daily_info->greetings,0,1) == '#'){
             $length = strlen($daily_info->greetings) -1;
@@ -242,8 +243,6 @@ class attendanceController extends attendance {
 				}
 
 			}
-			/*랜덤포인트 관련 추가*/
-
 
 			/*개근포인트 지급*/
 			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);

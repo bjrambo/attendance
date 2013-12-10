@@ -112,6 +112,7 @@ class attendanceView extends attendance{
         Context::set('module_info',$module_info);
    		Context::set('config',$config);
    		Context::set('config_data',$config_data);
+		Context::set('sosirandom',$sosirandom);
 
         $template_path = sprintf("%sskins/%s/",$this->module_path, $module_info->skin);
         if(!is_dir($template_path)||!$module_info->skin) {
