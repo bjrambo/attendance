@@ -520,4 +520,20 @@
 	<item name = "dday">
 		<value xml:lang="ko"><![CDATA[일]]></value>
 	</item>
+	<item name = "randomp">
+		<value xml:lang="ko"><![CDATA[랜덤 포인트 사용]]></value>
+	</item>
+	<item name = "randomset">
+		<value xml:lang="ko"><![CDATA[랜덤 포인트 포인트설정]]></value>
+	</item>
+	<item name = "randomsethelp">
+		<value xml:lang="ko"><![CDATA[랜덤포인트를 설정 합니다. 최댓값보다 최솟값의 값이 클경우 적용이 되지 않도록 만들어져 있으니 반드시 최솟값이 최댓값보다 같거나 크지 않도록 설정 하시기 바랍니다.]]></value>
+	</item>
+
+	<item name = "minimum">
+		<value xml:lang="ko"><![CDATA[최솟값]]></value>
+	</item>
+	<item name = "maximum">
+		<value xml:lang="ko"><![CDATA[최댓값]]></value>
+	</item>
 </lang>

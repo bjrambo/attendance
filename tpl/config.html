@@ -242,7 +242,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">random point use</label>
+			<label class="x_control-label">{$lang->randomp}</label>
 			<div class="x_controls">
 				<select name="about_random">
 					<option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
@@ -252,11 +252,12 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">random point</label>
+			<label class="x_control-label">{$lang->randomset}</label>
 			<div class="x_controls">
 				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
 				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
 			</p>
+			{$lang->randomsethelp}
 			</div>
 		</div>
 	</section>

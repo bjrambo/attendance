@@ -177,4 +177,9 @@
 	$lang->yyear = '년';
 	$lang->mmo = '월';
 	$lang->dday = '일';
+	$lang->randomp = '랜덤 포인트 사용';
+	$lang->randomset = '랜덤 포인트 포인트설정';
+	$lang->randomsethelp = '랜덤포인트를 설정 합니다. 최댓값보다 최솟값의 값이 클경우 적용이 되지 않도록 만들어져 있으니 반드시 최솟값이 최댓값보다 같거나 크지 않도록 설정 하시기 바랍니다.';
+	$lang->minimum = '최솟값';
+	$lang->maximum = '최댓값';
 ?>

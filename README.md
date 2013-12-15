@@ -28,7 +28,6 @@ Author
 Thanks to...
 ------------
 * 소녀시대..(나에게 힘을 주니깐..)
-* Fanal-taeng (http://soneyours.com)
 * 몽실아빠 (http://pomelove.com)
 
 참고사항
