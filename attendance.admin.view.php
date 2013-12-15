@@ -270,5 +270,23 @@ class attendanceAdminView extends attendance{
         $this->setTemplatePath($template_path);
         $this->setTemplateFile('modify');
     }
+
+	/**
+	 * @brief display the additional setup panel
+	 * additonal setup panel is for connecting the service modules with other modules
+	 **/
+	function dispAttendanceAdminBoardAdditionSetup() {
+		// sice content is obtained from other modules via call by reference, declare it first
+		$content = '';
+
+		// get the addtional setup trigger
+		// the additional setup triggers can be used in many modules
+		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+		Context::set('setup_content', $content);
+
+		// setup the template file
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('sosi_setup');
+	}
 }
 ?>

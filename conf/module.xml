@@ -9,6 +9,7 @@
         <permission action="procAttendanceInsertConfig" target="manager"/>
         <permission action="dispAttendanceAdminBoardConfig" target="manager"/>
         <permission action="dispAttendanceAdminBoardSkinConfig" target="manager"/>
+		<permission action="dispAttendanceAdminBoardAdditionSetup" target="manager"/>
         <permission action="procAttendanceAdminDeleteBoard" target="manager"/>
         <permission action="dispAttendanceAdminGrantList" target="manager"/>
         <permission action="dispAttendanceAdminModifyAttendance" target="manager"/>
@@ -28,7 +29,7 @@
         <action name="procAttendanceAdminInitAll" type="controller" standalone="true" />
         <action name="dispAttendancePersonalInfo" type="view" standalone="true" />
 		<action name="procAttendanceAdminEnviromentGatheringAgreement" type="controller" />
-
+		<action name="dispAttendanceAdminBoardAdditionSetup" type="view" />
         <action name="dispAttendanceBoard" type="view" standalone="true" index="true" />
         <action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" setup_index="true" />
         <action name="dispAttendanceAdminBoardSkinConfig" type="view" standalone="true" />
