@@ -220,6 +220,9 @@
                         <!--@if($config_data->about_diligence_weekly == 'yes' && $oAttendanceModel->checkWeeklyDiligence($data->member_srl, $config_data->diligence_weekly, $selected_date) == 1)-->
                             <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
                         <!--@end-->
+						<!--@if($config_data->about_random == 'yes' && $data->today_random)-->
+							<li>Random point : {$data->today_random}</li>
+						<!--@end-->
                     </ul>
                     <!--@else-->
                         -

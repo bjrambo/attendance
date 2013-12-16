@@ -125,7 +125,7 @@
             <!--@else-->
                 {@$exist_document = 0}
             <!--@end-->
-            <li class="at_board_body">{$position} | <span class="f_gray">{cut_str($member->nick_name,5,'~')}</span> | {substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)} | <!--@if($module_info->display_bonus=='Y')--><a onclick="bonusView('bonus_{$member->member_srl}')" href="#bonus_{$member->member_srl}"><!--@end--><span class="f_red">{$data->today_point}</span><!--@if($module_info->display_bonus=='Y')--></a><!--@end--> |
+            <li class="at_board_body">{$position} | <span class="f_gray">{cut_str($member->nick_name,5,'~')}</span> | {substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)} | <a onclick="bonusView('bonus_{$member->member_srl}')" href="#bonus_{$member->member_srl}"><span class="f_red">{$data->today_point}</span></a> |
                 <!--@if($data->greetings)-->
                     <!--@if($exist_document == 1)-->
                         <a href="#{$oDocument->document_srl}" onclick="documentView('d_{$oDocument->document_srl}')"><span class="f_blue">{cut_str($oDocument->getContentText(text),15,'~')}</span></a>
@@ -141,7 +141,7 @@
                     {$lang->attend_no_greetings}
                 <!--@end--></li>
 
-            <!--@if($module_info->display_bonus=='Y')-->
+            
             <div class="at_greetings" id="bonus_{$member->member_srl}">
 			        <!--@if($member->user_id)-->
                     <ul>
@@ -171,6 +171,9 @@
                         <!--@if($config_data->about_diligence_weekly == 'yes' && $oAttendanceModel->checkWeeklyDiligence($data->member_srl, $config_data->diligence_weekly, $selected_date) == 1)-->
                             <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
                         <!--@end-->
+						<!--@if($config_data->about_random == 'yes' && $data->today_random)-->
+							<li>Random point : {$data->today_random}</li>
+						<!--@end-->
                         <!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
                             <li><a href="{getUrl('act','dispAttendanceMobileModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date, 'm',$m)}"><span class="f_red">{$lang->cmd_modify}</span></a></li>
                         <!--@end-->
@@ -179,7 +182,7 @@
                         -
                     <!--@end-->
                 </div>
-                <!--@end-->
+               
             <!--@if($data->greetings)-->
                 <!--@if($exist_document == 1)-->
                     <div class="at_greetings" id="d_{$oDocument->document_srl}" <!--@if($document_srl==$oDocument->document_srl)-->style="display:block;"<!--@end-->>
