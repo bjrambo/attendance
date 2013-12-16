@@ -9,5 +9,6 @@
         <column name="ipaddress" var="ipaddress" default="none" />
     	<column name="greetings" var="greetings" default="" />
 	    <column name="today_point" var="today_point" />
+		<column name="today_random" var="today_random" />
     </columns>
 </query>

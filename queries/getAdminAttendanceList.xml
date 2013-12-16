@@ -13,6 +13,7 @@
         <column name="attendance.member_srl" alias="member_srl" />
         <column name="attendance.greetings" alias="greetings" />
         <column name="attendance.today_point" alias="today_point" />
+		<column name="attendance.today_random" alias="today_random" />
         <column name="attendance.ipaddress" alias="ipaddress" />
     </columns>
     <conditions>

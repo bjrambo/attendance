@@ -8,6 +8,7 @@
         <column name="ipaddress" var="ipaddress" />
     	<column name="greetings" var="greetings" />
 	    <column name="today_point" var="today_point" />
+		<column name="today_random" var="today_random" />
     </columns>
     <conditions>
         <condition operation="equal" column="attendance_srl" var="attendance_srl"  />

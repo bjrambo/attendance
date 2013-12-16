@@ -6,6 +6,7 @@
         <column name="regdate" alias="regdate" />
         <column name="greetings" alias="greetings" />
         <column name="today_point" alias="today_point" />
+		<column name="today_random" alias="today_random" />
         <column name="ipaddress" alias="ipaddress" />
     </columns>
     <conditions>

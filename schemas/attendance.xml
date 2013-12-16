@@ -4,5 +4,6 @@
     <column name="member_srl" type="number" size="11" notnull="notnull"  primary_key="primary_key" />
     <column name="greetings" type="varchar" size="20" notnull="notnull" />
     <column name="today_point" type="number" size="20" notnull="notnull" />
+	<column name="today_random" type="number" size="20" notnull="notnull" />
     <column name="ipaddress" type="varchar" size="23" notnull="notnull" />
 </table>

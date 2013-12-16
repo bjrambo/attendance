@@ -287,6 +287,8 @@ class attendanceModel extends attendance {
 		if($config_data->minimum <= $config_data->maximum){
 			if($config_data->about_random == 'yes'){
 				$obj->today_point += $sosirandom;
+				$obj->today_random = $sosirandom;
+				$output = executeQuery("attendance.insertAttendance",$obj);
 			}
 		}else{
 			$obj->today_point;
@@ -326,9 +328,9 @@ class attendanceModel extends attendance {
 
     /*접속자의 ip주소 기록*/
     $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
-
     $obj->attendance_srl = getNextSequence();
     $obj->regdate = zDate(date("YmdHis"),"YmdHis");
+
     /*Query 실행 : 출석부 기록*/
     executeQuery("attendance.insertAttendance", $obj);
     $_SESSION['is_attended'] = $today;
@@ -427,7 +429,6 @@ class attendanceModel extends attendance {
 		$output = executeQuery('attendance.getPositionData', $args);
 		return (int)$output->data->count;
 	}
-
     /**
     * @brief 개근 여부 파악
     **/

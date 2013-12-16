@@ -67,6 +67,10 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_point");
 		if(!$act) return true;
 
+		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
+		$act = $oDB->isColumnExists("attendance","today_random");
+		if(!$act) return true;
+
 		// attendance_config 테이블에 about_time_control 필드 추가 (2009.04.11)
 		$act = $oDB->isColumnExists("attendance_config", "about_time_control");
 		if(!$act) return true;
@@ -206,6 +210,11 @@ class attendance extends ModuleObject
 		//attendance 테이블에 today_point 필드 추가
 		if(!$oDB->isColumnExists("attendance","today_point")){
 			$oDB->addColumn("attendance", "today_point", "number", 20);
+		}
+
+		//attendance 테이블에 today_random 필드 추가
+		if(!$oDB->isColumnExists("attendance","today_random")){
+			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
 
 		// attendance_config 테이블에 about_time_control 필드 추가 (2009.04.11)
