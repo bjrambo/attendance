@@ -273,7 +273,23 @@ class attendanceController extends attendance {
                     $obj->today_point += $config_data->diligence_weekly_point;
                 }
             }
-
+		/* 랜덤포인트 추가 */
+		$arg->member_srl = $member_srl;
+		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
+		$win = mt_rand(1,100);
+		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum){
+			if($win<=50){
+				$obj->today_point += $sosirandom;
+				$args->today_random = $sosirandom;
+				executeQuery("attendance.insertAttendance", $args);
+			}else{
+				$obj->today_point;
+				$args->today_random = 0;
+				executeQuery("attendance.insertAttendance", $args);
+			}
+		}else{
+			$obj->today_point;
+		}
 
 			$args->regdate = $regdate;
 			$args->attendance_srl = getNextSequence();

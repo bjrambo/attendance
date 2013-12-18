@@ -284,10 +284,15 @@ class attendanceModel extends attendance {
 		/* 랜덤포인트 추가 */
 		$arg->member_srl = $member_srl;
 		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
-		if($config_data->minimum <= $config_data->maximum){
-			if($config_data->about_random == 'yes'){
+		$win = mt_rand(1,100);
+		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum){
+			if($win<=50){
 				$obj->today_point += $sosirandom;
 				$obj->today_random = $sosirandom;
+				$output = executeQuery("attendance.insertAttendance",$obj);
+			}else{
+				$obj->today_point;
+				$obj->today_random = 0;
 				$output = executeQuery("attendance.insertAttendance",$obj);
 			}
 		}else{
