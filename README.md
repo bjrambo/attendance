@@ -19,7 +19,7 @@ XE 출석부
 Author
 ------
 **BJ Rambo**
-zzzz
+
 * website : http://sosifam.com
 * email : sosifam@070805.co.kr
 * 문의 : http://sosifam.com/question
