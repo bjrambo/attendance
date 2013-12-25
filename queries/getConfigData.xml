@@ -31,5 +31,7 @@
 		<column name="about_random" alias="about_random" />
 		<column name="minimum" alias="minimum" />
 		<column name="maximum" alias="maximum" />
+		<column name="about_lottery" alias="about_lottery" />
+		<column name="lottery" alias="lottery" />
     </columns>
 </query>

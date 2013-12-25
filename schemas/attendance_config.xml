@@ -27,4 +27,6 @@
 	<column name="about_random" type="varchar" size="5" notnull="notnull"  />
     <column name="minimum" type="number" size="11" notnull="notnull"  />
 	<column name="maximum" type="number" size="11" notnull="notnull"  />
+	<column name="about_lottery" type="varchar" size="5" notnull="notnull"  />
+	<column name="lottery" type="number" size="11" notnull="notnull"  />
 </table>

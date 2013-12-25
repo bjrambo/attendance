@@ -31,5 +31,7 @@
 		<column name="about_random" var="about_random" default="no"/>
 		<column name="minimum" var="minimum" default="0000" />
 		<column name="maximum" var="maximum" default="0000" />
+		<column name="about_lottery" var="about_lottery" default="no"/>
+		<column name="lottery" var="lottery" default="50" />
     </columns>
 </query>
