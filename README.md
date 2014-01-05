@@ -25,7 +25,7 @@ Author
 * 문의 : http://sosifam.com/question
 * github : https://github.com/qw5414/attendance
 
-Thanks to...11111111
+Thanks to...
 ------------
 * 소녀시대..(나에게 힘을 주니깐..)
 * 몽실아빠 (http://pomelove.com)
