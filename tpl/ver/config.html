@@ -189,6 +189,40 @@
 			    {$lang->attend_about_auto_attend_more}
 		    </td>
 	    </tr>
+	    <tr>
+		    <th><b>{$lang->randomp}</b></th>
+		    <td>
+			    <select name="about_random" >
+				    <option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
+			    </select>
+		    </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->randomset}</b></th>
+		    <td>
+				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
+				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
+				</p>{$lang->randomsethelp}
+		    </td>
+	    </tr>
+	    <tr>
+		    <th><b>random select</b></th>
+		    <td>
+			    <select name="about_lottery" >
+				    <option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config_data->about_lottery=='yes'">{$lang->attendance_yes}</option>
+			    </select>
+		    </td>
+	    </tr>
+	    <tr>
+		    <th><b>random input</b></th>
+		    <td>
+				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+		    </td>
+	    </tr>
+
+
     </table>
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
