@@ -51,6 +51,7 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 업뎃 사항 
 ---------
 **Ver. 1.7.9**
+뭐가 좋을까요?
 
 **Ver. 1.7.8**
 * 랜덤포인트에 꽝걸릴수 있도록 개선
