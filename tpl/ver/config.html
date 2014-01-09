@@ -207,7 +207,7 @@
 		    </td>
 	    </tr>
 	    <tr>
-		    <th><b>random select</b></th>
+		    <th><b>{$lang->random_select}</b></th>
 		    <td>
 			    <select name="about_lottery" >
 				    <option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
@@ -216,9 +216,10 @@
 		    </td>
 	    </tr>
 	    <tr>
-		    <th><b>random input</b></th>
+		    <th><b>{$lang->random_input}</b></th>
 		    <td>
 				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+				{$lang->random_input_help}
 		    </td>
 	    </tr>
 
