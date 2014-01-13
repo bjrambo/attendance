@@ -12,8 +12,8 @@ class attendanceController extends attendance {
     /**
     * @brief 초기화
     **/
-    function init(){
-    }
+	function init(){
+	}
 
     /**
     * @brief 출석부 기록
@@ -474,6 +474,6 @@ class attendanceController extends attendance {
             $oAttendanceModel = &getModel('attendance');
             $oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
         }
-    }
+     }
 }
 ?>

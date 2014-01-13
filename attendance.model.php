@@ -305,14 +305,6 @@ class attendanceModel extends attendance {
 			$obj->today_point;
 		}
 
-		/* 생일 포인트 추가 */		
-		$birthdays = substr($logged_info->birthday,4,4);
-		$todays = substr($today,4,4);
-		if($todays==$birthdays){
-			$obj->today_point += 1100;
-		}
-
-
     if(!$logged_info->member_srl){ return ;}
 
     $oModule = &getModel('module');
