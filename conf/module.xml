@@ -3,7 +3,7 @@
     <grants />
     <permissions>
         <permission action="dispAttendanceAdminList" target="manager"/>
-        <permission action="procAdminAttendanceDeleteAllData" target="manager"/>
+        <permission action="procAttendanceAdminDeleteAllData" target="manager"/>
         <permission action="procAttendanceAdminInitAll" target="manager"/>
         <permission action="procAttendanceAdminUpdatePoint" target="manager"/>
         <permission action="procAttendanceInsertConfig" target="manager"/>
