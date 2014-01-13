@@ -15,7 +15,7 @@ class attendanceAdminController extends attendance {
 	function init(){
 	}
 
-    function procAdminAttendanceDeleteAllData(){
+    function procAttendanceAdminDeleteAllData(){
 		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = &getAdminModel('attendance');
         $obj=Context::getRequestVars();

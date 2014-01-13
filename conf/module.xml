@@ -2,7 +2,7 @@
 <module>
     <grants />
     <permissions>
-        <permission action="dispAdminAttendanceList" target="manager"/>
+        <permission action="dispAttendanceAdminList" target="manager"/>
         <permission action="procAdminAttendanceDeleteAllData" target="manager"/>
         <permission action="procAttendanceAdminInitAll" target="manager"/>
         <permission action="procAttendanceAdminUpdatePoint" target="manager"/>
@@ -16,12 +16,12 @@
         <permission action="dispAttendanceMobileModifyAttendance" target="manager"/>
     </permissions>
     <actions>
-	    <action name="dispAdminAttendanceList" type="view" standalone="true" admin_index="true"/>
+	    <action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
 	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" />
 	    <action name="procAttendanceInsertConfig" type="controller" standalone="true" />
 	    <action name="procAttendanceDeleteData" type="controller" standalone="true" />
 	    <action name="procAttendanceCheckData" type="controller" standalone="true" />
-        <action name="procAdminAttendanceDeleteAllData" type="controller" standalone="true" />
+        <action name="procAttendanceAdminDeleteAllData" type="controller" standalone="true" />
         <action name="procAttendanceAdminUpdatePoint" type="controller" standalone="true" />
         <action name="procAttendanceAdminFixTotalData" type="controller" standalone="true" />
         <action name="procAttendanceAdminFixAttendanceData" type="controller" standalone="true" />

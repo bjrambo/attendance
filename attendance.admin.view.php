@@ -41,7 +41,7 @@ class attendanceAdminView extends attendance{
         }
 	
     //출석부 관리페이지 출력
-    function dispAdminAttendanceList() {
+    function dispAttendanceAdminList() {
 		    /*attendance model 객체 생성*/
         $oAttendanceModel = &getModel('attendance');
         Context::set('Model',$oAttendanceModel);
