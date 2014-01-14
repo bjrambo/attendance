@@ -80,7 +80,7 @@
     <div class="at_top_box">
         <p class="at_date_pick">
             <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day-1, $year)),'Ymd'))}">←</a>
-             <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),"Ymd"))}"> {$year}-{$month}-{$day} </a>
+             <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),'Ymd'))}"> {$year}-{$month}-{$day} </a>
             <a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day+1, $year)),'Ymd'))}"> →</a>
         </p>
         <p class="buttons_box">
@@ -89,11 +89,12 @@
                 <a href="{getUrl('module','','mid','attendance','document','','act','dispAttendanceAdminBoardConfig')}">※{$lang->attend_config}</a> |
             <!--@end-->
             <!--@if($logged_info->is_admin=='Y')-->
-                <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->attend_maintenance}</a>  |
+                <a href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->attend_maintenance}</a>  |
             <!--@end-->
                 <!--@if($is_logged)-->
-                    <a id="calendar_click" href="#point_list" alt="{$lang->attend_calendar}">{$lang->attend_point_list}&{$lang->attend_calendar}</a>
-                <!--@else--><a id="list_open" href="#point_list" >{$lang->attend_point_list}</a>
+                <a id="calendar_click" href="#point_list" alt="{$lang->attend_calendar}">{$lang->attend_point_list}&{$lang->attend_calendar}</a>
+                <!--@else-->
+				<a id="list_open" href="#point_list" >{$lang->attend_point_list}</a>
                 <!--@end-->
         </p>
     </div>

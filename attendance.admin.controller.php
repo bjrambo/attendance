@@ -240,22 +240,23 @@ class attendanceAdminController extends attendance {
         $this->setMessage($msg_code);
     }
 
-  function procAttendanceAdminEnviromentGatheringAgreement()
- {
-   $vars = Context::getRequestVars();
-   $oModuleModel = &getModel('module');
-    $attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-   $agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
+	function procAttendanceAdminEnviromentGatheringAgreement()
+	{
+		$vars = Context::getRequestVars();
+		$oModuleModel = &getModel('module');
+		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
+		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
 
-    FileHandler::writeFile($agreement_file, $vars->is_agree);
+		FileHandler::writeFile($agreement_file, $vars->is_agree);
 
-    if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-    {
-      $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminAttendanceList');
-      header('location: ' . $returnUrl);
-      return;
-    }
-  }
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminList');
+			header('location: ' . $returnUrl);
+			return;
+		}
+	}
+
     /**
     * @brief 출석부 게시판 삭제
     **/
