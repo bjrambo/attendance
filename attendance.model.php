@@ -16,7 +16,7 @@ class attendanceModel extends attendance {
     }
 
     /**
-    * @brief 오늘 같은 ip에서 몇번 출석했는지 출력~
+    * @brief 오늘 같은 ip에서 몇번 출석했는지 출력
     **/
     function getDuplicateIpCount($today, $ipaddress){
         $obj->today = $today;
@@ -170,7 +170,7 @@ class attendanceModel extends attendance {
 		$year_month = zDate(date('YmdHis'),"Ym");
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
 
-    if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		/*각종 포인트 설정값 꺼내오기*/
 		$output = executeQuery('attendance.getConfigData');
@@ -209,9 +209,7 @@ class attendanceModel extends attendance {
             }
         }
 
-		if($this->getIsChecked($logged_info->member_srl)==0 
-            && $this->availableCheck($config_data) == 0 
-            && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
+		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config_data) == 0 && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
 			
 			//등수 확인
 			$position = $this->getPositionData($today);
@@ -265,19 +263,19 @@ class attendanceModel extends attendance {
 			}
 
             /*정근포인트 관련 추가*/
-    if($config_data->about_diligence_yearly == 'yes'){
-        if($this->checkYearlyDiligence($logged_info->member_srl, $config_data->diligence_yearly-1, null) == 1){
-            $obj->today_point += $config_data->diligence_yearly_point;
+		    if($config_data->about_diligence_yearly == 'yes'){
+			    if($this->checkYearlyDiligence($logged_info->member_srl, $config_data->diligence_yearly-1, null) == 1){
+				    $obj->today_point += $config_data->diligence_yearly_point;
                 }
             }
-    if($config_data->about_diligence_monthly == 'yes'){
-        if($this->checkMonthlyDiligence($logged_info->member_srl, $config_data->diligence_monthly-1, null) == 1){
-            $obj->today_point += $config_data->diligence_monthly_point;
+			if($config_data->about_diligence_monthly == 'yes'){
+				if($this->checkMonthlyDiligence($logged_info->member_srl, $config_data->diligence_monthly-1, null) == 1){
+					$obj->today_point += $config_data->diligence_monthly_point;
                 }
             }
-    if($config_data->about_diligence_weekly == 'yes'){
-        if($this->checkWeeklyDiligence($logged_info->member_srl, $config_data->diligence_weekly-1, null) == 1){
-            $obj->today_point += $config_data->diligence_weekly_point;
+			if($config_data->about_diligence_weekly == 'yes'){
+				if($this->checkWeeklyDiligence($logged_info->member_srl, $config_data->diligence_weekly-1, null) == 1){
+					$obj->today_point += $config_data->diligence_weekly_point;
                 }
             }
 
@@ -306,59 +304,63 @@ class attendanceModel extends attendance {
 		}
 
 		/* 생일 포인트 추가 */
-		$logged_info = Context::get('logged_info');
 		$birthdays = substr($logged_info->birthday,4,4);
 		$todays = substr($today,4,4);
-		if($todays==$birthdays) {
-			$obj->today_point += 100;
+		if($config_data->about_birthday=='yes'){
+			if($todays==$birthdays) {
+				$obj->today_point += $config_data->brithday_point;
+			}else{
+				$obj->today_point;
+			}
+		}else{
+			$obj->today_point;
 		}
 
-    if(!$logged_info->member_srl){ return ;}
+	    if(!$logged_info->member_srl){ return ;}
 
-    $oModule = &getModel('module');
-    $module_info = $oModule->getModuleInfoByMid('attendance');
-    if(!$module_info->module_srl){
-        return new Object(-1,'attend_no_board');
-            }
+	    $oModule = &getModel('module');
+	    $module_info = $oModule->getModuleInfoByMid('attendance');
+	    if(!$module_info->module_srl){
+	        return new Object(-1,'attend_no_board');
+		}
 
-    // document module의 model 객체 생성
-    $oDocumentModel = &getModel('document');
+		// document module의 model 객체 생성
+	    $oDocumentModel = &getModel('document');
 
-    // document module의 controller 객체 생성
-    $oDocumentController = &getController('document');
+	    // document module의 controller 객체 생성
+	    $oDocumentController = &getController('document');
 
-    if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^'){
-        /*Document module connection : greetings process*/
-        $d_obj->content = $obj->greetings;
-        $d_obj->nick_name = $logged_info->nick_name;
-        $d_obj->email_address = $logged_info->email_address;
-        $d_obj->homepage = $logged_info->homepage;
-        $d_obj->is_notice = 'N';
-        $d_obj->module_srl = $module_info->module_srl;
-        $d_obj->allow_comment = 'Y';
+	    if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^'){
+	        /*Document module connection : greetings process*/
+	        $d_obj->content = $obj->greetings;
+	        $d_obj->nick_name = $logged_info->nick_name;
+	        $d_obj->email_address = $logged_info->email_address;
+	        $d_obj->homepage = $logged_info->homepage;
+	        $d_obj->is_notice = 'N';
+	        $d_obj->module_srl = $module_info->module_srl;
+	        $d_obj->allow_comment = 'Y';
+	
+	        $output = $oDocumentController->insertDocument($d_obj, false);
+	        if(!$output->get('document_srl')){
+	            return new Object(-1,'attend_error_no_greetings');
+	        }
+	        $obj->greetings = "#".$output->get('document_srl');
+	    }
 
-        $output = $oDocumentController->insertDocument($d_obj, false);
-        if(!$output->get('document_srl')){
-            return new Object(-1,'attend_error_no_greetings');
-                      }
-        $obj->greetings = "#".$output->get('document_srl');
-           }
+		/*접속자의 ip주소 기록*/
+	    $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
+	    $obj->attendance_srl = getNextSequence();
+	    $obj->regdate = zDate(date("YmdHis"),"YmdHis");
 
-
-    /*접속자의 ip주소 기록*/
-    $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
-    $obj->attendance_srl = getNextSequence();
-    $obj->regdate = zDate(date("YmdHis"),"YmdHis");
-
-    /*Query 실행 : 출석부 기록*/
-    executeQuery("attendance.insertAttendance", $obj);
-    $_SESSION['is_attended'] = $today;
+	    /*Query 실행 : 출석부 기록*/
+	    executeQuery("attendance.insertAttendance", $obj);
+	    $_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
-    if($obj->today_point != 0 && $logged_info->member_srl){
-        $oPointController->setPoint($logged_info->member_srl,$obj->today_point,'add');
-            }
-			
+			if($obj->today_point != 0 && $logged_info->member_srl){
+			    $oPointController->setPoint($logged_info->member_srl,$obj->today_point,'add');
+			}
+				
 			/*attendance_total 테이블에 총 출석내용 및 연속출석데이터 기록(2009.02.15)*/
 			if($this->isExistTotal($logged_info->member_srl) == 0){
 				/*총 출석횟수 계산*/
@@ -374,7 +376,7 @@ class attendanceModel extends attendance {
 				/*총 출석 기록*/
 				$this->updateTotal($logged_info->member_srl, $continuity, $total_attendance, $total_point, null);
 			}
-
+			
 			/*attendace_yearly 테이블에 연간 출석 데이터 기록(2009.02.15)*/
 			if($this->isExistYearly($logged_info->member_srl, $year) == 0){	//연간 데이터가 없으면
 				/*올 해 출석횟수 계산*/
@@ -393,7 +395,7 @@ class attendanceModel extends attendance {
 				/*연간출석데이터 업데이트*/
 				$this->updateYearly($logged_info->member_srl, $year, $yearly_data, $yearly_point,null);
 			}
-
+			
 			/*attendance_monthly 테이블에 월간 출석 데이터 기록(2009.02.15)*/
 			if($this->isExistMonthly($logged_info->member_srl, $year_month) == 0){	//월간 데이터가 없으면
 				/*이달 출석횟수 계산*/
@@ -412,7 +414,7 @@ class attendanceModel extends attendance {
 				/*월간출석데이터 업데이트*/
 				$this->updateMonthly($logged_info->member_srl, $year_month, $monthly_data, $monthly_point, null);
 			}
-
+			
 			/*attendance_weekly 테이블에 주간 출석 데이터 기록(2009.02.15)*/
 			$week = $this->getWeek($today);
 			if($this->isExistWeekly($logged_info->member_srl, $week) == 0 ){	//주간 데이터가 없으면

@@ -210,6 +210,8 @@ class attendance extends ModuleObject
         $oModuleModel = &getModel('module');
         if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
 
+		$oModuleModel = &getModel('module');
+		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before')) return true;
 		return false;
 	}
 
@@ -489,6 +491,10 @@ class attendance extends ModuleObject
         if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')){
             $oModuleController->insertTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after');
         }
+		
+		//display 트리거 설치
+		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before'))
+            $oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before');			
 
 		return new Object(0,'success_updated');
     }

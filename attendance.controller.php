@@ -456,7 +456,7 @@ class attendanceController extends attendance {
     /**
      * @brief Auto Attend trigger
      **/
-     function triggerAutoAttend($obj){
+    function triggerAutoAttend($obj){
         $today = zDate(date('YmdHis'),"Ymd");
         $arg->day = $today;
         $arg->member_srl = $obj->member_srl;
@@ -475,5 +475,23 @@ class attendanceController extends attendance {
             $oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
         }
     }
+	
+	function triggerDisplay(&$output){
+		$logged_info = Context::get('logged_info');	
+		$oAttendanceModel = &getModel('attendance');
+		$oMemberModel = &getModel('member');				
+		$oModuleModel = &getModel('module');
+			
+		$act = Context::get('act');				
+		$member_srl = $logged_info->member_srl;
+		
+		if($act == 'dispMemberModifyInfo' && $config_data->about_birthday=='yes'){	
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
+			$output = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부 모듈에 의해 생일변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $output);
+			$output = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $output);
+		}
+		
+		return new Object();
+	}
 }
 ?>
