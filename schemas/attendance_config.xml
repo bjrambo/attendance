@@ -29,4 +29,6 @@
 	<column name="maximum" type="number" size="11" notnull="notnull"  />
 	<column name="about_lottery" type="varchar" size="5" notnull="notnull"  />
 	<column name="lottery" type="number" size="11" notnull="notnull"  />
+	<column name="about_brithday" type="varchar" size="5" notnull="notnull"  />
+	<column name="brithday_point" type="number" size="11" notnull="notnull"  />
 </table>

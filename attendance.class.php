@@ -131,12 +131,20 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance_config", "maximum");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 about_lottery 필드 추가 (2009.04.14)
+		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
 		$act = $oDB->isColumnExists("attendance_config", "about_lottery");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 lottery 필드 추가 (2009.04.14)
+		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
 		$act = $oDB->isColumnExists("attendance_config", "lottery");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
+		$act = $oDB->isColumnExists("attendance_config", "about_brithday");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
+		$act = $oDB->isColumnExists("attendance_config", "brithday_point");
 		if(!$act) return true;
 
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
@@ -300,7 +308,7 @@ class attendance extends ModuleObject
             $oDB->addColumn("attendance_config", "maximum", "number",11);
         }
 
-		// attendance_config 테이블에 about_lottery 필드 추가 (2009.12.26)
+		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
 		if(!$oDB->isColumnExists("attendance_config", "about_lottery")){
             $oDB->addColumn("attendance_config", "about_lottery", "varchar", 5);
         }
@@ -310,6 +318,15 @@ class attendance extends ModuleObject
             $oDB->addColumn("attendance_config", "lottery", "number",11);
         }
 
+		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
+		if(!$oDB->isColumnExists("attendance_config", "about_brithday")){
+            $oDB->addColumn("attendance_config", "about_brithday", "varchar", 5);
+        }
+
+		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
+		if(!$oDB->isColumnExists("attendance_config", "brithday_point")){
+            $oDB->addColumn("attendance_config", "brithday_point", "number",11);
+        }
 
         //attendance 테이블에 ipaddress 필드 추가
         if (!$oDB->isColumnExists("attendance", "ipaddress")) {

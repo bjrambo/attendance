@@ -81,7 +81,6 @@
 			<div class="x_controls">
 				<select name="about_target" id="include_duplicated_user">
 					<option value="yes" selected="selected"|cond="$config_data->about_target=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config_data->about_target=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
@@ -105,7 +104,6 @@
 			<div class="x_controls">
 				<select name="about_continuity">
 					<option value="yes" selected="selected"|cond="$config_data->about_continuity=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config_data->about_continuity=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
@@ -153,7 +151,6 @@
 			<div class="x_controls">
 				<select name="about_diligence_yearly">
 					<option value="yes" selected="selected"|cond="$config_data->about_diligence_yearly=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config_data->about_diligence_yearly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
@@ -175,7 +172,6 @@
 			<div class="x_controls">
 				<select name="about_diligence_monthly">
 					<option value="yes" selected="selected"|cond="$config_data->about_diligence_monthly=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config_data->about_diligence_monthly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
@@ -197,7 +193,6 @@
 			<div class="x_controls">
 				<select name="about_diligence_weekly">
 					<option value="yes" selected="selected"|cond="$config_data->about_diligence_weekly=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config_data->about_diligence_weekly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
@@ -219,7 +214,6 @@
 			<div class="x_controls">
 				<select name="about_admin_check">
 					<option value="no" selected="selected"|cond="$config2->about_admin_check!='yes'">{$lang->attendance_no}</option>
-
 					<option value="yes" selected="selected"|cond="$config2->about_admin_check=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
@@ -235,7 +229,6 @@
 			<div class="x_controls">
 				<select name="about_auto_attend">
 					<option value="yes" selected="selected"|cond="$config2->about_auto_attend=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config2->about_auto_attend=='no'">{$lang->attendance_no}</option>
 				</select>
 				{$lang->attend_about_auto_attend_more}
@@ -246,7 +239,6 @@
 			<div class="x_controls">
 				<select name="about_random">
 					<option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
-
 					<option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
@@ -265,7 +257,6 @@
 			<div class="x_controls">
 				<select name="about_lottery">
 					<option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
-
 					<option value="yes" selected="selected"|cond="$config_data->about_lottery=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
@@ -274,8 +265,25 @@
 			<label class="x_control-label">{$lang->random_input}</label>
 			<div class="x_controls">
 				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+				<p>{$lang->random_input_help}</p>
 			</div>
-			{$lang->random_input_help}
+			
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">brithday</label>
+			<div class="x_controls">
+				<select name="about_brithday">
+					<option value="no" selected="selected"|cond="$config_data->about_brithday=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config_data->about_brithday=='yes'">{$lang->attendance_yes}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">brithday input</label>
+			<div class="x_controls">
+				<input type="text" name="brithday_point" value="{$config_data->brithday_point}" style="width:60px;" />
+				<p>brithday</p>
+			</div>
 		</div>
 	</section>
     <input type="hidden" name="module" value="{$module}" />

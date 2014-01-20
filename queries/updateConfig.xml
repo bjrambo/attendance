@@ -33,5 +33,7 @@
 		<column name="maximum" var="maximum" />
 		<column name="about_lottery" var="about_lottery" />
 		<column name="lottery" var="lottery" />
+		<column name="about_brithday" var="about_brithday" />
+		<column name="brithday_point" var="brithday_point" />
     </columns>
 </query>
