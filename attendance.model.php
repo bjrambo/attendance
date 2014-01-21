@@ -306,7 +306,7 @@ class attendanceModel extends attendance {
 		/* 생일 포인트 추가 */
 		$birthdays = substr($logged_info->birthday,4,4);
 		$todays = substr($today,4,4);
-		if($config_data->about_birthday=='yes'){
+		if($config->about_birth_day=='yes'){
 			if($todays==$birthdays) {
 				$obj->today_point += $config_data->brithday_point;
 			}else{

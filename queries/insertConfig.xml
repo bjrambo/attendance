@@ -33,7 +33,6 @@
 		<column name="maximum" var="maximum" default="0000" />
 		<column name="about_lottery" var="about_lottery" default="no"/>
 		<column name="lottery" var="lottery" default="50" />
-		<column name="about_brithday" var="about_brithday" default="no"/>
 		<column name="brithday_point" var="brithday_point" default="100" />
     </columns>
 </query>

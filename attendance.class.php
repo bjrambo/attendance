@@ -29,6 +29,7 @@ class attendance extends ModuleObject
             executeQuery("attendance.insertConfig", $obj);
             $config->about_admin_check = 'yes';
             $config->allow_duplicaton_ip_count = '3';
+			$config->about_birth_day = 'no';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -201,6 +202,7 @@ class attendance extends ModuleObject
         $config = $oModule->getModuleConfig('attendance');
         if(!$config->allow_duplicaton_ip_count) return true;
         if(!$config->about_admin_check) return true;
+		if(!$config->about_birth_day) return true;
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -477,6 +479,14 @@ class attendance extends ModuleObject
             $config->about_admin_check = 'yes';
             $oModuleController->insertModuleConfig('attendance', $config);
         }
+
+        $oModule = &getModel('module');
+        $config = $oModule->getModuleConfig('attendance');
+		if(!$config->about_birth_day){
+			$oModuleController = &getController('module');
+			$config->about_birth_day = 'yes';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
