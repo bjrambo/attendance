@@ -140,10 +140,6 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance_config", "lottery");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
-		$act = $oDB->isColumnExists("attendance_config", "about_brithday");
-		if(!$act) return true;
-
 		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
 		$act = $oDB->isColumnExists("attendance_config", "brithday_point");
 		if(!$act) return true;
@@ -320,11 +316,6 @@ class attendance extends ModuleObject
 		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
 		if(!$oDB->isColumnExists("attendance_config", "lottery")){
             $oDB->addColumn("attendance_config", "lottery", "number",11);
-        }
-
-		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
-		if(!$oDB->isColumnExists("attendance_config", "about_brithday")){
-            $oDB->addColumn("attendance_config", "about_brithday", "varchar", 5);
         }
 
 		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
@@ -504,7 +495,7 @@ class attendance extends ModuleObject
 		
 		//display 트리거 설치
 		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before'))
-            $oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before');			
+            $oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before');
 
 		return new Object(0,'success_updated');
     }
