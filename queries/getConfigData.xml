@@ -33,7 +33,6 @@
 		<column name="maximum" alias="maximum" />
 		<column name="about_lottery" alias="about_lottery" />
 		<column name="lottery" alias="lottery" />
-		<column name="about_brithday" alias="about_brithday" />
 		<column name="brithday_point" alias="brithday_point" />
     </columns>
 </query>
