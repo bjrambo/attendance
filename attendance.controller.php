@@ -59,6 +59,7 @@ class attendanceController extends attendance {
             $config->about_admin_check = $obj->about_admin_check;
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
+			$config->about_birth_day = $obj->about_birth_day;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -72,6 +73,7 @@ class attendanceController extends attendance {
             $config->about_admin_check = $obj->about_admin_check;
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
+			$config->about_birth_day = $obj->about_birth_day;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
@@ -456,7 +458,7 @@ class attendanceController extends attendance {
     /**
      * @brief Auto Attend trigger
      **/
-     function triggerAutoAttend($obj){
+    function triggerAutoAttend($obj){
         $today = zDate(date('YmdHis'),"Ymd");
         $arg->day = $today;
         $arg->member_srl = $obj->member_srl;
@@ -475,5 +477,26 @@ class attendanceController extends attendance {
             $oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
         }
     }
+	
+	function triggerDisplay(&$content){
+
+		$logged_info = Context::get('logged_info');	
+		$oAttendanceModel = &getModel('attendance');
+		$oMemberModel = &getModel('member');				
+        //module의 설정값 가져오기
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+
+		$act = Context::get('act');				
+		$member_srl = $logged_info->member_srl;
+
+		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes'){	
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
+			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
+			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
+		}
+		
+		return new Object();
+	}
 }
 ?>

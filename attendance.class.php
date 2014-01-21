@@ -29,6 +29,7 @@ class attendance extends ModuleObject
             executeQuery("attendance.insertConfig", $obj);
             $config->about_admin_check = 'yes';
             $config->allow_duplicaton_ip_count = '3';
+			$config->about_birth_day = 'no';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -131,12 +132,20 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance_config", "maximum");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 about_lottery 필드 추가 (2009.04.14)
+		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
 		$act = $oDB->isColumnExists("attendance_config", "about_lottery");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 lottery 필드 추가 (2009.04.14)
+		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
 		$act = $oDB->isColumnExists("attendance_config", "lottery");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
+		$act = $oDB->isColumnExists("attendance_config", "about_brithday");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
+		$act = $oDB->isColumnExists("attendance_config", "brithday_point");
 		if(!$act) return true;
 
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
@@ -193,6 +202,7 @@ class attendance extends ModuleObject
         $config = $oModule->getModuleConfig('attendance');
         if(!$config->allow_duplicaton_ip_count) return true;
         if(!$config->about_admin_check) return true;
+		if(!$config->about_birth_day) return true;
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -202,6 +212,8 @@ class attendance extends ModuleObject
         $oModuleModel = &getModel('module');
         if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
 
+		$oModuleModel = &getModel('module');
+		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before')) return true;
 		return false;
 	}
 
@@ -300,7 +312,7 @@ class attendance extends ModuleObject
             $oDB->addColumn("attendance_config", "maximum", "number",11);
         }
 
-		// attendance_config 테이블에 about_lottery 필드 추가 (2009.12.26)
+		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
 		if(!$oDB->isColumnExists("attendance_config", "about_lottery")){
             $oDB->addColumn("attendance_config", "about_lottery", "varchar", 5);
         }
@@ -310,6 +322,15 @@ class attendance extends ModuleObject
             $oDB->addColumn("attendance_config", "lottery", "number",11);
         }
 
+		// attendance_config 테이블에 about_brithday 필드 추가 (2014.01.21)
+		if(!$oDB->isColumnExists("attendance_config", "about_brithday")){
+            $oDB->addColumn("attendance_config", "about_brithday", "varchar", 5);
+        }
+
+		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
+		if(!$oDB->isColumnExists("attendance_config", "brithday_point")){
+            $oDB->addColumn("attendance_config", "brithday_point", "number",11);
+        }
 
         //attendance 테이블에 ipaddress 필드 추가
         if (!$oDB->isColumnExists("attendance", "ipaddress")) {
@@ -459,6 +480,14 @@ class attendance extends ModuleObject
             $oModuleController->insertModuleConfig('attendance', $config);
         }
 
+        $oModule = &getModel('module');
+        $config = $oModule->getModuleConfig('attendance');
+		if(!$config->about_birth_day){
+			$oModuleController = &getController('module');
+			$config->about_birth_day = 'yes';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
         $oModuleController = &getController('module');
@@ -472,6 +501,10 @@ class attendance extends ModuleObject
         if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')){
             $oModuleController->insertTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after');
         }
+		
+		//display 트리거 설치
+		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before'))
+            $oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerDisplay', 'before');			
 
 		return new Object(0,'success_updated');
     }
