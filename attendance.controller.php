@@ -60,6 +60,7 @@ class attendanceController extends attendance {
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
 			$config->about_birth_day = $obj->about_birth_day;
+			$config->about_birth_day_y = $obj->about_birth_day_y;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -74,6 +75,7 @@ class attendanceController extends attendance {
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
 			$config->about_birth_day = $obj->about_birth_day;
+			$config->about_birth_day_y = $obj->about_birth_day_y;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
@@ -478,7 +480,7 @@ class attendanceController extends attendance {
         }
     }
 	
-	function triggerDisplay(&$content){
+	function triggerSou(&$content){
 
 		$logged_info = Context::get('logged_info');	
 		$oAttendanceModel = &getModel('attendance');
@@ -490,7 +492,7 @@ class attendanceController extends attendance {
 		$act = Context::get('act');				
 		$member_srl = $logged_info->member_srl;
 
-		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes'){	
+		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes'){	
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);

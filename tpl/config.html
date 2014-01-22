@@ -285,6 +285,15 @@
 				<p>brithday</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">brithday s</label>
+			<div class="x_controls">
+				<select name="about_birth_day_y">
+					<option value="no" selected="selected"|cond="$config2->about_birth_day_y=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_birth_day_y=='yes'">{$lang->attendance_yes}</option>
+				</select>
+			</div>
+		</div>
 	</section>
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
