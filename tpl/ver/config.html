@@ -222,8 +222,33 @@
 				{$lang->random_input_help}
 		    </td>
 	    </tr>
-
-
+	    <tr>
+		    <th><b>{$lang->birthday_setting}</b></th>
+		    <td>
+			    <select name="about_birth_day" >
+				    <option value="no" selected="selected"|cond="$config2->about_birth_day=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config2->about_birth_day=='yes'">{$lang->attendance_yes}</option>
+			    </select>
+				<p>{$lang->birthday_help}</p>
+		    </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->birthday_point}</b></th>
+		    <td>
+				<input type="text" name="lottery" value="{$config_data->brithday_point}" style="width:60px;" />
+				{$lang->birthday_point_help}
+		    </td>
+	    </tr>
+	    <tr>
+		    <th><b>{$lang->birthday_member}</b></th>
+		    <td>
+			    <select name="about_birth_day_y" >
+				    <option value="no" selected="selected"|cond="$config2->about_birth_day_y=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config2->about_birth_day_y=='yes'">{$lang->attendance_yes}</option>
+			    </select>
+				<p>{$lang->birthday_member_help}</p>
+		    </td>
+	    </tr>
     </table>
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
