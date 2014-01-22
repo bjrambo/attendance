@@ -185,4 +185,10 @@
 	$lang->random_select = '꽝확률 사용여부';
 	$lang->random_input = '꽝확률 설정';
 	$lang->random_input_help = '꽝확률은 1에서 100까지만 사용가능합니다. 만약 비워두거나 그 이상 이하의 수치일경우 랜덤포인트가 꽝확률이 없이 작동됩니다.';
+	$lang->birthday_setting = '생일 포인트 사용여부';
+	$lang->birthday_help = '회원정보내의 생일 포인트를 인식하여 회원들의 생일설정날에 포인트를 주는 이벤트를 실행하게 됩니다.';
+	$lang->birthday_point = '생일 포인트 설정';
+	$lang->birthday_point_help = '생일날 포인트 지급되는 포인트양을 설정합니다.';
+	$lang->birthday_member = '회원정보 생일 수정 여부';
+	$lang->birthday_member_help = '회원정보에서 생일을 수정 할 수 있도록 개선 해줍니다.';
 ?>

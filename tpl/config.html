@@ -36,8 +36,7 @@
 			<label class="x_control-label">{$lang->browser_title}</label>
 			<div class="x_controls">
 				<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}"  class="lang_code"/>
-				<a href="#aboutBrowserTitle" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="aboutBrowserTitle" hidden>{$lang->about_browser_title}</p>
+				<p>{$lang->about_browser_title}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -89,8 +88,7 @@
 			<label class="x_control-label" for="nowconnect_name">{$lang->attendance_target_day}</label>
 			<div class="x_controls">
 				<input type="text" name="target_day" value="{$config_data->target_day}" />
-				<a href="#about-tday" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="about-tday" hidden>{$lang->attendance_target_day_info}</p>
+				<p>{$lang->attendance_target_day_info}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -128,8 +126,7 @@
 
 					<option value="no" selected="selected"|cond="$config_data->about_time_control=='no'">{$lang->attendance_no}</option>
 				</select>
-				<a href="#time_control_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="time_control_help" class="x_help-block" hidden>{$lang->attendance_description_ban_time}</p>
+				<p>{$lang->attendance_description_ban_time}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -158,7 +155,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_yearly" value="{$config_data->diligence_yearly}" style="width:30px;"/>{$lang->attendance_diligence_yearly}
+				<input type="text" name="diligence_yearly" value="{$config_data->diligence_yearly}" style="width:30px;"/>
+				<p>{$lang->attendance_diligence_yearly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -179,7 +177,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_monthly" value="{$config_data->diligence_monthly}" style="width:30px;"/>{$lang->attendance_diligence_monthly}
+				<input type="text" name="diligence_monthly" value="{$config_data->diligence_monthly}" style="width:30px;"/>
+				<p>{$lang->attendance_diligence_monthly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -200,7 +199,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_weekly" value="{$config_data->diligence_weekly}" style="width:30px;"/>{$lang->attendance_diligence_weekly}
+				<input type="text" name="diligence_weekly" value="{$config_data->diligence_weekly}" style="width:30px;"/>
+				<p>{$lang->attendance_diligence_weekly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -221,7 +221,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attend_allow_duplicaton_ip_count}</label>
 			<div class="x_controls">
-				<input type="text" name="allow_duplicaton_ip_count" value="{$config2->allow_duplicaton_ip_count}" style="width:30px;"/>{$lang->attend_allow_duplicaton_ip_msg}
+				<input type="text" name="allow_duplicaton_ip_count" value="{$config2->allow_duplicaton_ip_count}" style="width:30px;"/>
+				<p>{$lang->attend_allow_duplicaton_ip_msg}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -231,7 +232,7 @@
 					<option value="yes" selected="selected"|cond="$config2->about_auto_attend=='yes'">{$lang->attendance_yes}</option>
 					<option value="no" selected="selected"|cond="$config2->about_auto_attend=='no'">{$lang->attendance_no}</option>
 				</select>
-				{$lang->attend_about_auto_attend_more}
+				<p>{$lang->attend_about_auto_attend_more}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -270,28 +271,30 @@
 			
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">brithday</label>
+			<label class="x_control-label">{$lang->birthday_setting}</label>
 			<div class="x_controls">
 				<select name="about_birth_day">
 					<option value="no" selected="selected"|cond="$config2->about_birth_day=='no'">{$lang->attendance_no}</option>
 					<option value="yes" selected="selected"|cond="$config2->about_birth_day=='yes'">{$lang->attendance_yes}</option>
 				</select>
+				<p>{$lang->birthday_help}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">brithday input</label>
+			<label class="x_control-label">{$lang->birthday_point}</label>
 			<div class="x_controls">
 				<input type="text" name="brithday_point" value="{$config_data->brithday_point}" style="width:60px;" />
-				<p>brithday</p>
+				<p>{$lang->birthday_point_help}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">brithday s</label>
+			<label class="x_control-label">{$lang->birthday_member}</label>
 			<div class="x_controls">
 				<select name="about_birth_day_y">
 					<option value="no" selected="selected"|cond="$config2->about_birth_day_y=='no'">{$lang->attendance_no}</option>
 					<option value="yes" selected="selected"|cond="$config2->about_birth_day_y=='yes'">{$lang->attendance_yes}</option>
 				</select>
+				<p>{$lang->birthday_member_help}</p>
 			</div>
 		</div>
 	</section>
