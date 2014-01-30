@@ -94,8 +94,10 @@ class attendanceAdminView extends attendance{
         $oModuleAdminModel = &getAdminModel('module');
         Context::set('config2',$config);
 
+		$start_time = new stdClass;
         $start_time->hour = substr($output->data->start_time,0,2);
         $start_time->min = substr($output->data->start_time,2,2);
+		$end_time = new stdClass;
         $end_time->hour = substr($output->data->end_time,0,2);
         $end_time->min = substr($output->data->end_time,2,2);
         Context::set('start_time',$start_time);
@@ -117,7 +119,7 @@ class attendanceAdminView extends attendance{
 
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
-		
+
             // 모듈 카테고리 목록을 구함
         $module_category = $oModuleModel->getModuleCategories();
         Context::set('module_category', $module_category);
@@ -128,12 +130,6 @@ class attendanceAdminView extends attendance{
 
         Context::set('module_info',$module_info);
         Context::set('module_srl', $module_info->module_srl);
-
-
-
-
-
-
 
 		// 사용환경정보 전송 확인
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
@@ -155,7 +151,6 @@ class attendanceAdminView extends attendance{
 		/*템플릿 설정*/
         $this->setTemplatePath($this->module_path.'tpl');
         $this->setTemplateFile('index');
-
 	}
 
     /**
@@ -209,9 +204,10 @@ class attendanceAdminView extends attendance{
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('skin_info');
     }
+
     /**
-    * @brief 출석부 모바일 게시판스킨 설정페이지
-    **/
+     * @brief 출석부 모바일 게시판스킨 설정페이지
+     **/
     function dispAttendanceAdminMobileBoardSkinConfig() {
         //모듈정보 로드
         $oModuleModel = &getModel('module');
@@ -229,6 +225,7 @@ class attendanceAdminView extends attendance{
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('skin_info');
     }
+
 
     /**
     * @brief 출석부 게시판 권한 설정페이지
@@ -288,5 +285,6 @@ class attendanceAdminView extends attendance{
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('sosi_setup');
 	}
+
 }
 ?>

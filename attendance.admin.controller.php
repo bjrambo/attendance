@@ -15,7 +15,8 @@ class attendanceAdminController extends attendance {
 	function init(){
 	}
 
-    function procAttendanceAdminDeleteAllData(){
+	function procAttendanceAdminDeleteAllData()
+	{
 		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = &getAdminModel('attendance');
         $obj=Context::getRequestVars();
@@ -158,13 +159,14 @@ class attendanceAdminController extends attendance {
         $continuity->point = $total_data->continuity_point;
         $oAttendanceModel->updateTotal($obj->member_srl, $continuity, $total_data->total, $total_data->total_point, $total_data->regdate);
         //정상적인 출석정보 삽입
-        $args->attendance_srl = getNextSequence();
-        $args->regdate = $regdate;
-        $args->member_srl = $obj->member_srl;
-        $args->greetings = $greetings;
-        $args->today_point = $today_point;
-        executeQuery('attendance.insertAttendance', $args);
-        $this->setMessage('attend_fixed_doublecheck');
+		$args = new stdClass;
+		$args->attendance_srl = getNextSequence();
+		$args->regdate = $regdate;
+		$args->member_srl = $obj->member_srl;
+		$args->greetings = $greetings;
+		$args->today_point = $today_point;
+		executeQuery('attendance.insertAttendance', $args);
+		$this->setMessage('attend_fixed_doublecheck');
     }
 
     /**

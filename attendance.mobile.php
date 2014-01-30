@@ -62,6 +62,7 @@ class attendanceMobile extends attendanceView {
         }
 
         //출석달력 설정
+		$date_info = new stdClass;
         $date_info->_year = substr($selected_date,0,4);
         $date_info->_month = substr($selected_date,4,2);
         $date_info->_day = substr($selected_date,6,2);

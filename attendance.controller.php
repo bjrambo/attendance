@@ -56,6 +56,7 @@ class attendanceController extends attendance {
             if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32) { $obj->diligence_yearly = $end_of_year - 1; }
             if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8) { $obj->diligence_monthly = $end_of_month - 1; }
             if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1) { $obj->diligence_weekly = 6; }
+			$config = new stdClass;
             $config->about_admin_check = $obj->about_admin_check;
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
@@ -71,6 +72,7 @@ class attendanceController extends attendance {
             if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1) { $obj->diligence_weekly = 6; }
             $obj->start_time = sprintf("%02d%02d",$obj->start_hour,$obj->start_min);
             $obj->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
+			$config = new stdClass;
             $config->about_admin_check = $obj->about_admin_check;
             $config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
             $config->about_auto_attend = $obj->about_auto_attend;
@@ -97,6 +99,7 @@ class attendanceController extends attendance {
     $obj = Context::getRequestVars();
     $year = substr($obj->check_day,0,4);
     $year_month = substr($obj->check_day,0,6);
+	$arg = new stdClass;
     $args->check_day = $obj->check_day;
     $args->member_srl = $obj->member_srl;
 
@@ -116,6 +119,7 @@ class attendanceController extends attendance {
             $oPointController->setPoint($member_info->member_srl, $daily_info->today_point, 'minus');
 			//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
 			$_SESSION['is_attended'] = 0;
+
             //등록된 인사말 제거
         if(substr($daily_info->greetings,0,1) == '#'){
             $length = strlen($daily_info->greetings) -1;
@@ -129,6 +133,7 @@ class attendanceController extends attendance {
 
 		    /*기록될 날짜!!*/
 		    $regdate =  sprintf("%s235959",$obj->check_day);
+			$continuity = new stdClass;
 		    $continuity->data = 1;
 		    $continuity->point = 0;
 		    //총 출석데이터 갱신
@@ -245,7 +250,6 @@ class attendanceController extends attendance {
 				if($obj->check_day == $config_data->target_day){
 					$obj->today_point += $config_data->target_point;
 				}
-
 			}
 
 			/*개근포인트 지급*/
@@ -278,7 +282,6 @@ class attendanceController extends attendance {
                 }
             }
 		/* 랜덤포인트 추가 */
-		$arg->member_srl = $member_srl;
 		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
 		$win = mt_rand(1,100);
 		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum){
@@ -295,6 +298,7 @@ class attendanceController extends attendance {
 			$obj->today_point;
 		}
 
+			$args = new stdClass;
 			$args->regdate = $regdate;
 			$args->attendance_srl = getNextSequence();
 			$args->greetings="^admin_checked^";
@@ -311,6 +315,7 @@ class attendanceController extends attendance {
 			if($oAttendanceModel->isExistTotal($obj->member_srl) == 0){
 				/*총 출석횟수 계산*/
 				$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
+				$continuity = new stdClass;
 			    $continuity->data = 1;
 			    $continuity->point = 0;
 				/*총 출석 기록*/
@@ -321,6 +326,7 @@ class attendanceController extends attendance {
 				/*총 출석포인트 받아오기*/
 				$total_point = $oAttendanceModel->getTotalPoint($obj->member_srl);
                 $total_point += $obj->today_point;
+				$continuity = new stdClass;
 			    $continuity->data = null;
 			    $continuity->point = 0;
 				/*총 출석 기록*/
@@ -460,8 +466,9 @@ class attendanceController extends attendance {
     /**
      * @brief Auto Attend trigger
      **/
-    function triggerAutoAttend($obj){
+     function triggerAutoAttend($obj){
         $today = zDate(date('YmdHis'),"Ymd");
+		$arg = new stdClass;
         $arg->day = $today;
         $arg->member_srl = $obj->member_srl;
         $output = executeQuery('attendance.getIsChecked',$arg);
@@ -477,8 +484,8 @@ class attendanceController extends attendance {
         if($config->about_auto_attend == 'yes'){
             $oAttendanceModel = &getModel('attendance');
             $oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
-        }
-    }
+	    }
+	 }
 	
 	function triggerSou(&$content){
 

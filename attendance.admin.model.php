@@ -22,6 +22,7 @@ class attendanceAdminModel extends attendance{
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = &getModel('attendance');
         // 검색 옵션 정리
+		$args = new stdClass;
         $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
         $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
         $args->selected_group_srl = Context::get('selected_group_srl');
@@ -170,6 +171,7 @@ class attendanceAdminModel extends attendance{
      * @brief 오늘 총 출석인원 계산
      **/
     function getTodayTotalCount($today){
+		$arg = new stdClass;
         $arg->today = $today;
         $output = executeQuery("attendance.getTodayTotalCount",$arg);
         return (int)$output->data->count;
@@ -179,6 +181,7 @@ class attendanceAdminModel extends attendance{
      * @brief 시간대별 계산
      **/
     function getTodayTimeCount($today_time){
+		$arg = new stdClass;
         $arg->today_time = $today_time;
         $output = executeQuery("attendance.getTodayTimeCount",$arg);
         return (int)$output->data->count;
@@ -204,6 +207,7 @@ class attendanceAdminModel extends attendance{
             }
         }
 
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAllAttendanceData",$args);
     }
@@ -212,6 +216,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_total 테이블의 개인데이터 모두 삭제
      **/
     function deleteAllAttendanceTotalData($member_srl){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAllAttendanceTotalData",$args);
     }
@@ -220,6 +225,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_yearly 테이블의 개인데이터 모두 삭제
      **/
     function deleteAllAttendanceYearlyData($member_srl){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAllAttendanceYearlyData",$args);
     }
@@ -228,6 +234,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_monthly 테이블의 개인데이터 모두 삭제
      **/
     function deleteAllAttendanceMonthlyData($member_srl){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAllAttendanceMonthlyData",$args);
     }
@@ -236,6 +243,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_weekly 테이블의 개인데이터 모두 삭제
      **/
     function deleteAllAttendanceWeeklyData($member_srl){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAllAttendanceWeeklyData",$args);
     }
@@ -244,6 +252,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_weekly 테이블의 개인데이터 삭제
      **/
     function deleteAttendanceWeeklyData($member_srl, $week){
+		$args = new stdClass;
         $args->monday = $week->monday;
         $args->sunday = $week->sunday;
         $args->member_srl = $member_srl;
@@ -254,6 +263,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_monthly 테이블의 개인데이터 삭제
      **/
     function deleteAttendanceMonthlyData($member_srl, $monthly){
+		$args = new stdClass;
         $args->monthly = $monthly;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAttendanceMonthlyData",$args);
@@ -263,6 +273,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance_yearly 테이블의 개인데이터 삭제
      **/
     function deleteAttendanceYearlyData($member_srl, $year){
+		$args = new stdClass;
         $args->year = $year;
         $args->member_srl = $member_srl;
         $output = executeQuery("attendance.deleteAttendanceYearlyData",$args);
@@ -272,6 +283,7 @@ class attendanceAdminModel extends attendance{
      * @brief 주간 획득포인트 구하는 쿼리
      **/
     function getWeeklyPoint($member_srl, $week){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $args->monday = $week->monday;
         $args->sunday = $week->sunday;
@@ -284,6 +296,7 @@ class attendanceAdminModel extends attendance{
      * @brief 월간 획득포인트 구하는 쿼리
      **/
     function getMonthlyPoint($member_srl, $monthly){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $args->monthly = $monthly;
         $output = executeQueryArray("attendance.getMonthlyPoint",$args);
@@ -295,6 +308,7 @@ class attendanceAdminModel extends attendance{
      * @brief 연간 획득포인트 구하는 쿼리
      **/
     function getYearlyPoint($member_srl, $year){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $args->year = $year;
         $output = executeQueryArray("attendance.getYearlyPoint",$args);
@@ -306,6 +320,7 @@ class attendanceAdminModel extends attendance{
      * @brief 총 출석포인트 구하는 쿼리(연간 획득포인트 쿼리 이용)
      **/
     function getTotalPoint($member_srl){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $output = executeQueryArray("attendance.getYearlyPoint",$args);
         if(!$output->data) $output->data = array();
@@ -316,6 +331,7 @@ class attendanceAdminModel extends attendance{
      * @brief 중복 출석정보 구하는 쿼리
      **/
     function getDuplicatedData($member_srl,$selected_date){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $args->selected_date = $selected_date;
         $output = executeQueryArray("attendance.getDuplicatedData",$args);
@@ -327,6 +343,7 @@ class attendanceAdminModel extends attendance{
      * @brief attendance 테이블의 중복출석데이터 삭제(deleteAllAttendanceData 쿼리 이용)
      **/
     function deleteDuplicatedData($member_srl, $selected_date){
+		$args = new stdClass;
         $args->member_srl = $member_srl;
         $args->selected_date = $selected_date;
         $output = executeQuery("attendance.deleteAllAttendanceData",$args);

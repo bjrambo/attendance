@@ -302,33 +302,33 @@ class attendance extends ModuleObject
 
 		// attendance_config 테이블에 minimum 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "minimum")){
-            $oDB->addColumn("attendance_config", "minimum", "number",11);
-        }
-
+			$oDB->addColumn("attendance_config", "minimum", "number",11);
+		}
+	
 		// attendance_config 테이블에 maximum 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "maximum")){
-            $oDB->addColumn("attendance_config", "maximum", "number",11);
-        }
-
+			$oDB->addColumn("attendance_config", "maximum", "number",11);
+		}
+	
 		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
 		if(!$oDB->isColumnExists("attendance_config", "about_lottery")){
-            $oDB->addColumn("attendance_config", "about_lottery", "varchar", 5);
-        }
-
+			$oDB->addColumn("attendance_config", "about_lottery", "varchar", 5);
+		}
+	
 		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
 		if(!$oDB->isColumnExists("attendance_config", "lottery")){
-            $oDB->addColumn("attendance_config", "lottery", "number",11);
-        }
-
+			$oDB->addColumn("attendance_config", "lottery", "number",11);
+		}
+	
 		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
 		if(!$oDB->isColumnExists("attendance_config", "brithday_point")){
-            $oDB->addColumn("attendance_config", "brithday_point", "number",11);
-        }
-
-        //attendance 테이블에 ipaddress 필드 추가
-        if (!$oDB->isColumnExists("attendance", "ipaddress")) {
-	        $oDB->addColumn("attendance", "ipaddress", "varchar", 23);
-        }
+			$oDB->addColumn("attendance_config", "brithday_point", "number",11);
+		}
+	
+		//attendance 테이블에 ipaddress 필드 추가
+		if (!$oDB->isColumnExists("attendance", "ipaddress")) {
+			$oDB->addColumn("attendance", "ipaddress", "varchar", 23);
+		}
 
         //attendance 테이블에 member_srl 필드 추가
         if (!$oDB->isColumnExists("attendance", "member_srl")) {
@@ -472,7 +472,6 @@ class attendance extends ModuleObject
             $config->about_admin_check = 'yes';
             $oModuleController->insertModuleConfig('attendance', $config);
         }
-
         $oModule = &getModel('module');
         $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_birth_day){
