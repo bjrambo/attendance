@@ -280,7 +280,6 @@ class attendanceModel extends attendance {
             }
 
 		/* 랜덤포인트 추가 */
-		$arg->member_srl = $member_srl;
 		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
 		$win = mt_rand(1,100);
 		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum && $config_data->minimum >= 0 && $config_data->maximum >= 0){
