@@ -133,7 +133,7 @@ class attendanceAdminView extends attendance{
 
 		// 사용환경정보 전송 확인
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
+		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/cache/attendance/attendance-', $attendance_module_info->version));
 
 		if(file_exists($agreement_file))
 		{

@@ -225,6 +225,7 @@ class attendanceController extends attendance {
 		//넘겨받고
         $obj = Context::getRequestVars();
 		$year = substr($obj->check_day,0,4);
+		$args = new stdClass;
 		$year_month = substr($obj->check_day,0,6);
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
@@ -298,7 +299,6 @@ class attendanceController extends attendance {
 			$obj->today_point;
 		}
 
-			$args = new stdClass;
 			$args->regdate = $regdate;
 			$args->attendance_srl = getNextSequence();
 			$args->greetings="^admin_checked^";

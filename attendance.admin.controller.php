@@ -247,7 +247,7 @@ class attendanceAdminController extends attendance {
 		$vars = Context::getRequestVars();
 		$oModuleModel = &getModel('module');
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/', $attendance_module_info->version));
+		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/cache/attendance/attendance-', $attendance_module_info->version));
 
 		FileHandler::writeFile($agreement_file, $vars->is_agree);
 
