@@ -16,9 +16,6 @@
 	    <column name="about_continuity" alias="about_continuity"  />
 	    <column name="continuity_day" alias="continuity_day" />
 	    <column name="continuity_point" alias="continuity_point" />
-	    <column name="about_time_control" alias="about_time_control" />
-	    <column name="start_time" alias="start_time" />
-	    <column name="end_time" alias="end_time" />
 	    <column name="about_diligence_yearly" alias="about_diligence_yearly" />
 	    <column name="diligence_yearly" alias="diligence_yearly" />
 	    <column name="diligence_yearly_point" alias="diligence_yearly_point" />

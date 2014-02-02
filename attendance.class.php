@@ -32,6 +32,8 @@ class attendance extends ModuleObject
 			$config->about_birth_day = 'no';
 			$config->about_birth_day_y = 'no';
 			$config->about_time_control = 'no';
+			$config->start_time = '0000';
+			$config->enc_time = '0000';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -72,14 +74,6 @@ class attendance extends ModuleObject
 
 		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
 		$act = $oDB->isColumnExists("attendance","today_random");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 start_time 필드 추가 (2009.04.11)
-		$act = $oDB->isColumnExists("attendance_config", "start_time");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 end_time 필드 추가 (2009.04.11)
-		$act = $oDB->isColumnExists("attendance_config", "end_time");
 		if(!$act) return true;
 
 		// attendance_config 테이블에 about_diligence_yearly 필드 추가 (2009.04.14)
@@ -199,7 +193,9 @@ class attendance extends ModuleObject
 		if(!$config->about_birth_day) return true;
 		if(!$config->about_birth_day_y) return true;
 		if(!$config->about_time_control) return true;
-
+		if(!$config->start_time) return true;
+		if(!$config->end_time) return true;
+		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
         if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
@@ -232,16 +228,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
-
-		// attendance_config 테이블에 start_time 필드 추가 (2009.04.11)
-		if(!$oDB->isColumnExists("attendance_config", "start_time")){
-            $oDB->addColumn("attendance_config", "start_time", "varchar", 4);
-        }
-
-		// attendance_config 테이블에 end_time 필드 추가 (2009.04.11)
-		if(!$oDB->isColumnExists("attendance_config", "end_time")){
-            $oDB->addColumn("attendance_config", "end_time", "varchar", 4);
-        }
 
 		// attendance_config 테이블에 about_diligence_yearly 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "about_diligence_yearly")){
@@ -481,7 +467,17 @@ class attendance extends ModuleObject
 			$config->about_time_control = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
-
+		
+		if(!$config->start_time){
+			$oModuleController = &getController('module');
+			$config->start_time = '0000';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+		if(!$config->end_time){
+			$oModuleController = &getController('module');
+			$config->end_time = '0000';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');

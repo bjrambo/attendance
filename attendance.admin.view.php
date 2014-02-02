@@ -95,11 +95,11 @@ class attendanceAdminView extends attendance{
         Context::set('config2',$config);
 
 		$start_time = new stdClass;
-        $start_time->hour = substr($output->data->start_time,0,2);
-        $start_time->min = substr($output->data->start_time,2,2);
+        $start_time->hour = substr($config->start_time,0,2);
+        $start_time->min = substr($config->start_time,2,2);
 		$end_time = new stdClass;
-        $end_time->hour = substr($output->data->end_time,0,2);
-        $end_time->min = substr($output->data->end_time,2,2);
+        $end_time->hour = substr($config->end_time,0,2);
+        $end_time->min = substr($config->end_time,2,2);
         Context::set('start_time',$start_time);
         Context::set('end_time',$end_time);
 

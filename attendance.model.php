@@ -769,10 +769,10 @@ class attendanceModel extends attendance {
         $config = $oModuleModel->getModuleConfig('attendance');
 
         if($config->about_time_control == 'yes'){
-            $start->hour = substr($config_data->start_time,0,2);
-            $start->min = substr($config_data->start_time,2,2);
-            $end->hour = substr($config_data->end_time,0,2);
-            $end->min = substr($config_data->end_time,2,2);
+            $start->hour = substr($config->start_time,0,2);
+            $start->min = substr($config->start_time,2,2);
+            $end->hour = substr($config->end_time,0,2);
+            $end->min = substr($config->end_time,2,2);
             $now->hour = zDate(date('YmdHis'),"H");
             $now->min = zDate(date('YmdHis'),"i");
             if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) 
