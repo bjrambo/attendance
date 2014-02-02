@@ -465,23 +465,18 @@ class attendance extends ModuleObject
             $oModuleController->insertModuleConfig('attendance', $config);
         }
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
         if(!$config->about_admin_check){
             $oModuleController = &getController('module');
             $config->about_admin_check = 'yes';
             $oModuleController->insertModuleConfig('attendance', $config);
         }
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
+
 		if(!$config->about_birth_day){
 			$oModuleController = &getController('module');
 			$config->about_birth_day = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_birth_day_y){
 			$oModuleController = &getController('module');
 			$config->about_birth_day_y = 'no';
@@ -491,20 +486,20 @@ class attendance extends ModuleObject
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
         $oModuleController = &getController('module');
+
         if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')){
             $oModuleController->insertTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after');
         }
         
         //Add a Auto Login trigger
-        $oModuleModel = &getModel('module');
-        $oModuleController = &getController('module');
         if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')){
             $oModuleController->insertTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after');
         }
 		
-		//display 트리거 설치
-		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before'))
+		//displaySou 트리거 설치
+		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')){
             $oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
+		}
 
 		return new Object(0,'success_updated');
     }
