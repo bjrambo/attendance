@@ -31,6 +31,7 @@ class attendance extends ModuleObject
             $config->allow_duplicaton_ip_count = '3';
 			$config->about_birth_day = 'no';
 			$config->about_birth_day_y = 'no';
+			$config->about_time_control = 'no';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -71,10 +72,6 @@ class attendance extends ModuleObject
 
 		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
 		$act = $oDB->isColumnExists("attendance","today_random");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 about_time_control 필드 추가 (2009.04.11)
-		$act = $oDB->isColumnExists("attendance_config", "about_time_control");
 		if(!$act) return true;
 
 		// attendance_config 테이블에 start_time 필드 추가 (2009.04.11)
@@ -201,6 +198,7 @@ class attendance extends ModuleObject
         if(!$config->about_admin_check) return true;
 		if(!$config->about_birth_day) return true;
 		if(!$config->about_birth_day_y) return true;
+		if(!$config->about_time_control) return true;
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -234,11 +232,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
-
-		// attendance_config 테이블에 about_time_control 필드 추가 (2009.04.11)
-		if(!$oDB->isColumnExists("attendance_config", "about_time_control")){
-            $oDB->addColumn("attendance_config", "about_time_control", "varchar", 5);
-        }
 
 		// attendance_config 테이블에 start_time 필드 추가 (2009.04.11)
 		if(!$oDB->isColumnExists("attendance_config", "start_time")){
@@ -482,6 +475,13 @@ class attendance extends ModuleObject
 			$config->about_birth_day_y = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
+
+		if(!$config->about_time_control){
+			$oModuleController = &getController('module');
+			$config->about_time_control = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');

@@ -62,6 +62,7 @@ class attendanceController extends attendance {
             $config->about_auto_attend = $obj->about_auto_attend;
 			$config->about_birth_day = $obj->about_birth_day;
 			$config->about_birth_day_y = $obj->about_birth_day_y;
+			$config->about_time_control = $obj->about_time_control;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -78,6 +79,7 @@ class attendanceController extends attendance {
             $config->about_auto_attend = $obj->about_auto_attend;
 			$config->about_birth_day = $obj->about_birth_day;
 			$config->about_birth_day_y = $obj->about_birth_day_y;
+			$config->about_time_control = $obj->about_time_control;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}

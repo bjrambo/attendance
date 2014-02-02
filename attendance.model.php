@@ -764,7 +764,11 @@ class attendanceModel extends attendance {
     * @brief 출석 가능시간대 인지 확인
     **/
     function availableCheck($config_data){
-        if($config_data->about_time_control == 'yes'){
+		// 모듈 설정값 가져오기
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+
+        if($config->about_time_control == 'yes'){
             $start->hour = substr($config_data->start_time,0,2);
             $start->min = substr($config_data->start_time,2,2);
             $end->hour = substr($config_data->end_time,0,2);
