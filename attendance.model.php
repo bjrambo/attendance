@@ -178,7 +178,7 @@ class attendanceModel extends attendance {
 
 		//포인트 모듈 연동
         $oPointController = &getController('point');
-
+		$obj = new stdClass;
 		$obj->continuity_day = $config_data->continuity_day;
 		$obj->continuity_point = $config_data->continuity_point;
 		$obj->today_point = $config_data->add_point;
@@ -331,6 +331,7 @@ class attendanceModel extends attendance {
 
 	    if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^'){
 	        /*Document module connection : greetings process*/
+			$d_obj = new stdClass;
 	        $d_obj->content = $obj->greetings;
 	        $d_obj->nick_name = $logged_info->nick_name;
 	        $d_obj->email_address = $logged_info->email_address;
