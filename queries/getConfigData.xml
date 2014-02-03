@@ -16,7 +16,6 @@
 	    <column name="about_continuity" alias="about_continuity"  />
 	    <column name="continuity_day" alias="continuity_day" />
 	    <column name="continuity_point" alias="continuity_point" />
-	    <column name="about_diligence_yearly" alias="about_diligence_yearly" />
 	    <column name="diligence_yearly" alias="diligence_yearly" />
 	    <column name="diligence_yearly_point" alias="diligence_yearly_point" />
 	    <column name="about_diligence_monthly" alias="about_diligence_monthly" />

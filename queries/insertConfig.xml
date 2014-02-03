@@ -16,7 +16,6 @@
 	    <column name="about_continuity" var="about_continuity" default="no"  />
 	    <column name="continuity_day" var="continuity_day" default="2"  />
 	    <column name="continuity_point" var="continuity_point" default="0"  />
-	    <column name="about_diligence_yearly" var="about_diligence_yearly" default="no" />
 	    <column name="diligence_yearly" var="diligence_yearly" default="364" />
 	    <column name="diligence_yearly_point" var="diligence_yearly_point" default="0"  notnull="notnull"/>
 	    <column name="about_diligence_monthly" var="about_diligence_monthly" default="no"/>
