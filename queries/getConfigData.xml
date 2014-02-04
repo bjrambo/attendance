@@ -3,9 +3,6 @@
         <table name="attendance_config" />
     </tables>
     <columns>
-	    <column name="about_target" alias="about_target" />
-	    <column name="target_day" alias="target_day"  />
-	    <column name="target_point" alias="target_point"  />
 	    <column name="about_continuity" alias="about_continuity"  />
 	    <column name="continuity_day" alias="continuity_day" />
 	    <column name="continuity_point" alias="continuity_point" />

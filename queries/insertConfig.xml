@@ -3,9 +3,6 @@
         <table name="attendance_config" />
     </tables>
     <columns>
-	    <column name="about_target" var="about_target" default="no" />
-	    <column name="target_day" var="target_day" default="00000000"  />
-	    <column name="target_point" var="target_point" default="0"  />
 	    <column name="about_continuity" var="about_continuity" default="no"  />
 	    <column name="continuity_day" var="continuity_day" default="2"  />
 	    <column name="continuity_point" var="continuity_point" default="0"  />

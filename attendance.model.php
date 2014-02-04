@@ -243,7 +243,7 @@ class attendanceModel extends attendance {
 			}
 
 			/*지정일 포인트 지급*/
-			if($config_data->about_target == 'yes'){
+			if($config->about_target == 'yes'){
 				if($today == $config_data->target_day){
 					$obj->today_point += $config_data->target_point;
 				}

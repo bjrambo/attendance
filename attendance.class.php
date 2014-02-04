@@ -40,6 +40,7 @@ class attendance extends ModuleObject
 			$config->diligence_monthly = '25';
 			$config->about_diligence_weekly = 'no';
 			$config->diligence_weekly = '6';
+			$config->about_target = 'no';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -167,20 +168,12 @@ class attendance extends ModuleObject
 		if(!$config->end_time) return true;
 		if(!$config->about_diligence_yearly) return true;
 		if(!$config->diligence_yearly) return true;
-		if(!isset($config->diligence_yearly_point)) return true;
 		if(!$config->about_diligence_monthly) return true;
 		if(!$config->diligence_monthly) return true;
-		if(!isset($config->diligence_monthly_point)) return true;
 		if(!$config->about_diligence_weekly) return true;
 		if(!$config->diligence_weekly) return true;
-		if(!isset($config->diligence_weekly_point)) return true;
-		if(!isset($config->add_point)) return true;
-		if(!isset($config->first_point)) return true;
-		if(!isset($config->second_point)) return true;
-		if(!isset($config->third_point)) return true;
-		if(!isset($config->yearly_point)) return true;
-		if(!isset($config->monthly_point)) return true;
-		if(!isset($config->weekly_point)) return true;
+		if(!$config->about_target) return true;
+		if(!$config->target_day) return true;
 
 
 		
@@ -506,21 +499,33 @@ class attendance extends ModuleObject
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-		if(!$config->yearly_point){
-			$oModuleController = &getController('module');
-			$config->yearly_point = '0';
-			$oModuleController->insertModuleConfig('attendance', $config);
-		}
-
 		if(!$config->monthly_point){
 			$oModuleController = &getController('module');
 			$config->monthly_point = '0';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-		if(!$config->monthly_point){
+		if(!$config->weekly_point){
 			$oModuleController = &getController('module');
-			$config->monthly_point = '0';
+			$config->weekly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_target){
+			$oModuleController = &getController('module');
+			$config->about_target = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->target_day){
+			$oModuleController = &getController('module');
+			$config->target_day = '00000000';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->target_point){
+			$oModuleController = &getController('module');
+			$config->target_point = '0';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 

@@ -1,7 +1,4 @@
 <table name="attendance_config">
-    <column name="about_target" type="varchar" size="5" notnull="notnull"  />
-    <column name="target_day" type="varchar" size="8" notnull="notnull"  />
-    <column name="target_point" type="number" size="11" notnull="notnull"  />
     <column name="about_continuity" type="varchar" size="5" notnull="notnull"  />
     <column name="continuity_day" type="number" size="11" notnull="notnull"  />
     <column name="continuity_point" type="number" size="11" notnull="notnull"  />

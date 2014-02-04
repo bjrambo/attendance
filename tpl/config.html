@@ -60,41 +60,41 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_yearly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="yearly_point" value="{$config_data->yearly_point}"/>
+				<input type="text" name="yearly_point" value="{$config2->yearly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_monthly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="monthly_point" value="{$config_data->monthly_point}"/>
+				<input type="text" name="monthly_point" value="{$config2->monthly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_weekly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="weekly_point" value="{$config_data->weekly_point}"/>
+				<input type="text" name="weekly_point" value="{$config2->weekly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_target}</label>
 			<div class="x_controls">
 				<select name="about_target" id="include_duplicated_user">
-					<option value="yes" selected="selected"|cond="$config_data->about_target=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_target=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_target=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_target=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="nowconnect_name">{$lang->attendance_target_day}</label>
 			<div class="x_controls">
-				<input type="text" name="target_day" value="{$config_data->target_day}" />
+				<input type="text" name="target_day" value="{$config2->target_day}" />
 				<p>{$lang->attendance_target_day_info}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_target_point}</label>
 			<div class="x_controls">
-				<input type="text" name="target_point" value="{$config_data->target_point}"/>
+				<input type="text" name="target_point" value="{$config2->target_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">

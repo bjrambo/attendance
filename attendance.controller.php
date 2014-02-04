@@ -79,6 +79,9 @@ class attendanceController extends attendance {
 			$config->yearly_point = $obj->yearly_point;
 			$config->monthly_point = $obj->monthly_point;
 			$config->weekly_point = $obj->weekly_point;
+			$config->about_target = $obj->about_target;
+			$config->target_day = $obj->target_day;
+			$config->target_point = $obj->target_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
 			executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -112,6 +115,9 @@ class attendanceController extends attendance {
 			$config->yearly_point = $obj->yearly_point;
 			$config->monthly_point = $obj->monthly_point;
 			$config->weekly_point = $obj->weekly_point;
+			$config->about_target = $obj->about_target;
+			$config->target_day = $obj->target_day;
+			$config->target_point = $obj->target_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
 			executeQuery("attendance.updateConfig", $obj);
 		}
@@ -285,16 +291,16 @@ class attendanceController extends attendance {
 			$week = $oAttendanceModel->getWeek($obj->check_day);
 
 			/*지정일 포인트 지급*/
-			if($config_data->about_target == 'yes'){
-				if($obj->check_day == $config_data->target_day){
-					$obj->today_point += $config_data->target_point;
+			if($config->about_target == 'yes'){
+				if($obj->check_day == $config->target_day){
+					$obj->today_point += $config->target_point;
 				}
 			}
 
 			/*개근포인트 지급*/
 			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);
 			if($about_perfect->yearly_perfect == 1){
-				$obj->today_point += $config_data->yearly_point;
+				$obj->today_point += $config->yearly_point;
 			}
 			if($about_perfect->monthly_perfect == 1){
 				$obj->today_point += $config->monthly_point;
