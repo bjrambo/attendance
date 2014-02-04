@@ -36,10 +36,6 @@ class attendance extends ModuleObject
 			$config->end_time = '0000';
 			$config->about_diligence_yearly = 'no';
 			$config->diligence_yearly = '364';
-			$config->diligence_yearly_point = '0';
-			$config->about_diligence_monthly = 'no';
-			$config->diligence_monthly = '25';
-			$config->diligence_monthly_point = '0';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -80,6 +76,18 @@ class attendance extends ModuleObject
 
 		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
 		$act = $oDB->isColumnExists("attendance","today_random");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "about_diligence_monthly");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 diligence_monthly 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "diligence_monthly");
+		if(!$act) return true;
+
+		// attendance_config 테이블에 diligence_monthly_point 필드 추가 (2009.04.14)
+		$act = $oDB->isColumnExists("attendance_config", "diligence_monthly_point");
 		if(!$act) return true;
 
 		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
@@ -180,9 +188,6 @@ class attendance extends ModuleObject
 		if(!$config->about_diligence_yearly) return true;
 		if(!$config->diligence_yearly) return true;
 		if(!$config->diligence_yearly_point) return true;
-		if(!$config->about_diligence_monthly) return true;
-		if(!$config->diligence_monthly) return true;
-		if(!$config->diligence_monthly_point) return true;
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -216,6 +221,21 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
+
+		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "about_diligence_monthly")){
+            $oDB->addColumn("attendance_config", "about_diligence_monthly", "varchar", 5);
+        }
+
+		// attendance_config 테이블에 diligence_monthly 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "diligence_monthly")){
+            $oDB->addColumn("attendance_config", "diligence_monthly", "number",11);
+        }
+
+		// attendance_config 테이블에 diligence_monthly_point 필드 추가 (2009.04.14)
+		if(!$oDB->isColumnExists("attendance_config", "diligence_monthly_point")){
+            $oDB->addColumn("attendance_config", "diligence_monthly_point", "number",11);
+        }
 
 		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "about_diligence_weekly")){
@@ -402,99 +422,56 @@ class attendance extends ModuleObject
             $oModuleController->insertModuleConfig('attendance', $config);
         }
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
         if(!$config->about_admin_check){
             $oModuleController = &getController('module');
             $config->about_admin_check = 'yes';
             $oModuleController->insertModuleConfig('attendance', $config);
         }
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_birth_day){
 			$oModuleController = &getController('module');
 			$config->about_birth_day = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_birth_day_y){
 			$oModuleController = &getController('module');
 			$config->about_birth_day_y = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_time_control){
 			$oModuleController = &getController('module');
 			$config->about_time_control = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
-
-		$oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
+		
 		if(!$config->start_time){
 			$oModuleController = &getController('module');
 			$config->start_time = '0000';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
-
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->end_time){
 			$oModuleController = &getController('module');
 			$config->end_time = '0000';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->about_diligence_yearly){
 			$oModuleController = &getController('module');
 			$config->about_diligence_yearly = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->diligence_yearly){
 			$oModuleController = &getController('module');
 			$config->diligence_yearly = '364';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
 		if(!$config->diligence_yearly_point){
 			$oModuleController = &getController('module');
 			$config->diligence_yearly_point = '0';
-			$oModuleController->insertModuleConfig('attendance', $config);
-		}
-
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
-		if(!$config->about_diligence_monthly){
-			$oModuleController = &getController('module');
-			$config->about_diligence_monthly = 'no';
-			$oModuleController->insertModuleConfig('attendance', $config);
-		}
-
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
-		if(!$config->diligence_monthly){
-			$oModuleController = &getController('module');
-			$config->diligence_monthly = '25';
-			$oModuleController->insertModuleConfig('attendance', $config);
-		}
-
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
-		if(!$config->diligence_monthly_point){
-			$oModuleController = &getController('module');
-			$config->diligence_monthly_point = '0';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 

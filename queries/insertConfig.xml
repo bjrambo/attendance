@@ -16,6 +16,9 @@
 	    <column name="about_continuity" var="about_continuity" default="no"  />
 	    <column name="continuity_day" var="continuity_day" default="2"  />
 	    <column name="continuity_point" var="continuity_point" default="0"  />
+	    <column name="about_diligence_monthly" var="about_diligence_monthly" default="no"/>
+	    <column name="diligence_monthly" var="diligence_monthly" default="27"/>
+	    <column name="diligence_monthly_point" var="diligence_monthly_point" default="0"  notnull="notnull"/>
 	    <column name="about_diligence_weekly" var="about_diligence_weekly" default="no"/>
 	    <column name="diligence_weekly" var="diligence_weekly" default="6"/>
 	    <column name="diligence_weekly_point" var="diligence_weekly_point" default="0"  notnull="notnull"/>

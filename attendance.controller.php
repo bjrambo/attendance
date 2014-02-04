@@ -66,9 +66,6 @@ class attendanceController extends attendance {
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
 			$config->diligence_yearly = $obj->diligence_yearly;
 			$config->diligence_yearly_point = $obj->diligence_yearly_point;
-			$config->about_diligence_monthly = $obj->about_diligence_monthly;
-			$config->diligence_monthly = $obj->diligence_monthly;
-			$config->diligence_monthly_point = $obj->diligence_monthly_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -89,9 +86,6 @@ class attendanceController extends attendance {
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
 			$config->diligence_yearly = $obj->diligence_yearly;
 			$config->diligence_yearly_point = $obj->diligence_yearly_point;
-			$config->about_diligence_monthly = $obj->about_diligence_monthly;
-			$config->diligence_monthly = $obj->diligence_monthly;
-			$config->diligence_monthly_point = $obj->diligence_monthly_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
@@ -286,9 +280,9 @@ class attendanceController extends attendance {
                     $obj->today_point += $config->diligence_yearly_point;
                 }
             }
-            if($config->about_diligence_monthly == 'yes'){
-                if($oAttendanceModel->checkMonthlyDiligence($obj->member_srl, $config->diligence_monthly-1, $year_month) == 1){
-                    $obj->today_point += $config->diligence_monthly_point;
+            if($config_data->about_diligence_monthly == 'yes'){
+                if($oAttendanceModel->checkMonthlyDiligence($obj->member_srl, $config_data->diligence_monthly-1, $year_month) == 1){
+                    $obj->today_point += $config_data->diligence_monthly_point;
                 }
             }
             if($config_data->about_diligence_weekly == 'yes'){

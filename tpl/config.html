@@ -169,22 +169,22 @@
 			<label class="x_control-label">{$lang->attendance_about_diligence_monthly}</label>
 			<div class="x_controls">
 				<select name="about_diligence_monthly">
-					<option value="yes" selected="selected"|cond="$config2->about_diligence_monthly=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config2->about_diligence_monthly=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config_data->about_diligence_monthly=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config_data->about_diligence_monthly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_monthly" value="{$config2->diligence_monthly}" style="width:30px;"/>
+				<input type="text" name="diligence_monthly" value="{$config_data->diligence_monthly}" style="width:30px;"/>
 				<p>{$lang->attendance_diligence_monthly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_diligence_monthly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_monthly_point" value="{$config2->diligence_monthly_point}" />
+				<input type="text" name="diligence_monthly_point" value="{$config_data->diligence_monthly_point}" />
 			</div>
 		</div>
 		<div class="x_control-group">
