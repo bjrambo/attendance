@@ -217,11 +217,11 @@ class attendanceModel extends attendance {
 			//1,2,3,등 가산점 부여
 			if($about_position == 'yes'){
 				if($position == 0){
-					$obj->today_point += $config_data->first_point;
+					$obj->today_point += $config->first_point;
 				}else if($position == 1){
-					$obj->today_point += $config_data->second_point;
+					$obj->today_point += $config->second_point;
 				}else if($position == 2){
-					$obj->today_point += $config_data->third_point;
+					$obj->today_point += $config->third_point;
 				}
 			}
 

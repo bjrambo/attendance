@@ -73,6 +73,9 @@ class attendanceController extends attendance {
 			$config->diligence_weekly = $obj->diligence_weekly;
 			$config->diligence_weekly_point = $obj->diligence_weekly_point;
 			$config->add_point = $obj->add_point;
+			$config->first_point = $obj->first_point;
+			$config->second_point = $obj->second_point;
+			$config->third_point = $obj->third_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -100,6 +103,9 @@ class attendanceController extends attendance {
 			$config->diligence_weekly = $obj->diligence_weekly;
 			$config->diligence_weekly_point = $obj->diligence_weekly_point;
 			$config->add_point = $obj->add_point;
+			$config->first_point = $obj->first_point;
+			$config->second_point = $obj->second_point;
+			$config->third_point = $obj->third_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}

@@ -175,6 +175,10 @@ class attendance extends ModuleObject
 		if(!$config->diligence_weekly) return true;
 		if(!isset($config->diligence_weekly_point)) return true;
 		if(!isset($config->add_point)) return true;
+		if(!isset($config->first_point)) return true;
+		if(!isset($config->second_point)) return true;
+		if(!isset($config->third_point)) return true;
+
 
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
@@ -474,7 +478,24 @@ class attendance extends ModuleObject
 			$config->add_point = '5';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
+		
+		if(!$config->first_point){
+			$oModuleController = &getController('module');
+			$config->first_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
 
+		if(!$config->second_point){
+			$oModuleController = &getController('module');
+			$config->second_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->third_point){
+			$oModuleController = &getController('module');
+			$config->third_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
