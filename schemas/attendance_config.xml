@@ -12,9 +12,6 @@
     <column name="about_continuity" type="varchar" size="5" notnull="notnull"  />
     <column name="continuity_day" type="number" size="11" notnull="notnull"  />
     <column name="continuity_point" type="number" size="11" notnull="notnull"  />
-    <column name="about_diligence_weekly" type="varchar" size="5" notnull="notnull"  />
-    <column name="diligence_weekly" type="number" size="11" notnull="notnull"  />
-    <column name="diligence_weekly_point" type="number" size="11" notnull="notnull"  />
 	<column name="about_random" type="varchar" size="5" notnull="notnull"  />
     <column name="minimum" type="number" size="11" notnull="notnull"  />
 	<column name="maximum" type="number" size="11" notnull="notnull"  />

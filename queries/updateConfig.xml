@@ -16,9 +16,6 @@
 	    <column name="about_continuity" var="about_continuity"  />
 	    <column name="continuity_day" var="continuity_day"   />
 	    <column name="continuity_point" var="continuity_point"  />
-	    <column name="about_diligence_weekly" var="about_diligence_weekly" />
-	    <column name="diligence_weekly" var="diligence_weekly" />
-	    <column name="diligence_weekly_point" var="diligence_weekly_point" />
 		<column name="about_random" var="about_random" />
 		<column name="minimum" var="minimum" />
 		<column name="maximum" var="maximum" />
