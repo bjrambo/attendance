@@ -191,22 +191,22 @@
 			<label class="x_control-label">{$lang->attendance_about_diligence_weekly}</label>
 			<div class="x_controls">
 				<select name="about_diligence_weekly">
-					<option value="yes" selected="selected"|cond="$config_data->about_diligence_weekly=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_diligence_weekly=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_diligence_weekly=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_diligence_weekly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_weekly" value="{$config_data->diligence_weekly}" style="width:30px;"/>
+				<input type="text" name="diligence_weekly" value="{$config2->diligence_weekly}" style="width:30px;"/>
 				<p>{$lang->attendance_diligence_weekly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_diligence_weekly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_weekly_point" value="{$config_data->diligence_weekly_point}" />
+				<input type="text" name="diligence_weekly_point" value="{$config2->diligence_weekly_point}" />
 			</div>
 		</div>
 		<div class="x_control-group">

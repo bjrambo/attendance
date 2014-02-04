@@ -38,6 +38,8 @@ class attendance extends ModuleObject
 			$config->diligence_yearly = '364';
 			$config->about_diligence_monthly = 'no';
 			$config->diligence_monthly = '25';
+			$config->about_diligence_weekly = 'no';
+			$config->diligence_weekly = '6';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -177,10 +179,13 @@ class attendance extends ModuleObject
 		if(!$config->end_time) return true;
 		if(!$config->about_diligence_yearly) return true;
 		if(!$config->diligence_yearly) return true;
-		// if(!isset($config->diligence_yearly_point)) return true; 비워서 설정저장하더라도 모듈업데이트가 뜨지 않도록 개선.
+		if(!isset($config->diligence_yearly_point)) return true;
 		if(!$config->about_diligence_monthly) return true;
 		if(!$config->diligence_monthly) return true;
-		// if(!isset($config->diligence_monthly_point)) return true; 비워서 설정저장하더라도 모듈업데이트가 뜨지 않도록 개선.
+		if(!isset($config->diligence_monthly_point)) return true;
+		if(!$config->about_diligence_weekly) return true;
+		if(!$config->diligence_weekly) return true;
+		if(!isset($config->diligence_weekly_point)) return true;
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -470,6 +475,27 @@ class attendance extends ModuleObject
 			$config->diligence_monthly_point = '0';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
+
+		if(!$config->about_diligence_weekly){
+			$oModuleController = &getController('module');
+			$config->about_diligence_weekly = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_weekly){
+			$oModuleController = &getController('module');
+			$config->diligence_weekly = '6';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_weekly_point){
+			$oModuleController = &getController('module');
+			$config->diligence_weekly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+
+
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');

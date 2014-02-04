@@ -69,6 +69,9 @@ class attendanceController extends attendance {
 			$config->about_diligence_monthly = $obj->about_diligence_monthly;
 			$config->diligence_monthly = $obj->diligence_monthly;
 			$config->diligence_monthly_point = $obj->diligence_monthly_point;
+			$config->about_diligence_weekly = $obj->about_diligence_weekly;
+			$config->diligence_weekly = $obj->diligence_weekly;
+			$config->diligence_weekly_point = $obj->diligence_weekly_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -92,7 +95,10 @@ class attendanceController extends attendance {
 			$config->about_diligence_monthly = $obj->about_diligence_monthly;
 			$config->diligence_monthly = $obj->diligence_monthly;
 			$config->diligence_monthly_point = $obj->diligence_monthly_point;
-            $oModuleController->insertModuleConfig('attendance', $config);
+			$config->about_diligence_weekly = $obj->about_diligence_weekly;
+			$config->diligence_weekly = $obj->diligence_weekly;
+			$config->diligence_weekly_point = $obj->diligence_weekly_point;
+			$oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
 		
@@ -291,9 +297,9 @@ class attendanceController extends attendance {
                     $obj->today_point += $config->diligence_monthly_point;
                 }
             }
-            if($config_data->about_diligence_weekly == 'yes'){
-                if($oAttendanceModel->checkWeeklyDiligence($obj->member_srl, $config_data->diligence_weekly-1, $obj->check_day) == 1){
-                    $obj->today_point += $config_data->diligence_weekly_point;
+            if($config->about_diligence_weekly == 'yes'){
+                if($oAttendanceModel->checkWeeklyDiligence($obj->member_srl, $config->diligence_weekly-1, $obj->check_day) == 1){
+                    $obj->today_point += $config->diligence_weekly_point;
                 }
             }
 		/* 랜덤포인트 추가 */

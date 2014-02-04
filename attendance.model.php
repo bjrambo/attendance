@@ -272,9 +272,9 @@ class attendanceModel extends attendance {
 					$obj->today_point += $config->diligence_monthly_point;
                 }
             }
-			if($config_data->about_diligence_weekly == 'yes'){
-				if($this->checkWeeklyDiligence($logged_info->member_srl, $config_data->diligence_weekly-1, null) == 1){
-					$obj->today_point += $config_data->diligence_weekly_point;
+			if($config->about_diligence_weekly == 'yes'){
+				if($this->checkWeeklyDiligence($logged_info->member_srl, $config->diligence_weekly-1, null) == 1){
+					$obj->today_point += $config->diligence_weekly_point;
                 }
             }
 
