@@ -35,6 +35,7 @@ class attendance extends ModuleObject
 			$config->start_time = '0000';
 			$config->end_time = '0000';
 			$config->about_diligence_yearly = 'no';
+			$config->diligence_yearly = '364';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -75,10 +76,6 @@ class attendance extends ModuleObject
 
 		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
 		$act = $oDB->isColumnExists("attendance","today_random");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_yearly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_yearly");
 		if(!$act) return true;
 
 		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
@@ -193,6 +190,7 @@ class attendance extends ModuleObject
 		if(!$config->start_time) return true;
 		if(!$config->end_time) return true;
 		if(!$config->about_diligence_yearly) return true;
+		if(!$config->diligence_yearly) return true;
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -226,11 +224,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
-
-		// attendance_config 테이블에 diligence_yearly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_yearly")){
-            $oDB->addColumn("attendance_config", "diligence_yearly", "number",11);
-        }
 
 		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "diligence_yearly_point")){
@@ -475,6 +468,12 @@ class attendance extends ModuleObject
 		if(!$config->about_diligence_yearly){
 			$oModuleController = &getController('module');
 			$config->about_diligence_yearly = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_yearly){
+			$oModuleController = &getController('module');
+			$config->diligence_yearly = '364';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
