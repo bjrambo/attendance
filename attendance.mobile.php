@@ -43,16 +43,12 @@ class attendanceMobile extends attendanceView {
         $module_info->start_num = $oAttendanceModel->getPositionData($selected_date,"^showall^");
         if(!$module_info->greetings_cut_size)$module_info->greetings_cut_size = 20;
 
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
-
         //module의 설정값 가져오기
         $oModuleModel = &getModel('module');
         $config = $oModuleModel->getModuleConfig('attendance');
 
         //출석가능 시간대인지 판단
-        $is_available = $oAttendanceModel->availableCheck($config_data);
+        $is_available = $oAttendanceModel->availableCheck($config);
 
         //오름차순, 내림차순에 따라 출력방법 결정
         if($module_info->order_type == 'desc'){
@@ -82,7 +78,6 @@ class attendanceMobile extends attendanceView {
         Context::set('oMemberModel',$oMemberModel);
         Context::set('module_info',$module_info);
    		Context::set('config',$config);
-   		Context::set('config_data',$config_data);
 
 		$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 		if(!is_dir($template_path)||!$this->module_info->mskin) {

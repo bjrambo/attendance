@@ -167,10 +167,6 @@ class attendanceController extends attendance {
         /*출석당일 포인트 꺼내오기*/
     $daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
 
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
-
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)!=0){
 
             //포인트도 감소
@@ -293,10 +289,6 @@ class attendanceController extends attendance {
 
         $oMemberModel = &getModel('member');
         $member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
-
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
         
 		$obj->today_point = $config->add_point;
 

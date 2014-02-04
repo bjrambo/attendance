@@ -172,10 +172,6 @@ class attendanceModel extends attendance {
 
 		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
-
         $oModuleModel = &getModel('module');
         $config = $oModuleModel->getModuleConfig('attendance');
 
@@ -210,7 +206,7 @@ class attendanceModel extends attendance {
             }
         }
 
-		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config_data) == 0 && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
+		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config) == 0 && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
 			
 			//등수 확인
 			$position = $this->getPositionData($today);
@@ -765,7 +761,7 @@ class attendanceModel extends attendance {
     /**
     * @brief 출석 가능시간대 인지 확인
     **/
-    function availableCheck($config_data){
+    function availableCheck($config){
 		// 모듈 설정값 가져오기
         $oModuleModel = &getModel('module');
         $config = $oModuleModel->getModuleConfig('attendance');

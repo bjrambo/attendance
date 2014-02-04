@@ -89,12 +89,6 @@ class attendanceAdminView extends attendance{
         $oModuleAdminModel = &getAdminModel('module');
         Context::set('config2',$config);
 
-			/*2009.04.01 설정값 꺼내오기*/
-        $output = executeQuery('attendance.getConfigData');
-        Context::set('config_data',$output->data);
-
-
-
 		$start_time = new stdClass;
         $start_time->hour = substr($config->start_time,0,2);
         $start_time->min = substr($config->start_time,2,2);
