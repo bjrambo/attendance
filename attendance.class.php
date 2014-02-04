@@ -82,18 +82,6 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_random");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "about_diligence_weekly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_weekly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_weekly_point");
-		if(!$act) return true;
-
 		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
 		$act = $oDB->isColumnExists("attendance_config", "about_random");
 		if(!$act) return true;
@@ -186,6 +174,8 @@ class attendance extends ModuleObject
 		if(!$config->about_diligence_weekly) return true;
 		if(!$config->diligence_weekly) return true;
 		if(!isset($config->diligence_weekly_point)) return true;
+		if(!isset($config->add_point)) return true;
+
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -219,21 +209,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
-
-		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "about_diligence_weekly")){
-            $oDB->addColumn("attendance_config", "about_diligence_weekly", "varchar", 5);
-        }
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_weekly")){
-            $oDB->addColumn("attendance_config", "diligence_weekly", "number",11);
-        }
-
-		// attendance_config 테이블에 diligence_weekly_point 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_weekly_point")){
-            $oDB->addColumn("attendance_config", "diligence_weekly_point", "number",11);
-        }
 
 		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "about_random")){
@@ -494,7 +469,11 @@ class attendance extends ModuleObject
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
-
+		if(!$config->add_point){
+			$oModuleController = &getController('module');
+			$config->add_point = '5';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
 
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가

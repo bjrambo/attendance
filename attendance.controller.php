@@ -72,6 +72,7 @@ class attendanceController extends attendance {
 			$config->about_diligence_weekly = $obj->about_diligence_weekly;
 			$config->diligence_weekly = $obj->diligence_weekly;
 			$config->diligence_weekly_point = $obj->diligence_weekly_point;
+			$config->add_point = $obj->add_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -98,6 +99,7 @@ class attendanceController extends attendance {
 			$config->about_diligence_weekly = $obj->about_diligence_weekly;
 			$config->diligence_weekly = $obj->diligence_weekly;
 			$config->diligence_weekly_point = $obj->diligence_weekly_point;
+			$config->add_point = $obj->add_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
@@ -250,13 +252,17 @@ class attendanceController extends attendance {
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+
         $oMemberModel = &getModel('member');
         $member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
 
 		/*각종 포인트 설정값 꺼내오기*/
 		$output = executeQuery('attendance.getConfigData');
 		$config_data = $output->data;
-        $obj->today_point = $config_data->add_point;
+        
+		$obj->today_point = $config->add_point;
 
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)==0){
 

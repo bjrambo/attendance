@@ -176,16 +176,18 @@ class attendanceModel extends attendance {
 		$output = executeQuery('attendance.getConfigData');
 		$config_data = $output->data;
 
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+
 		//포인트 모듈 연동
         $oPointController = &getController('point');
 		$obj->continuity_day = $config_data->continuity_day;
 		$obj->continuity_point = $config_data->continuity_point;
-		$obj->today_point = $config_data->add_point;
+		$obj->today_point = $config->add_point;
 		$obj->greetings = $greetings;
         $obj->member_srl = $logged_info->member_srl;
 
-        $oModuleModel = &getModel('module');
-        $config = $oModuleModel->getModuleConfig('attendance');
+
         //관리자 출석이 허가가 나지 않았다면,
         if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y'){ return; }
 
