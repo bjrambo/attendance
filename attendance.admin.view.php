@@ -83,17 +83,16 @@ class attendanceAdminView extends attendance{
         Context::set('ipaddress',$_SERVER['REMOTE_ADDR']);
         Context::set('oMemberModel',$oMemberModel);
 
-        //module의 설정값 가져오기
-        $oModuleModel = &getModel('module');
-        $config = $oModuleModel->getModuleConfig('attendance');
-        $oModuleAdminModel = &getAdminModel('module');
-        Context::set('config2',$config);
 
 			/*2009.04.01 설정값 꺼내오기*/
         $output = executeQuery('attendance.getConfigData');
         Context::set('config_data',$output->data);
 
-
+        //module의 설정값 가져오기
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+        $oModuleAdminModel = &getAdminModel('module');
+        Context::set('config2',$config);
 
 		$start_time = new stdClass;
         $start_time->hour = substr($config->start_time,0,2);
