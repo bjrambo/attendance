@@ -252,15 +252,15 @@ class attendanceModel extends attendance {
 			/*개근포인트 지급*/
 			$about_perfect = $this->isPerfect($logged_info->member_srl, $today, false);
 			if($about_perfect->yearly_perfect == 1){
-				$obj->today_point += $config_data->yealy_point;
+				$obj->today_point += $config->yearly_point;
 			}
 			if($about_perfect->monthly_perfect == 1){
-				$obj->today_point += $config_data->monthly_point;
+				$obj->today_point += $config->monthly_point;
 			}
 			$week = $this->getWeek($today);
 			$weekly_data = $this->getWeeklyData($logged_info->member_srl, $week);
 			if($weekly_data->weekly == 6){
-				$obj->today_point += $config_data->weekly_point;
+				$obj->today_point += $config->weekly_point;
 			}
 
             /*정근포인트 관련 추가*/

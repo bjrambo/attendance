@@ -1,11 +1,4 @@
 <table name="attendance_config">
-    <column name="add_point" type="number" size="11" notnull="notnull" /> 
-    <column name="first_point" type="number" size="11" notnull="notnull"  />
-    <column name="second_point" type="number" size="11" notnull="notnull"  />
-    <column name="third_point" type="number" size="11" notnull="notnull"  />
-    <column name="yearly_point" type="number" size="11" notnull="notnull"  />
-    <column name="monthly_point" type="number" size="11" notnull="notnull"  />
-    <column name="weekly_point" type="number" size="11" notnull="notnull"  />
     <column name="about_target" type="varchar" size="5" notnull="notnull"  />
     <column name="target_day" type="varchar" size="8" notnull="notnull"  />
     <column name="target_point" type="number" size="11" notnull="notnull"  />

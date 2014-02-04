@@ -46,7 +46,7 @@ class attendanceAdminView extends attendance{
         $oAttendanceModel = &getModel('attendance');
         Context::set('Model',$oAttendanceModel);
 
-        $selected_date = Context::get('selected_date');		//선택한 날짜 받아오기
+        $selected_date = Context::get('selected_date'); //선택한 날짜 받아오기
 
         $type=Context::get('type');
         if(!$type) $type='config';

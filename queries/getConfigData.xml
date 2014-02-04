@@ -3,13 +3,6 @@
         <table name="attendance_config" />
     </tables>
     <columns>
-	    <column name="add_point" alias="add_point" /> 
-	    <column name="first_point"  alias="first_point" />
-	    <column name="second_point" alias="second_point" />
-	    <column name="third_point"  alias="third_point" />
-	    <column name="yearly_point" alias="yearly_point" />
-	    <column name="monthly_point" alias="monthly_point" />
-	    <column name="weekly_point" alias="weekly_point"  />
 	    <column name="about_target" alias="about_target" />
 	    <column name="target_day" alias="target_day"  />
 	    <column name="target_point" alias="target_point"  />

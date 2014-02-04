@@ -76,8 +76,11 @@ class attendanceController extends attendance {
 			$config->first_point = $obj->first_point;
 			$config->second_point = $obj->second_point;
 			$config->third_point = $obj->third_point;
-            $oModuleController->insertModuleConfig('attendance', $config);
-            executeQuery("attendance.insertConfig", $obj);
+			$config->yearly_point = $obj->yearly_point;
+			$config->monthly_point = $obj->monthly_point;
+			$config->weekly_point = $obj->weekly_point;
+			$oModuleController->insertModuleConfig('attendance', $config);
+			executeQuery("attendance.insertConfig", $obj);
         }else{
             $obj = Context::getRequestVars();
             if($obj->continuity_day < 2){ $obj->continuity_day = 2; }
@@ -106,8 +109,11 @@ class attendanceController extends attendance {
 			$config->first_point = $obj->first_point;
 			$config->second_point = $obj->second_point;
 			$config->third_point = $obj->third_point;
+			$config->yearly_point = $obj->yearly_point;
+			$config->monthly_point = $obj->monthly_point;
+			$config->weekly_point = $obj->weekly_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
-            executeQuery("attendance.updateConfig", $obj);
+			executeQuery("attendance.updateConfig", $obj);
 		}
 		
 	}
@@ -288,14 +294,14 @@ class attendanceController extends attendance {
 			/*개근포인트 지급*/
 			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);
 			if($about_perfect->yearly_perfect == 1){
-				$obj->today_point += $config_data->yealy_point;
+				$obj->today_point += $config_data->yearly_point;
 			}
 			if($about_perfect->monthly_perfect == 1){
-				$obj->today_point += $config_data->monthly_point;
+				$obj->today_point += $config->monthly_point;
 			}
 			$weekly_data = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
 			if($weekly_data->weekly == 6 && $obj->check_day==$week->sunday){
-				$obj->today_point += $config_data->weekly_point;
+				$obj->today_point += $config->weekly_point;
 			}
 
             /*정근포인트 관련 추가*/

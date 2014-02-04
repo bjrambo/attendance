@@ -3,13 +3,6 @@
         <table name="attendance_config" />
     </tables>
     <columns>
-	    <column name="add_point" var="add_point" default="5" /> 
-	    <column name="first_point"  var="first_point" default="0"/>
-	    <column name="second_point" var="second_point" default="0" />
-	    <column name="third_point"  var="third_point" default="0" />
-	    <column name="yearly_point" var="yearly_point" default="0" />
-	    <column name="monthly_point" var="monthly_point" default="0" />
-	    <column name="weekly_point" var="weekly_point" default="0" />
 	    <column name="about_target" var="about_target" default="no" />
 	    <column name="target_day" var="target_day" default="00000000"  />
 	    <column name="target_point" var="target_point" default="0"  />
