@@ -265,7 +265,7 @@ class attendanceModel extends attendance {
             /*정근포인트 관련 추가*/
 		    if($config->about_diligence_yearly == 'yes'){
 			    if($this->checkYearlyDiligence($logged_info->member_srl, $config->diligence_yearly-1, null) == 1){
-				    $obj->today_point += $config_data->diligence_yearly_point;
+				    $obj->today_point += $config->diligence_yearly_point;
                 }
             }
 			if($config_data->about_diligence_monthly == 'yes'){

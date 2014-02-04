@@ -65,6 +65,7 @@ class attendanceController extends attendance {
 			$config->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
 			$config->diligence_yearly = $obj->diligence_yearly;
+			$config->diligence_yearly_point = $obj->diligence_yearly_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -84,6 +85,7 @@ class attendanceController extends attendance {
 			$config->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
 			$config->diligence_yearly = $obj->diligence_yearly;
+			$config->diligence_yearly_point = $obj->diligence_yearly_point;
             $oModuleController->insertModuleConfig('attendance', $config);
             executeQuery("attendance.updateConfig", $obj);
 		}
@@ -275,7 +277,7 @@ class attendanceController extends attendance {
             /*정근포인트 관련 추가*/
             if($config->about_diligence_yearly == 'yes'){
                 if($oAttendanceModel->checkYearlyDiligence($obj->member_srl, $config->diligence_yearly-1, $year) == 1){
-                    $obj->today_point += $config_data->diligence_yearly_point;
+                    $obj->today_point += $config->diligence_yearly_point;
                 }
             }
             if($config_data->about_diligence_monthly == 'yes'){

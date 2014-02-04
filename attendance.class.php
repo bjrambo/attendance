@@ -78,10 +78,6 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_random");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_yearly_point");
-		if(!$act) return true;
-
 		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
 		$act = $oDB->isColumnExists("attendance_config", "about_diligence_monthly");
 		if(!$act) return true;
@@ -191,6 +187,7 @@ class attendance extends ModuleObject
 		if(!$config->end_time) return true;
 		if(!$config->about_diligence_yearly) return true;
 		if(!$config->diligence_yearly) return true;
+		if(!$config->diligence_yearly_point) return true;
 		
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');
@@ -224,11 +221,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random")){
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
-
-		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_yearly_point")){
-            $oDB->addColumn("attendance_config", "diligence_yearly_point", "number",11);
-        }
 
 		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
 		if(!$oDB->isColumnExists("attendance_config", "about_diligence_monthly")){
@@ -474,6 +466,12 @@ class attendance extends ModuleObject
 		if(!$config->diligence_yearly){
 			$oModuleController = &getController('module');
 			$config->diligence_yearly = '364';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_yearly_point){
+			$oModuleController = &getController('module');
+			$config->diligence_yearly_point = '0';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
