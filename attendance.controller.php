@@ -82,6 +82,15 @@ class attendanceController extends attendance {
 			$config->about_target = $obj->about_target;
 			$config->target_day = $obj->target_day;
 			$config->target_point = $obj->target_point;
+			$config->about_continuity = $obj->about_continuity;
+			$config->continuity_day = $obj->continuity_day;
+			$config->continuity_point = $obj->continuity_point;
+			$config->about_random = $obj->about_random;
+			$config->minimum = $obj->minimum;
+			$config->maximum = $obj->maximum;
+			$config->about_lottery = $obj->about_lottery;
+			$config->lottery = $obj->lottery;
+			$config->brithday_point = $obj->brithday_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
 			executeQuery("attendance.insertConfig", $obj);
         }else{
@@ -118,6 +127,15 @@ class attendanceController extends attendance {
 			$config->about_target = $obj->about_target;
 			$config->target_day = $obj->target_day;
 			$config->target_point = $obj->target_point;
+			$config->about_continuity = $obj->about_continuity;
+			$config->continuity_day = $obj->continuity_day;
+			$config->continuity_point = $obj->continuity_point;
+			$config->about_random = $obj->about_random;
+			$config->minimum = $obj->minimum;
+			$config->maximum = $obj->maximum;
+			$config->about_lottery = $obj->about_lottery;
+			$config->lottery = $obj->lottery;
+			$config->brithday_point = $obj->brithday_point;
 			$oModuleController->insertModuleConfig('attendance', $config);
 			executeQuery("attendance.updateConfig", $obj);
 		}
@@ -327,9 +345,9 @@ class attendanceController extends attendance {
                 }
             }
 		/* 랜덤포인트 추가 */
-		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
 		$win = mt_rand(1,100);
-		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum){
+		if($config->about_random == 'yes' && $config->minimum <= $config->maximum){
+			$sosirandom = mt_rand($config->minimum,$config->maximum);
 			if($win<=50){
 				$obj->today_point += $sosirandom;
 				$args->today_random = $sosirandom;

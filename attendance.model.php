@@ -181,8 +181,8 @@ class attendanceModel extends attendance {
 
 		//포인트 모듈 연동
         $oPointController = &getController('point');
-		$obj->continuity_day = $config_data->continuity_day;
-		$obj->continuity_point = $config_data->continuity_point;
+		$obj->continuity_day = $config->continuity_day;
+		$obj->continuity_point = $config->continuity_point;
 		$obj->today_point = $config->add_point;
 		$obj->greetings = $greetings;
         $obj->member_srl = $logged_info->member_srl;
@@ -232,13 +232,13 @@ class attendanceModel extends attendance {
 				if($yesterday_continuity_data > 0){	//어제 출석했다면
                     $continuity = $this->getContinuityData($logged_info->member_srl, $yesterday);
 					/*연속출석일수가 설정된 일수보다 많고, 설정된 연속출석일이 0일이 아니고, 연속출석 여부가 yes 이면, 보너스 부여*/
-					if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config_data->about_continuity=='yes'){
+					if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config->about_continuity=='yes'){
 						$obj->today_point += $obj->continuity_point;
 						$continuity->point = $obj->continuity_point;
 					}
 					$continuity->data++;
 				} else {    //어제 출석 정보가 없다면
-					$continuity->data = 1;                        
+					$continuity->data = 1;
                 }
 			}
 
@@ -281,11 +281,12 @@ class attendanceModel extends attendance {
             }
 
 		/* 랜덤포인트 추가 */
-		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
+		
 		$win = mt_rand(1,100);
-		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum && $config_data->minimum >= 0 && $config_data->maximum >= 0){
-			if($config_data->about_lottery == 'yes' && $config_data->lottery >= 0 && $config_data->lottery <= 100){
-				if($win<=$config_data->lottery){
+		if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0){
+			$sosirandom = mt_rand($config->minimum,$config->maximum);
+			if($config->about_lottery == 'yes' && $config->lottery >= 0 && $config->lottery <= 100){
+				if($win<=$config->lottery){
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
 					$output = executeQuery("attendance.insertAttendance",$obj);
@@ -308,7 +309,7 @@ class attendanceModel extends attendance {
 		$todays = substr($today,4,4);
 		if($config->about_birth_day=='yes'){
 			if($todays==$birthdays) {
-				$obj->today_point += $config_data->brithday_point;
+				$obj->today_point += $config->brithday_point;
 			}else{
 				$obj->today_point;
 			}

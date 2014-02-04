@@ -101,21 +101,21 @@
 			<label class="x_control-label">{$lang->attendance_about_continuity}</label>
 			<div class="x_controls">
 				<select name="about_continuity">
-					<option value="yes" selected="selected"|cond="$config_data->about_continuity=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_continuity=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_continuity=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_continuity=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_continuity_day}</label>
 			<div class="x_controls">
-				<input type="text" name="continuity_day" value="{$config_data->continuity_day}"/>
+				<input type="text" name="continuity_day" value="{$config2->continuity_day}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_continuity_point}</label>
 			<div class="x_controls">
-				<input type="text" name="continuity_point" value="{$config_data->continuity_point}"/>
+				<input type="text" name="continuity_point" value="{$config2->continuity_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -239,16 +239,16 @@
 			<label class="x_control-label">{$lang->randomp}</label>
 			<div class="x_controls">
 				<select name="about_random">
-					<option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
-					<option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_random=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_random=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->randomset}</label>
 			<div class="x_controls">
-				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
-				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
+				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config2->minimum}" style="width:60px" /> &nbsp; 
+				{$lang->maximum} : <input type="text" name="maximum" value="{$config2->maximum}" style="width:60px" />
 			</p>
 			{$lang->randomsethelp}
 			</div>
@@ -257,15 +257,15 @@
 			<label class="x_control-label">{$lang->random_select}</label>
 			<div class="x_controls">
 				<select name="about_lottery">
-					<option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
-					<option value="yes" selected="selected"|cond="$config_data->about_lottery=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_lottery=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_lottery=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->random_input}</label>
 			<div class="x_controls">
-				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+				<input type="text" name="lottery" value="{$config2->lottery}" style="width:60px;" />
 				<p>{$lang->random_input_help}</p>
 			</div>
 			
@@ -283,7 +283,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->birthday_point}</label>
 			<div class="x_controls">
-				<input type="text" name="brithday_point" value="{$config_data->brithday_point}" style="width:60px;" />
+				<input type="text" name="brithday_point" value="{$config2->brithday_point}" style="width:60px;" />
 				<p>{$lang->birthday_point_help}</p>
 			</div>
 		</div>
