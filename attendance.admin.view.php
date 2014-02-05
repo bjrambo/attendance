@@ -46,7 +46,7 @@ class attendanceAdminView extends attendance{
         $oAttendanceModel = &getModel('attendance');
         Context::set('Model',$oAttendanceModel);
 
-        $selected_date = Context::get('selected_date');		//선택한 날짜 받아오기
+        $selected_date = Context::get('selected_date'); //선택한 날짜 받아오기
 
         $type=Context::get('type');
         if(!$type) $type='config';
@@ -82,11 +82,6 @@ class attendanceAdminView extends attendance{
         Context::set('day',$day);
         Context::set('ipaddress',$_SERVER['REMOTE_ADDR']);
         Context::set('oMemberModel',$oMemberModel);
-
-
-			/*2009.04.01 설정값 꺼내오기*/
-        $output = executeQuery('attendance.getConfigData');
-        Context::set('config_data',$output->data);
 
         //module의 설정값 가져오기
         $oModuleModel = &getModel('module');

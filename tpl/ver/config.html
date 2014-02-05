@@ -18,72 +18,72 @@
     <table cellspacing="0" class="rowTable">
 	    <tr>
 		    <th width="150px"><b>{$lang->attendance_add_point}</b></th>
-		    <td><input type="text" name="add_point" class="inputTypeText" value="{$config_data->add_point}"/></td>
+		    <td><input type="text" name="add_point" class="inputTypeText" value="{$config2->add_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_first_point}</b></th>
-		    <td><input type="text" name="first_point" class="inputTypeText" value="{$config_data->first_point}"/></td>
+		    <td><input type="text" name="first_point" class="inputTypeText" value="{$config2->first_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_second_point}</b></th>
-		    <td><input type="text" name="second_point" class="inputTypeText" value="{$config_data->second_point}"/></td>
+		    <td><input type="text" name="second_point" class="inputTypeText" value="{$config2->second_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_third_point}</b></th>
-		    <td><input type="text" name="third_point" class="inputTypeText"value="{$config_data->third_point}"/></td>
+		    <td><input type="text" name="third_point" class="inputTypeText"value="{$config2->third_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_yearly_point}</b></th>
-		    <td><input type="text" name="yearly_point" class="inputTypeText" value="{$config_data->yearly_point}"/></td>
+		    <td><input type="text" name="yearly_point" class="inputTypeText" value="{$config2->yearly_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_monthly_point}</b></th>
-		    <td><input type="text" name="monthly_point" class="inputTypeText" value="{$config_data->monthly_point}"/></td>
+		    <td><input type="text" name="monthly_point" class="inputTypeText" value="{$config2->monthly_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_weekly_point}</b></th>
-		    <td><input type="text" name="weekly_point" class="inputTypeText" value="{$config_data->weekly_point}"/></td>
+		    <td><input type="text" name="weekly_point" class="inputTypeText" value="{$config2->weekly_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_about_target}</b></th>
 		    <td>
 			    <select name="about_target" >
-				    <option value="yes" <!--@if($config_data->about_target=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_target=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_target=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_target=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select>
 		    </td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_target_day}</th>
-		    <td><input type="text" name="target_day" class="inputTypeText" value="{$config_data->target_day}"/><br/>{$lang->attendance_target_day_info}</td>
+		    <td><input type="text" name="target_day" class="inputTypeText" value="{$config2->target_day}"/><br/>{$lang->attendance_target_day_info}</td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_target_point}</th>
-		    <td><input type="text" name="target_point" class="inputTypeText" value="{$config_data->target_point}"/></td>
+		    <td><input type="text" name="target_point" class="inputTypeText" value="{$config2->target_point}"/></td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->attendance_about_continuity}</b></th>
 		    <td>
 			    <select name="about_continuity">
-				    <option value="yes" <!--@if($config_data->about_continuity=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_continuity=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_continuity=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_continuity=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select>
 		    </td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_continuity_day}</th>
-		    <td><input type="text" name="continuity_day" class="inputTypeText" value="{$config_data->continuity_day}"/></td>
+		    <td><input type="text" name="continuity_day" class="inputTypeText" value="{$config2->continuity_day}"/></td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_continuity_point}</th>
-		    <td><input type="text" name="continuity_point" class="inputTypeText" value="{$config_data->continuity_point}"/></td>
+		    <td><input type="text" name="continuity_point" class="inputTypeText" value="{$config2->continuity_point}"/></td>
 	    </tr>
         <tr>
 		    <th><b>{$lang->attendance_about_time_control}</b></th>
 		    <td>
 			    <select name="about_time_control">
-				    <option value="yes" <!--@if($config_data->about_time_control=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_time_control=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_time_control=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_time_control=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select><br/>{$lang->attendance_description_ban_time}
 		    </td>
         </tr>
@@ -105,63 +105,63 @@
 		    <th><b>{$lang->attendance_about_diligence_yearly}</b></th>
 		    <td>
 			    <select name="about_diligence_yearly">
-				    <option value="yes" <!--@if($config_data->about_diligence_yearly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_diligence_yearly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_diligence_yearly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_diligence_yearly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select>
 		    </td>
         </tr>
 	    <tr>
 		    <th>{$lang->attendance_insert}</th>
 		    <td>
-                <input type="text" name="diligence_yearly" class="inputTypeText" value="{$config_data->diligence_yearly}" style="width:30px;"/>{$lang->attendance_diligence_yearly}
+                <input type="text" name="diligence_yearly" class="inputTypeText" value="{$config2->diligence_yearly}" style="width:30px;"/>{$lang->attendance_diligence_yearly}
             </td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_diligence_yearly_point}</th>
 		    <td>
-                <input type="text" name="diligence_yearly_point" class="inputTypeText" value="{$config_data->diligence_yearly_point}" />
+                <input type="text" name="diligence_yearly_point" class="inputTypeText" value="{$config2->diligence_yearly_point}" />
             </td>
 	    </tr>
         <tr>
 		    <th><b>{$lang->attendance_about_diligence_monthly}</b></th>
 		    <td>
 			    <select name="about_diligence_monthly">
-				    <option value="yes" <!--@if($config_data->about_diligence_monthly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_diligence_monthly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_diligence_monthly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_diligence_monthly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select>
 		    </td>
         </tr>
 	    <tr>
 		    <th>{$lang->attendance_insert}</th>
 		    <td>
-                <input type="text" name="diligence_monthly" class="inputTypeText" value="{$config_data->diligence_monthly}" style="width:30px;"/>{$lang->attendance_diligence_monthly}
+                <input type="text" name="diligence_monthly" class="inputTypeText" value="{$config2->diligence_monthly}" style="width:30px;"/>{$lang->attendance_diligence_monthly}
             </td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_diligence_monthly_point}</th>
 		    <td>
-                <input type="text" name="diligence_monthly_point" class="inputTypeText" value="{$config_data->diligence_monthly_point}" />
+                <input type="text" name="diligence_monthly_point" class="inputTypeText" value="{$config2->diligence_monthly_point}" />
             </td>
 	    </tr>
         <tr>
 		    <th><b>{$lang->attendance_about_diligence_weekly}</b></th>
 		    <td>
 			    <select name="about_diligence_weekly">
-				    <option value="yes" <!--@if($config_data->about_diligence_weekly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
-				    <option value="no" <!--@if($config_data->about_diligence_weekly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
+				    <option value="yes" <!--@if($config2->about_diligence_weekly=='yes')-->selected="selected"<!--@end-->>{$lang->attendance_yes}</option>
+				    <option value="no" <!--@if($config2->about_diligence_weekly=='no')-->selected="selected"<!--@end-->>{$lang->attendance_no}</option>
 			    </select>
 		    </td>
         </tr>
 	    <tr>
 		    <th>{$lang->attendance_insert}</th>
 		    <td>
-                <input type="text" name="diligence_weekly" class="inputTypeText" value="{$config_data->diligence_weekly}" style="width:30px;"/>{$lang->attendance_diligence_weekly}
+                <input type="text" name="diligence_weekly" class="inputTypeText" value="{$config2->diligence_weekly}" style="width:30px;"/>{$lang->attendance_diligence_weekly}
             </td>
 	    </tr>
 	    <tr>
 		    <th>{$lang->attendance_diligence_weekly_point}</th>
 		    <td>
-                <input type="text" name="diligence_weekly_point" class="inputTypeText" value="{$config_data->diligence_weekly_point}" />
+                <input type="text" name="diligence_weekly_point" class="inputTypeText" value="{$config2->diligence_weekly_point}" />
             </td>
 	    </tr>
 	    <tr>
@@ -193,16 +193,16 @@
 		    <th><b>{$lang->randomp}</b></th>
 		    <td>
 			    <select name="about_random" >
-				    <option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
-				    <option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
+				    <option value="no" selected="selected"|cond="$config2->about_random=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config2->about_random=='yes'">{$lang->attendance_yes}</option>
 			    </select>
 		    </td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->randomset}</b></th>
 		    <td>
-				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
-				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
+				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config2->minimum}" style="width:60px" /> &nbsp; 
+				{$lang->maximum} : <input type="text" name="maximum" value="{$config2->maximum}" style="width:60px" />
 				</p>{$lang->randomsethelp}
 		    </td>
 	    </tr>
@@ -210,15 +210,15 @@
 		    <th><b>{$lang->random_select}</b></th>
 		    <td>
 			    <select name="about_lottery" >
-				    <option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
-				    <option value="yes" selected="selected"|cond="$config_data->about_lottery=='yes'">{$lang->attendance_yes}</option>
+				    <option value="no" selected="selected"|cond="$config2->about_lottery=='no'">{$lang->attendance_no}</option>
+				    <option value="yes" selected="selected"|cond="$config2->about_lottery=='yes'">{$lang->attendance_yes}</option>
 			    </select>
 		    </td>
 	    </tr>
 	    <tr>
 		    <th><b>{$lang->random_input}</b></th>
 		    <td>
-				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+				<input type="text" name="lottery" value="{$config2->lottery}" style="width:60px;" />
 				{$lang->random_input_help}
 		    </td>
 	    </tr>
@@ -235,7 +235,7 @@
 	    <tr>
 		    <th><b>{$lang->birthday_point}</b></th>
 		    <td>
-				<input type="text" name="lottery" value="{$config_data->brithday_point}" style="width:60px;" />
+				<input type="text" name="lottery" value="{$config2->brithday_point}" style="width:60px;" />
 				{$lang->birthday_point_help}
 		    </td>
 	    </tr>

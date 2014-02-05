@@ -35,6 +35,13 @@ class attendance extends ModuleObject
 			$config->start_time = '0000';
 			$config->end_time = '0000';
 			$config->about_diligence_yearly = 'no';
+			$config->diligence_yearly = '364';
+			$config->about_diligence_monthly = 'no';
+			$config->diligence_monthly = '25';
+			$config->about_diligence_weekly = 'no';
+			$config->diligence_weekly = '6';
+			$config->about_target = 'no';
+			$config->about_lottery = 'no';
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('attendance', $config);
         }
@@ -75,58 +82,6 @@ class attendance extends ModuleObject
 
 		// attendance 테이블에 today_random 필드 추가 (2009.02.14)
 		$act = $oDB->isColumnExists("attendance","today_random");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_yearly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_yearly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_yearly_point");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "about_diligence_monthly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_monthly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_monthly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_monthly_point 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_monthly_point");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "about_diligence_weekly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_weekly");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "diligence_weekly_point");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "about_random");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 minimum 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "minimum");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 maximum 필드 추가 (2009.04.14)
-		$act = $oDB->isColumnExists("attendance_config", "maximum");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
-		$act = $oDB->isColumnExists("attendance_config", "about_lottery");
-		if(!$act) return true;
-
-		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
-		$act = $oDB->isColumnExists("attendance_config", "lottery");
 		if(!$act) return true;
 
 		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
@@ -183,24 +138,34 @@ class attendance extends ModuleObject
         if(!$module_info->module_srl) return true;
 
         //모듈 설정 확인
-        $oModule = &getModel('module');
-        $config = $oModule->getModuleConfig('attendance');
-        if(!$config->allow_duplicaton_ip_count) return true;
-        if(!$config->about_admin_check) return true;
+		$oModule = &getModel('module');
+		$config = $oModule->getModuleConfig('attendance');
+		if(!$config->allow_duplicaton_ip_count) return true;
+		if(!$config->about_admin_check) return true;
 		if(!$config->about_birth_day) return true;
 		if(!$config->about_birth_day_y) return true;
 		if(!$config->about_time_control) return true;
 		if(!$config->start_time) return true;
 		if(!$config->end_time) return true;
 		if(!$config->about_diligence_yearly) return true;
+		if(!$config->diligence_yearly) return true;
+		if(!$config->about_diligence_monthly) return true;
+		if(!$config->diligence_monthly) return true;
+		if(!$config->about_diligence_weekly) return true;
+		if(!$config->diligence_weekly) return true;
+		if(!$config->about_target) return true;
+		if(!$config->target_day) return true;
+		if(!$config->about_continuity) return true;
+		if(!$config->about_random) return true;
+		if(!$config->about_lottery) return true;
 		
-        //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
-        $oModuleModel = &getModel('module');
-        if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
+		//회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
+		$oModuleModel = &getModel('module');
+		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
         
-        //When a member is do login, 
-        $oModuleModel = &getModel('module');
-        if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
+		//When a member is do login, 
+		$oModuleModel = &getModel('module');
+		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
 
 		$oModuleModel = &getModel('module');
 		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')) return true;
@@ -210,12 +175,12 @@ class attendance extends ModuleObject
     /**
     * @brief 모듈 업데이트
     **/
-    function moduleUpdate() {
-        $oDB = &DB::getInstance();
-        //attendance 테이블에 greetings 필드 추가
-        if (!$oDB->isColumnExists("attendance", "greetings")) {
-	        $oDB->addColumn("attendance", "greetings", "varchar", 20);
-        }
+	function moduleUpdate() {
+		$oDB = &DB::getInstance();
+		//attendance 테이블에 greetings 필드 추가
+		if (!$oDB->isColumnExists("attendance", "greetings")) {
+			$oDB->addColumn("attendance", "greetings", "varchar", 20);
+		}
 
 		//attendance 테이블에 today_point 필드 추가
 		if(!$oDB->isColumnExists("attendance","today_point")){
@@ -227,71 +192,6 @@ class attendance extends ModuleObject
 			$oDB->addColumn("attendance", "today_random", "number", 20);
 		}
 
-		// attendance_config 테이블에 diligence_yearly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_yearly")){
-            $oDB->addColumn("attendance_config", "diligence_yearly", "number",11);
-        }
-
-		// attendance_config 테이블에 diligence_yearly_point 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_yearly_point")){
-            $oDB->addColumn("attendance_config", "diligence_yearly_point", "number",11);
-        }
-
-		// attendance_config 테이블에 about_diligence_monthly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "about_diligence_monthly")){
-            $oDB->addColumn("attendance_config", "about_diligence_monthly", "varchar", 5);
-        }
-
-		// attendance_config 테이블에 diligence_monthly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_monthly")){
-            $oDB->addColumn("attendance_config", "diligence_monthly", "number",11);
-        }
-
-		// attendance_config 테이블에 diligence_monthly_point 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_monthly_point")){
-            $oDB->addColumn("attendance_config", "diligence_monthly_point", "number",11);
-        }
-
-		// attendance_config 테이블에 about_diligence_weekly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "about_diligence_weekly")){
-            $oDB->addColumn("attendance_config", "about_diligence_weekly", "varchar", 5);
-        }
-
-		// attendance_config 테이블에 diligence_weekly 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_weekly")){
-            $oDB->addColumn("attendance_config", "diligence_weekly", "number",11);
-        }
-
-		// attendance_config 테이블에 diligence_weekly_point 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "diligence_weekly_point")){
-            $oDB->addColumn("attendance_config", "diligence_weekly_point", "number",11);
-        }
-
-		// attendance_config 테이블에 about_random 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "about_random")){
-            $oDB->addColumn("attendance_config", "about_random", "varchar", 5);
-        }
-
-		// attendance_config 테이블에 minimum 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "minimum")){
-			$oDB->addColumn("attendance_config", "minimum", "number",11);
-		}
-	
-		// attendance_config 테이블에 maximum 필드 추가 (2009.04.14)
-		if(!$oDB->isColumnExists("attendance_config", "maximum")){
-			$oDB->addColumn("attendance_config", "maximum", "number",11);
-		}
-	
-		// attendance_config 테이블에 about_lottery 필드 추가 (2013.12.26)
-		if(!$oDB->isColumnExists("attendance_config", "about_lottery")){
-			$oDB->addColumn("attendance_config", "about_lottery", "varchar", 5);
-		}
-	
-		// attendance_config 테이블에 lottery 필드 추가 (2013.12.26)
-		if(!$oDB->isColumnExists("attendance_config", "lottery")){
-			$oDB->addColumn("attendance_config", "lottery", "number",11);
-		}
-	
 		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
 		if(!$oDB->isColumnExists("attendance_config", "brithday_point")){
 			$oDB->addColumn("attendance_config", "brithday_point", "number",11);
@@ -477,6 +377,172 @@ class attendance extends ModuleObject
 			$config->about_diligence_yearly = 'no';
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
+
+		if(!$config->diligence_yearly){
+			$oModuleController = &getController('module');
+			$config->diligence_yearly = '364';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_yearly_point){
+			$oModuleController = &getController('module');
+			$config->diligence_yearly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_diligence_monthly){
+			$oModuleController = &getController('module');
+			$config->about_diligence_monthly = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_monthly){
+			$oModuleController = &getController('module');
+			$config->diligence_monthly = '25';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_monthly_point){
+			$oModuleController = &getController('module');
+			$config->diligence_monthly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_diligence_weekly){
+			$oModuleController = &getController('module');
+			$config->about_diligence_weekly = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_weekly){
+			$oModuleController = &getController('module');
+			$config->diligence_weekly = '6';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->diligence_weekly_point){
+			$oModuleController = &getController('module');
+			$config->diligence_weekly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->add_point){
+			$oModuleController = &getController('module');
+			$config->add_point = '5';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+		
+		if(!$config->first_point){
+			$oModuleController = &getController('module');
+			$config->first_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->second_point){
+			$oModuleController = &getController('module');
+			$config->second_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->third_point){
+			$oModuleController = &getController('module');
+			$config->third_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->yearly_point){
+			$oModuleController = &getController('module');
+			$config->yearly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->monthly_point){
+			$oModuleController = &getController('module');
+			$config->monthly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->weekly_point){
+			$oModuleController = &getController('module');
+			$config->weekly_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_target){
+			$oModuleController = &getController('module');
+			$config->about_target = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->target_day){
+			$oModuleController = &getController('module');
+			$config->target_day = '00000000';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->target_point){
+			$oModuleController = &getController('module');
+			$config->target_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_continuity){
+			$oModuleController = &getController('module');
+			$config->about_continuity = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->continuity_day){
+			$oModuleController = &getController('module');
+			$config->continuity_day = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+
+		if(!$config->continuity_point){
+			$oModuleController = &getController('module');
+			$config->continuity_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_random){
+			$oModuleController = &getController('module');
+			$config->about_random = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->minimum){
+			$oModuleController = &getController('module');
+			$config->minimum = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->maximum){
+			$oModuleController = &getController('module');
+			$config->maximum = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->about_lottery){
+			$oModuleController = &getController('module');
+			$config->about_lottery = 'no';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->lottery){
+			$oModuleController = &getController('module');
+			$config->lottery = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+		if(!$config->brithday_point){
+			$oModuleController = &getController('module');
+			$config->brithday_point = '0';
+			$oModuleController->insertModuleConfig('attendance', $config);
+		}
+
+
+
 
         //회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
         $oModuleModel = &getModel('module');

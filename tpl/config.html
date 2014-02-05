@@ -29,7 +29,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_add_point}</label>
 			<div class="x_controls">
-				<input type="text" name="add_point" value="{$config_data->add_point}"/>
+				<input type="text" name="add_point" value="{$config2->add_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -42,80 +42,80 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_first_point}</label>
 			<div class="x_controls">
-				<input type="text" name="first_point" value="{$config_data->first_point}"/>
+				<input type="text" name="first_point" value="{$config2->first_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_second_point}</label>
 			<div class="x_controls">
-				<input type="text" name="second_point" value="{$config_data->second_point}"/>
+				<input type="text" name="second_point" value="{$config2->second_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_third_point}</label>
 			<div class="x_controls">
-				<input type="text" name="third_point" value="{$config_data->third_point}"/>
+				<input type="text" name="third_point" value="{$config2->third_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_yearly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="yearly_point" value="{$config_data->yearly_point}"/>
+				<input type="text" name="yearly_point" value="{$config2->yearly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_monthly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="monthly_point" value="{$config_data->monthly_point}"/>
+				<input type="text" name="monthly_point" value="{$config2->monthly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_weekly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="weekly_point" value="{$config_data->weekly_point}"/>
+				<input type="text" name="weekly_point" value="{$config2->weekly_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_target}</label>
 			<div class="x_controls">
 				<select name="about_target" id="include_duplicated_user">
-					<option value="yes" selected="selected"|cond="$config_data->about_target=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_target=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_target=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_target=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="nowconnect_name">{$lang->attendance_target_day}</label>
 			<div class="x_controls">
-				<input type="text" name="target_day" value="{$config_data->target_day}" />
+				<input type="text" name="target_day" value="{$config2->target_day}" />
 				<p>{$lang->attendance_target_day_info}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_target_point}</label>
 			<div class="x_controls">
-				<input type="text" name="target_point" value="{$config_data->target_point}"/>
+				<input type="text" name="target_point" value="{$config2->target_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_continuity}</label>
 			<div class="x_controls">
 				<select name="about_continuity">
-					<option value="yes" selected="selected"|cond="$config_data->about_continuity=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_continuity=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_continuity=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_continuity=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_continuity_day}</label>
 			<div class="x_controls">
-				<input type="text" name="continuity_day" value="{$config_data->continuity_day}"/>
+				<input type="text" name="continuity_day" value="{$config2->continuity_day}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_continuity_point}</label>
 			<div class="x_controls">
-				<input type="text" name="continuity_point" value="{$config_data->continuity_point}"/>
+				<input type="text" name="continuity_point" value="{$config2->continuity_point}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -155,58 +155,58 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_yearly" value="{$config_data->diligence_yearly}" style="width:30px;"/>
+				<input type="text" name="diligence_yearly" value="{$config2->diligence_yearly}" style="width:30px;"/>
 				<p>{$lang->attendance_diligence_yearly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_diligence_yearly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_yearly_point" value="{$config_data->diligence_yearly_point}" />
+				<input type="text" name="diligence_yearly_point" value="{$config2->diligence_yearly_point}" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_diligence_monthly}</label>
 			<div class="x_controls">
 				<select name="about_diligence_monthly">
-					<option value="yes" selected="selected"|cond="$config_data->about_diligence_monthly=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_diligence_monthly=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_diligence_monthly=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_diligence_monthly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_monthly" value="{$config_data->diligence_monthly}" style="width:30px;"/>
+				<input type="text" name="diligence_monthly" value="{$config2->diligence_monthly}" style="width:30px;"/>
 				<p>{$lang->attendance_diligence_monthly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_diligence_monthly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_monthly_point" value="{$config_data->diligence_monthly_point}" />
+				<input type="text" name="diligence_monthly_point" value="{$config2->diligence_monthly_point}" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_diligence_weekly}</label>
 			<div class="x_controls">
 				<select name="about_diligence_weekly">
-					<option value="yes" selected="selected"|cond="$config_data->about_diligence_weekly=='yes'">{$lang->attendance_yes}</option>
-					<option value="no" selected="selected"|cond="$config_data->about_diligence_weekly=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_diligence_weekly=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_diligence_weekly=='no'">{$lang->attendance_no}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_insert}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_weekly" value="{$config_data->diligence_weekly}" style="width:30px;"/>
+				<input type="text" name="diligence_weekly" value="{$config2->diligence_weekly}" style="width:30px;"/>
 				<p>{$lang->attendance_diligence_weekly}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_diligence_weekly_point}</label>
 			<div class="x_controls">
-				<input type="text" name="diligence_weekly_point" value="{$config_data->diligence_weekly_point}" />
+				<input type="text" name="diligence_weekly_point" value="{$config2->diligence_weekly_point}" />
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -239,16 +239,16 @@
 			<label class="x_control-label">{$lang->randomp}</label>
 			<div class="x_controls">
 				<select name="about_random">
-					<option value="no" selected="selected"|cond="$config_data->about_random=='no'">{$lang->attendance_no}</option>
-					<option value="yes" selected="selected"|cond="$config_data->about_random=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_random=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_random=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->randomset}</label>
 			<div class="x_controls">
-				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config_data->minimum}" style="width:60px" /> &nbsp; 
-				{$lang->maximum} : <input type="text" name="maximum" value="{$config_data->maximum}" style="width:60px" />
+				<p>{$lang->minimum} : <input type="text" name="minimum" value="{$config2->minimum}" style="width:60px" /> &nbsp; 
+				{$lang->maximum} : <input type="text" name="maximum" value="{$config2->maximum}" style="width:60px" />
 			</p>
 			{$lang->randomsethelp}
 			</div>
@@ -257,15 +257,15 @@
 			<label class="x_control-label">{$lang->random_select}</label>
 			<div class="x_controls">
 				<select name="about_lottery">
-					<option value="no" selected="selected"|cond="$config_data->about_lottery=='no'">{$lang->attendance_no}</option>
-					<option value="yes" selected="selected"|cond="$config_data->about_lottery=='yes'">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config2->about_lottery=='no'">{$lang->attendance_no}</option>
+					<option value="yes" selected="selected"|cond="$config2->about_lottery=='yes'">{$lang->attendance_yes}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->random_input}</label>
 			<div class="x_controls">
-				<input type="text" name="lottery" value="{$config_data->lottery}" style="width:60px;" />
+				<input type="text" name="lottery" value="{$config2->lottery}" style="width:60px;" />
 				<p>{$lang->random_input_help}</p>
 			</div>
 			
@@ -283,7 +283,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->birthday_point}</label>
 			<div class="x_controls">
-				<input type="text" name="brithday_point" value="{$config_data->brithday_point}" style="width:60px;" />
+				<input type="text" name="brithday_point" value="{$config2->brithday_point}" style="width:60px;" />
 				<p>{$lang->birthday_point_help}</p>
 			</div>
 		</div>

@@ -7,7 +7,9 @@
         <th width="40px">{$time}{$lang->attendance_time}</th>
         <td style="min-width:300px;">
             <div class="admin_graph">
-                {@$percent=(int)($count/$total_count * 100)}
+				<block cond="$total_count">
+                {@$percent=(int)($count/$total_count*100)}
+				</block>
                 <div class="progress" style="width:230px;">
                     <div class="bar bar-success" style="width:{$percent}%;"></div><!--@if($percent>=50)-->{$percent}%<!--@else-->&nbsp;<!--@end-->
                 </div>

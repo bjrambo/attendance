@@ -172,21 +172,18 @@ class attendanceModel extends attendance {
 
 		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
 
 		//포인트 모듈 연동
         $oPointController = &getController('point');
-		$obj = new stdClass;
-		$obj->continuity_day = $config_data->continuity_day;
-		$obj->continuity_point = $config_data->continuity_point;
-		$obj->today_point = $config_data->add_point;
+		$obj->continuity_day = $config->continuity_day;
+		$obj->continuity_point = $config->continuity_point;
+		$obj->today_point = $config->add_point;
 		$obj->greetings = $greetings;
         $obj->member_srl = $logged_info->member_srl;
 
-        $oModuleModel = &getModel('module');
-        $config = $oModuleModel->getModuleConfig('attendance');
+
         //관리자 출석이 허가가 나지 않았다면,
         if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y'){ return; }
 
@@ -209,18 +206,18 @@ class attendanceModel extends attendance {
             }
         }
 
-		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config_data) == 0 && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
+		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config) == 0 && $is_logged){	//logged && 기록이 없고, 출석 제한 시간대가 아니면
 			
 			//등수 확인
 			$position = $this->getPositionData($today);
 			//1,2,3,등 가산점 부여
 			if($about_position == 'yes'){
 				if($position == 0){
-					$obj->today_point += $config_data->first_point;
+					$obj->today_point += $config->first_point;
 				}else if($position == 1){
-					$obj->today_point += $config_data->second_point;
+					$obj->today_point += $config->second_point;
 				}else if($position == 2){
-					$obj->today_point += $config_data->third_point;
+					$obj->today_point += $config->third_point;
 				}
 			}
 
@@ -231,60 +228,61 @@ class attendanceModel extends attendance {
 				if($yesterday_continuity_data > 0){	//어제 출석했다면
                     $continuity = $this->getContinuityData($logged_info->member_srl, $yesterday);
 					/*연속출석일수가 설정된 일수보다 많고, 설정된 연속출석일이 0일이 아니고, 연속출석 여부가 yes 이면, 보너스 부여*/
-					if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config_data->about_continuity=='yes'){
+					if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config->about_continuity=='yes'){
 						$obj->today_point += $obj->continuity_point;
 						$continuity->point = $obj->continuity_point;
 					}
 					$continuity->data++;
 				} else {    //어제 출석 정보가 없다면
-					$continuity->data = 1;                        
+					$continuity->data = 1;
                 }
 			}
 
 			/*지정일 포인트 지급*/
-			if($config_data->about_target == 'yes'){
-				if($today == $config_data->target_day){
-					$obj->today_point += $config_data->target_point;
+			if($config->about_target == 'yes'){
+				if($today == $config->target_day){
+					$obj->today_point += $config->target_point;
 				}
 			}
 
 			/*개근포인트 지급*/
 			$about_perfect = $this->isPerfect($logged_info->member_srl, $today, false);
 			if($about_perfect->yearly_perfect == 1){
-				$obj->today_point += $config_data->yealy_point;
+				$obj->today_point += $config->yearly_point;
 			}
 			if($about_perfect->monthly_perfect == 1){
-				$obj->today_point += $config_data->monthly_point;
+				$obj->today_point += $config->monthly_point;
 			}
 			$week = $this->getWeek($today);
 			$weekly_data = $this->getWeeklyData($logged_info->member_srl, $week);
 			if($weekly_data->weekly == 6){
-				$obj->today_point += $config_data->weekly_point;
+				$obj->today_point += $config->weekly_point;
 			}
 
             /*정근포인트 관련 추가*/
 		    if($config->about_diligence_yearly == 'yes'){
-			    if($this->checkYearlyDiligence($logged_info->member_srl, $config_data->diligence_yearly-1, null) == 1){
-				    $obj->today_point += $config_data->diligence_yearly_point;
+			    if($this->checkYearlyDiligence($logged_info->member_srl, $config->diligence_yearly-1, null) == 1){
+				    $obj->today_point += $config->diligence_yearly_point;
                 }
             }
-			if($config_data->about_diligence_monthly == 'yes'){
-				if($this->checkMonthlyDiligence($logged_info->member_srl, $config_data->diligence_monthly-1, null) == 1){
-					$obj->today_point += $config_data->diligence_monthly_point;
+			if($config->about_diligence_monthly == 'yes'){
+				if($this->checkMonthlyDiligence($logged_info->member_srl, $config->diligence_monthly-1, null) == 1){
+					$obj->today_point += $config->diligence_monthly_point;
                 }
             }
-			if($config_data->about_diligence_weekly == 'yes'){
-				if($this->checkWeeklyDiligence($logged_info->member_srl, $config_data->diligence_weekly-1, null) == 1){
-					$obj->today_point += $config_data->diligence_weekly_point;
+			if($config->about_diligence_weekly == 'yes'){
+				if($this->checkWeeklyDiligence($logged_info->member_srl, $config->diligence_weekly-1, null) == 1){
+					$obj->today_point += $config->diligence_weekly_point;
                 }
             }
 
 		/* 랜덤포인트 추가 */
-		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
+		
 		$win = mt_rand(1,100);
-		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum && $config_data->minimum >= 0 && $config_data->maximum >= 0){
-			if($config_data->about_lottery == 'yes' && $config_data->lottery >= 0 && $config_data->lottery <= 100){
-				if($win<=$config_data->lottery){
+		if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0){
+			$sosirandom = mt_rand($config->minimum,$config->maximum);
+			if($config->about_lottery == 'yes' && $config->lottery >= 0 && $config->lottery <= 100){
+				if($win<=$config->lottery){
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
 					$output = executeQuery("attendance.insertAttendance",$obj);
@@ -307,7 +305,7 @@ class attendanceModel extends attendance {
 		$todays = substr($today,4,4);
 		if($config->about_birth_day=='yes'){
 			if($todays==$birthdays) {
-				$obj->today_point += $config_data->brithday_point;
+				$obj->today_point += $config->brithday_point;
 			}else{
 				$obj->today_point;
 			}
@@ -331,7 +329,6 @@ class attendanceModel extends attendance {
 
 	    if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^'){
 	        /*Document module connection : greetings process*/
-			$d_obj = new stdClass;
 	        $d_obj->content = $obj->greetings;
 	        $d_obj->nick_name = $logged_info->nick_name;
 	        $d_obj->email_address = $logged_info->email_address;
@@ -764,7 +761,7 @@ class attendanceModel extends attendance {
     /**
     * @brief 출석 가능시간대 인지 확인
     **/
-    function availableCheck($config_data){
+    function availableCheck($config){
 		// 모듈 설정값 가져오기
         $oModuleModel = &getModel('module');
         $config = $oModuleModel->getModuleConfig('attendance');

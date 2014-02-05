@@ -64,8 +64,35 @@ class attendanceController extends attendance {
 			$config->start_time = sprintf("%02d%02d",$obj->start_hour,$obj->start_min);
 			$config->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
-            $oModuleController->insertModuleConfig('attendance', $config);
-            executeQuery("attendance.insertConfig", $obj);
+			$config->diligence_yearly = $obj->diligence_yearly;
+			$config->diligence_yearly_point = $obj->diligence_yearly_point;
+			$config->about_diligence_monthly = $obj->about_diligence_monthly;
+			$config->diligence_monthly = $obj->diligence_monthly;
+			$config->diligence_monthly_point = $obj->diligence_monthly_point;
+			$config->about_diligence_weekly = $obj->about_diligence_weekly;
+			$config->diligence_weekly = $obj->diligence_weekly;
+			$config->diligence_weekly_point = $obj->diligence_weekly_point;
+			$config->add_point = $obj->add_point;
+			$config->first_point = $obj->first_point;
+			$config->second_point = $obj->second_point;
+			$config->third_point = $obj->third_point;
+			$config->yearly_point = $obj->yearly_point;
+			$config->monthly_point = $obj->monthly_point;
+			$config->weekly_point = $obj->weekly_point;
+			$config->about_target = $obj->about_target;
+			$config->target_day = $obj->target_day;
+			$config->target_point = $obj->target_point;
+			$config->about_continuity = $obj->about_continuity;
+			$config->continuity_day = $obj->continuity_day;
+			$config->continuity_point = $obj->continuity_point;
+			$config->about_random = $obj->about_random;
+			$config->minimum = $obj->minimum;
+			$config->maximum = $obj->maximum;
+			$config->about_lottery = $obj->about_lottery;
+			$config->lottery = $obj->lottery;
+			$config->brithday_point = $obj->brithday_point;
+			$oModuleController->insertModuleConfig('attendance', $config);
+			executeQuery("attendance.insertConfig", $obj);
         }else{
             $obj = Context::getRequestVars();
             if($obj->continuity_day < 2){ $obj->continuity_day = 2; }
@@ -82,8 +109,35 @@ class attendanceController extends attendance {
 			$config->start_time = sprintf("%02d%02d",$obj->start_hour,$obj->start_min);
 			$config->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
 			$config->about_diligence_yearly = $obj->about_diligence_yearly;
-            $oModuleController->insertModuleConfig('attendance', $config);
-            executeQuery("attendance.updateConfig", $obj);
+			$config->diligence_yearly = $obj->diligence_yearly;
+			$config->diligence_yearly_point = $obj->diligence_yearly_point;
+			$config->about_diligence_monthly = $obj->about_diligence_monthly;
+			$config->diligence_monthly = $obj->diligence_monthly;
+			$config->diligence_monthly_point = $obj->diligence_monthly_point;
+			$config->about_diligence_weekly = $obj->about_diligence_weekly;
+			$config->diligence_weekly = $obj->diligence_weekly;
+			$config->diligence_weekly_point = $obj->diligence_weekly_point;
+			$config->add_point = $obj->add_point;
+			$config->first_point = $obj->first_point;
+			$config->second_point = $obj->second_point;
+			$config->third_point = $obj->third_point;
+			$config->yearly_point = $obj->yearly_point;
+			$config->monthly_point = $obj->monthly_point;
+			$config->weekly_point = $obj->weekly_point;
+			$config->about_target = $obj->about_target;
+			$config->target_day = $obj->target_day;
+			$config->target_point = $obj->target_point;
+			$config->about_continuity = $obj->about_continuity;
+			$config->continuity_day = $obj->continuity_day;
+			$config->continuity_point = $obj->continuity_point;
+			$config->about_random = $obj->about_random;
+			$config->minimum = $obj->minimum;
+			$config->maximum = $obj->maximum;
+			$config->about_lottery = $obj->about_lottery;
+			$config->lottery = $obj->lottery;
+			$config->brithday_point = $obj->brithday_point;
+			$oModuleController->insertModuleConfig('attendance', $config);
+			executeQuery("attendance.updateConfig", $obj);
 		}
 		
 	}
@@ -112,10 +166,6 @@ class attendanceController extends attendance {
 
         /*출석당일 포인트 꺼내오기*/
     $daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
-
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
 
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)!=0){
 
@@ -234,13 +284,13 @@ class attendanceController extends attendance {
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 
+        $oModuleModel = &getModel('module');
+        $config = $oModuleModel->getModuleConfig('attendance');
+
         $oMemberModel = &getModel('member');
         $member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
-
-		/*각종 포인트 설정값 꺼내오기*/
-		$output = executeQuery('attendance.getConfigData');
-		$config_data = $output->data;
-        $obj->today_point = $config_data->add_point;
+        
+		$obj->today_point = $config->add_point;
 
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)==0){
 
@@ -251,45 +301,45 @@ class attendanceController extends attendance {
 			$week = $oAttendanceModel->getWeek($obj->check_day);
 
 			/*지정일 포인트 지급*/
-			if($config_data->about_target == 'yes'){
-				if($obj->check_day == $config_data->target_day){
-					$obj->today_point += $config_data->target_point;
+			if($config->about_target == 'yes'){
+				if($obj->check_day == $config->target_day){
+					$obj->today_point += $config->target_point;
 				}
 			}
 
 			/*개근포인트 지급*/
 			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);
 			if($about_perfect->yearly_perfect == 1){
-				$obj->today_point += $config_data->yealy_point;
+				$obj->today_point += $config->yearly_point;
 			}
 			if($about_perfect->monthly_perfect == 1){
-				$obj->today_point += $config_data->monthly_point;
+				$obj->today_point += $config->monthly_point;
 			}
 			$weekly_data = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
 			if($weekly_data->weekly == 6 && $obj->check_day==$week->sunday){
-				$obj->today_point += $config_data->weekly_point;
+				$obj->today_point += $config->weekly_point;
 			}
 
             /*정근포인트 관련 추가*/
             if($config->about_diligence_yearly == 'yes'){
-                if($oAttendanceModel->checkYearlyDiligence($obj->member_srl, $config_data->diligence_yearly-1, $year) == 1){
-                    $obj->today_point += $config_data->diligence_yearly_point;
+                if($oAttendanceModel->checkYearlyDiligence($obj->member_srl, $config->diligence_yearly-1, $year) == 1){
+                    $obj->today_point += $config->diligence_yearly_point;
                 }
             }
-            if($config_data->about_diligence_monthly == 'yes'){
-                if($oAttendanceModel->checkMonthlyDiligence($obj->member_srl, $config_data->diligence_monthly-1, $year_month) == 1){
-                    $obj->today_point += $config_data->diligence_monthly_point;
+            if($config->about_diligence_monthly == 'yes'){
+                if($oAttendanceModel->checkMonthlyDiligence($obj->member_srl, $config->diligence_monthly-1, $year_month) == 1){
+                    $obj->today_point += $config->diligence_monthly_point;
                 }
             }
-            if($config_data->about_diligence_weekly == 'yes'){
-                if($oAttendanceModel->checkWeeklyDiligence($obj->member_srl, $config_data->diligence_weekly-1, $obj->check_day) == 1){
-                    $obj->today_point += $config_data->diligence_weekly_point;
+            if($config->about_diligence_weekly == 'yes'){
+                if($oAttendanceModel->checkWeeklyDiligence($obj->member_srl, $config->diligence_weekly-1, $obj->check_day) == 1){
+                    $obj->today_point += $config->diligence_weekly_point;
                 }
             }
 		/* 랜덤포인트 추가 */
-		$sosirandom = mt_rand($config_data->minimum,$config_data->maximum);
 		$win = mt_rand(1,100);
-		if($config_data->about_random == 'yes' && $config_data->minimum <= $config_data->maximum){
+		if($config->about_random == 'yes' && $config->minimum <= $config->maximum){
+			$sosirandom = mt_rand($config->minimum,$config->maximum);
 			if($win<=50){
 				$obj->today_point += $sosirandom;
 				$args->today_random = $sosirandom;
