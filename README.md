@@ -95,7 +95,7 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 
 업뎃 사항 
 ---------
-**Ver. 2.0**
+**Ver. 2.0-beta.1**
 * 어드민 페이지 내의 config_data 함수를 모두 제거.
 * 모듈 설정값을 config 로잡고 모든 설정값 추가.
 * 년간 개근 포인트의 함수가 바르지 않아 포인트 지급이 되지 않던 문제 개선.
