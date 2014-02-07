@@ -398,22 +398,31 @@ class attendanceController extends attendance {
 				}
 			}
 
-			/* 랜덤포인트 추가 */ /* 추후 수정 */
-			if($config->about_random == 'yes' && $config->minimum <= $config->maximum)
+			/* 랜덤포인트 추가 */
+			if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0)
 			{
 				$sosirandom = mt_rand($config->minimum,$config->maximum);
-				$win = mt_rand(1,100);
-				if($win<=50)
+				if($config->about_lottery == 'yes' && $config->lottery >= 0 && $config->lottery <= 100)
 				{
-					$obj->today_point += $sosirandom;
-					$args->today_random = $sosirandom;
-					executeQuery("attendance.insertAttendance", $args);
+					$win = mt_rand(1,100);
+					if($win<=$config->lottery)
+					{
+						$obj->today_point += $sosirandom;
+						$obj->today_random = $sosirandom;
+						$output = executeQuery("attendance.insertAttendance",$obj);
+					}
+					else
+					{
+						$obj->today_point;
+						$obj->today_random = 0;
+						$output = executeQuery("attendance.insertAttendance",$obj);
+					}
 				}
 				else
 				{
-					$obj->today_point;
-					$args->today_random = 0;
-					executeQuery("attendance.insertAttendance", $args);
+					$obj->today_point += $sosirandom;
+					$obj->today_random = $sosirandom;
+					$output = executeQuery("attendance.insertAttendance",$obj);
 				}
 			}
 			else
