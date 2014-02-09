@@ -38,7 +38,7 @@
         <!--@elseif($is_available == 1)-->
             <!--//출석불가능 시간대 설명-->
             <div class="attendance_denied">
-                {$lang->attend_banned_time} ({substr($config_data->start_time,0,2)}:{substr($config_data->start_time,2,2)}~{substr($config_data->end_time,0,2)}:{substr($config_data->end_time, 2,2)})
+                {$lang->attend_banned_time} ({substr($config->start_time,0,2)}:{substr($config->start_time,2,2)}~{substr($config->end_time,0,2)}:{substr($config->end_time, 2,2)})
             </div>
 	    <!--@end-->
     <!--@end-->
@@ -46,26 +46,26 @@
     <!--//지금 출석하시면 받을 수 있는 포인트 목록-->
     <div class="point_list" id="point_list">
         <ul style="line-height:1.6;">
-            <li>{$lang->attendance_add_point} : {$config_data->add_point}</li>
-            <li>{$lang->attendance_first_point} : {$config_data->first_point}</li>
-            <li>{$lang->attendance_second_point} : {$config_data->second_point}</li>
-            <li>{$lang->attendance_third_point} : {$config_data->third_point}</li>
-            <li>{$lang->attendance_yearly_point} : {$config_data->yearly_point}</li>
-            <li>{$lang->attendance_monthly_point} : {$config_data->monthly_point}</li>
-            <li>{$lang->attendance_weekly_point} : {$config_data->weekly_point}</li>
-            <!--@if($config_data->target_day==$selected_date && $config_data->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config_data->target_point}</li><!--@end-->
-            <!--@if($config_data->about_continuity=='yes')-->
-                <li>{$lang->attendance_continuity_day} : {$config_data->continuity_day}{$lang->attendance_after_day}</li>
-                <li>{$lang->attendance_continuity_point} : {$config_data->continuity_point}</li>
+            <li>{$lang->attendance_add_point} : {$config->add_point}</li>
+            <li>{$lang->attendance_first_point} : {$config->first_point}</li>
+            <li>{$lang->attendance_second_point} : {$config->second_point}</li>
+            <li>{$lang->attendance_third_point} : {$config->third_point}</li>
+            <li>{$lang->attendance_yearly_point} : {$config->yearly_point}</li>
+            <li>{$lang->attendance_monthly_point} : {$config->monthly_point}</li>
+            <li>{$lang->attendance_weekly_point} : {$config->weekly_point}</li>
+            <!--@if($config->target_day==$selected_date && $config->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config->target_point}</li><!--@end-->
+            <!--@if($config->about_continuity=='yes')-->
+                <li>{$lang->attendance_continuity_day} : {$config->continuity_day}{$lang->attendance_after_day}</li>
+                <li>{$lang->attendance_continuity_point} : {$config->continuity_point}</li>
             <!--@end-->
-            <!--@if($config_data->about_diligence_yearly == 'yes')-->
-                <li>{$lang->attendance_diligence_yearly_point} : {$config_data->diligence_yearly_point}({$config_data->diligence_yearly}{$lang->attendance_after_day})</li>
+            <!--@if($config->about_diligence_yearly == 'yes')-->
+                <li>{$lang->attendance_diligence_yearly_point} : {$config->diligence_yearly_point}({$config->diligence_yearly}{$lang->attendance_after_day})</li>
             <!--@end-->
-            <!--@if($config_data->about_diligence_monthly == 'yes')-->
-                <li>{$lang->attendance_diligence_monthly_point} : {$config_data->diligence_monthly_point}({$config_data->diligence_monthly}{$lang->attendance_after_day})</li>
+            <!--@if($config->about_diligence_monthly == 'yes')-->
+                <li>{$lang->attendance_diligence_monthly_point} : {$config->diligence_monthly_point}({$config->diligence_monthly}{$lang->attendance_after_day})</li>
             <!--@end-->
-            <!--@if($config_data->about_diligence_weekly == 'yes')-->
-                <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
+            <!--@if($config->about_diligence_weekly == 'yes')-->
+                <li>{$lang->attendance_diligence_weekly_point} : {$config->diligence_weekly_point}({$config->diligence_weekly}{$lang->attendance_after_day})</li>
             <!--@end-->
         </ul>
         <!--//출석달력 출력-->
@@ -196,32 +196,32 @@
                         {$selected_date}
                         {$data->member_srl}
                         {$oAttendanceModel->checkWeeklyDiligence($data->member_srl, 1, $selected_date)}
-                        <li>{$lang->attendance_add_point} : {$config_data->add_point}</li>
+                        <li>{$lang->attendance_add_point} : {$config->add_point}</li>
 		                <!--@if($position==1 && $data->greetings!='^admin_checked^')-->
-			                <li>{$lang->attendance_first_point} : {$config_data->first_point}</li>
+			                <li>{$lang->attendance_first_point} : {$config->first_point}</li>
 		                <!--@elseif($position==2 && $data->greetings!='^admin_checked^')-->
-                            <li>{$lang->attendance_second_point} : {$config_data->second_point}</li>
+                            <li>{$lang->attendance_second_point} : {$config->second_point}</li>
 		                <!--@elseif($position==3 && $data->greetings!='^admin_checked^')-->
-                            <li>{$lang->attendance_third_point} : {$config_data->third_point}</li>
+                            <li>{$lang->attendance_third_point} : {$config->third_point}</li>
                         <!--@end-->
-			            <!--@if($is_perfect->yearly_perfect)--><li>{$lang->attendance_yearly_point} : {$config_data->yearly_point}</li><!--@end-->
-			            <!--@if($is_perfect->monthly_perfect)--><li>{$lang->attendance_monthly_point} : {$config_data->monthly_point}</li><!--@end-->
-			            <!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><li>{$lang->attendance_weekly_point} : {$config_data->weekly_point}</li><!--@end-->
-			            <!--@if($config_data->target_day==$selected_date && $config_data->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config_data->target_point}</li><!--@end-->
-			            <!--@if($oAttendanceModel->isExistContinuity($data->member_srl, $selected_date)>0 && $config_data->about_continuity=='yes')-->
+			            <!--@if($is_perfect->yearly_perfect)--><li>{$lang->attendance_yearly_point} : {$config->yearly_point}</li><!--@end-->
+			            <!--@if($is_perfect->monthly_perfect)--><li>{$lang->attendance_monthly_point} : {$config->monthly_point}</li><!--@end-->
+			            <!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><li>{$lang->attendance_weekly_point} : {$config->weekly_point}</li><!--@end-->
+			            <!--@if($config->target_day==$selected_date && $config->about_target == 'yes')--><li>{$lang->attendance_target_point} : {$config->target_point}</li><!--@end-->
+			            <!--@if($oAttendanceModel->isExistContinuity($data->member_srl, $selected_date)>0 && $config->about_continuity=='yes')-->
 				            {@$cont = $oAttendanceModel->getContinuityData($data->member_srl, $selected_date)}
-				            <!--@if($cont->data >= $config_data->continuity_day)--><li>{$lang->attendance_continuity_point} : {$config_data->continuity_point}</li><!--@end-->
+				            <!--@if($cont->data >= $config->continuity_day)--><li>{$lang->attendance_continuity_point} : {$config->continuity_point}</li><!--@end-->
 			            <!--@end-->
-                        <!--@if($config_data->about_diligence_yearly == 'yes' && $oAttendanceModel->checkYearlyDiligence($data->member_srl, $config_data->diligence_yearly, $year) == 1)-->
-                            <li>{$lang->attendance_diligence_yearly_point} : {$config_data->diligence_yearly_point}({$config_data->diligence_yearly}{$lang->attendance_after_day})</li>
+                        <!--@if($config->about_diligence_yearly == 'yes' && $oAttendanceModel->checkYearlyDiligence($data->member_srl, $config->diligence_yearly, $year) == 1)-->
+                            <li>{$lang->attendance_diligence_yearly_point} : {$config->diligence_yearly_point}({$config->diligence_yearly}{$lang->attendance_after_day})</li>
                         <!--@end-->
-                        <!--@if($config_data->about_diligence_monthly == 'yes' && $oAttendanceModel->checkMonthlyDiligence($data->member_srl, $config_data->diligence_monthly, $year.$month) == 1)-->
-                            <li>{$lang->attendance_diligence_monthly_point} : {$config_data->diligence_monthly_point}({$config_data->diligence_monthly}{$lang->attendance_after_day})</li>
+                        <!--@if($config->about_diligence_monthly == 'yes' && $oAttendanceModel->checkMonthlyDiligence($data->member_srl, $config->diligence_monthly, $year.$month) == 1)-->
+                            <li>{$lang->attendance_diligence_monthly_point} : {$config->diligence_monthly_point}({$config->diligence_monthly}{$lang->attendance_after_day})</li>
                         <!--@end-->
-                        <!--@if($config_data->about_diligence_weekly == 'yes' && $oAttendanceModel->checkWeeklyDiligence($data->member_srl, $config_data->diligence_weekly, $selected_date) == 1)-->
-                            <li>{$lang->attendance_diligence_weekly_point} : {$config_data->diligence_weekly_point}({$config_data->diligence_weekly}{$lang->attendance_after_day})</li>
+                        <!--@if($config->about_diligence_weekly == 'yes' && $oAttendanceModel->checkWeeklyDiligence($data->member_srl, $config->diligence_weekly, $selected_date) == 1)-->
+                            <li>{$lang->attendance_diligence_weekly_point} : {$config->diligence_weekly_point}({$config->diligence_weekly}{$lang->attendance_after_day})</li>
                         <!--@end-->
-						<!--@if($config_data->about_random == 'yes' && $data->today_random)-->
+						<!--@if($config->about_random == 'yes' && $data->today_random)-->
 							<li>Random point : {$data->today_random}</li>
 						<!--@end-->
                     </ul>
