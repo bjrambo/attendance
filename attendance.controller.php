@@ -62,15 +62,15 @@ class attendanceController extends attendance {
 			{
 				$obj->continuity_day = 2;
 			}
-            if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
+			if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
 			{
 				$obj->diligence_yearly = $end_of_year - 1;
 			}
-            if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
+			if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
 			{
 				$obj->diligence_monthly = $end_of_month - 1;
 			}
-            if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
+			if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
 			{
 				$obj->diligence_weekly = 6;
 			}
