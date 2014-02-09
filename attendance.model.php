@@ -12,14 +12,14 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 초기화
-	 **/
+	 */
 	function init()
 	{
 	}
 
 	/**
 	 * @brief 오늘 같은 ip에서 몇번 출석했는지 출력
-	 **/
+	 */
 	function getDuplicateIpCount($today, $ipaddress)
 	{
 		$obj = new stdClass;
@@ -31,7 +31,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 회원의 출석데이터 출력
-	 **/
+	 */
 	function getUserAttendanceData($member_srl, $date)
 	{
 		$arg = new stdClass;
@@ -43,7 +43,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief document_srl로 출석자료 찾기
-	 **/
+	 */
 	function getGreetingsData($document_srl)
 	{
 		$arg = new stdClass;
@@ -54,7 +54,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 출석자료 업데이트
-	 **/
+	 */
 	function updateAttendance($attendance_srl, $regdate, $today_point=null, $member_srl=null, $greetings=null)
 	{
 		$arg = new stdClass;
@@ -68,7 +68,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief attendance_srl로 출석자료 찾기
-	 **/
+	 */
 	function getAttendanceDataSrl($attendance_srl)
 	{
 		$arg = new stdClass;
@@ -79,7 +79,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 출석 여부 출력
-	 **/
+	 */
 	function getAttendanceData($member_srl, $selected_date)
 	{
 		$flag=false;
@@ -101,7 +101,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 오늘자 출석부 출력(선착순)
-	 **/
+	 */
 	function getAttendanceList($list_count, $today)
 	{
 		$args = new stdClass;
@@ -115,7 +115,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 오늘자 출석부 출력(역순)
-	 **/
+	 */
 	function getInverseList($list_count, $today)
 	{
 		$args = new stdClass;
@@ -129,7 +129,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 월별 출석통계 출력
-	 **/
+	 */
 	function getMonthlyData($monthly, $member_srl)
 	{
 		$args = new stdClass;
@@ -141,7 +141,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 연도별 출석 통계 출력
-	 **/
+	 */
 	function getYearlyData($yearly, $member_srl)
 	{
 		$args = new stdClass;
@@ -153,7 +153,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 오늘 출석 했는지 확인
-	 **/
+	 */
 	function getIsChecked($member_srl)
 	{
 		$arg = new stdClass;
@@ -165,7 +165,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 선택한 날짜에 출석 했는지 확인
-	 **/
+	 */
 	function getIsCheckedA($member_srl, $today)
 	{
 		$arg->day = $today;
@@ -177,7 +177,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 출석부 기록 함수
-	 **/
+	 */
 	function insertAttendance($about_position, $greetings, $member_srl=null)
 	{
 		//#문자 한번 더 필터링
@@ -538,8 +538,8 @@ class attendanceModel extends attendance
 	}
 
     /**
-    * @brief 오늘 내 등수 체크
-    **/
+     * @brief 오늘 내 등수 체크
+     */
 	function getPositionData($today, $greetings=null)
 	{
 		$args = new stdClass;
@@ -557,7 +557,7 @@ class attendanceModel extends attendance
 	}
 	/**
 	 * @brief 개근 여부 파악
-	 **/
+	 */
 	function isPerfect($member_srl, $today, $real=true)
 	{
 		$current_month = substr($today,4,2);
@@ -624,7 +624,7 @@ class attendanceModel extends attendance
 	********************************************************/
 	/**
 	 * @brief 총 출석 내용이 존재하는지 검사
-	 **/
+	 */
 	function isExistTotal($member_srl)
 	{
 		$arg = new stdClass;
@@ -635,7 +635,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief  연속출석중인지 검사
-	 **/
+	 */
 	function isExistContinuity($member_srl, $yesterday)
 	{
 		$arg = new stdClass;
@@ -647,7 +647,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 어제의 연속출석 데이터 받기
-	 **/
+	 */
 	function getContinuityData($member_srl, $yesterday)
 	{
 		$arg = new stdClass;
@@ -661,7 +661,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief attendance_total 테이블 기록
-	 **/
+	 */
 	function insertTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -676,7 +676,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief attendance_total 테이블 Update
-	 **/
+	 */
 	function updateTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -691,7 +691,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 총 출석횟수 계산
-	 **/
+	 */
 	function getTotalAttendance($member_srl)
 	{
 		$args = new stdClass;
@@ -702,7 +702,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 총 출석 포인트 추출
-	 **/
+	 */
 	function getTotalPoint($member_srl)
 	{
 		$args = new stdClass;
@@ -714,7 +714,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 총 출석 테이블 데이터 전부 꺼내기
-	 **/
+	 */
 	function getTotalData($member_srl)
 	{
 		$arg = new stdClass;
@@ -734,7 +734,7 @@ class attendanceModel extends attendance
 	********************************************************/
 	/**
 	 * @brief 연간 출석 데이터가 있는지 확인
-	 **/
+	 */
 	function isExistYearly($member_srl, $year)
 	{
 		$arg = new stdClass;
@@ -745,8 +745,8 @@ class attendanceModel extends attendance
 	}
 
     /**
-    * @brief 회원별 연간 출석통계 자료 생성
-    **/
+     * @brief 회원별 연간 출석통계 자료 생성
+     */
 	function insertYearly($member_srl, $yearly, $yearly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -758,8 +758,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	* @brief 회원별 연간 출석통계 자료 Update
-	**/
+	 * @brief 회원별 연간 출석통계 자료 Update
+	 */
 	function updateYearly($member_srl, $year, $yearly, $yearly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -773,7 +773,7 @@ class attendanceModel extends attendance
 
 	/**
 	* @brief 연간자료 꺼내기
-	**/
+	*/
 	function getYearlyAttendance($member_srl, $year)
 	{
 		$arg = new stdClass;
@@ -793,7 +793,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 월간 출석 데이터가 있는지 확인
-	 **/
+	 */
 	function isExistMonthly($member_srl, $year_month)
 	{
 		$arg = new stdClass;
@@ -805,7 +805,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 회원별 월간 출석통계 자료 생성
-	 **/
+	 */
 	function insertMonthly($member_srl, $monthly, $monthly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -818,7 +818,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 회원별 월간 출석통계 자료 Update
-	 **/
+	 */
 	function updateMonthly($member_srl, $year_month, $monthly, $monthly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -832,7 +832,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 월간자료 꺼내기
-	 **/
+	 */
 	function getMonthlyAttendance($member_srl, $year_month)
 	{
 		$arg = new stdClass;
@@ -851,7 +851,7 @@ class attendanceModel extends attendance
 	********************************************************/
 	/**
 	 * @brief 선택된 날짜의 기간 찾기
-	 **/
+	 */
 	//today의 값이 xe설정시각으로 변형되어있을것이므로 여기에선 zDate()사용 안함.
 	function getWeek($today)
 	{
@@ -868,7 +868,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 주간 통계기록이 있는지 확인
-	 **/
+	 */
 	function isExistWeekly($member_srl, $week)
 	{
 		$arg = new stdClass;
@@ -881,7 +881,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 일주일 출석 횟수 알아오기
-	 **/
+	 */
 	function getWeeklyAttendance($member_srl, $week)
 	{
 		$arg = new stdClass;
@@ -894,7 +894,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 주간 출석정보 입력
-	 **/
+	 */
 	function insertWeekly($member_srl, $weekly, $weekly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -907,7 +907,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 주간 출석정보 Update
-	 **/
+	 */
 	function updateWeekly($member_srl, $week, $weekly, $weekly_point, $regdate)
 	{
 		$arg = new stdClass;
@@ -922,7 +922,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 주간 출석정보 빼오기
-	 **/
+	 */
 	function getWeeklyData($member_srl, $week)
 	{
 		$arg = new stdClass;
@@ -938,7 +938,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 출석 가능시간대 인지 확인
-	 **/
+	 */
 	function availableCheck($config)
 	{
 		// 모듈 설정값 가져오기
@@ -968,7 +968,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 연간 정근 여부 확인
-	 **/
+	 */
 	function checkYearlyDiligence($member_srl, $diligence_yearly, $year)
 	{
 		if(!$year)
@@ -988,7 +988,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 월간 정근 여부 확인
-	 **/
+	 */
 	function checkMonthlyDiligence($member_srl, $diligence_monthly, $year_month)
 	{
 		if(!$year_month)
@@ -1008,7 +1008,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief 주간 정근 여부 확인
-	 **/
+	 */
 	function checkWeeklyDiligence($member_srl, $diligence_weekly, $today)
 	{
 		if(!$today)
@@ -1036,7 +1036,7 @@ class attendanceModel extends attendance
 
 	/**
 	 * @brief member_srl로 인사말만 모두 뽑기
-	 **/
+	 */
 	function getGreetingsList($member_srl)
 	{
 		$arg = new stdClass;

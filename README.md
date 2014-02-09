@@ -74,6 +74,7 @@ Thanks to...
 * 소녀시대..(나에게 힘을 주니깐..)
 * 몽실아빠 (http://pomelove.com)
 * [@BNU](https://github.com/BNU)
+* [@smaker](https://github.com/smaker)
 
 참고사항
 --------
@@ -95,10 +96,11 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 
 업뎃 사항 
 ---------
-**Ver. 2.0-beta.1**
-* 어드민 페이지 내의 config_data 함수를 모두 제거.
-* 모듈 설정값을 config 로잡고 모든 설정값 추가.
+**Ver. 2.0**
+* 어드민 페이지 내의 config_data 함수를 모두 제거. [#19](https://github.com/qw5414/attendance/issues/19)
+* 모듈 설정값을 config 로잡고 모든 설정값 추가. [#19](https://github.com/qw5414/attendance/issues/19)
 * 년간 개근 포인트의 함수가 바르지 않아 포인트 지급이 되지 않던 문제 개선.
+* PHP5.4 버전에서 추가 오류사항 추가. ( [@smaker](https://github.com/smaker) ) [#34](https://github.com/qw5414/attendance/issues/34)
 
 
 **Ver. 1.8.5**
