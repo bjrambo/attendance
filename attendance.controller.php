@@ -191,7 +191,7 @@ class attendanceController extends attendance {
 		$obj = Context::getRequestVars();
 		$year = substr($obj->check_day,0,4);
 		$year_month = substr($obj->check_day,0,6);
-		$arg = new stdClass;
+		$args = new stdClass;
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 

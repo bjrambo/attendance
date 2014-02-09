@@ -32,6 +32,7 @@ class attendanceView extends attendance{
 		$oAttendanceModel = &getModel('attendance');
 
 		$selected_date = Context::get('selected_date');
+		$date_info = new stdClass;
 		if(!$selected_date)
 		{
 			$date_info->year = zDate(date('YmdHis'),"Y");
@@ -100,6 +101,7 @@ class attendanceView extends attendance{
 		}
 
 		//출석달력 설정
+		$date_info = new stdClass;
 		$date_info->_year = substr($selected_date,0,4);
 		$date_info->_month = substr($selected_date,4,2);
 		$date_info->_day = substr($selected_date,6,2);
