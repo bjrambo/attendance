@@ -1,0 +1,45 @@
+<!--%import("./filter/update_attendance.xml")-->
+<!--#include("_header.html")-->
+<!--%import("./js/at.js")-->
+
+<!--%import("./css/gray.css")-->
+
+
+<div id="attendance_board_modify">
+<!--@if($logged_info->is_admin=="Y" || $grant->manager == 1)-->
+    <div class="at_modify_title">{$lang->attend_modify}</div>
+    
+    <div class="fo">{$lang->attend_modify_info}</div>
+    
+    <table cellspacing="0" class="modify_table" >
+        <thead>
+            <tr>
+                <th>{$lang->nick_name}</th>
+                <th><span>{$lang->time}</span></th>
+                <th><span>{$lang->today_added_point}</span></th>
+                <!--th style="text-align:center;">{$lang->ipaddress}</th-->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form action="./" method="POST" id="modify_submit" >
+                <input type="hidden" name="selected_date" value="{$selected_date}"/>
+                <input type="hidden" name="attendance_srl" value="{$attendance_srl}"/>
+                <input type="hidden" name="mid" value="{$mid}"/>
+                <td>{@$oMember = $oMemberModel->getMemberInfoByMemberSrl($oAttendance->member_srl)}{$oMember->nick_name}</td>
+                <td><input type="text" class="modify_text" name="regdate" value="{substr($oAttendance->regdate,8,6)}"/></td>
+                <td><input type="text" class="modify_text" name="today_point" value="{$oAttendance->today_point}"/></td>
+                <!--td style="text-align:center;">{$oAttendance->ipaddress}</td-->
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    <div class="mod">
+    <span>
+    <a href="#" onclick="return modify_att();">&rsaquo; {$lang->cmd_modify}</a></span>
+    <span>
+    <a href="{getUrl('act','','attendance_srl','')}" >&rsaquo; {$lang->cmd_back}</a></span>
+    </div>
+<!--@end-->
+</div>
+<!--#include("_footer.html")-->
