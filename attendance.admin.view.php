@@ -19,7 +19,7 @@ class attendanceAdminView extends attendance{
 		}
 
 		// module model 객체 생성 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 
 		// module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
 		if($module_srl) {
@@ -45,7 +45,7 @@ class attendanceAdminView extends attendance{
 	function dispAttendanceAdminList()
 	{
 		/*attendance model 객체 생성*/
-		$oAttendanceModel = &getModel('attendance');
+		$oAttendanceModel = getModel('attendance');
 		Context::set('Model',$oAttendanceModel);
 
 		$selected_date = Context::get('selected_date'); //선택한 날짜 받아오기
@@ -54,7 +54,7 @@ class attendanceAdminView extends attendance{
 		if(!$type) $type='config';
 
 		/*attendance admin model 객체 생성*/
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 		Context::set('oAttendanceAdminModel',$oAttendanceAdminModel);
 		if($type!='config' && $type!='time')
 		{
@@ -63,7 +63,7 @@ class attendanceAdminView extends attendance{
 		}
 
 		// 멤버모델 객체 생성
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list',$group_list);
 
@@ -77,7 +77,7 @@ class attendanceAdminView extends attendance{
 		$day = substr($selected_date,6,2);
 		$end_day = date('t', mktime(0,0,0,$month,1,$year));
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 
 		Context::set('end_day',$end_day);
 		Context::set('year',$year);
@@ -88,9 +88,9 @@ class attendanceAdminView extends attendance{
 		Context::set('oMemberModel',$oMemberModel);
 
 		//module의 설정값 가져오기
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		Context::set('config2',$config);
 
 		$start_time = new stdClass;
@@ -103,7 +103,7 @@ class attendanceAdminView extends attendance{
 		Context::set('end_time',$end_time);
 
 		// 스킨 목록을 구해옴
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list',$skin_list);
@@ -112,7 +112,7 @@ class attendanceAdminView extends attendance{
 		Context::set('mskin_list', $mskin_list);
 
 		// 레이아웃 목록을 구해옴
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 
@@ -158,7 +158,7 @@ class attendanceAdminView extends attendance{
 	function dispAttendanceAdminBoardConfig()
 	{
 		// 스킨 목록을 구해옴
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list',$skin_list);
 
@@ -166,7 +166,7 @@ class attendanceAdminView extends attendance{
 		Context::set('mskin_list', $mskin_list);
 
 		// 레이아웃 목록을 구해옴
-		$oLayoutModel = &getModel('layout');
+		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 
@@ -191,11 +191,11 @@ class attendanceAdminView extends attendance{
 	function dispAttendanceAdminBoardSkinConfig()
 	{
 		//모듈정보 로드
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 
 		// 공통 모듈 권한 설정 페이지 호출
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 		/*Context::set('module_info', $module_info);
@@ -213,11 +213,11 @@ class attendanceAdminView extends attendance{
 	function dispAttendanceAdminMobileBoardSkinConfig()
 	{
 		//모듈정보 로드
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 
 		// 공통 모듈 권한 설정 페이지 호출
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 		/*Context::set('module_info', $module_info);
@@ -236,11 +236,11 @@ class attendanceAdminView extends attendance{
 	function dispAttendanceAdminGrantList()
 	{
 		//모듈정보 로드
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 
 		// 공통 모듈 권한 설정 페이지 호출
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$grant_content = $oModuleAdminModel->getModuleGrantHTML($module_info->module_srl, $this->xml_info->grant);
 		Context::set('grant_content', $grant_content);
 
@@ -253,12 +253,12 @@ class attendanceAdminView extends attendance{
     **/
 	function dispAttendanceAdminModifyAttendance()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
 		$attendance_srl = Context::get('attendance_srl');
-		$oAttendanceModel = &getModel('attendance');
-		$oMemberModel = &getModel('member');
+		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = getModel('member');
 
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($attendance_srl);
 		Context::set('oAttendance',$oAttendance);
