@@ -20,12 +20,8 @@
   </form>
 </div>
 
-
-<include target="./ver/check.inc.html" />
-<include target="./ver/index.html" cond="$v15" />
-<block cond="$v17">
-<!--%import("js/attendance_admin.js")-->
-<!--%import("css/attendance.css")-->
+<load target="js/attendance_admin.js" />
+<load target="css/attendance.css" />
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -116,7 +112,6 @@
 	<!--#include("time.html")-->
 <!--@end-->
 
-</block>
 <div cond="$_attendance_iframe_url" style="margin-top:20px;">
 	<p>설치된 출석부 스킨 버전 : ver{$attendance_module_info->version}</p>
 	<iframe frameborder="0" src="{$_attendance_iframe_url}" style="display:block; margin:10px auto; padding:0; width:90%;border:3px solid #7361d6; border-radius:10px; height:200px; overflow:scroll; "></iframe>
