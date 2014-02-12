@@ -96,6 +96,14 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 
 업뎃 사항 
 ---------
+
+**Ver. 2.0.1**
+* 부트스트랩 스킨을 attendance 모듈에 모두 통합.
+* xe1.5 지원중단
+* $config_data 테이블에 설정값이 있을경우 $config 으로 옮겨지도록 개선.
+* PHP 호환성 개선 및 참조 연산자 삭제 ( [@smaker](https://github.com/smaker) ) [#42](https://github.com/qw5414/attendance/pull/42)
+
+
 **Ver. 2.0**
 * 어드민 페이지 내의 config_data 함수를 모두 제거. [#19](https://github.com/qw5414/attendance/issues/19)
 * 모듈 설정값을 config 로잡고 모든 설정값 추가. [#19](https://github.com/qw5414/attendance/issues/19)
