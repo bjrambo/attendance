@@ -92,10 +92,6 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_random");
 		if(!$act) return true;
 
-		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
-		$act = $oDB->isColumnExists("attendance_config", "brithday_point");
-		if(!$act) return true;
-
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
 		$act = $oDB->isColumnExists("attendance", "ipaddress");
 		if(!$act) return true;
@@ -203,12 +199,6 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance","today_random"))
 		{
 			$oDB->addColumn("attendance", "today_random", "number", 20);
-		}
-
-		// attendance_config 테이블에 brithday_point 필드 추가 (2014.01.21)
-		if(!$oDB->isColumnExists("attendance_config", "brithday_point"))
-		{
-			$oDB->addColumn("attendance_config", "brithday_point", "number",11);
 		}
 	
 		//attendance 테이블에 ipaddress 필드 추가
@@ -368,6 +358,10 @@ class attendance extends ModuleObject
         //설정 등록(중복ip 횟수)
 		$oModule = getModel('module');
 		$config = $oModule->getModuleConfig('attendance');
+
+		$output = executeQuery('attendance.getConfigData');
+		$config_data = $output->data;
+
 		if(!$config)
 		{
 			$config = new stdClass;
@@ -404,168 +398,336 @@ class attendance extends ModuleObject
 		if(!$config->about_time_control)
 		{
 			$oModuleController = getController('module');
-			$config->about_time_control = 'no';
+			if(!$config_data->about_time_control)
+			{
+				$config->about_time_control = 'no';
+			}
+			elseif($config_data->about_time_control)
+			{
+				$config->about_time_control = $config_data->about_time_control;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 		
 		if(!$config->start_time)
 		{
 			$oModuleController = getController('module');
-			$config->start_time = '0000';
+			if(!$config_data->start_time)
+			{
+				$config->start_time = '0000';
+			}
+			elseif($config_data->start_time)
+			{
+				$config->start_time = $config_data->start_time;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->end_time)
 		{
 			$oModuleController = getController('module');
-			$config->end_time = '0000';
+			if(!$config_data->end_time)
+			{
+				$config->end_time = '0000';
+			}
+			elseif($config_data->end_time)
+			{
+				$config->end_time = $config_data->end_time;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_yearly)
 		{
 			$oModuleController = getController('module');
-			$config->about_diligence_yearly = 'no';
+			if(!$config_data->about_diligence_yearly)
+			{
+				$config->about_diligence_yearly = 'no';
+			}
+			elseif($config_data->about_diligence_yearly)
+			{
+				$config->about_diligence_yearly = $config_data->about_diligence_yearly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_yearly)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_yearly = '364';
+			if(!$config_data->diligence_yearly)
+			{
+				$config->diligence_yearly = '364';
+			}
+			elseif($config_data->diligence_yearly)
+			{
+				$config->diligence_yearly = $config_data->diligence_yearly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_yearly_point)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_yearly_point = '0';
+			if(!$config_data->diligence_yearly_point)
+			{
+				$config->diligence_yearly_point = '0';
+			}
+			elseif($config_data->diligence_yearly_point)
+			{
+				$config->diligence_yearly_point = $config_data->diligence_yearly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_monthly)
 		{
 			$oModuleController = getController('module');
-			$config->about_diligence_monthly = 'no';
+			if(!$config_data->about_diligence_monthly)
+			{
+				$config->about_diligence_monthly = 'no';
+			}
+			elseif($config_data->about_diligence_monthly)
+			{
+				$config->about_diligence_monthly = $config_data->about_diligence_monthly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_monthly)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_monthly = '25';
+			if(!$config_data->diligence_monthly)
+			{
+				$config->diligence_monthly = '25';
+			}
+			elseif($config_data->diligence_monthly)
+			{
+				$config->diligence_monthly = $config_data->diligence_monthly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_monthly_point)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_monthly_point = '0';
+			if(!$config_data->diligence_monthly_point)
+			{
+				$config->diligence_monthly_point = '0';
+			}
+			elseif($config_data->diligence_monthly_point)
+			{
+				$config->diligence_monthly_point = $config_data->diligence_monthly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_weekly)
 		{
 			$oModuleController = getController('module');
-			$config->about_diligence_weekly = 'no';
+			if(!$config_data->about_diligence_weekly)
+			{
+				$config->about_diligence_weekly = 'no';
+			}
+			elseif($config_data->about_diligence_weekly)
+			{
+				$config->about_diligence_weekly = $config_data->about_diligence_weekly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_weekly)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_weekly = '6';
+			if(!$config_data->diligence_weekly)
+			{
+				$config->diligence_weekly = '6';
+			}
+			elseif($config_data->diligence_weekly)
+			{
+				$config->diligence_weekly = $config_data->diligence_weekly;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_weekly_point)
 		{
 			$oModuleController = getController('module');
-			$config->diligence_weekly_point = '0';
+			if(!$config_data->diligence_weekly_point)
+			{
+				$config->diligence_weekly_point = '0';
+			}
+			elseif($config_data->diligence_weekly_point)
+			{
+				$config->diligence_weekly_point = $config_data->diligence_weekly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->add_point)
 		{
 			$oModuleController = getController('module');
-			$config->add_point = '5';
+			if(!$config_data->add_point)
+			{
+				$config->add_point = '5';
+			}
+			elseif($config_data->add_point)
+			{
+				$config->add_point = $config_data->add_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 		
 		if(!$config->first_point)
 		{
 			$oModuleController = getController('module');
-			$config->first_point = '0';
+			if(!$config_data->first_point)
+			{
+				$config->first_point = '0';
+			}
+			elseif($config_data->first_point)
+			{
+				$config->first_point = $config_data->first_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->second_point)
 		{
 			$oModuleController = getController('module');
-			$config->second_point = '0';
+			if(!$config_data->second_point)
+			{
+				$config->second_point = '0';
+			}
+			elseif($config_data->second_point)
+			{
+				$config->second_point = $config_data->second_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->third_point)
 		{
 			$oModuleController = getController('module');
-			$config->third_point = '0';
+			if(!$config_data->third_point)
+			{
+				$config->third_point = '0';
+			}
+			elseif($config_data->third_point)
+			{
+				$config->third_point = $config_data->third_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->yearly_point)
 		{
 			$oModuleController = getController('module');
-			$config->yearly_point = '0';
+			if(!$config_data->yearly_point)
+			{
+				$config->yearly_point = '0';
+			}
+			elseif($config_data->yearly_point)
+			{
+				$config->yearly_point = $config_data->yearly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->monthly_point)
 		{
 			$oModuleController = getController('module');
-			$config->monthly_point = '0';
+			if(!$config_data->monthly_point)
+			{
+				$config->monthly_point = '0';
+			}
+			elseif($config_data->monthly_point)
+			{
+				$config->monthly_point = $config_data->monthly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->weekly_point)
 		{
 			$oModuleController = getController('module');
-			$config->weekly_point = '0';
+			if(!$config_data->weekly_point)
+			{
+				$config->weekly_point = '0';
+			}
+			elseif($config_data->weekly_point)
+			{
+				$config->weekly_point = $config_data->weekly_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_target)
 		{
 			$oModuleController = getController('module');
-			$config->about_target = 'no';
+			if(!$config_data->about_target)
+			{
+				$config->about_target = 'no';
+			}
+			elseif($config_data->about_target)
+			{
+				$config->about_target = $config_data->about_target;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->target_day)
 		{
 			$oModuleController = getController('module');
-			$config->target_day = '00000000';
+			if(!$config_data->target_day)
+			{
+				$config->target_day = '00000000';
+			}
+			elseif($config_data->target_day)
+			{
+				$config->target_day = $config_data->target_day;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->target_point)
 		{
 			$oModuleController = getController('module');
-			$config->target_point = '0';
+			if(!$config_data->target_point)
+			{
+				$config->target_point = '0';
+			}
+			elseif($config_data->target_point)
+			{
+				$config->target_point = $config_data->target_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_continuity)
 		{
 			$oModuleController = getController('module');
-			$config->about_continuity = 'no';
+			if(!$config_data->about_continuity)
+			{
+				$config->about_continuity = 'no';
+			}
+			elseif($config_data->about_continuity)
+			{
+				$config->about_continuity = $config_data->about_continuity;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->continuity_day)
 		{
 			$oModuleController = getController('module');
-			$config->continuity_day = '0';
+			if(!$config_data->continuity_day)
+			{
+				$config->continuity_day = '0';
+			}
+			elseif($config_data->continuity_day)
+			{
+				$config->continuity_day = $config_data->continuity_day;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
@@ -573,49 +735,98 @@ class attendance extends ModuleObject
 		if(!$config->continuity_point)
 		{
 			$oModuleController = getController('module');
-			$config->continuity_point = '0';
+			if(!$config_data->continuity_point)
+			{
+				$config->continuity_point = '0';
+			}
+			elseif($config_data->continuity_point)
+			{
+				$config->continuity_point = $config_data->continuity_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_random)
 		{
 			$oModuleController = getController('module');
-			$config->about_random = 'no';
+			if(!$config_data->about_random)
+			{
+				$config->about_random = 'no';
+			}
+			elseif($config_data->about_random)
+			{
+				$config->about_random = $config_data->about_random;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->minimum)
 		{
 			$oModuleController = getController('module');
-			$config->minimum = '0';
+			if(!$config_data->minimum)
+			{
+				$config->minimum = '0';
+			}
+			elseif($config_data->minimum)
+			{
+				$config->minimum = $config_data->minimum;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->maximum)
 		{
 			$oModuleController = getController('module');
-			$config->maximum = '0';
+			if(!$config_data->maximum)
+			{
+				$config->maximum = '0';
+			}
+			elseif($config_data->maximum)
+			{
+				$config->maximum = $config_data->maximum;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_lottery)
 		{
 			$oModuleController = getController('module');
-			$config->about_lottery = 'no';
+			if(!$config_data->about_lottery)
+			{
+				$config->about_lottery = 'no';
+			}
+			elseif($config_data->about_lottery)
+			{
+				$config->about_lottery = $config_data->about_lottery;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->lottery)
 		{
 			$oModuleController = getController('module');
-			$config->lottery = '0';
+			if(!$config_data->lottery)
+			{
+				$config->lottery = '0';
+			}
+			elseif($config_data->lottery)
+			{
+				$config->lottery = $config_data->lottery;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->brithday_point)
 		{
 			$oModuleController = getController('module');
-			$config->brithday_point = '0';
+			if(!$config_data->brithday_point)
+			{
+				$config->brithday_point = '0';
+			}
+			elseif($config_data->brithday_point)
+			{
+				$config->brithday_point = $config_data->brithday_point;
+			}
 			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
