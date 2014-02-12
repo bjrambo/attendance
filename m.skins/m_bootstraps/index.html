@@ -267,9 +267,9 @@
                 
                 <!--@if($data->today_point > 5)-->
                 <font color="#FF0000">
-                {$data->today_point}({$data->today_random})</font>
+                {$data->today_point}<block cond="$data->today_random">({$data->today_random})</block></font>
                 <!--@else-->
-                {$data->today_point}({$data->today_random})
+                {$data->today_point}<block cond="$data->today_random">({$data->today_random})</block>
                 <!--@end-->
                
                 </a>
@@ -278,9 +278,9 @@
                 
                 <!--@if($data->today_point > 5)-->
                 <font color="#FF0000">
-                {$data->today_point}({$data->today_random})</font>
+                {$data->today_point}<block cond="$data->today_random">({$data->today_random})</block></font>
                 <!--@else-->
-                {$data->today_point}({$data->today_random})
+                {$data->today_point}<block cond="$data->today_random">({$data->today_random})</block>
                 <!--@end-->
                 
                 <!--@end-->
