@@ -22,7 +22,7 @@ class attendanceAdminModel extends attendance
 	function getAttendanceMemberList($list, $new_type)
 	{
 		/*attendance model 객체 생성*/
-		$oAttendanceModel = &getModel('attendance');
+		$oAttendanceModel = getModel('attendance');
 		// 검색 옵션 정리
 		$args = new stdClass;
 		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
@@ -233,8 +233,8 @@ class attendanceAdminModel extends attendance
 	function deleteAllAttendanceData($member_srl)
 	{
 		//등록된 인사말을 모두 지우기 위한 작업
-		$oAttendanceModel = &getModel('attendance');
-		$oDocumentController = &getController('document');
+		$oAttendanceModel = getModel('attendance');
+		$oDocumentController = getController('document');
 		$memberAttendanceInfo = $oAttendanceModel->getGreetingsList($member_srl);
 
 		//등록된 인사말 모두 제거
@@ -412,8 +412,8 @@ class attendanceAdminModel extends attendance
 	 **/
 	function fixYearMonthWeek($obj)
 	{
-		$oAttendanceModel = &getModel('attendance');
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 
 		$year = substr($obj->selected_date,0,4);
 		$oAttendanceAdminModel->deleteAttendanceYearlyData($obj->member_srl, $year);

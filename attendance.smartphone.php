@@ -10,15 +10,15 @@
 
 		function procSmartPhone($oSmartPhone)
 		{
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 
-			$oModuleModel = &getModel('module');
-			$oDocumentModel = &getModel('document');
+			$oModuleModel = getModel('module');
+			$oDocumentModel = getModel('document');
 			$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 			$oModuleModel->syncSkinInfoToModuleInfo($module_info);
-			$oAttendanceModel = &getModel('attendance');
-			$oMemberModel = &getModel('member');
-			$oAttendanceAdminModel = &getAdminModel('attendance');
+			$oAttendanceModel = getModel('attendance');
+			$oMemberModel = getModel('member');
+			$oAttendanceAdminModel = getAdminModel('attendance');
 
 			//날짜 초기화
 			$document_srl = Context::get('document_srl');
@@ -35,7 +35,7 @@
 
 
 			//module의 설정값 가져오기
-			$oModuleModel = &getModel('module');
+			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
 
 			//출석가능 시간대인지 판단

@@ -168,6 +168,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsCheckedA($member_srl, $today)
 	{
+		$arg = new stdClass;
 		$arg->day = $today;
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getIsChecked',$arg);
@@ -189,7 +190,7 @@ class attendanceModel extends attendance
 		{
 			if($member_srl)
 			{
-				$oMemberModel = &getModel('member');
+				$oMemberModel = getModel('member');
 				$logged_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			}
 			else
@@ -205,7 +206,7 @@ class attendanceModel extends attendance
 
 		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		if(!$config)
 		{
@@ -213,7 +214,7 @@ class attendanceModel extends attendance
 		}
 
 		//포인트 모듈 연동
-		$oPointController = &getController('point');
+		$oPointController = getController('point');
 		$obj = new stdClass;
 		$obj->continuity_day = $config->continuity_day;
 		$obj->continuity_point = $config->continuity_point;
@@ -401,7 +402,7 @@ class attendanceModel extends attendance
 				return;
 			}
 
-			$oModule = &getModel('module');
+			$oModule = getModel('module');
 			$module_info = $oModule->getModuleInfoByMid('attendance');
 			if(!$module_info->module_srl)
 			{
@@ -409,10 +410,10 @@ class attendanceModel extends attendance
 			}
 
 			// document module의 model 객체 생성
-			$oDocumentModel = &getModel('document');
+			$oDocumentModel = getModel('document');
 
 			// document module의 controller 객체 생성
-			$oDocumentController = &getController('document');
+			$oDocumentController = getController('document');
 
 			if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
 			{
@@ -942,7 +943,7 @@ class attendanceModel extends attendance
 	function availableCheck($config)
 	{
 		// 모듈 설정값 가져오기
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 
 		if($config->about_time_control == 'yes')

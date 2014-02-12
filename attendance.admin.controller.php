@@ -40,14 +40,12 @@ class attendanceAdminController extends attendance
 		$point = Context::get('point');
 		if(!$point) $point=0;
 
-		$oAttendanceModel = &getModel('attendance');
-		$oPointController = &getController('point');
-		$oPointModel = &getModel('point');
+		$oAttendanceModel = getModel('attendance');
+		$oPointController = getController('point');
+		$oPointModel = getModel('point');
 
 		//개인 포인트 꺼내오기
-		$oMemberModel = &getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-		$personal_point = $oPointModel->getPoint($member_info->member_srl);
+		$personal_point = $oPointModel->getPoint($member_srl);
 
 		//총 출석 포인트 추출
 		$total_point = $oAttendanceModel->getTotalPoint($member_srl);
@@ -77,7 +75,7 @@ class attendanceAdminController extends attendance
 			//총 출석포인트 기록
 			$oAttendanceModel->updateTotal($member_srl, $continuity=null, $total_attendance=null, $total_point, $regdate=null);
 			//개인포인트 기록
-			$oPointController->setPoint($member_info->member_srl,$personal_point,'update');
+			$oPointController->setPoint($member_srl,$personal_point,'update');
 			if($action=='update') $this->setMessage('attend_updated_points');
 		}
 	}
