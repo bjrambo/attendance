@@ -1,0 +1,107 @@
+<table cellspacing="0" class="listTable">
+
+    <tbody>
+
+		<tr>    
+    {@$_day=1}
+    {@$j=0}
+    <!--@while($_day <= $admin_date_info->day_max)-->
+
+        <!--@while($j < $admin_date_info->week_start)-->
+
+        {@$j++}
+        <!--@end-->
+
+			<td height="35px" class="stamp">
+                {@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
+                {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
+                
+               
+                
+                <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == $selected_date)-->
+                
+                <!--@end-->
+                <!--@if($checked == 1)-->
+                
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),"Ymd"))}">
+                
+                
+                <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))-->
+
+                <span style="background:#000; padding:0 3px; color:#fff;">{$_day++}</span>
+                <!--@else-->
+                {$_day++}
+                <!--@end--></a>
+                
+                <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day-1) == $selected_date)-->
+                
+                <!--@end--><br/>
+                <div class="check" cond="$is_logged">
+                <img src="./css/check.gif" />
+                </div>
+                <!--@elseif($checked >= 2)-->
+                <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))-->
+
+                <span style="background:#000; color:#fff;">{$_day++}</span>
+                <!--@else-->
+                {$_day++}
+                <!--@end-->
+                
+                
+                <a href="#fixAttendanceData" onclick="att_fix_attendance_data('{$logged_info->member_srl}','{$checked}','{$check_date}','{$lang->attend_fix_att}','{$logged_info->nick_name}');" cond="$is_logged"><p class="check">?</p></a><!--@if($admin_date_info->_day == sprintf("%2d",$_day-1))-->
+                
+                
+                <!--@end-->
+                
+                <!--@else-->
+                
+                
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),"Ymd"))}">
+                
+                <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))-->
+
+                <span <!--@if(sprintf("%04d%02d%02d",$year,$month,$day) == date("Ymd"))-->style="background:#f66;padding:0 3px; color:#fff;"<!--@else-->style="background:#000; padding:0 3px; color:#fff;"<!--@end-->>{$_day++}</span>
+                <!--@else-->
+                {$_day++}
+                <!--@end-->
+                </a>
+                
+                <!--@if(substr($selected_date,6,2) == sprintf("%02d",$_day-1))-->
+                
+                
+                <!--@end-->
+                
+                <div class="check">
+              
+              <!--@if(substr($selected_date,6,2) == sprintf("%02d",$_day-1))-->
+              
+           <!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->    
+                        
+                <!--@if(sprintf("%04d%02d%02d",$year,$month,$day) == date("Ymd"))-->
+                
+                <img src="./css/day.gif" />
+
+                <!--@end-->
+                
+                                
+
+           <!--@end-->
+                      
+
+               <!--@end--> 
+                </div>
+                
+               
+                <!--@end-->
+            </td>
+
+        <!--@if($_day-1 == $admin_date_info->day_max)-->
+
+        <!--@end-->
+
+        {@$j++}
+
+    <!--@end-->
+</tr>
+    </tbody>
+</table>

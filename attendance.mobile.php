@@ -25,13 +25,13 @@ class attendanceMobile extends attendanceView
 
 	function dispAttendanceBoard()
 	{
-		$oModuleModel = &getModel('module');
-		$oDocumentModel = &getModel('document');
+		$oModuleModel = getModel('module');
+		$oDocumentModel = getModel('document');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
-		$oAttendanceModel = &getModel('attendance');
-		$oMemberModel = &getModel('member');
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = getModel('member');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 
 		//날짜 초기화
 		$document_srl = Context::get('document_srl');
@@ -47,7 +47,7 @@ class attendanceMobile extends attendanceView
 		if(!$module_info->greetings_cut_size)$module_info->greetings_cut_size = 20;
 
 		//module의 설정값 가져오기
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 
 		//출석가능 시간대인지 판단
@@ -97,12 +97,12 @@ class attendanceMobile extends attendanceView
 
 	function dispAttendanceMobileModifyAttendance()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
 		$attendance_srl = Context::get('attendance_srl');
-		$oAttendanceModel = &getModel('attendance');
-		$oMemberModel = &getModel('member');
+		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = getModel('member');
 
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($attendance_srl);
 		Context::set('oAttendance',$oAttendance);

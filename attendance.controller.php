@@ -21,12 +21,11 @@ class attendanceController extends attendance {
 	 **/
 	function procAttendanceInsertAttendance()
 	{
-
 		$today = zDate(date('YmdHis'),"Ymd");
 		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		/*attendance model 객체 생성*/
-		$oAttendanceModel = &getModel('attendance');
+		$oAttendanceModel = getModel('attendance');
 		$obj = Context::getRequestVars();
 
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
@@ -53,7 +52,7 @@ class attendanceController extends attendance {
 		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
 		$output = executeQuery('attendance.isExistConfig',$arg);
 		//관리자 출석부분 부터는 모듈 설정 기능을 사용.
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 		//설정값이 저장되어있지 않다면
 		if((int)$output->data->count == 0)
 		{
@@ -182,10 +181,10 @@ class attendanceController extends attendance {
 	{
 
 		//포인트 모듈 연동
-		$oPointController = &getController('point');
+		$oPointController = getController('point');
 
 		/*attendance model 객체 생성*/
-		$oAttendanceModel = &getModel('attendance');
+		$oAttendanceModel = getModel('attendance');
 
 		//넘겨받고
 		$obj = Context::getRequestVars();
@@ -195,7 +194,7 @@ class attendanceController extends attendance {
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
 
 		/*출석당일 포인트 꺼내오기*/
@@ -213,7 +212,7 @@ class attendanceController extends attendance {
 			{
 				$length = strlen($daily_info->greetings) -1;
 				$document_srl = substr($daily_info->greetings, 1, $length);
-				$oDocumentController = &getController('document');
+				$oDocumentController = getController('document');
 				$oDocumentController->deleteDocument($document_srl,true);
 			}
 
@@ -325,10 +324,10 @@ class attendanceController extends attendance {
 	{
 
 		//포인트 모듈 연동
-		$oPointController = &getController('point');
+		$oPointController = getController('point');
 
 		/*attendance model 객체 생성*/
-		$oAttendanceModel = &getModel('attendance');
+		$oAttendanceModel = getModel('attendance');
 
 		//넘겨받고
 		$obj = Context::getRequestVars();
@@ -338,10 +337,10 @@ class attendanceController extends attendance {
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
 
 		$obj->today_point = $config->add_point;
@@ -536,8 +535,8 @@ class attendanceController extends attendance {
     function procAttendanceModifyData()
 	{
 		$obj = Context::getRequestVars();
-		$oPointController = &getController('point');
-		$oAttendanceModel = &getModel('attendance');
+		$oPointController = getController('point');
+		$oAttendanceModel = getModel('attendance');
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($obj->attendance_srl);
 
 		//입력한 시간 형식이 맞는지 판단하기
@@ -601,7 +600,7 @@ class attendanceController extends attendance {
 	function triggerDeleteMember($obj)
 	{
 		/*attendance admin model 객체 생성*/
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceYearlyData($obj->member_srl);
@@ -627,12 +626,12 @@ class attendanceController extends attendance {
 		}
 		
 		//module의 설정값 가져오기
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		
 		if($config->about_auto_attend == 'yes')
 		{
-			$oAttendanceModel = &getModel('attendance');
+			$oAttendanceModel = getModel('attendance');
 			$oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
 		}
 	}
@@ -641,10 +640,10 @@ class attendanceController extends attendance {
 	{
 
 		$logged_info = Context::get('logged_info');	
-		$oAttendanceModel = &getModel('attendance');
-		$oMemberModel = &getModel('member');				
+		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = getModel('member');
 		//module의 설정값 가져오기
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 
 		$act = Context::get('act');				
