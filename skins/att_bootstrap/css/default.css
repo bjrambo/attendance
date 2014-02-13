@@ -814,12 +814,12 @@ font-size: 100%;
 .at_board_title th{border:0;padding:8px 10px 8px 10px; text-align:center; white-space:nowrap; height:16px;}
 .at_board_title th span{display:block;padding:0 0 0 15px;}
 .at_board_title th.title {width:100%;}
-.at_board_title th.nick {text-align:left;}
+.at_board_title th.nick {text-align:left; width:120px; display:block;}
 .at_board_title td {border:0;padding:6px 10px;white-space:nowrap; color:#000000; line-height:17px;}
 .at_board_title tr:hover { background:#f8f8f8}
 .at_board_title td.author,
 .at_board_title td.author span{color:#000000; text-decoration:none; padding:0; text-align:left; vertical-align:middle !important;}
-.at_board_title td.author span a {color:#000000; display:block; width:120px;}
+.at_board_title td.author span a {color:#000000; width:120px; vertical-align: middle;}
 .at_board_title td.title {width:100%; white-space:normal; text-align:left;letter-spacing:0px;}
 .at_board_title .no{ padding-right:0; vertical-align: middle !important;}
 .at_board_title td.pointlister { font-size:11px; padding:0 0 0 15px; color:#690; font-family: 'Helvetica Neue', Helvetica, 나눔고딕, NanumGothic, ng, 'Open Sans', 'Myriad Pro', Verdana, 돋움, dotum, sans-serif; text-align:center; vertical-align:middle !important;}
@@ -1044,6 +1044,8 @@ display: block;
 	-webkit-border-radius:100px;
 	-moz-border-radius:100px;
 	border-radius:100px;
+	float:left;
+	margin-right:3px;
 }
 
 
