@@ -1,0 +1,45 @@
+@charset "utf-8";
+.attendance_title { margin:0 auto; text-align:center; font-weight:bold; font-size:12px; color:#dfdfdf; }
+.attendance_title:hover {color:#000000;}
+
+.paging { overflow:hidden; margin:0 auto; text-align:center; font-size:12px; margin-top:3px; font-size:.9em; color:#797979; }
+.paging a { text-decoration:none; color:#797979; }
+.paging a:hover {color:#000000; }
+
+#date { float:left; color:#797979; }
+#date a { text-decoration:none; color:#797979; }
+#date a:hover { color:#000000; }
+
+#page_no { float:right; color:#797979; width:auto; }
+#page_no a {text-decoration:none; color:#797979;}
+#page_no a:hover { color:#000000; }
+
+.a_text { border-bottom:1px dashed; border-top:none; border-left:none; border-right:none; border-color:#afafaf; height:1.5em; padding:.2em 0 0 .3em; background:none; font-size:1em; _font-size:9pt; width:100%;}
+.a_text:hover { border-color:#dfdfdf; background:#dfdfdf; }
+
+.a_button { text-align:right; font-size:.9em; color:#dfdfdf; padding:0; margin:0; width:100%; overflow:hidden; }
+.a_button a {text-decoration:none; color:#dfdfdf; }
+.a_button a::hover { color:#000000; }
+.a_button_img { width:70px; height:25px; background:url('../images/gray.gif'); float:right;}
+.a_button_img:hover {background:url('../images/black.gif');}
+
+.addon_view { text-align:right; font-size:.9em; color:#797979; }
+.addon_view a {text-decoration:none; color:#797979; }
+.addon_view a:hover { color:#000000; }
+
+.messages { padding:0; margin:10px 0 0 0; font-size:.9em; text-align:center; color:#797979; }
+
+.greetings a{ text-decoration:none; color:#797979}
+.greetings a:hover { text-decoration:underline; color:#000000;}
+
+
+.attendanceTable { width:100%; border:0;  margin:0; padding:0; color:#797979; }
+.attendanceTable th div { white-space:nowrap; }
+.attendanceTable th,
+.attendanceTable td { vertical-align:middle; line-height:1.6; padding:2px 0; }
+.attendanceTable th { font-weight:bold; text-align:center; border-bottom:1px solid #dfdfdf; }
+.attendanceTable th:hover { background:#f0f0f0; color:#000000; }
+.attendanceTable td:hover { background:#f0f0f0; color:#000000;}
+.attendanceTable .lines:hover { background:#d0d0d0; }
+.attendanceTable .bold {  font-size:12px; }
+.attendanceTable .center {text-align:center;}

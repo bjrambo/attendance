@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">출석부</title>
+    <description xml:lang="ko">출석부 위젯입니다.</description>
+    <version>1.6.2</version>
+    <date>2012-05-08</date>
+    <author email_address="pppljh@gmail.com" link="http://maesiltea.linuxstudy.pe.kr">
+        <name xml:lang="ko">매실茶</name>
+    </author>
+    <extra_vars>
+        <var id="title" type="text">
+            <name xml:lang="ko">위젯 제목</name>
+            <description xml:lang="ko">위젯에 들어갈 제목을 입력하세요</description>
+        </var>
+        <var id="position">
+            <type>select</type>
+            <name xml:lang="ko">등수 출력</name>
+            <description xml:lang="ko">등수 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="user_id">
+            <type>select</type>
+            <name xml:lang="ko">ID출력</name>
+            <description xml:lang="ko">ID 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="nick_name">
+            <type>select</type>
+            <name xml:lang="ko">별명 출력</name>
+            <description xml:lang="ko">별명 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="reg_time">
+            <type>select</type>
+            <name xml:lang="ko">등록시간 출력</name>
+            <description xml:lang="ko">등록시간 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="user_point">
+            <type>select</type>
+            <name xml:lang="ko">포인트 출력</name>
+            <description xml:lang="ko">포인트 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="greetings">
+            <type>select</type>
+            <name xml:lang="ko">인사말 출력</name>
+            <description xml:lang="ko">인사말 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="today_point">
+            <type>select</type>
+            <name xml:lang="ko">당일 포인트</name>
+            <description xml:lang="ko">당일 실제로 기록된 포인트의 출력 여부를 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="ipaddress">
+            <type>select</type>
+            <name xml:lang="ko">IP주소 출력</name>
+            <description xml:lang="ko">출석자의 IP주소를 출력하시려면 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>	
+        <var id="list_count">
+            <type>text</type>
+            <name xml:lang="ko">리스트 수</name>
+            <description xml:lang="ko">한 페이지에 몇등까지 출력하는지에 대한 여부를 선택하세요(기본:5)</description>
+        </var>
+        <var id="inverse">
+            <type>select</type>
+            <name xml:lang="ko">출력 순서</name>
+            <description xml:lang="ko">출력 순서를 선택하세요</description>
+            <options>
+                <value>asc</value>
+                <name xml:lang="ko">선착순</name>
+            </options>
+            <options>
+                <value>desc</value>
+                <name xml:lang="ko">역순</name>
+            </options>
+        </var>
+        <var id="cut_nick" type="text">
+            <name xml:lang="ko">별명 글자수</name>
+            <description xml:lang="ko">별명의 글자길이를 자르실 경우 입력하세요(기본:자르지 않음)</description>
+        </var>
+        <var id="greetings_message" type="text">
+            <name xml:lang="ko">인사말 입력요청 메시지</name>
+            <description xml:lang="ko">20자 인사말을 입력해 달라는 메시지를 직접 작성하실 수 있습니다.</description>
+        </var>
+        <var id="greetings_length" type="text">
+            <name xml:lang="ko">인사말 길이</name>
+            <description xml:lang="ko">인사말이 출력될 길이를 입력해 주세요.</description>
+        </var>
+        <var id="title_view">
+            <type>select</type>
+            <name xml:lang="ko">항목 이름 보이기</name>
+            <description xml:lang="ko">순위, 별명 등의 항목이름을 노출시킬것인지 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="addon_view">
+            <type>select</type>
+            <name xml:lang="ko">부가기능 버튼 보이기</name>
+            <description xml:lang="ko">달력보기/출석부관리 등 부가기능버튼의 노출여부를 선택하세요</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="button_view">
+            <type>select</type>
+            <name xml:lang="ko">도장버튼 보이기</name>
+            <description xml:lang="ko">인사말 텍스트폼을 포함한 도장버튼의 노출여부를 선택하세요</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="navigator_view">
+            <type>select</type>
+            <name xml:lang="ko">내비게이터 출력 여부</name>
+            <description xml:lang="ko">날짜 및 페이지 내비게이터를 출력할지 선택하세요</description>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+        </var>
+        <var id="border_color" type="text">
+            <name xml:lang="ko">경계선 색깔</name>
+            <description xml:lang="ko">표의 테두리 색깔을 16진수로 입력해 주세요.</description>
+        </var>
+        <var id="mobile_skin">
+            <type>select</type>
+            <name xml:lang="ko">모바일 위젯 켜기</name>
+            <description xml:lang="ko">모바일 페이지용 위젯으로 사용하실 경우에만 'Yes'로 설정하세요.</description>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">No</name>
+            </options>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">Yes</name>
+            </options>
+        </var>
+    </extra_vars>
+</widget> 

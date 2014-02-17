@@ -1,0 +1,201 @@
+<!--//제작자 : 매실茶 (http://maesiltea.linuxstudy.pe.kr)-->
+<script type="text/javascript">
+    var warn_msg = '{$lang->attend_warn}';
+</script>
+<!--%import("filter/insert_attendance.xml")-->
+<!--%import("js/attendance.js")-->
+
+<!--//컬러셋-->
+<!--@if($colorset=="black")-->
+	<!--%import("css/attendance_check.css")-->
+<!--@elseif($colorset=="gray")-->
+	<!--%import("css/gray.css")-->
+<!--@elseif($colorset=="white")-->
+	<!--%import("css/white.css")-->
+<!--@else-->
+	<!--%import("css/attendance_check.css")-->
+	{@$colorset = "gray"}
+<!--@end-->
+
+<!--//날짜설정-->
+{@$year=substr($selected_date,0,4)}
+{@$month=substr($selected_date,4,2)}
+{@$day=substr($selected_date,6,2)}
+{@$week=$model->getWeek($selected_date)}
+
+<!--//제목 출력-->
+<!--@if($obj->title)-->
+<div class="attendance_title">
+	{$obj->title}
+</div>
+<!--@end-->
+
+<!--@if($obj->addon_view == 'yes')-->
+<div class="addon_view">
+<!--@if($logged_info->is_admin=='Y')-->
+    <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a>  |
+<!--@end-->
+    <!--@if($is_logged)--><a href="{getUrl('act','dispAttendancePersonalInfo')}" alt="{$lang->attend_calendar}">▤{$lang->attend_calendar}</a><!--@end-->
+</div>
+<!--@end-->
+
+<table cellspacing="0" class="attendanceTable">
+    
+    <!--@if($obj->title_view == 'yes')-->
+    <thead>
+	<tr> 
+		<!--@if($obj->position=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->position}</th><!--@end-->
+		<!--@if($obj->reg_time=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->time}</th><!--@end-->
+		<!--@if($obj->nick_name=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->nick_name}</th><!--@end-->
+		<!--@if($obj->user_id=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->user_id}</th><!--@end-->
+		<!--@if($obj->user_point=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->point}</th><!--@end-->
+		<!--@if($obj->bonus_point=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->bonus_point}</th><!--@end-->
+		<!--@if($obj->today_point=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->today_added_point}</th><!--@end-->
+        <!--@if($obj->ipaddress=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->attend_ipaddress}</th><!--@end-->
+        <!--@if($obj->greetings=='yes')--><th class="bold" <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->>{$lang->greetings}</th><!--@end-->
+	</tr>
+	</thead>
+    <!--@end-->
+
+	<!--//선택된 날짜의 출석내용을 불러온다(선착순/역순 옵션 추가)-->
+	<!--@if($obj->inverse=="asc")-->
+		{@$output=$model->getAttendanceList($obj->list_count,$selected_date)}
+	<!--@else-->
+		{@$output=$model->getInverseList($obj->list_count,$selected_date)}
+	<!--@end-->
+	<!--//등수 초기화-->
+	<!--@if($obj->inverse=='desc')-->
+        {@$position=($obj->start_num)-($obj->list_count*($output->page-1))}
+    <!--@else-->
+        {@$position=1+($output->page-1)*$obj->list_count}
+    <!--@end-->
+
+	<!--//쿼리를 통해 받은 사용자정보를 순서대로 얻어오는 구문-->
+	<!--@foreach($output->data as $val)-->
+		{@$is_perfect=$model->isPerfect($val->member_srl, $selected_date)}
+		{@$weekly = $model->getWeeklyData($val->member_srl, $week)}
+	<!--//사용자 정보 로드-->
+		{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+        <!--@if(ereg("^#[0-9]+$",$val->greetings))-->
+            {@$length_greetings = strlen($val->greetings) -1}
+            {@$oDocument = $oDocumentModel->getDocument(substr($val->greetings,1,$length_greetings))}
+            <!--@if($oDocument->document_srl)-->
+                {@$exist_document = 1}
+            <!--@else-->
+                {@$exist_document = 0}
+            <!--@end-->
+        <!--@else-->
+            {@$exist_document = 0}
+        <!--@end-->
+	<tbody>
+	<tr class="lines">
+		<!--//등수출력--><!--@if($obj->position=='yes')--><td class="center">{$position}</td><!--@end-->
+		<!--//등록시간 출력--><!--@if($obj->reg_time=='yes')--><td class="center">{substr($val->regdate,8,2).":".substr($val->regdate,10,2).":".substr($val->regdate,12,2)}</td><!--@end-->
+		<!--//별명 출력--><!--@if($obj->nick_name=='yes')--><td><div class="nick_name member_{$member->member_srl}">{cut_str($member->nick_name,$obj->cut_nick,'...')}</div></td><!--@end-->
+		<!--//이름 출력--><!--@if($obj->user_id=='yes')--><td>{$member->user_id}</td><!--@end-->
+		<!--//포인트 출력--><!--@if($obj->user_point=='yes')--><td class="center">{$point_model->getPoint($member->member_srl)}</td><!--@end-->
+		<!--//당일기록 출력--><!--@if($obj->today_point=='yes')--><td class="center">{$val->today_point}</td><!--@end-->
+        <!--//ipaddress-->
+        <!--@if($obj->ipaddress == 'yes')-->
+            <td class="center">
+                <!--@if($logged_info->is_admin == 'Y')-->
+                    <!--@if(!$val->ipaddress)-->
+                        {$lang->attend_warn_ip}
+                    <!--@else-->
+                        {$val->ipaddress}
+                    <!--@end-->
+                <!--@else-->
+                    <!--@if($val->ipaddress == 'none')-->
+                        {$val->ipaddress}
+                    <!--@elseif(!$val->ipaddress)-->
+                        {$lang->attend_warn_ip}
+                    <!--@else-->
+                        <!--@if($val->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->
+                            {$val->ipaddress}
+                        <!--@else-->
+                            {@$ip_tmp = explode('.',$val->ipaddress)}
+                            {@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
+                        <!--@end-->
+                    <!--@end-->
+                <!--@end-->
+            </td>
+        <!--@end-->
+	</tr>
+    <tr>
+		<!--//인사말 출력-->
+        <!--@if($obj->greetings=='yes')-->
+			<td colspan="10">
+                <!--@if($val->greetings)-->
+                    <div class="greetings" >
+                    <!--@if($exist_document == 1)-->
+                        <a href="{getUrl('mid','','document_srl',$oDocument->document_srl)}">{cut_str($oDocument->getContentText(text),$obj->greetings_length,'...')}</a>
+                    <!--@else-->
+                        {@$greetings_filtering = str_replace('<','&lt;',$val->greetings)}
+			            <!--@if($val->greetings!='^admin_checked^' && $val->greetings!='^auto^')--><a href="{getUrl('mid','attendance','selected_date',$selected_date)}">{cut_str($greetings_filtering, $obj->greetings_length, '...')}</a>
+                        <!--@elseif($val->greetings=='^admin_checked^')--><a href="{getUrl('mid','attendance','selected_date',$selected_date)}">{cut_str($lang->attendance_admin_checked, $obj->greetings_length, '...')}</a>
+                        <!--@elseif($val->greetings=='^auto^')--><a href="{getUrl('mid','attendance','selected_date',$selected_date)}">{cut_str($lang->attend_auto_check, $obj->greetings_length, '...')}</a>
+                        <!--@end-->
+                    <!--@end-->
+                    </div>
+                <!--@else-->
+                    <div class="greetings" ><a href="{getUrl('mid','attendance','selected_date',$selected_date)}">{cut_str($lang->default_greetings, $obj->greetings_length, '...')}</a></div>
+                <!--@end-->
+			</td>
+		<!--@end-->
+    </tr>
+    </tbody>
+	<!--@if($obj->inverse=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
+	<!--@else-->
+	<tbody><tr><td colspan="10" style="text-align:center;">{$lang->attend_no_checked}</td></tr></tbody>
+    <!--@end-->
+</table>
+
+<!--//페이지 내비게이션-->
+<!--@if($obj->navigator_view != 'no')-->
+<div class="paging">
+	<!--//날짜 내비게이션 출력-->
+	<div id="date">
+		<a href="{getUrl('choose_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day-1, $year)),'Ymd'))}">←</a>
+			 <a href="{getUrl('choose_date',zDate(date('YmdHis'),"Ymd"))}">{$year}-{$month}-{$day}</a>
+		<a href="{getUrl('choose_date',zDate(date('YmdHis',mktime(0,0,0,$month, $day+1, $year)),'Ymd'))}"> →</a>
+	</div> 
+	<div id="page_no">
+   <a href="{getUrl('page',$output->page_navigation->first_page,'module_srl','')}" class="prevEnd">←</a> 
+	<!--@while($page_no = $output->page_navigation->getNextPage())-->
+		<!--@if($output->page == $page_no)-->
+			{$page_no}
+		<!--@else-->
+			<a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+		<!--@end-->
+	<!--@end--><a href="{getUrl('page',$output->page_navigation->last_page,'module_srl','')}" class="nextEnd">→</a>
+	</div>
+</div>
+<!--@end-->
+
+<!--//도장찍기 버튼 출력 부분-->
+<!--@if($obj->button_view != 'no')-->
+    <!--//로그인 상태라면-->
+    <!--@if($is_logged)-->
+	    <!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
+	    <!--@if($flag==0 && $is_available == 0 )-->
+            <!--@if($config2->about_admin_check=='yes')-->
+                    <p class="messages"><!--@if($obj->greetings_message)-->{$obj->greetings_message}<!--@else-->{$lang->input_text}<!--@end--></p>
+			        <form action="./" method="post" id="click_button_widget" onsubmit="return attendance_check_widget()">
+				        <input type="text" name="greetings" class="a_text" onclick="this.value='';" onkeypress="return text_entercheck_widget(event); " <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->/>
+				        <input type="hidden" name="about_position" value="yes" />
+				        <!--p class="a_button"><a href="#" onclick="return attendance_check();"><div class="a_button_img">&nbsp;</div></a></p-->
+				        <div class="a_button"><input type="image" src="images/{$colorset}.gif" alt="{$lang->click}"/></div>
+			        </form>
+            <!--@else-->
+                <!--@if($logged_info->is_admin != 'Y')-->
+                    <p class="messages"><!--@if($obj->greetings_message)-->{$obj->greetings_message}<!--@else-->{$lang->input_text}<!--@end--></p>
+			        <form action="./" method="post" id="click_button_widget" onsubmit="return attendance_check_widget()">
+				        <input type="text" name="greetings" class="a_text" onclick="this.value='';" onkeypress="return entercheck_widget(event); " <!--@if($obj->border_color)-->style="border-color:#{$obj->border_color}"<!--@end-->/>
+				        <input type="hidden" name="about_position" value="yes" />
+				        <div class="a_button"><input type="image" src="images/{$colorset}.gif" alt="{$lang->click}"/></div>
+			        </form>
+                <!--@end-->
+            <!--@end-->
+	    <!--@end-->
+    <!--@end-->
+<!--@end-->

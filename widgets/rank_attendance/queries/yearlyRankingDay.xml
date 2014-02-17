@@ -1,0 +1,31 @@
+<query id="yearlyRankingDay" action="select">
+    <tables>
+        <table name="attendance_yearly" />
+        <table name="member" type="left join" >
+        <conditions>
+            <condition operation="equal" column="attendance_yearly.member_srl" default="member.member_srl" />
+        </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="attendance_yearly.*"/>
+    </columns>
+
+    <conditions>
+	    <condition operation="like_prefix" column="attendance_yearly.regdate" var="year" />
+		<condition operation="equal" column="attendance_yearly.member_srl" default="member.member_srl"  pipe="and"/>
+        <condition operation="notequal" column="member.is_admin" var="is_admin" pipe="and"/>
+    </conditions>
+
+    <groups>
+        <group column="member.member_srl" />
+    </groups>
+
+    <navigation>
+        <index var="sort_index" default="attendance_yearly.yearly" order="desc" />
+        <list_count var="list_count" default="5" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+
+</query>

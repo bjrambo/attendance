@@ -1,0 +1,30 @@
+<query id="totalRankingPoint" action="select">
+    <tables>
+        <table name="attendance_total" />
+        <table name="member" type="left join" >
+        <conditions>
+            <condition operation="equal" column="attendance_total.member_srl" default="member.member_srl" />
+        </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="attendance_total.*"/>
+    </columns>
+
+    <conditions>
+        <condition operation="equal" column="attendance_total.member_srl" default="member.member_srl" />
+        <condition operation="notequal" column="member.is_admin" var="is_admin" pipe="and"/>
+    </conditions>
+
+    <groups>
+        <group column="member.member_srl" />
+    </groups>
+
+    <navigation>
+        <index var="sort_index" default="attendance_total.total_point" order="desc" />
+        <list_count var="list_count" default="5" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+
+</query>
