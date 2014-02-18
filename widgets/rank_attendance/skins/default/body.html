@@ -1,0 +1,244 @@
+<!--//출석랭킹 기본 스킨-->
+<!--//최종 수정일 : 2009.12.10-->
+<!--//제작자 : 매실茶 (http://maesiltea.linuxstudy.pe.kr)-->
+
+<!--//컬러셋-->
+<!--@if($colorset=="black")-->
+	<!--%import("css/black.css")-->
+<!--@elseif($colorset=="gray")-->
+	<!--%import("css/gray.css")-->
+<!--@elseif($colorset=="white")-->
+	<!--%import("css/white.css")-->
+<!--@elseif($colorset=="_black")-->
+	<!--%import("css/_black.css")-->
+<!--@elseif($colorset=="_gray")-->
+	<!--%import("css/_gray.css")-->
+<!--@elseif($colorset=="_white")-->
+	<!--%import("css/_white.css")-->
+<!--@else-->
+	<!--%import("css/gray.css")-->
+<!--@end-->
+
+<!--@if($widget_info->title)-->
+<div class="rank_title">
+	{$widget_info->title}
+</div>
+<!--@end-->
+
+<!--@if($widget_info->addon_view == 'yes')-->
+<div class="aab">
+<!--@if($logged_info->is_admin=='Y')-->
+    <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a> |
+<!--@end-->
+    <!--@if($is_logged)--><a href="{getUrl('act','dispAttendancePersonalInfo')}" alt="{$lang->attend_calendar}">▤{$lang->attend_calendar}</a><!--@end-->
+</div>
+<!--@end-->
+
+{@$position=1}
+<table cellspacing="0" class="attendRankTable" >
+    <!--@if($widget_info->title_view == 'yes')-->
+    <thead>
+    <tr>
+        <th style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="bold">{$lang->position}</th>
+        <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->nick_name}</th>
+    	<!--@if($widget_info->first_option == 'total')-->
+    		<!--@if($widget_info->second_option == 'day')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_total_day}</th>
+    		<!--@elseif($widget_info->second_option == 'point')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_total_point}</th>
+            <!--@end-->
+        <!--@elseif($widget_info->first_option == 'yearly')-->
+    		<!--@if($widget_info->second_option == 'day')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_yearly_day}</th>
+    		<!--@elseif($widget_info->second_option == 'point')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_yearly_point}</th>
+            <!--@end-->
+        <!--@elseif($widget_info->first_option == 'monthly')-->
+    		<!--@if($widget_info->second_option == 'day')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_monthly_day}</th>
+    		<!--@elseif($widget_info->second_option == 'point')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_monthly_point}</th>
+            <!--@end-->
+        <!--@elseif($widget_info->first_option == 'weekly')-->
+    		<!--@if($widget_info->second_option == 'day')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_weekly_day}</th>
+    		<!--@elseif($widget_info->second_option == 'point')-->
+                <th class="bold" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$lang->view_weekly_point}</th>
+            <!--@end-->
+         <!--@end-->
+    </tr>
+    </thead>
+    <!--@end-->
+    <tbody>
+	<!--@if($widget_info->first_option == 'total')-->
+		<!--@if($widget_info->second_option == 'day')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+            <!--@if($position==1)-->{@$top=$val->total}<!--@end-->
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+				<td class="center" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$val->total}</td>
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@elseif($widget_info->second_option == 'point')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td> 
+				<td class="center" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$val->total_point}</td>
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@end-->
+	<!--@elseif($widget_info->first_option == 'yearly')-->
+		<!--@if($widget_info->second_option == 'day')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+            <!--@if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y"))) == 29)-->
+	            {@$eoy = 366}
+            <!--@else-->
+	            {@$eoy = 365}
+            <!--@end-->
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+            <!--@if($widget_info->graph_view != 'graph')-->
+                <td style="text-align:center; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">{$val->yearly}{$widget_info->view_type}</td>
+            <!--@else-->
+				<td style="min-width:90px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">
+                    {@$percent = (int)($val->yearly/$eoy *100)}
+                    <div class="attendance_graph">
+                        <div class="progress" style="width:{$percent}%">
+                            <!--@if($percent>=40)--><!--@if($percent == 100)-->{$lang->attendance_perfect}<!--@else-->{$percent}%<!--@end--><!--@else-->&nbsp;<!--@end-->
+                        </div>
+	                        <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
+	                        <strong>{$val->yearly}</strong><!--@if($percent<80)-->/{$eoy}<!--@end--><!--@if($percent<40)-->({$percent}%)<!--@end-->
+	                        </div>
+                    </div>
+                </td>
+            <!--@end-->
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@elseif($widget_info->second_option == 'point')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+				<td class="center" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$val->yearly_point}</td>
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@end-->
+	<!--@elseif($widget_info->first_option == 'monthly')-->
+		<!--@if($widget_info->second_option == 'day')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+            {@$eom = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")))}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+            <!--@if($widget_info->graph_view != 'graph')-->
+                <td style="text-align:center; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">{$val->monthly}</td>
+            <!--@else-->
+				<td style="min-width:90px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">
+                    {@$percent = (int)($val->monthly/$eom *100)}
+                    <div class="attendance_graph">
+                        <div class="progress" style="width:{$percent}%">
+                            <!--@if($percent>=40)--><!--@if($percent == 100)-->{$lang->attendance_perfect}<!--@else-->{$percent}%<!--@end--><!--@else-->&nbsp;<!--@end-->
+                        </div>
+	                        <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
+	                        <strong>{$val->monthly}</strong><!--@if($percent<80)-->/{$eom}<!--@end--><!--@if($percent<40)-->({$percent}%)<!--@end-->
+	                        </div>
+                    </div>
+                </td>
+            <!--@end-->
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@elseif($widget_info->second_option == 'point')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+				<td class="center" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$val->monthly_point}</td>
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@end-->
+	<!--@elseif($widget_info->first_option == 'weekly')-->
+		<!--@if($widget_info->second_option == 'day')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+            <!--@if($widget_info->graph_view != 'graph')-->
+                <td style="text-align:center; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">{$val->weekly}</td>
+            <!--@else-->
+				<td style="min-width:90px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->">
+                    {@$percent = (int)($val->weekly/7 *100)}
+                    <div class="attendance_graph">
+                        <div class="progress" style="width:{$percent}%">
+                            <!--@if($percent>=50)--><!--@if($percent == 100)-->{$lang->attendance_perfect}<!--@else-->{$percent}%<!--@end--><!--@else-->&nbsp;<!--@end-->
+                        </div>
+	                        <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
+	                        <strong>{$val->weekly}</strong>/7<!--@if($percent<50)-->({$percent}%)<!--@end-->
+	                        </div>
+                    </div>
+                </td>
+            <!--@end-->
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@elseif($widget_info->second_option == 'point')-->
+			<!--@foreach($widget_info->point_list->data as $val)-->
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl)}
+			<tr class="lines">
+				<td style="min-width:30px; <!--@if($widget_info->border_color)-->border-color:#{$widget_info->border_color};<!--@end-->" class="center">{$position}</td>
+				<td <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>
+                    <div class="rank_user_id member_{$member->member_srl}">
+                        {cut_str($member->nick_name,$widget_info->cut_nick_name,'...')}
+                    </div>
+                </td>
+				<td class="center" <!--@if($widget_info->border_color)-->style="border-color:#{$widget_info->border_color}"<!--@end-->>{$val->weekly_point}</td>
+			</tr>
+			{@$position++}
+			<!--@end-->
+		<!--@end-->
+	<!--@end-->
+    </tbody>
+</table>

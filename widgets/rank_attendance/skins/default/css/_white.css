@@ -1,0 +1,58 @@
+@charset "utf-8";
+.rank_title { margin:0 auto; text-align:center; font-weight:bold; font-size:12px;  color:#ffffff; }
+.rank_title:hover { color:#afafaf; }
+
+.attendRankTable { width:100%; border:0;  margin:0; padding:0; color:#ffffff; }
+.attendRankTable th div { white-space:nowrap; }
+.attendRankTable th,
+.attendRankTable td { border-bottom:1px dotted #ffffff; vertical-align:middle; line-height:1.6; padding:2px 0;}
+.attendRankTable th { font-weight:bold; text-align:center; border-bottom:1px solid #ffffff; }
+.attendRankTable th:hover { background:#f0f0f0; color:#000000;}
+.attendRankTable td:hover { background:#f0f0f0; color:#000000;}
+.attendRankTable .lines:hover { background:#d0d0d0; }
+.attendRankTable .bold { font-weight:bold; font-size:12px; text-align:center;}
+.attendRankTable .center { text-align:center; }
+.attendRankTable .right { text-align:right; }
+
+.aab { text-align:right; font-size:.9em; color:#ffffff; }
+.aab a {text-decoration:none; color:#ffffff; }
+.aab a:hover { color:#afafaf; }
+
+/*Graph*/
+.attendance_graph { 
+    width:60%; 
+    position:relative; 
+    height:14px; 
+    font:.9em 'NanumGhothic', 'Malgun Ghothic', 'Dotum', Tahoma, Gulim, Sans, Sans-Serif; 
+    text-align:left;
+}
+
+.attendance_graph .progress { 
+    position:absolute; 
+    height:12px; 
+    border:1px solid #e1e1e1; 
+    text-align:center; 
+    color:#e1e1e1;
+    padding-top:1px;
+    font-size:.9em;
+}
+
+.attendance_graph .progress:hover { 
+    position:absolute; 
+    height:12px; 
+    border:1px 
+    solid #000000;
+    text-align:center; 
+    color:#000000;
+    padding-top:1px;
+}
+
+.attendance_graph .num { 
+    position:relative; 
+    color:#e1e1e1; 
+    padding-left:3px; 
+    white-space:nowrap;
+}
+
+.attendance_graph .num:hover { color:#000000;}
+
