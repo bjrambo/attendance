@@ -655,6 +655,7 @@ class attendanceModel extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
 		$output = executeQuery('attendance.getContinuityData',$arg);
+		$continuity = new stdClass;
 		$continuity->data = (int)$output->data->continuity;
 		$continuity->point = (int)$output->data->continuity_point;
 		return $continuity;
