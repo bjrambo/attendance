@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">출석랭킹</title>
+	<version>0.8.1</version>
+
+    <author email_address="pppljh@gmail.com" link="http://maesiltea.linuxstudy.pe.kr" date="20111104">
+        <name xml:lang="ko">매실茶</name>
+        <description xml:lang="ko">출석정보를 바탕으로 랭킹을 출력합니다.</description>
+    </author>
+    <extra_vars>
+        <var id="title">
+            <name xml:lang="ko">위젯 제목</name>
+            <type>text</type>
+            <description xml:lang="ko">위젯에 들어갈 제목을 입력하세요</description>
+        </var>
+        <var id="first_option">
+            <type>select</type>
+            <name xml:lang="ko">출력기준1</name>
+            <description xml:lang="ko">랭킹 출력 기준을 선택하세요</description>
+            <options>
+                <value>total</value>
+                <name xml:lang="ko">총 출석 데이터</name>
+            </options>
+            <options>
+                <value>yearly</value>
+                <name xml:lang="ko">연간 출석데이터(올해)</name>
+            </options>
+            <options>
+                <value>monthly</value>
+                <name xml:lang="ko">월간 출석데이터(이번달)</name>
+            </options>
+            <options>
+                <value>weekly</value>
+                <name xml:lang="ko">주간 출석데이터(이번주)</name>
+            </options>
+        </var>
+        <var id="second_option">
+            <type>select</type>
+            <name xml:lang="ko">출력기준2</name>
+            <description xml:lang="ko">랭킹 출력 기준을 선택하세요</description>
+            <options>
+                <value>day</value>
+                <name xml:lang="ko">단위출석일</name>
+            </options>
+            <options>
+                <value>point</value>
+                <name xml:lang="ko">단위포인트</name>
+            </options>
+        </var>
+        <var id="is_admin">
+            <type>select</type>
+            <name xml:lang="ko">최고관리자 출력 여부</name>
+            <description xml:lang="ko">랭킹에 최고관리자를 출력시킬지 선택하세요</description>
+            <options>
+                <value>Y</value>
+                <name xml:lang="ko">출력</name>
+            </options>
+            <options>
+                <value>N</value>
+                <name xml:lang="ko">출력 안함</name>
+            </options>
+        </var>
+        <var id="list_count">
+            <type>text</type>
+            <name xml:lang="ko">리스트 수</name>
+            <description xml:lang="ko">한 페이지에 몇등까지 출력하는지에 대한 여부를 선택하세요(기본:5)</description>
+        </var>
+        <var id="cut_nick_name">
+            <type>text</type>
+            <name xml:lang="ko">별명 글자수</name>
+            <description xml:lang="ko">별명의 글자길이를 자르실 경우 입력하세요(기본:자르지 않음)</description>
+        </var>
+        <var id="title_view">
+            <type>select</type>
+            <name xml:lang="ko">항목 이름 보이기</name>
+            <description xml:lang="ko">순위, 별명 등의 항목이름을 노출시킬것인지 선택하세요.</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="addon_view">
+            <type>select</type>
+            <name xml:lang="ko">부가기능 버튼 보이기</name>
+            <description xml:lang="ko">달력보기/출석부관리 등 부가기능버튼의 노출여부를 선택하세요</description>
+            <options>
+                <value>yes</value>
+                <name xml:lang="ko">보기</name>
+            </options>
+            <options>
+                <value>no</value>
+                <name xml:lang="ko">안 보기</name>
+            </options>
+        </var>
+        <var id="graph_view">
+	        <type>select</type>
+	        <name xml:lang="ko">출석일 표시방식</name>
+	        <description xml:lang="ko">출석일 표시방식을 선택하세요(그래프 또는 숫자)</description>
+	        <options>
+	            <value>graph</value>
+	            <name xml:lang="ko">그래프로 보기</name>
+	        </options>
+	        <options>
+	            <value>number</value>
+	            <name xml:lang="ko">숫자로 보기</name>
+	        </options>
+          </var>
+        <var id="border_color">
+            <type>text</type>
+            <name xml:lang="ko">표 경계선 색</name>
+            <description xml:lang="ko">표 경계선 색을 16진수로 입력해 주세요.</description>
+        </var>
+    </extra_vars>
+</widget> 
