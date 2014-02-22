@@ -567,13 +567,10 @@ class attendanceModel extends attendance
 		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
 		$end_of_sosi = date('z', mktime(0,0,0,$current_month,$current_day,$current_year))+1;
 		if(date('t', mktime(0,0,0,02,1,$current_year))==29)
-		{
 			$end_of_year = 366;
-		}
 		else
-		{
 			$end_of_year = 365;
-		}
+
 		$ym = sprintf("%s%s",$current_year,$current_month);
 		$is_perfect_m = $this->getMonthlyData($ym,$member_srl);
 		$is_perfect_y = $this->getYearlyData($current_year,$member_srl);
@@ -606,7 +603,7 @@ class attendanceModel extends attendance
 			{
 				$arg->monthly_perfect = 0;
 			}
-			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_month)
+			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_year)
 			{
 				$arg->yearly_perfect = 1;
 			}
