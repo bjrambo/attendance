@@ -189,6 +189,6 @@
 	$lang->birthday_help = '회원정보내의 생일 포인트를 인식하여 회원들의 생일설정날에 포인트를 주는 이벤트를 실행하게 됩니다.';
 	$lang->birthday_point = '생일 포인트 설정';
 	$lang->birthday_point_help = '생일날 포인트 지급되는 포인트양을 설정합니다.';
-	$lang->birthday_member = '회원정보 생일 수정 금지';
-	$lang->birthday_member_help = '회원정보에서 생일을 수정 할 수 없도록 설정합니다..';
+	$lang->birthday_member = '회원정보 생일 수정 여부';
+	$lang->birthday_member_help = '회원정보에서 생일을 수정 할 수 있도록 개선 해줍니다.';
 ?>

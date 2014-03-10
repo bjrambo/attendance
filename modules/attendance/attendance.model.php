@@ -379,7 +379,10 @@ class attendanceModel extends attendance
 			}
 
 			/* 생일 포인트 추가 */
-			$birthdays = substr($logged_info->birthday,4,4);
+			$oMemberModel = getModel('member');
+			$member_srl = $logged_info->member_srl;
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$birthdays = substr($member_info->birthday,4,4);
 			$todays = substr($today,4,4);
 			if($config->about_birth_day=='yes')
 			{
@@ -567,9 +570,13 @@ class attendanceModel extends attendance
 		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
 		$end_of_sosi = date('z', mktime(0,0,0,$current_month,$current_day,$current_year))+1;
 		if(date('t', mktime(0,0,0,02,1,$current_year))==29)
+		{
 			$end_of_year = 366;
+		}
 		else
+		{
 			$end_of_year = 365;
+		}
 
 		$ym = sprintf("%s%s",$current_year,$current_month);
 		$is_perfect_m = $this->getMonthlyData($ym,$member_srl);
@@ -577,7 +584,8 @@ class attendanceModel extends attendance
 
 		$arg = new stdClass;
 
-		if($real == true){	//리스트에서 보여줄 때
+		if($real == true)
+		{
 			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
 			{
 				$arg->monthly_perfect = 1;
@@ -594,7 +602,9 @@ class attendanceModel extends attendance
 			{
 				$arg->yearly_perfect = 0;
 			}
-		}else{
+		}
+		else
+		{
 			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
 			{
 				$arg->monthly_perfect = 1;
@@ -603,7 +613,7 @@ class attendanceModel extends attendance
 			{
 				$arg->monthly_perfect = 0;
 			}
-			if($is_perfect_y >= $end_of_year-1 && $current_day==$end_of_year)
+			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
 			{
 				$arg->yearly_perfect = 1;
 			}

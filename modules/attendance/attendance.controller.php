@@ -42,10 +42,13 @@ class attendanceController extends attendance {
 	function procAttendanceInsertConfig()
 	{
 		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
+		{
 			$end_of_year = 366;
+		}
 		else
+		{
 			$end_of_year = 365;
-
+		}
 		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
 		$output = executeQuery('attendance.isExistConfig',$arg);
 		//관리자 출석부분 부터는 모듈 설정 기능을 사용.

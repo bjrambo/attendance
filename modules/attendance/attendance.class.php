@@ -28,7 +28,6 @@ class attendance extends ModuleObject
 		$output = executeQuery('attendance.isExistConfig',$arg);
 		if((int)$output->data->count == 0)
 		{
-			executeQuery("attendance.insertConfig", $obj);
 			$config = new stdClass;
 			$config->about_admin_check = 'yes';
 			$config->allow_duplicaton_ip_count = '3';
@@ -66,7 +65,7 @@ class attendance extends ModuleObject
 			$args = new stdClass;
 			$args->mid = 'attendance';
 			$args->module = 'attendance';
-			$args->browser_title = '출석게시판';
+			$args->browser_title = '출석채크';
 			$args->site_srl = 0;
 			$args->skin = 'default';
 			$args->order_type = 'desc';
@@ -168,7 +167,7 @@ class attendance extends ModuleObject
 		//회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
 		$oModuleModel = getModel('module');
 		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
-        
+
 		//When a member is do login, 
 		$oModuleModel = getModel('module');
 		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
@@ -341,7 +340,7 @@ class attendance extends ModuleObject
 			$args = new stdClass;
 			$args->mid = 'attendance';
 			$args->module = 'attendance';
-			$args->browser_title = '출석게시판';
+			$args->browser_title = '출석채크';
 			$args->site_srl = 0;
 			$args->skin = 'default';
 			$args->order_type = 'desc';

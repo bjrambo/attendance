@@ -558,9 +558,9 @@
 		<value xml:lang="ko"><![CDATA[생일날 포인트 지급되는 포인트양을 설정합니다.]]></value>
 	</item>
 	<item name = "birthday_member">
-		<value xml:lang="ko"><![CDATA[회원정보 생일 수정 금지]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보 생일 수정 여부]]></value>
 	</item>
 	<item name = "birthday_member_help">
-		<value xml:lang="ko"><![CDATA[회원정보에서 생일을 수정 할 수 없도록 설정합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원정보에서 생일을 수정 할 수 있도록 개선 해줍니다.]]></value>
 	</item>
 </lang>
