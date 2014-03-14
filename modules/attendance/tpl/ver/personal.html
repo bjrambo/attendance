@@ -1,0 +1,137 @@
+<!--%import("css/attendance.css")-->
+<!--%import("filter/fix_attendance_data.xml")-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<script type="text/javascript">
+    function moveDate() {
+        xGetElementById('fo_calendar').submit();
+        return true;
+    }
+</script>
+
+<!--@if(!$selected_date)-->
+	{@$selected_date=zDate(date('YmdHis'),"Ymd")}
+<!--@end-->
+
+<div class="header4 gap1">
+    <form action="./index.php" method="get" id="fo_calendar">
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />
+<h3 class="xeAdmin" style="text-align:center; ">
+            <input type="hidden" class="inputDate" value="{zdate($selected_date,'Ymd')}" />
+                <script type="text/javascript">
+                    (function($){
+                        $(function(){
+                            var option = {
+                                changeMonth: true,
+                                changeYear: true,
+                                gotoCurrent: false
+                                ,yearRange:'-100:+10'
+                                ,showOn:"button"
+                                ,buttonImage:"./modules/attendance/tpl/images/buttonCalendar.gif"
+                                ,buttonImageOnly:true
+                                ,mandatory:true
+                                ,onSelect:function(){
+                                    $("#str_selected_date").html(this.value);
+                                    $("#selected_date").val(this.value.replace(/-/g,''));
+                                    moveDate();
+                                }
+                            };
+
+                            $.extend(option,$.datepicker.regional['{$lang_type}']);
+                            $(".inputDate").datepicker(option);
+                        });
+                    })(jQuery);
+                </script>
+&nbsp;&nbsp;&nbsp;<a href="{getUrl('selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $admin_date_info->day, $admin_date_info->year-1)),"Ymd"))}">&lt;&lt;</a>&nbsp; <a href="{getUrl('selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month-1, $admin_date_info->day, $admin_date_info->year)),"Ymd"))}">&lt;</a> <a href="{getUrl('selected_date',zDate(date('YmdHis'),'Ymd'))}"> {date("Y-m-d",strtotime($selected_date))} <a href="{getUrl('selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month+1, $admin_date_info->day, $admin_date_info->year)),"Ymd"))}">></a> &nbsp;<a href="{getUrl('selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $admin_date_info->day, $admin_date_info->year+1)),"Ymd"))}">>></a>&nbsp;&nbsp;<a href="{getUrl('mid',$mid,'act','','selected_date','')}" alt="{$lang->attend_return}">{$lang->attend_return}</a></h3>
+    </form>
+</div>
+
+<form action="./" method="POST" onsubmit="return procFilter(this, fix_attendance_data);" id="fixAttendanceData">
+<input type="hidden" name="selected_date" value="" />
+<input type="hidden" name="member_srl" value ="" />
+<input type="hidden" name="count" value ="" />
+</form>
+<table cellspacing="0" class="personalTable">
+    <tr>
+        <td class="sunday center same_height" >{$lang->attend_week_name['sun']}</td>
+        <th class="center same_height" >{$lang->attend_week_name['mon']}</th>
+        <td class="center same_height" >{$lang->attend_week_name['tue']}</td>
+        <th class="center same_height" >{$lang->attend_week_name['wed']}</th>
+        <td class="center same_height" >{$lang->attend_week_name['thu']}</td>
+        <th class="center same_height" >{$lang->attend_week_name['fri']}</th>
+        <td class="saturday center same_height">{$lang->attend_week_name['sat']}</td>
+    </tr>
+    {@$day=1}
+    {@$j=0}
+    <!--@while($day <= $admin_date_info->day_max)-->
+        <!--@if($j % 7 == 0)-->
+            <tr>
+        <!--@end-->
+        <!--@while($j < $admin_date_info->week_start)-->
+            <!--@if($j%2 == 0)-->
+                <td> </td>
+            <!--@else-->
+                <th> </th>
+            <!--@end-->
+        {@$j++}
+        <!--@end-->
+        <!--@if(($j %7) %2 == 0)-->
+            <td>
+                {@$check_date = sprintf("%s%s%02d",$admin_date_info->year,$admin_date_info->month,$day)}
+                {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
+                <!--@if($admin_date_info->day == sprintf("%2d",$day) && sprintf("%04d%02d%02d",$admin_date_info->year,$admin_date_info->month,$admin_date_info->day) == $selected_date)--><u><!--@end-->
+                <!--@if($checked == 1)-->
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('act','','mid','attendance','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $day, $admin_date_info->year)),"Ymd"))}">{$day++}</a><!--@if(substr($selected_date,6,2) == sprintf("%02d",$day-1))--></u><!--@end--><br/>
+                {@$today_data = $oAttendanceModel->getUserAttendanceData($logged_info->member_srl, $admin_date_info->year.$admin_date_info->month.sprintf("%02d",$day-1))}
+                {$lang->time} 
+                {date("H:i:s",strtotime($today_data->regdate))}<br/>
+                {$lang->today_added_point} : {$today_data->today_point}<br />
+                {$lang->attend_ipaddress} : <!--@if($today_data->ipaddress)-->{$today_data->ipaddress}<!--@else-->{$lang->attend_none}<!--@end-->
+                <!--@elseif($checked >= 2)-->
+                {$day++}<br />
+                <a href="#fixAttendanceData" onclick="att_fix_attendance_data('{$logged_info->member_srl}','{$checked}','{$check_date}','{$lang->attend_fix_att}','{$logged_info->nick_name}');">중복출석되었습니다. 고치려면 누르세요.</a><!--@if($admin_date_info->day == sprintf("%2d",$day-1))--></u><!--@end-->
+                <!--@else-->
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('act','','mid','attendance','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $day, $admin_date_info->year)),"Ymd"))}">{$day++}</a><!--@if(substr($selected_date,6,2) == sprintf("%02d",$day-1))--></u><!--@end--><br />
+                {$lang->attend_absence}
+                <!--@end-->
+            </td>
+        <!--@else-->
+            <th>
+                {@$check_date = sprintf("%s%s%02d",$admin_date_info->year,$admin_date_info->month,$day)}
+                {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
+                <!--@if($admin_date_info->day == sprintf("%2d",$day) && sprintf("%04d%02d%02d",$admin_date_info->year,$admin_date_info->month,$admin_date_info->day) == $selected_date)--><u><!--@end-->
+                <!--@if($checked == 1)-->
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('act','','mid','attendance','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $day, $admin_date_info->year)),"Ymd"))}">{$day++}</a><!--@if(substr($selected_date,6,2) == sprintf("%02d",$day-1))--></u><!--@end--><br/>
+                {@$today_data = $oAttendanceModel->getUserAttendanceData($logged_info->member_srl, $admin_date_info->year.$admin_date_info->month.sprintf("%02d",$day-1))}
+                {$lang->time} 
+                {date("H:i:s",strtotime($today_data->regdate))}<br/>
+                {$lang->today_added_point} : {$today_data->today_point}<br />
+                {$lang->attend_ipaddress} : <!--@if($today_data->ipaddress)-->{$today_data->ipaddress}<!--@else-->{$lang->attend_none}<!--@end-->
+                <!--@elseif($checked >= 2)-->
+                {$day++}<br />
+                <a href="#fixAttendanceData" onclick="att_fix_attendance_data('{$logged_info->member_srl}','{$checked}','{$check_date}','{$lang->attend_fix_att}','{$logged_info->nick_name}');">중복출석되었습니다. 고치려면 누르세요.</a><!--@if($admin_date_info->day == sprintf("%2d",$day-1))--></u><!--@end-->
+                <!--@else-->
+                <a <!--@if($j%7==0)-->class="sunday"<!--@elseif($j%7==6)-->class="saturday"<!--@end--> href="{getUrl('act','','mid','attendance','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->month, $day, $admin_date_info->year)),"Ymd"))}">{$day++}</a><!--@if(substr($selected_date,6,2) == sprintf("%02d",$day-1))--></u><!--@end--><br />
+                {$lang->attend_absence}
+                <!--@end-->
+            </th>
+        <!--@end-->
+        <!--@if($day-1 == $admin_date_info->day_max)-->
+            <!--@while($j %7 < 6)-->
+                <!--@if(($j %7) %2 == 1)-->
+                    <td> </td>
+                <!--@else-->
+                    <th> </th>
+                <!--@end-->
+                {@$j++}
+            <!--@end-->
+        <!--@end-->
+        <!--@if($j % 7 == 6)-->
+            </tr>
+        <!--@end-->
+        {@$j++}
+    <!--@end-->
+</table>

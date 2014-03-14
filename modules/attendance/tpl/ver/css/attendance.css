@@ -1,0 +1,85 @@
+@charset "utf-8";
+#str_selected_date { font-size:9pt; font-family:tahoma; }
+#trigger_calendar { vertical-align:middle; }
+#navi { margin:0 auto; width:200px; text-align:center;font-size:12px; color:#5c5c5c; }
+#navi a { text-decoration:none; color:#5c5c5c; }
+#navi a:link { text-decoration:none; }
+#navi a:visited { text-decoration:none; }
+.right { font-size:12px; font-weight:bold; color:#000000; text-align:right; }
+.center { font-size:12px; font-weight:bold; text-align:center; }
+.dispmonth { font-size:12px; font-weight:bold; color:#5c5c5c; text-align:left; }
+.graph_data {font-size:12px; color:#5c5c5c; text-align:left; }
+.attendanceTable { width:100%; border:0; border-top:2px solid #cfcfcf; margin:0 0 20px 0; padding:0;}
+.attendanceTable th div { white-space:nowrap; }
+.attendanceTable tr.bg0{ background:#fff;}
+.attendanceTable tr.bg1{ background:#f8f8f8;}
+.attendanceTable th,
+.attendanceTable td{ border:0; padding:3px 1px; text-align:center; vertical-align:middle; }
+.attendanceTable th{ background:#f4f4f4; text-align:center;}
+.attendanceTable tbody th{ border-bottom:1px solid #e5e5e5;}
+.attendanceTable td{ border-bottom:1px solid #f0f0f0;}
+.attendanceTable th.button, .colTable th.button, .crossTable th.button { text-align:right; }
+.attendanceTable td.alert, .colTable td.alert, .crossTable td.alert  { color:red !important; }
+.attendanceTable td.alert a, .colTable td.alert a, .crossTable td.alert a { text-decoration:none; color:red !important; }
+.attendanceTable .center { font-size:12px; font-weight:bold; text-align:center; }
+.attendanceTable .dotted { font-size:12px; font-weight:bold; color:#ff0000; text-align:center; }
+.attendanceTable .right_data { font-size:12px; color:#5c5c5c; text-align:right; }
+.rowTable .center { font-size:12px; font-weight:bold; text-align:center; }
+.rowTable th { font-weight:normal;}
+a {text-decoration:none; color:#5c5c5c;}
+
+/*Graph*/
+.admin_graph { 
+    width:90%; 
+    position:relative; 
+    height:15px; 
+    font:.9em Tahoma; 
+    text-align:left;
+}
+
+.admin_graph .progress { 
+    position:absolute; 
+    height:12px; 
+    border:1px solid #a1a1a1; 
+    text-align:center; 
+    color:#a1a1a1;
+    padding-top:1px;
+}
+
+.admin_graph .progress:hover { 
+    position:absolute; 
+    height:12px; 
+    border:1px 
+    solid #d9d9d9;
+    text-align:center; 
+    color:#d9d9d9;
+    padding-top:1px;
+}
+
+.admin_graph .trans-image { 
+    width:1px; 
+    height:1px;
+}
+
+.admin_graph .num { 
+    width:10%;
+    position:relative; 
+    color:#a1a1a1; 
+    padding-left:3px; 
+    white-space:nowrap;
+}
+
+/*personalTable*/
+.personalTable { width:100%; border:0; margin:0 0 20px 0; padding:0; table-layout:fixed; color:#797979; }
+.personalTable th div { white-space:nowrap; }
+.personalTable tr.bg0{ background:#fff;}
+.personalTable tr.bg1{ background:#f8f8f8;}
+.personalTable th,
+.personalTable td{ border:0; padding:3px 1px; vertical-align:top;  text-align:left; white-space:nowrap;  height:100px; overflow:hidden; }
+.personalTable th{ background:#f4f4f4;white-space:nowrap; }
+.personalTable tbody th{ border-bottom:1px dotted #e5e5e5; font-weight:normal; white-space:nowrap; }
+.personalTable td{ border-bottom:1px dotted #f0f0f0; font-weight:normal; white-space:nowrap; }
+.personalTable .sunday { color:red;}
+.personalTable .saturday { color:blue;}
+.personalTable .center { text-align:center; }
+.personalTable .same_height { height:auto; font-weight:bold; }

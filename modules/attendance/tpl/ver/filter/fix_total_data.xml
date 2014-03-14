@@ -1,0 +1,8 @@
+<filter name="fix_total_data" module="attendance" act="procAttendanceAdminFixTotalData" confirm_msg_code="confirm_reset">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

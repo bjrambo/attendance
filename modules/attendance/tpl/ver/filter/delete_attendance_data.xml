@@ -1,0 +1,8 @@
+<filter name="delete_attendance_data" module="attendance" act="procAttendanceDeleteData" confirm_msg_code="confirm_delete">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
