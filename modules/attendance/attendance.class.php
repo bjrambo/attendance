@@ -370,28 +370,24 @@ class attendance extends ModuleObject
 		{
 			$oModuleController = getController('module');
 			$config->allow_duplicaton_ip_count = 3;
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_admin_check)
 		{
 			$oModuleController = getController('module');
 			$config->about_admin_check = 'yes';
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_birth_day)
 		{
 			$oModuleController = getController('module');
 			$config->about_birth_day = 'no';
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_birth_day_y)
 		{
 			$oModuleController = getController('module');
 			$config->about_birth_day_y = 'no';
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_time_control)
@@ -405,7 +401,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_time_control = $config_data->about_time_control;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 		
 		if(!$config->start_time)
@@ -419,7 +414,6 @@ class attendance extends ModuleObject
 			{
 				$config->start_time = $config_data->start_time;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->end_time)
@@ -433,7 +427,6 @@ class attendance extends ModuleObject
 			{
 				$config->end_time = $config_data->end_time;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_yearly)
@@ -447,7 +440,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_diligence_yearly = $config_data->about_diligence_yearly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_yearly)
@@ -461,7 +453,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_yearly = $config_data->diligence_yearly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_yearly_point)
@@ -475,7 +466,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_yearly_point = $config_data->diligence_yearly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_monthly)
@@ -489,7 +479,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_diligence_monthly = $config_data->about_diligence_monthly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_monthly)
@@ -503,7 +492,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_monthly = $config_data->diligence_monthly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_monthly_point)
@@ -517,7 +505,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_monthly_point = $config_data->diligence_monthly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_diligence_weekly)
@@ -531,7 +518,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_diligence_weekly = $config_data->about_diligence_weekly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_weekly)
@@ -545,7 +531,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_weekly = $config_data->diligence_weekly;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->diligence_weekly_point)
@@ -559,7 +544,6 @@ class attendance extends ModuleObject
 			{
 				$config->diligence_weekly_point = $config_data->diligence_weekly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->add_point)
@@ -573,7 +557,6 @@ class attendance extends ModuleObject
 			{
 				$config->add_point = $config_data->add_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 		
 		if(!$config->first_point)
@@ -587,7 +570,6 @@ class attendance extends ModuleObject
 			{
 				$config->first_point = $config_data->first_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->second_point)
@@ -601,7 +583,6 @@ class attendance extends ModuleObject
 			{
 				$config->second_point = $config_data->second_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->third_point)
@@ -615,7 +596,6 @@ class attendance extends ModuleObject
 			{
 				$config->third_point = $config_data->third_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->yearly_point)
@@ -629,7 +609,6 @@ class attendance extends ModuleObject
 			{
 				$config->yearly_point = $config_data->yearly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->monthly_point)
@@ -643,7 +622,6 @@ class attendance extends ModuleObject
 			{
 				$config->monthly_point = $config_data->monthly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->weekly_point)
@@ -657,7 +635,6 @@ class attendance extends ModuleObject
 			{
 				$config->weekly_point = $config_data->weekly_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_target)
@@ -671,7 +648,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_target = $config_data->about_target;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->target_day)
@@ -685,7 +661,6 @@ class attendance extends ModuleObject
 			{
 				$config->target_day = $config_data->target_day;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->target_point)
@@ -699,7 +674,6 @@ class attendance extends ModuleObject
 			{
 				$config->target_point = $config_data->target_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_continuity)
@@ -713,7 +687,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_continuity = $config_data->about_continuity;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->continuity_day)
@@ -727,7 +700,6 @@ class attendance extends ModuleObject
 			{
 				$config->continuity_day = $config_data->continuity_day;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 
@@ -742,7 +714,6 @@ class attendance extends ModuleObject
 			{
 				$config->continuity_point = $config_data->continuity_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_random)
@@ -756,7 +727,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_random = $config_data->about_random;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->minimum)
@@ -770,7 +740,6 @@ class attendance extends ModuleObject
 			{
 				$config->minimum = $config_data->minimum;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->maximum)
@@ -784,7 +753,6 @@ class attendance extends ModuleObject
 			{
 				$config->maximum = $config_data->maximum;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->about_lottery)
@@ -798,7 +766,6 @@ class attendance extends ModuleObject
 			{
 				$config->about_lottery = $config_data->about_lottery;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->lottery)
@@ -812,7 +779,6 @@ class attendance extends ModuleObject
 			{
 				$config->lottery = $config_data->lottery;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
 
 		if(!$config->brithday_point)
@@ -826,9 +792,8 @@ class attendance extends ModuleObject
 			{
 				$config->brithday_point = $config_data->brithday_point;
 			}
-			$oModuleController->insertModuleConfig('attendance', $config);
 		}
-
+		$oModuleController->insertModuleConfig('attendance', $config);
 
 
 
