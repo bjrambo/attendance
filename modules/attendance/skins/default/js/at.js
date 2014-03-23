@@ -38,24 +38,62 @@ function attendance_check(){
     }
 }
 
-function documentView(srl){
-    jQuery(document).ready(function(){
-        jQuery("#"+srl).slideToggle("slow");
-    });
+
+function attendance_no_check(){
+    var qook = jQuery('#click_button').get(0);
+	alert('SoneYours 출석하면서 인삿말을 남겨보세요');
+
 }
 
-function bonusView(srl){
-    jQuery(document).ready(function(){
-        jQuery("#"+srl).slideToggle("slow");
-    });
-}
 
 function modify_att(){
     var m = jQuery('#modify_submit').get(0);
     return procFilter(m, update_attendance);
 }
 
-jQuery(document).ready(function(){
-    jQuery("#list_open").click(function(){ jQuery("#point_list").slideToggle("slow"); });
-    jQuery("#calendar_click").click(function(){ jQuery("#point_list").slideToggle("slow"); jQuery("#calendar_view").slideToggle("slow"); });
+
+function alll() {
+ var m = document.f1.greetings.value;
+ var mm = m.length;
+  document.f1.t2.value = mm;
+ setTimeout("alll()" ,0);
+ }
+
+jQuery(function($){
+	// 글쓴이 입력창 레이블 토글
+	var iText = $('.item .iLabel').next('.iText');
+	$('.item .iLabel').css('position','absolute');
+	iText
+		.focus(function(){
+			$(this).prev('.iLabel').css('visibility','hidden');
+		})
+		.blur(function(){
+			if($(this).val() == ''){
+				$(this).prev('.iLabel').css('visibility','visible');
+			} else {
+				$(this).prev('.iLabel').css('visibility','hidden');
+			}
+		})
+		.change(function(){
+			if($(this).val() == ''){
+				$(this).prev('.iLabel').css('visibility','visible');
+			} else {
+				$(this).prev('.iLabel').css('visibility','hidden');
+			}
+		})
+		.blur();
 });
+
+
+function toggle_object(post_id){   
+    var obj = xGetElementById(post_id);   
+    if(!obj) return;   
+  
+    if(obj.style.display=="none"){   
+        obj.style.display='block';
+        
+    } else {   
+        obj.style.display="none";  			
+    }
+	
+}
