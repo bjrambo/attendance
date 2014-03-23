@@ -24,30 +24,6 @@ class attendance extends ModuleObject
 		$oModuleController->insertActionForward('attendance', 'controller', 'procAttendanceDeleteData');
 		$oModuleController->insertActionForward('attendance', 'controller', 'procAttendanceCheckData');
 
-		//설정값이 하나도 없을 경우
-		$output = executeQuery('attendance.isExistConfig',$arg);
-		if((int)$output->data->count == 0)
-		{
-			$config = new stdClass;
-			$config->about_admin_check = 'yes';
-			$config->allow_duplicaton_ip_count = '3';
-			$config->about_birth_day = 'no';
-			$config->about_birth_day_y = 'no';
-			$config->about_time_control = 'no';
-			$config->start_time = '0000';
-			$config->end_time = '0000';
-			$config->about_diligence_yearly = 'no';
-			$config->diligence_yearly = '364';
-			$config->about_diligence_monthly = 'no';
-			$config->diligence_monthly = '25';
-			$config->about_diligence_weekly = 'no';
-			$config->diligence_weekly = '6';
-			$config->about_target = 'no';
-			$config->about_lottery = 'no';
-			$oModuleController = getController('module');
-			$oModuleController->insertModuleConfig('attendance', $config);
-		}
-
 		$oModule = getModel('module');
 		$module_info = $oModule->getModuleInfoByMid('attendance');
 		if($module_info->module_srl)
