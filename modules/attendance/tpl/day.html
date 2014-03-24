@@ -4,7 +4,7 @@
 <!--//일별 출석여부 출력 -->
 
 <!--//선택한 회원의 출석정보 재생성-->
-<form action="./" method="POST" onsubmit="return procFilter(this, fix_attendance_data);" id="fixAttendanceData">
+<form action="{getUrl('')}" method="POST" onsubmit="return procFilter(this, fix_attendance_data);" id="fixAttendanceData">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
 <input type="hidden" name="type" value="{$type}" />
@@ -14,7 +14,7 @@
 </form>
 
 <!--//검색상자-->
-<form action="./" method="get" class="adminSearch">
+<form action="{getUrl('')}" method="get" class="adminSearch">
 <input type="hidden" name="mid" value="" />
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
@@ -41,7 +41,7 @@
     </fieldset>
 </form>
 
-<form id="attendanceMode" action="./" method="post">
+<form id="attendanceMode" action="{getUrl('')}" method="post">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="page" value="{$page}" />
@@ -111,7 +111,7 @@
 </div>
 
 <!--//검색상자-->
-<form action="./" method="get" class="adminSearch">
+<form action="{getUrl('')}" method="get" class="adminSearch">
 <input type="hidden" name="mid" value="" />
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />

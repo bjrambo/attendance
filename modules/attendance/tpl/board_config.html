@@ -9,7 +9,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <!--출석게시판 설정-->
-<form action="./" method="post" onsubmit="return procFilter(this, insert_greetingsboard);" enctype="multipart/form-data" class="x_form-horizontal">
+<form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, insert_greetingsboard);" enctype="multipart/form-data" class="x_form-horizontal">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="type" value="{$type}" />
