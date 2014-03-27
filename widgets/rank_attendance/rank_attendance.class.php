@@ -1,5 +1,4 @@
-<?PHP
-
+<?php
 class rank_attendance extends WidgetHandler{
 
     function proc($args){
