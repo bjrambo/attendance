@@ -1,14 +1,14 @@
-<?PHP
-
-class attendance_check extends WidgetHandler{
-
-    function proc($args){
-
+<?php
+class attendance_check extends WidgetHandler
+{
+	function proc($args)
+	{
         /* 템플릿 파일에서 사용할 변수들을 세팅 */
+		$obj = new stdClass;
         $obj->title = $args->title;
 
         //attendance model 객체 로드
-        $oAttendanceModel = &getModel('attendance');
+        $oAttendanceModel = getModel('attendance');
 
         $selected_date = Context::get('choose_date');
         if(!$selected_date){ $selected_date = zDate(date('YmdHis'),"Ymd");}
@@ -19,7 +19,7 @@ class attendance_check extends WidgetHandler{
         $config_data = $output->data;
 
         //module의 설정값 가져오기
-        $oModuleModel = &getModel('module');
+        $oModuleModel = getModel('module');
         $config = $oModuleModel->getModuleConfig('attendance');
         if(!$config->about_admin_check)$config->about_admin_check = 'yes';
         Context::set('config2',$config);
@@ -61,6 +61,7 @@ class attendance_check extends WidgetHandler{
             $obj->greetings_length = $args->greetings_length;
 
         /*연속출석 관련 설정*/
+		$continuity = new stdClass;
         $continuity->about_continuity = $config_data->about_continuity;
         $continuity->continuity_day = $config_data->continuity_day;
 
@@ -82,15 +83,15 @@ class attendance_check extends WidgetHandler{
             $flag = 1;
 
         //포인트 모듈 연동
-        $oPointModel = &getModel('point');
+        $oPointModel = getModel('point');
 
         //member 모듈 연동
-        $oMemberModel = &getModel('member');
+        $oMemberModel = getModel('member');
 
         //출석가능 시간대인지 판단
         $is_available = $oAttendanceModel->availableCheck($config_data);
 
-        $oDocumentModel = &getModel('document');
+        $oDocumentModel = getModel('document');
         
         //변수 내보내기
         Context::set('selected_date',$selected_date);
@@ -121,7 +122,7 @@ class attendance_check extends WidgetHandler{
         $tpl_file = 'body';
 
         // 템플릿 컴파일
-        $oTemplate = &TemplateHandler::getInstance();
+        $oTemplate = TemplateHandler::getInstance();
         return $oTemplate->compile($tpl_path, $tpl_file);
     }
 }
