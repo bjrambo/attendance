@@ -8,12 +8,14 @@ class rank_attendance extends WidgetHandler{
         $list_count = (int)$args->list_count;
         if(!$list_count) $list_count = 5;
 
-        $oAttendanceModel = &getModel('attendance');
+        $oAttendanceModel = getModel('attendance');
 
         $year = zDate(date('YmdHis'),"Y");
         $year_month = zDate(date('YmdHis'),"Ym");
         $today = zDate(date('YmdHis'),"Ymd");
         $week = $oAttendanceModel->getWeek($today);
+
+		$obj = new stdClass;
 
         if($args->is_admin == 'Y') {
             $obj->is_admin=null;  
@@ -56,6 +58,7 @@ class rank_attendance extends WidgetHandler{
                      //별명 글자길이 제한
         if(!$args->cut_nick_name) $widget_info->cut_nick_name = 0; else $widget_info->cut_nick_name = $args->cut_nick_name;
 
+		$widget_info = new stdClass;
         $widget_info->title = $title;
         $widget_info->list_count = $list_count;
         $widget_info->point_list = $output;
@@ -67,7 +70,7 @@ class rank_attendance extends WidgetHandler{
         $widget_info->border_color = $args->border_color;
 
         //load member module
-        $oMemberModel = &getModel('member');        
+        $oMemberModel = getModel('member');        
 
         Context::set('widget_info', $widget_info);
         Context::set('colorset', $args->colorset);
@@ -80,7 +83,7 @@ class rank_attendance extends WidgetHandler{
         Context::set('colorset', $args->colorset);
 
 		             // 템플릿 컴파일
-        $oTemplate = &TemplateHandler::getInstance();
+        $oTemplate = TemplateHandler::getInstance();
         return $oTemplate->compile($tpl_path, $tpl_file);
         }
 }
