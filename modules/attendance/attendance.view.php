@@ -22,6 +22,7 @@ class attendanceView extends attendance{
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		}
 		$this->setTemplatePath($template_path);
+		$this->setTemplateFile('index');
 	}
     
 	//개인의 출석달력
@@ -121,14 +122,5 @@ class attendanceView extends attendance{
 		Context::set('oMemberModel',$oMemberModel);
 		Context::set('module_info',$module_info);
 		Context::set('config',$config);
-
-		$template_path = sprintf("%sskins/%s/",$this->module_path, $module_info->skin);
-		if(!is_dir($template_path)||!$module_info->skin)
-		{
-			$module_info->skin = 'default';
-			$template_path = sprintf("%sskins/%s/",$this->module_path, $module_info->skin);
-		}
-		$this->setTemplatePath($template_path);
-		$this->setTemplateFile('index');
 	}
 }

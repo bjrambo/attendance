@@ -5,7 +5,7 @@
 
 {$lang->attendance_search_help}<br/>{$lang->attendance_total_help}<br />
 <!--//선택한 회원의 출석정보 재계산-->
-<form action="./" method="POST" onsubmit="return procFilter(this, fix_total_data);" id="fixTotalData">
+<form action="{getUrl('')}" method="POST" onsubmit="return procFilter(this, fix_total_data);" id="fixTotalData">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
 <input type="hidden" name="type" value="{$type}" />
@@ -15,7 +15,7 @@
 </form>
 
 <!--//검색상자-->
-<form action="./" method="get" class="adminSearch">
+<form action="{getUrl('')}" method="get" class="adminSearch">
 <input type="hidden" name="error_return_url" value="" />
 <input type="hidden" name="mid" value="" />
 <input type="hidden" name="module" value="{$module}" />
@@ -47,7 +47,7 @@
 </form>
 
 <!--//선택한 회원의 모든 출석정보 삭제-->
-<form action="./" method="POST" onsubmit="return procFilter(this, delete_all_data);" id="deleteAllData">
+<form action="{getUrl('')}" method="POST" onsubmit="return procFilter(this, delete_all_data);" id="deleteAllData">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="{$act}" />
 <input type="hidden" name="type" value="{$type}" />
@@ -114,7 +114,7 @@
 <!--@end-->
 </table>
 
-<form id="updateForm" action="./" method="POST">
+<form id="updateForm" action="{getUrl('')}" method="POST">
     <input type="hidden" id="update_action" name="action" value="" />
     <input type="hidden" id="update_member_srl" name="member_srl" value="" />
     <input type="hidden" id="update_point" name="point" class="inputTypeText w80" />

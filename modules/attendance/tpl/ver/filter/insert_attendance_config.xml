@@ -1,0 +1,8 @@
+<filter name="insert_attendance_config" module="attendance" act="procAttendanceInsertConfig" confirm_msg_code="confirm_update">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

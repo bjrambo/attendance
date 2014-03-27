@@ -7,7 +7,8 @@
 * 출석부 기록, 관리자의 임의 출석내용 변경 시 호출되는 함수들이 있습니다.
 **/
 
-class attendanceController extends attendance {
+class attendanceController extends attendance
+{
 
 	/**
 	 * @brief 초기화
@@ -42,12 +43,17 @@ class attendanceController extends attendance {
 	function procAttendanceInsertConfig()
 	{
 		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
+		{
 			$end_of_year = 366;
+		}
 		else
+		{
 			$end_of_year = 365;
-
+		}
 		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
-		$output = executeQuery('attendance.isExistConfig',$arg);
+
+		$oModule = getModel('module');
+		$output = $oModule->getModuleConfig('attendance');
 		//관리자 출석부분 부터는 모듈 설정 기능을 사용.
 		$oModuleController = getController('module');
 		//설정값이 저장되어있지 않다면
@@ -107,8 +113,6 @@ class attendanceController extends attendance {
 			$config->about_lottery = $obj->about_lottery;
 			$config->lottery = $obj->lottery;
 			$config->brithday_point = $obj->brithday_point;
-			$oModuleController->insertModuleConfig('attendance', $config);
-			executeQuery("attendance.insertConfig", $obj);
 		}
 		else
 		{
@@ -166,9 +170,8 @@ class attendanceController extends attendance {
 			$config->about_lottery = $obj->about_lottery;
 			$config->lottery = $obj->lottery;
 			$config->brithday_point = $obj->brithday_point;
-			$oModuleController->insertModuleConfig('attendance', $config);
-			executeQuery("attendance.updateConfig", $obj);
 		}
+		$oModuleController->insertModuleConfig('attendance', $config);
 	}
 
     /**

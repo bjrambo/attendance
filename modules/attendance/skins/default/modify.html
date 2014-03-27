@@ -1,26 +1,22 @@
-<!--%import("./filter/update_attendance.xml")-->
-<!--#include("_header.html")-->
-<!--%import("./js/at.js")-->
+<load target="./filter/update_attendance.xml" />
+<include target="_header.html" />
+<load target="./js/at.js" />
 
-<!--@if($module_info->colorset == "black")-->
-	<!--%import("./css/modify_black.css")-->
-<!--@elseif($module_info->colorset == "gray")-->
-	<!--%import("./css/modify_gray.css")-->
-<!--@elseif($module_info->colorset == "blue")-->
-	<!--%import("./css/modify_blue.css")-->
-<!--@else-->
-	<!--%import("./css/modify_gray.css")-->
-<!--@end-->
+<load target="./css/gray.css" />
+
 
 <div id="attendance_board_modify">
 <!--@if($logged_info->is_admin=="Y" || $grant->manager == 1)-->
-    <p class="at_modify_title">{$lang->attend_modify}</p>
+    <div class="at_modify_title">{$lang->attend_modify}</div>
+    
+    <div class="fo">{$lang->attend_modify_info}</div>
+    
     <table cellspacing="0" class="modify_table" >
         <thead>
             <tr>
                 <th>{$lang->nick_name}</th>
-                <th>{$lang->time}</th>
-                <th>{$lang->today_added_point}</th>
+                <th><span>{$lang->time}</span></th>
+                <th><span>{$lang->today_added_point}</span></th>
                 <!--th style="text-align:center;">{$lang->ipaddress}</th-->
             </tr>
         </thead>
@@ -38,7 +34,12 @@
             </tr>
         </tbody>
     </table>
-    <p class="submit_button"><a href="#" onclick="return modify_att();">+{$lang->cmd_modify}</a> | <a href="{getUrl('act','','attendance_srl','')}" >{$lang->cmd_back}</a></p>
-    <p class="at_info_msg">{$lang->attend_modify_info}</p>
+    <div class="mod">
+    <span>
+    <a href="#" onclick="return modify_att();">&rsaquo; {$lang->cmd_modify}</a></span>
+    <span>
+    <a href="{getUrl('act','','attendance_srl','')}" >&rsaquo; {$lang->cmd_back}</a></span>
+    </div>
 <!--@end-->
 </div>
+<!--#include("_footer.html")-->

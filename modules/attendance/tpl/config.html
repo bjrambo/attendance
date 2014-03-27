@@ -23,7 +23,7 @@
 </div>
 
 <h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attendance_module} {$lang->cmd_management}</h3>
-<form action="./" method="post" onsubmit="return procFilter(this, insert_attendance_config);" class="x_form-horizontal">
+<form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, insert_attendance_config);" class="x_form-horizontal">
 	<section class="section">
 		<h1>{$lang->subtitle_primary} <button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button></h1>
 		<div class="x_control-group">
@@ -311,7 +311,7 @@
 <br />
 
 <h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attend_init_all}</h3>
-<form action="./" method="post" onsubmit="return procFilter(this, init_all);">
+<form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, init_all);">
     <table cellspacing="0" class="rowTable" >
         <tr>
             <td rowspan="2" width="50%">{$lang->attend_init_all_msg}</td>
@@ -335,7 +335,7 @@
         <th width="150px">{$lang->attend_remove_board}</th>
         <td>
             {$lang->attend_board_info}<br/>
-            <form action="./" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
+            <form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
                 <input type="hidden" name="type" value="{$type}" />

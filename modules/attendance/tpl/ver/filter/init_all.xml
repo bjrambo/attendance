@@ -1,0 +1,8 @@
+<filter name="init_all" module="attendance" act="procAttendanceAdminInitAll" confirm_msg_code="confirm_reset">
+    <form />
+    <parameter />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
