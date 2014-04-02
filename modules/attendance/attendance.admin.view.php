@@ -91,7 +91,7 @@ class attendanceAdminView extends attendance{
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		$oModuleAdminModel = getAdminModel('module');
-		Context::set('config2',$config);
+		Context::set('config',$config);
 
 		$start_time = new stdClass;
 		$start_time->hour = substr($config->start_time,0,2);

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+	<customrules>
+	</customrules>
+	<fields>
+		<field name="add_point" required="true" />
+		<field name="first_point" required="true" />
+		<field name="second_point" />
+		<field name="third_point"  />
+		<field name="third_point"  />
+		<field name="yearly_point" />
+		<field name="monthly_point" />
+		<field name="weekly_point" />
+		<field name="about_target" />
+		<field name="target_day" />
+		<field name="target_point" />
+		<field name="about_continuity" />
+		<field name="continuity_day" />
+		<field name="continuity_point" />
+		<field name="about_time_control" />
+	</fields>
+</ruleset>

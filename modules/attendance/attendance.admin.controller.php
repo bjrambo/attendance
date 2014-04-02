@@ -30,6 +30,91 @@ class attendanceAdminController extends attendance
 		$this->setMessage('attend_deleted');
 	}
 
+	function procAttendanceAdminInsertAttendance()
+	{
+		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
+		{
+			$end_of_year = 366;
+		}
+		else
+		{
+			$end_of_year = 365;
+		}
+		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
+
+		$oModule = getModel('module');
+		$output = $oModule->getModuleConfig('attendance');
+
+		$oModuleController = &getController('module');
+
+		$obj = Context::getRequestVars();
+		if($obj->continuity_day < 2)
+		{
+			$obj->continuity_day = 2;
+		}
+		if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
+		{
+			$obj->diligence_yearly = $end_of_year - 1;
+		}
+		if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
+		{
+			$obj->diligence_monthly = $end_of_month - 1;
+		}
+		if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
+		{
+			$obj->diligence_weekly = 6;
+		}
+		$config = new stdClass;
+		$config->about_admin_check = $obj->about_admin_check;
+		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
+		$config->about_auto_attend = $obj->about_auto_attend;
+		$config->about_birth_day = $obj->about_birth_day;
+		$config->about_birth_day_y = $obj->about_birth_day_y;
+		$config->about_time_control = $obj->about_time_control;
+		$config->start_time = sprintf("%02d%02d",$obj->start_hour,$obj->start_min);
+		$config->end_time = sprintf("%02d%02d",$obj->end_hour,$obj->end_min);
+		$config->about_diligence_yearly = $obj->about_diligence_yearly;
+		$config->diligence_yearly = $obj->diligence_yearly;
+		$config->diligence_yearly_point = $obj->diligence_yearly_point;
+		$config->about_diligence_monthly = $obj->about_diligence_monthly;
+		$config->diligence_monthly = $obj->diligence_monthly;
+		$config->diligence_monthly_point = $obj->diligence_monthly_point;
+		$config->about_diligence_weekly = $obj->about_diligence_weekly;
+		$config->diligence_weekly = $obj->diligence_weekly;
+		$config->diligence_weekly_point = $obj->diligence_weekly_point;
+		$config->add_point = $obj->add_point;
+		$config->first_point = $obj->first_point;
+		$config->second_point = $obj->second_point;
+		$config->third_point = $obj->third_point;
+		$config->yearly_point = $obj->yearly_point;
+		$config->monthly_point = $obj->monthly_point;
+		$config->weekly_point = $obj->weekly_point;
+		$config->about_target = $obj->about_target;
+		$config->target_day = $obj->target_day;
+		$config->target_point = $obj->target_point;
+		$config->about_continuity = $obj->about_continuity;
+		$config->continuity_day = $obj->continuity_day;
+		$config->continuity_point = $obj->continuity_point;
+		$config->about_random = $obj->about_random;
+		$config->minimum = $obj->minimum;
+		$config->maximum = $obj->maximum;
+		$config->about_lottery = $obj->about_lottery;
+		$config->lottery = $obj->lottery;
+		$config->brithday_point = $obj->brithday_point;
+
+		$this->setMessage('success_updated');
+
+		$oModuleController->updateModuleConfig('attendance', $config);
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminList');
+			header('location: ' . $returnUrl);
+			return;
+		}
+
+	}
+
 	/**
 	 * @brief 출석 포인트 변경
 	 **/

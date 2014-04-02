@@ -3,6 +3,7 @@
     <grants />
     <permissions>
         <permission action="dispAttendanceAdminList" target="manager"/>
+		<permission action="procAttendanceAdminInsertAttendance" target="manager"/>
         <permission action="procAttendanceAdminDeleteAllData" target="manager"/>
         <permission action="procAttendanceAdminInitAll" target="manager"/>
         <permission action="procAttendanceAdminUpdatePoint" target="manager"/>
@@ -18,6 +19,7 @@
     <actions>
 	    <action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
 	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" />
+		<action name="procAttendanceAdminInsertAttendance" type="controller" standalone="true" />
 	    <action name="procAttendanceInsertConfig" type="controller" standalone="true" />
 	    <action name="procAttendanceDeleteData" type="controller" standalone="true" />
 	    <action name="procAttendanceCheckData" type="controller" standalone="true" />
