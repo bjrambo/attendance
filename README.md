@@ -59,6 +59,7 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 * 기본 출석부 모듈 스킨 저장소를 부트스트랩 스킨으로 교체 [#55](https://github.com/qw5414/attendance/pull/55)
 * SSL 사용하는 sosifam 원사이트를 따라 사용자정보수집용 ifream 의 주소 변경 [#58](https://github.com/qw5414/attendance/pull/58)
 * 스킨의 ul table 같은 태그 속성의 css초기화를 모듈 스킨에서만 처리할 수 있도록 개선. [#59](https://github.com/qw5414/attendance/pull/59)
+* 일부 코드 최적화 [#18](https://github.com/qw5414/attendance/pull/18)
 
 
 **Ver. 2.0.3**
