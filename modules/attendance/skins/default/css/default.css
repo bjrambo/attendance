@@ -853,6 +853,7 @@ font-size: 100%;
 
 .pointlist-item {
 	position:relative; display:block;
+	list-style:none;
 }
 .pointlist-item .pointlist-text{ 
 	padding:0 0 0 0px;
@@ -870,11 +871,16 @@ font-size: 100%;
 	padding:10px 0;
 	display:none;
 	text-align:center;
+	list-style:none;
 }
+
+.point_list ul.point-ul{ list-style:none; padding:0; }
 
 .pointlist-item:hover .pointlist-wrap { display:block; }
 
-
+.pointlist-wrap .pointlist-subitem{
+list-style:none;
+}
 
 .navi .att-btn {
 	display: inline-block;
@@ -1086,6 +1092,8 @@ fieldset[disabled] .att-btn-primary.active {
 cursor: pointer;
 text-decoration:none;
 }
+
+
 
 
 
