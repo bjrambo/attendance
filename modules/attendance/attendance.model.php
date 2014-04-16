@@ -223,10 +223,7 @@ class attendanceModel extends attendance
 		$obj->member_srl = $logged_info->member_srl;
 
 		//관리자 출석이 허가가 나지 않았다면,
-		if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y')
-		{
-			return;
-		}
+		if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y') return;
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($this->getIsChecked($logged_info->member_srl)>0)
@@ -357,20 +354,17 @@ class attendanceModel extends attendance
 					{
 						$obj->today_point += $sosirandom;
 						$obj->today_random = $sosirandom;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 					else
 					{
 						$obj->today_point;
 						$obj->today_random = 0;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 				}
 				else
 				{
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
-					$output = executeQuery("attendance.insertAttendance",$obj);
 				}
 			}
 			else
@@ -965,8 +959,7 @@ class attendanceModel extends attendance
 			$end->min = substr($config->end_time,2,2);
 			$now->hour = zDate(date('YmdHis'),"H");
 			$now->min = zDate(date('YmdHis'),"i");
-			if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) 
-				&& mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0))
+			if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) && mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0))
 			{
 				return 1;   //금지시간대일 경우
 			}
@@ -1004,7 +997,7 @@ class attendanceModel extends attendance
 		{
 			$year_month = zDate(date('YmdHis'),"Ym");
 		}
-		$month_data  =$this->getMonthlyData($year_month, $member_srl);
+		$month_data  = $this->getMonthlyData($year_month, $member_srl);
 		if($month_data)
 		{
 			if($month_data == $diligence_monthly)

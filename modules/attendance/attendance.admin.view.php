@@ -91,7 +91,7 @@ class attendanceAdminView extends attendance{
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		$oModuleAdminModel = getAdminModel('module');
-		Context::set('config2',$config);
+		Context::set('config',$config);
 
 		$start_time = new stdClass;
 		$start_time->hour = substr($config->start_time,0,2);
@@ -140,7 +140,7 @@ class attendanceAdminView extends attendance{
 			Context::set('_attendance_env_agreement', $agreement);
 			if($agreement == 'Y')
 			{
-				$_attendance_iframe_url = 'http://sosifam.com/index.php?mid=attendance_iframe';
+				$_attendance_iframe_url = 'https://sosifam.com:47800/index.php?mid=attendance_iframe';
 				$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $attendance_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
 				Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
 				Context::set('attendance_module_info', $attendance_module_info);
