@@ -354,20 +354,17 @@ class attendanceModel extends attendance
 					{
 						$obj->today_point += $sosirandom;
 						$obj->today_random = $sosirandom;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 					else
 					{
 						$obj->today_point;
 						$obj->today_random = 0;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 				}
 				else
 				{
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
-					$output = executeQuery("attendance.insertAttendance",$obj);
 				}
 			}
 			else
@@ -1000,7 +997,7 @@ class attendanceModel extends attendance
 		{
 			$year_month = zDate(date('YmdHis'),"Ym");
 		}
-		$month_data  =$this->getMonthlyData($year_month, $member_srl);
+		$month_data  = $this->getMonthlyData($year_month, $member_srl);
 		if($month_data)
 		{
 			if($month_data == $diligence_monthly)
