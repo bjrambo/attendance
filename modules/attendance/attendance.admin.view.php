@@ -140,7 +140,7 @@ class attendanceAdminView extends attendance{
 			Context::set('_attendance_env_agreement', $agreement);
 			if($agreement == 'Y')
 			{
-				$_attendance_iframe_url = 'https://sosifam.com:47800/index.php?mid=attendance_iframe';
+				$_attendance_iframe_url = 'https://sosifam.com/index.php?mid=attendance_iframe';
 				$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $attendance_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
 				Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
 				Context::set('attendance_module_info', $attendance_module_info);
