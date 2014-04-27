@@ -10,5 +10,6 @@
 		<column name="greetings" var="greetings" default="" />
 		<column name="today_point" var="today_point" />
 		<column name="today_random" var="today_random" default="0" />
+		<column name="perfect_m" var="perfect_m" />
 	</columns>
 </query>

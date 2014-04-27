@@ -134,7 +134,7 @@ class attendanceModel extends attendance
 	{
 		$args = new stdClass;
 		$args->monthly = $monthly;
-		$args->member_srl=$member_srl;
+		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getMonthlyData', $args);
 		return (int)$output->data->monthly_count;
 	}
@@ -285,7 +285,23 @@ class attendanceModel extends attendance
 						$obj->today_point += $obj->continuity_point;
 						$continuity->point = $obj->continuity_point;
 					}
-					$continuity->data++;
+					
+					if($config->continuity_weet == 'yes')
+					{
+						$continuity->data++;
+						for($i=1;$i<=12;$i++)
+						{
+							if($continuity->data==(30*$i))
+							{
+								$obj->perfect_m = 'Y';
+								break;
+							}
+						}
+					}
+					elseif($config->continuity_weet == 'no')
+					{
+						$continuity->data++;
+					}
 				}
 				else
 				{
@@ -309,7 +325,11 @@ class attendanceModel extends attendance
 			{
 				$obj->today_point += $config->yearly_point;
 			}
-			if($about_perfect->monthly_perfect == 1)
+			if($about_perfect->monthly_perfect == 1 && $config->continuity_weet == 'no')
+			{
+				$obj->today_point += $config->monthly_point;
+			}
+			elseif($config->continuity_weet == 'yes' && $obj->perfect_m == 'Y')
 			{
 				$obj->today_point += $config->monthly_point;
 			}
@@ -406,31 +426,33 @@ class attendanceModel extends attendance
 				return new Object(-1,'attend_no_board');
 			}
 
+
 			// document module의 model 객체 생성
-			$oDocumentModel = getModel('document');
+//			$oDocumentModel = getModel('document');
 
-			// document module의 controller 객체 생성
-			$oDocumentController = getController('document');
+//			// document module의 controller 객체 생성
+//			$oDocumentController = getController('document');
 
-			if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
-			{
-				/*Document module connection : greetings process*/
-				$d_obj = new stdClass;
-				$d_obj->content = $obj->greetings;
-				$d_obj->nick_name = $logged_info->nick_name;
-				$d_obj->email_address = $logged_info->email_address;
-				$d_obj->homepage = $logged_info->homepage;
-				$d_obj->is_notice = 'N';
-				$d_obj->module_srl = $module_info->module_srl;
-				$d_obj->allow_comment = 'Y';
-
-				$output = $oDocumentController->insertDocument($d_obj, false);
-				if(!$output->get('document_srl'))
-				{
-					return new Object(-1,'attend_error_no_greetings');
-				}
-				$obj->greetings = "#".$output->get('document_srl');
-			}
+//			if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
+//			{
+//				/*Document module connection : greetings process*/
+//				$d_obj = new stdClass;
+//				$d_obj->content = $obj->greetings;
+//				$d_obj->nick_name = $logged_info->nick_name;
+//				$d_obj->email_address = $logged_info->email_address;
+//				$d_obj->homepage = $logged_info->homepage;
+//				$d_obj->is_notice = 'N';
+//				$d_obj->module_srl = $module_info->module_srl;
+//				$d_obj->allow_comment = 'Y';
+//
+//				$output = $oDocumentController->insertDocument($d_obj, false);
+//				if(!$output->get('document_srl'))
+//				{
+//					return new Object(-1,'attend_error_no_greetings');
+//				}
+//				$obj->greetings = "#".$output->get('document_srl');
+//			}
+//
 
 			/*접속자의 ip주소 기록*/
 			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -578,9 +600,51 @@ class attendanceModel extends attendance
 
 		$arg = new stdClass;
 
-		if($real == true)
+		if($config->continuity_weet == 'no')
 		{
-			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
+			if($real == true)
+			{
+				if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
+				{
+					$arg->monthly_perfect = 1;
+				}
+				else
+				{
+					$arg->monthly_perfect = 0;
+				}
+				if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
+				{
+					$arg->yearly_perfect = 1;
+				}
+				else
+				{
+					$arg->yearly_perfect = 0;
+				}
+			}
+			else
+			{
+				if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
+				{
+					$arg->monthly_perfect = 1;
+				}
+				else
+				{
+					$arg->monthly_perfect = 0;
+				}
+				if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
+				{
+					$arg->yearly_perfect = 1;
+				}
+				else
+				{
+					$arg->yearly_perfect = 0;
+				}
+			}
+		}
+		elseif($config->continuity_weet == 'yes')
+		{
+			$user_attendance = $this->getUserAttendanceData($member_srl, $today);
+			if($user_attendance->perfect_m=='Y')
 			{
 				$arg->monthly_perfect = 1;
 			}
@@ -589,25 +653,6 @@ class attendanceModel extends attendance
 				$arg->monthly_perfect = 0;
 			}
 			if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
-			{
-				$arg->yearly_perfect = 1;
-			}
-			else
-			{
-				$arg->yearly_perfect = 0;
-			}
-		}
-		else
-		{
-			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
-			{
-				$arg->monthly_perfect = 1;
-			}
-			else
-			{
-				$arg->monthly_perfect = 0;
-			}
-			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
 			{
 				$arg->yearly_perfect = 1;
 			}

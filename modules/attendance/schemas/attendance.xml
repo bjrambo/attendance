@@ -5,5 +5,6 @@
     <column name="greetings" type="varchar" size="20" notnull="notnull" />
     <column name="today_point" type="number" size="20" notnull="notnull" />
 	<column name="today_random" type="number" size="20" notnull="notnull" />
+	<column name="perfect_m" type="char" size="1" index="idx_perfect_m" />
     <column name="ipaddress" type="varchar" size="23" notnull="notnull" />
 </table>

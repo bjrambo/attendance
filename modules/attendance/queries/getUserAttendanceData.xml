@@ -8,9 +8,13 @@
         <column name="today_point" alias="today_point" />
 		<column name="today_random" alias="today_random" />
         <column name="ipaddress" alias="ipaddress" />
+		<column name="perfect_m" alias="perfect_m" />
+		<column name="count(*)" alias="count"/>
     </columns>
     <conditions>
 		<condition operation="like_prefix" column="regdate" var="date"  />
+		<condition operation="more" column="regdate" var="mdate" pipe="and" />
+		<condition operation="less" column="regdate" var="ldate" pipe="and" />
 		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
     </conditions>
 
