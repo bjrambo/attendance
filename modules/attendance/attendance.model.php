@@ -286,7 +286,7 @@ class attendanceModel extends attendance
 						$continuity->point = $obj->continuity_point;
 					}
 					
-					if($config->continuity_weet == 'yes')
+					if($config->continuity_monthly == 'yes')
 					{
 						$continuity->data++;
 						for($i=1;$i<=12;$i++)
@@ -298,7 +298,7 @@ class attendanceModel extends attendance
 							}
 						}
 					}
-					elseif($config->continuity_weet == 'no')
+					elseif($config->continuity_monthly == 'no')
 					{
 						$continuity->data++;
 					}
@@ -325,11 +325,11 @@ class attendanceModel extends attendance
 			{
 				$obj->today_point += $config->yearly_point;
 			}
-			if($about_perfect->monthly_perfect == 1 && $config->continuity_weet == 'no')
+			if($about_perfect->monthly_perfect == 1 && $config->continuity_monthly == 'no')
 			{
 				$obj->today_point += $config->monthly_point;
 			}
-			elseif($config->continuity_weet == 'yes' && $obj->perfect_m == 'Y')
+			elseif($config->continuity_monthly == 'yes' && $obj->perfect_m == 'Y')
 			{
 				$obj->today_point += $config->monthly_point;
 			}
@@ -426,33 +426,34 @@ class attendanceModel extends attendance
 				return new Object(-1,'attend_no_board');
 			}
 
+			if($config->use_document == 'yes')
+			{
+				// document module의 model 객체 생성
+				$oDocumentModel = getModel('document');
 
-			// document module의 model 객체 생성
-//			$oDocumentModel = getModel('document');
+				// document module의 controller 객체 생성
+				$oDocumentController = getController('document');
 
-//			// document module의 controller 객체 생성
-//			$oDocumentController = getController('document');
+				if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
+				{
+					/*Document module connection : greetings process*/
+					$d_obj = new stdClass;
+					$d_obj->content = $obj->greetings;
+					$d_obj->nick_name = $logged_info->nick_name;
+					$d_obj->email_address = $logged_info->email_address;
+					$d_obj->homepage = $logged_info->homepage;
+					$d_obj->is_notice = 'N';
+					$d_obj->module_srl = $module_info->module_srl;
+					$d_obj->allow_comment = 'Y';
+					$output = $oDocumentController->insertDocument($d_obj, false);
+					if(!$output->get('document_srl'))
+					{
+						return new Object(-1,'attend_error_no_greetings');
+					}
+					$obj->greetings = "#".$output->get('document_srl');
+				}
+			}
 
-//			if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
-//			{
-//				/*Document module connection : greetings process*/
-//				$d_obj = new stdClass;
-//				$d_obj->content = $obj->greetings;
-//				$d_obj->nick_name = $logged_info->nick_name;
-//				$d_obj->email_address = $logged_info->email_address;
-//				$d_obj->homepage = $logged_info->homepage;
-//				$d_obj->is_notice = 'N';
-//				$d_obj->module_srl = $module_info->module_srl;
-//				$d_obj->allow_comment = 'Y';
-//
-//				$output = $oDocumentController->insertDocument($d_obj, false);
-//				if(!$output->get('document_srl'))
-//				{
-//					return new Object(-1,'attend_error_no_greetings');
-//				}
-//				$obj->greetings = "#".$output->get('document_srl');
-//			}
-//
 
 			/*접속자의 ip주소 기록*/
 			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -600,7 +601,7 @@ class attendanceModel extends attendance
 
 		$arg = new stdClass;
 
-		if($config->continuity_weet == 'no')
+		if($config->continuity_monthly == 'no')
 		{
 			if($real == true)
 			{
@@ -641,7 +642,7 @@ class attendanceModel extends attendance
 				}
 			}
 		}
-		elseif($config->continuity_weet == 'yes')
+		elseif($config->continuity_monthly == 'yes')
 		{
 			$user_attendance = $this->getUserAttendanceData($member_srl, $today);
 			if($user_attendance->perfect_m=='Y')
