@@ -1,8 +1,0 @@
-<filter name="delete_all_data" module="attendance" act="procAdminAttendanceDeleteAllData" confirm_msg_code="confirm_delete">
-    <form />
-    <parameter />
-    <response>
-        <tag name="error" />
-        <tag name="message"/>
-    </response>
-</filter>
