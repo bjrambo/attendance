@@ -78,7 +78,7 @@
 			<label class="x_control-label" for="skin">{$lang->mobile} {$lang->skin}</label>
 			<div class="x_controls">
 				<select name="mskin" id="mskin" style="width:auto">
-					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='default')">{$val->title}</option>
+					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='default')">{$val->title} ({$key})</option>
 				</select>
 			</div>
 		</div>

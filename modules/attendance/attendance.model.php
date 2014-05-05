@@ -392,14 +392,16 @@ class attendanceModel extends attendance
 				$obj->today_point;
 			}
 
-			/* 생일 포인트 추가 */
-			$oMemberModel = getModel('member');
-			$member_srl = $logged_info->member_srl;
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-			$birthdays = substr($member_info->birthday,4,4);
-			$todays = substr($today,4,4);
+
 			if($config->about_birth_day=='yes')
 			{
+				/* 생일 포인트 추가 */
+				$oMemberModel = getModel('member');
+				$member_srl = $logged_info->member_srl;
+				$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+				$birthdays = substr($member_info->birthday,4,4);
+				$todays = substr($today,4,4);
+
 				if($todays==$birthdays)
 				{
 					$obj->today_point += $config->brithday_point;
