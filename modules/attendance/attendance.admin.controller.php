@@ -101,6 +101,8 @@ class attendanceAdminController extends attendance
 		$config->about_lottery = $obj->about_lottery;
 		$config->lottery = $obj->lottery;
 		$config->brithday_point = $obj->brithday_point;
+		$config->continuity_monthly = $obj->continuity_monthly;
+		$config->use_document = $obj->use_document;
 
 		$this->setMessage('success_updated');
 

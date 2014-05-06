@@ -9,6 +9,7 @@
     	<column name="greetings" var="greetings" />
 	    <column name="today_point" var="today_point" />
 		<column name="today_random" var="today_random" />
+		<column name="perfect_m" var="perfect_m" />
     </columns>
     <conditions>
         <condition operation="equal" column="attendance_srl" var="attendance_srl"  />

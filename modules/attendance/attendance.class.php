@@ -107,6 +107,8 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance_yearly", "user_id");
 		if($act) return true;
 
+		if(!$oDB->isColumnExists("attendance", "perfect_m")) return true;
+
 		//check a mid attendance
 		$oModule = getModel('module');
 		$module_info = $oModule->getModuleInfoByMid('attendance');
@@ -303,6 +305,11 @@ class attendance extends ModuleObject
 		//attendance_yearly 테이블에 user_id 필드 제거
 		if ($oDB->isColumnExists("attendance_yearly", "user_id") /*&& $oDB->isColumnExists("attendance_yearly", "member_srl")*/) {
 			$oDB->dropColumn("attendance_yearly", "user_id");
+		}
+
+		if(!$oDB->isColumnExists("attendance", "perfect_m"))
+		{
+			$oDB->addColumn("attendance", "perfect_m", "char", 1);
 		}
 
 		//check a mid attendance

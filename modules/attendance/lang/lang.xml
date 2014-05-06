@@ -563,4 +563,28 @@
 	<item name = "birthday_member_help">
 		<value xml:lang="ko"><![CDATA[회원정보에서 생일을 수정 할 수 있도록 개선 해줍니다.]]></value>
 	</item>
+	<item name = "continuity_monthly">
+		<value xml:lang="ko"><![CDATA[월간개근시작일 설정]]></value>
+	</item>
+	<item name = "monthly_one">
+		<value xml:lang="ko"><![CDATA[매월 1일에서 30일까지]]></value>
+	</item>
+	<item name = "monthly_two">
+		<value xml:lang="ko"><![CDATA[출석시작일로부터 30일]]></value>
+	</item>
+	<item name = "continuity_monthly_help">
+		<value xml:lang="ko"><![CDATA[월간개근의 개산 방식을 바꿉니다. 기본적인 개근방식은 매월 1일부터 말일까지 출석이 완료되어야 정상적인 월간개근으로 등록이 되지만 출석일로부터 30일 설정을 하게되면 출석을 시작한 날부터 30일을 책정하여 30일동안 출석이 완료되면 월간개근으로 책정이 됩니다.]]></value>
+	</item>
+	<item name = "use_document">
+		<value xml:lang="ko"><![CDATA[문서모듈 설정]]></value>
+	</item>
+	<item name = "use_document_help">
+		<value xml:lang="ko"><![CDATA[문서모듈을 사용할 경우 문서모듈내에 출석내용이 기록이 됩니다. 하지만 사용하지 않을경우 문서모듈에 기록하지 않습니다.]]></value>
+	</item>
+	<item name = "d_use">
+		<value xml:lang="ko"><![CDATA[사용함]]></value>
+	</item>
+	<item name = "dn_use">
+		<value xml:lang="ko"><![CDATA[사용하지 않음]]></value>
+	</item>
 </lang>

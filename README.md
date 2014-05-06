@@ -54,6 +54,11 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 업뎃 사항 
 ---------
 
+**Ver. 2.2**
+* 옵션을 통해 첫 출석일부터 30일간격으로 월개근을 구할 수 있도록 개선. [#50](https://github.com/qw5414/attendance/pull/50) [CONORY](https://conory.com)
+* 출석하면 문서모듈에서 기록할 수 있도록 한 것을 옵션화 하여 사이트들에 맞게 사용할 수 있도록 개선. [#63](https://github.com/qw5414/attendance/pull/63)
+* XE1.5 지원코드 삭제 [#64](https://github.com/qw5414/attendance/pull/64)
+
 **Ver. 2.1**
 * $config 설정 값들을 정식 procAttendanceadmin에서 처리 할 수 있도록 개선.(attendance.admin.controller.php 파일에서처리합니다.) [#57](https://github.com/qw5414/attendance/pull/57)
 * 기본 출석부 모듈 스킨 저장소를 부트스트랩 스킨으로 교체 [#55](https://github.com/qw5414/attendance/pull/55)

@@ -191,4 +191,12 @@
 	$lang->birthday_point_help = '생일날 포인트 지급되는 포인트양을 설정합니다.';
 	$lang->birthday_member = '회원정보 생일 수정 여부';
 	$lang->birthday_member_help = '회원정보에서 생일을 수정 할 수 있도록 개선 해줍니다.';
+	$lang->continuity_monthly = '월간개근시작일 설정';
+	$lang->monthly_one = '매월 1일에서 30일까지';
+	$lang->monthly_two = '출석시작일로부터 30일';
+	$lang->continuity_monthly_help = '월간개근의 개산 방식을 바꿉니다. 기본적인 개근방식은 매월 1일부터 말일까지 출석이 완료되어야 정상적인 월간개근으로 등록이 되지만 출석일로부터 30일 설정을 하게되면 출석을 시작한 날부터 30일을 책정하여 30일동안 출석이 완료되면 월간개근으로 책정이 됩니다.';
+	$lang->use_document = '문서모듈 설정';
+	$lang->use_document_help = '문서모듈을 사용할 경우 문서모듈내에 출석내용이 기록이 됩니다. 하지만 사용하지 않을경우 문서모듈에 기록하지 않습니다.';
+	$lang->d_use = '사용함';
+	$lang->dn_use = '사용하지 않음';
 ?>
