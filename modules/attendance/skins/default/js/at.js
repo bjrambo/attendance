@@ -41,7 +41,7 @@ function attendance_check(){
 
 function attendance_no_check(){
     var qook = jQuery('#click_button').get(0);
-	alert('SoneYours 출석하면서 인삿말을 남겨보세요');
+	alert('출석 인사말을 입력해 주세요');
 
 }
 
@@ -58,42 +58,4 @@ function alll() {
   document.f1.t2.value = mm;
  setTimeout("alll()" ,0);
  }
-
-jQuery(function($){
-	// 글쓴이 입력창 레이블 토글
-	var iText = $('.item .iLabel').next('.iText');
-	$('.item .iLabel').css('position','absolute');
-	iText
-		.focus(function(){
-			$(this).prev('.iLabel').css('visibility','hidden');
-		})
-		.blur(function(){
-			if($(this).val() == ''){
-				$(this).prev('.iLabel').css('visibility','visible');
-			} else {
-				$(this).prev('.iLabel').css('visibility','hidden');
-			}
-		})
-		.change(function(){
-			if($(this).val() == ''){
-				$(this).prev('.iLabel').css('visibility','visible');
-			} else {
-				$(this).prev('.iLabel').css('visibility','hidden');
-			}
-		})
-		.blur();
-});
-
-
-function toggle_object(post_id){   
-    var obj = xGetElementById(post_id);   
-    if(!obj) return;   
-  
-    if(obj.style.display=="none"){   
-        obj.style.display='block';
-        
-    } else {   
-        obj.style.display="none";  			
-    }
-	
-}
+ 

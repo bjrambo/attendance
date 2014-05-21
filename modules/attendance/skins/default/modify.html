@@ -1,16 +1,12 @@
-<load target="./filter/update_attendance.xml" />
-<include target="_header.html" />
-<load target="./js/at.js" />
-
-<load target="./css/gray.css" />
-
+<!--%import("./filter/update_attendance.xml")-->
+<!--#include("_header.html")-->
+<!--%import("./js/at.js")-->
+<!--%import("./css/edit.css")-->
 
 <div id="attendance_board_modify">
 <!--@if($logged_info->is_admin=="Y" || $grant->manager == 1)-->
-    <div class="at_modify_title">{$lang->attend_modify}</div>
-    
-    <div class="fo">{$lang->attend_modify_info}</div>
-    
+    <div class="at_modify_title">{$lang->attend_modify}</div>   
+    <div class="fo">{$lang->attend_modify_info}</div>  
     <table cellspacing="0" class="modify_table" >
         <thead>
             <tr>
@@ -35,10 +31,8 @@
         </tbody>
     </table>
     <div class="mod">
-    <span>
-    <a href="#" onclick="return modify_att();">&rsaquo; {$lang->cmd_modify}</a></span>
-    <span>
-    <a href="{getUrl('act','','attendance_srl','')}" >&rsaquo; {$lang->cmd_back}</a></span>
+    <span><a href="#" onclick="return modify_att();">&rsaquo; {$lang->cmd_modify}</a></span>
+    <span><a href="{getUrl('act','','attendance_srl','')}" >&rsaquo; {$lang->cmd_back}</a></span>
     </div>
 <!--@end-->
 </div>
