@@ -14,7 +14,7 @@
 .att_header span{ position:absolute; left:25px; top:60px; color: #CCC; line-height:18px;}
 
 /* 상단 날짜 */
-.navi {padding:10px 10px 5px 5px; margin:0; width:100%; font-size:12px;}
+.navi {padding:10px 10px 5px 5px; margin:0; font-size:12px;}
 .navi a{ text-decoration:none; color:#000000}
 
 
