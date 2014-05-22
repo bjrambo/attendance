@@ -67,6 +67,10 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_random");
 		if(!$act) return true;
 
+		// attendance 테이블에 att_random_set 필드 추가 (2009.02.14)
+		$act = $oDB->isColumnExists("attendance","att_random_set");
+		if(!$act) return true;
+
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
 		$act = $oDB->isColumnExists("attendance", "ipaddress");
 		if(!$act) return true;
@@ -182,6 +186,11 @@ class attendance extends ModuleObject
 		if (!$oDB->isColumnExists("attendance", "ipaddress"))
 		{
 			$oDB->addColumn("attendance", "ipaddress", "varchar", 23);
+		}
+
+		if(!$oDB->isColumnExists("attendance", "att_random_set"))
+		{
+			$oDB->addColumn("attendance", "att_random_set", "number", 20);
 		}
 
 		//attendance 테이블에 member_srl 필드 추가

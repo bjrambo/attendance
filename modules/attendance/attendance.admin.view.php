@@ -7,13 +7,15 @@
  * 관리자페이지에 표시할 내용과 사용변수에 대한 정의/전달
  **/
 
-class attendanceAdminView extends attendance{
+class attendanceAdminView extends attendance
+{
 
 	function init()
 	{
 		// module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
 		$module_srl = Context::get('module_srl');
-		if(!$module_srl && $this->module_srl) {
+		if(!$module_srl && $this->module_srl)
+		{
 			$module_srl = $this->module_srl;
 			Context::set('module_srl', $module_srl);
 		}
@@ -22,12 +24,16 @@ class attendanceAdminView extends attendance{
 		$oModuleModel = getModel('module');
 
 		// module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
-		if($module_srl) {
+		if($module_srl)
+		{
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-			if(!$module_info) {
+			if(!$module_info)
+			{
 				Context::set('module_srl','');
 				$this->act = 'list';
-			} else {
+			}
+			else
+			{
 				ModuleModel::syncModuleToSite($module_info);
 				$this->module_info = $module_info;
 				Context::set('module_info',$module_info);
@@ -132,21 +138,24 @@ class attendanceAdminView extends attendance{
 
 		// 사용환경정보 전송 확인
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/cache/attendance/attendance-', $attendance_module_info->version));
-
-		if(file_exists($agreement_file))
-		{
-			$agreement = FileHandler::readFile($agreement_file);
-			Context::set('_attendance_env_agreement', $agreement);
-			if($agreement == 'Y')
-			{
+//		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/cache/attendance/attendance-', $attendance_module_info->version));
+//
+//		if(file_exists($agreement_file))
+//		{
+//			$agreement = FileHandler::readFile($agreement_file);
+//			Context::set('_attendance_env_agreement', $agreement);
+//			if($agreement == 'Y')
+//			{
 				$_attendance_iframe_url = 'https://sosifam.com:47800/index.php?mid=attendance_iframe';
 				$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $attendance_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
 				Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
 				Context::set('attendance_module_info', $attendance_module_info);
-			}
-		}
-		else Context::set('_attendance_env_agreement', 'NULL');
+//			}
+//		}
+//		else Context::set('_attendance_env_agreement', 'NULL');
+
+
+
 		/*템플릿 설정*/
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('index');

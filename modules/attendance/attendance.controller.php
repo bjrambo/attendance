@@ -424,9 +424,9 @@ class attendanceController extends attendance
 		}
 	}
 
-    /**
-    * @brief 출석내용 수정
-    **/
+	/**
+	 * @brief 출석내용 수정
+	 **/
     function procAttendanceModifyData()
 	{
 		$obj = Context::getRequestVars();
