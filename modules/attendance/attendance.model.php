@@ -374,17 +374,20 @@ class attendanceModel extends attendance
 					{
 						$obj->today_point += $sosirandom;
 						$obj->today_random = $sosirandom;
+						$obj->att_random_set = 0;
 					}
 					else
 					{
 						$obj->today_point;
 						$obj->today_random = 0;
+						$obj->att_random_set = 0;
 					}
 				}
 				else
 				{
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
+					$obj->att_random_set = 0;
 				}
 			}
 			elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
@@ -400,18 +403,21 @@ class attendanceModel extends attendance
 							$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
 							$obj->today_point += $sosirandom;
 							$obj->today_random = $sosirandom;
+							$obj->att_random_set = 0;
 						}
 						elseif($win<$config->random_small_win)
 						{
 							$sosirandom = mt_rand($config->random_big_point_f,$config->random_big_point_s);
 							$obj->today_point += $sosirandom;
 							$obj->today_random = $sosirandom;
+							$obj->att_random_set = 1;
 						}
 					}
 					else
 					{
 						$obj->today_point;
 						$obj->today_random = 0;
+						$obj->att_random_set = 0;
 					}
 				}
 				else
@@ -419,11 +425,13 @@ class attendanceModel extends attendance
 					$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
+					$obj->att_random_set = 0;
 				}
 			}
 			else
 			{
 				$obj->today_point;
+				$obj->att_random_set = '0';
 			}
 
 

@@ -26,9 +26,9 @@
     <!--//출석한 사람이 있다면 반복문 시작-->
     <!--//쿼리를 통해 받은 사용자정보를 순서대로 얻어오는 구문-->
     <!--@foreach($oAttendance->data as $data)-->
-        {@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
-        {@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
-        {@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
+        {@ $is_perfect = $oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
+        {@ $weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
+        {@ $member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
         {@
 			$oDB = &DB::getInstance();
 			$query = $oDB->_query('select continuity from xe_attendance_total where member_srl = '.$member->member_srl);
@@ -70,15 +70,21 @@
                     <!--@else-->
                         {$lang->attend_no_greetings}
                     <!--@end--></td>
-                <td>
-                <span><a href="#popup_menu_area" class="member_{$member->member_srl}" onclick="return false"><b>{$member->nick_name}</b></a></span></td>
+                <td style="text-align:center">
+					<span><a href="#popup_menu_area" class="member_{$member->member_srl}" onclick="return false"><b>{$member->nick_name}</b></a></span>
+				</td>
                 <td style="text-align:center">
                 <!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
                 	<a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">{$data->today_point}</a>
-                <!--@else-->           
+                <!--@else-->
                 	{$data->today_point}
                 <!--@end--></td>
-				<td style="text-align:center" class="randomdata" cond="$cd->about_random == 'yes'"><block cond="$data->today_random=='0'">꽝</block><block cond="$data->today_random>='1'">{$data->today_random}</block></td>
+				<td style="text-align:center" class="randomdata" cond="$cd->about_random == 'yes'">
+					<span class="cri"|cond="$data->att_random_set=='1'">
+					<block cond="$data->today_random=='0'">꽝</block>
+					<block cond="$data->today_random>='1'"><i class="fa fa-certificate" cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
+					</span>
+				</td>
                 <td <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->style="text-align:right"<!--@else-->style="text-align:center" <!--@end-->>
                 <!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><span class="label label-info">{$lang->attendance_perfect}</span><!--@end-->
                 <!--@if($is_perfect->monthly_perfect)--><span class="label label-success">{$lang->attendance_perfect}</span><!--@end-->
@@ -87,7 +93,7 @@
                 {@ $perfect_de = $selected_date - date("Ymd")}
     			{@ $perfect_dec = $result->continuity + $perfect_de}
                 <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} 일째
-                <!--@else-->&nbsp;<!--@end-->
+                <!--@else-->0 일째<!--@end-->
                 <!--@end-->
                 </td>
                 <td style="text-align:right">

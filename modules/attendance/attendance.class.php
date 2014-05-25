@@ -67,7 +67,7 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","today_random");
 		if(!$act) return true;
 
-		// attendance 테이블에 att_random_set 필드 추가 (2009.02.14)
+		// attendance 테이블에 att_random_set 필드 추가 (2014.05.25)
 		$act = $oDB->isColumnExists("attendance","att_random_set");
 		if(!$act) return true;
 
