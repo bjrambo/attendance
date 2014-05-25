@@ -151,17 +151,15 @@ class attendance extends ModuleObject
 		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
 
 		//When a member is do login, 
-		$oModuleModel = getModel('module');
 		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
 
-		$oModuleModel = getModel('module');
 		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')) return true;
-		return false;
+
 	}
 
-    /**
-    * @brief 모듈 업데이트
-    **/
+	/**
+	* @brief 모듈 업데이트
+	**/
 	function moduleUpdate() {
 		$oDB = DB::getInstance();
 		//attendance 테이블에 greetings 필드 추가
