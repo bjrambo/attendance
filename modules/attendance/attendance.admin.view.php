@@ -302,4 +302,3 @@ class attendanceAdminView extends attendance
 		$this->setTemplateFile('sosi_setup');
 	}
 }
-?>

@@ -47,6 +47,3 @@ class attendanceMobile extends attendanceView
 		$this->setTemplateFile('modify');
 	}
 }
-
-
-?>

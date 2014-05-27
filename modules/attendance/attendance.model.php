@@ -1141,4 +1141,3 @@ class attendanceModel extends attendance
 		return $output;
 	}
 }
-?>

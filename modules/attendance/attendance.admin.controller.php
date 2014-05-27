@@ -393,4 +393,3 @@ class attendanceAdminController extends attendance
 		$oModuleController->deleteModule($module_info->module_srl);
 	}
 }
-?>
