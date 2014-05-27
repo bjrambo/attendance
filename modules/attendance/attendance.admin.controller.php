@@ -121,7 +121,6 @@ class attendanceAdminController extends attendance
 			header('location: ' . $returnUrl);
 			return;
 		}
-
 	}
 
 	/**
