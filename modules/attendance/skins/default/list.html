@@ -1,20 +1,4 @@
 <!--%import("filter/fix_attendance_data.xml")-->
-<div class="navi">
-	<strong>{$year}년 {$month}월 {$day}일</strong>
-	<!--@if($logged_info->is_admin=='Y')-->
-		<span style="margin-left:20px;">
-			<!--@if($module_info->display_setup_button!="N" && ($logged_info->is_admin=="Y" || $grant->manager == 1) )--><a href="{getUrl('module','','mid','attendance','document','','act','dispAttendanceAdminBoardConfig')}">{$lang->cmd_setup}</a><!--@end-->
-            <!--@if($logged_info->is_admin=='Y')--> | <a href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >{$lang->cmd_management}</a>
-            <!--@end-->
-		</span>
-    <!--@end-->
-	<span style="float:right; margin-right:10px; font-weight:none;">
-	<!--@if(substr($selected_date,0,6) == zdate($logged_info->regdate,"Ym") || !$is_logged)--><font color="#CCCCCC"><i class="icon-angle-left"></i> 이전달</font>
-	<!--@else-->
-	<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month-1, $day, $year)),'Ymd'))}" ><i class="icon-angle-left"></i> 이전달</a>
-	<!--@end-->
- &nbsp;<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),'Ymd'))}"><i class="icon-angle-up"></i> 이번달</a> &nbsp;<!--@if($selected_date == date("Ymd")  || !$is_logged)--><font color="#CCCCCC">다음달 <i class="icon-angle-right"></i></font><!--@else--><a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month+1, $day, $year)),'Ymd'))}" >다음달 <i class="icon-angle-right"></i></a><!--@end--></span>
-</div>
 
 <form action="./" method="post" onsubmit="return procFilter(this, fix_attendance_data);" id="fixAttendanceData">
 <input type="hidden" name="selected_date" value="" />

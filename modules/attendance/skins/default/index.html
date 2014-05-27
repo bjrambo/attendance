@@ -24,6 +24,44 @@
 </script>
 
 
+<div class="navi">
+	<strong class="att-btn att-btn-primary"><i class="fa fa-calendar"></i> {$year}년 {$month}월 {$day}일</strong>
+	<!--@if($logged_info->is_admin=='Y')-->
+		<span style="margin-left:20px;">
+			<!--@if($module_info->display_setup_button!="N" && ($logged_info->is_admin=="Y" || $grant->manager == 1) )-->
+			<a class="att-btn att-btn-primary" href="{getUrl('module','','mid','attendance','document','','act','dispAttendanceAdminBoardConfig')}">
+				<i class="fa fa-cog"></i> {$lang->cmd_setup}
+			</a>
+			<a class="att-btn att-btn-primary" href="{getUrl('act','dispAttendanceAdminBoardSkinConfig','mid','attendance')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >
+				<i class="fa fa-cog"></i> 스킨 {$lang->cmd_management}
+			</a>
+			<!--@end-->
+            <!--@if($logged_info->is_admin=='Y')-->
+			<a class="att-btn att-btn-primary" href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >
+				<i class="fa fa-cogs"></i> {$lang->cmd_management}
+			</a>
+
+            <!--@end-->
+		</span>
+    <!--@end-->
+	<span style="float:right; margin-right:10px; font-weight:none;">
+	<!--@if(substr($selected_date,0,6) == zdate($logged_info->regdate,"Ym") || !$is_logged)-->
+	<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC"><i class="fa fa-angle-double-left"></i> 이전달</font></span>
+	<!--@else-->
+	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month-1, $day, $year)),'Ymd'))}" >
+	<i class="fa fa-angle-double-left"></i> 이전달</a>
+	<!--@end-->
+
+	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),'Ymd'))}"><i class="fa fa-calendar"></i> 이번달</a>
+
+	<!--@if($selected_date == date("Ymd")  || !$is_logged)-->
+	<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC">다음달 <i class="fa fa-angle-double-right"></i></font></span>
+	<!--@else-->
+	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month+1, $day, $year)),'Ymd'))}" >다음달 <i class="fa fa-angle-double-right"></i></a>
+	<!--@end-->
+	</span>
+</div>
+
 
 <!--//지금 출석하시면 받을 수 있는 포인트 목록-->
 	<div class="sat" style="position:relative">
@@ -65,13 +103,14 @@
 					</div>
 				</div></span>
 			</td>
-			<th>출석권한</th><td>로그인사용자</td>
+			<th>출석권한</th>
+			<td><span class="label label-success" cond="$mi->pomis">{$mi->pomis}</span><span class="label label-success" cond="!$mi->pomis">로그인 사용자</span></td>
 		</tr>
 		<tr>
-			<th>출석시간</th><td style="text-align:left; font-size:10px">00:00:00~24:00:00 </td>
-			<th>진행상태</th><td>출석가능</td>
+			<th>출석시간</th><td style="text-align:left; font-size:10px"><span class="<!--@if($is_available == 0)-->label label-success <!--@else-->label label-danger<!--@end-->"><!--@if($mi->timestart)-->{$mi->timestart}<!--@else-->00:00:00<!--@end-->~<!--@if($mi->timeend)-->{$mi->timeend}<!--@else-->24:00:00<!--@end--></span></td>
+			<th>진행상태</th><td><!--@if($is_available == 0)--><span class="label label-success">출석가능</span><!--@else--><span class="label label-warning">불가능</span><!--@end--></td>
 			<th>출석여부</th>
-			<td><!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->출석완료<!--@else-->미출석<!--@end--></td>
+			<td><!--@if(!$is_logged)--><span class="label label-danger">비로그인</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==0)--><span class="label label-warning">출책안함</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==1)--> <span class="label label-success">출책완료</span><!--@end--></td>
 			<th>개근분류</th>
 			<td style="position:relative">
 			<span id="point_7" style="display:block" ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
@@ -80,7 +119,7 @@
 				<div class="popover-title">개근분류</div>
 				<div class="popover-content">
 					<span class="label label-info">{$lang->week}</span> <span class="label label-success">{$lang->monthly_perfect}</span> <span class="label label-warning">{$lang->yearly_perfect}</span><br/>
-					<font color="#FF0000" >최근만 표시</font>
+					<font color="#FF0000">최근만 표시</font>
 				</div></div> </span>
 			</td>
 		</tr>

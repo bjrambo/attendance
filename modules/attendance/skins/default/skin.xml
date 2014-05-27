@@ -82,5 +82,21 @@
 				<title xml:lang="zh-TW">隱藏</title>
 			</options>
 		</var>
+
+		<var name="pomis" type="text">
+			<title xml:lang="ko">출석권한자</title>
+			<description xml:lang="ko">출석가능한 회원그룹또는 설정값을 적으세요.</description>
+		</var>
+
+		<var name="timestart" type="text">
+			<title xml:lang="ko">출석 가능 시작 시간</title>
+			<description xml:lang="ko">출석 가능 시간을 표기합니다. 이란은 출책 시작시간입니다. (ex, 01:00:00 (시, 분, 초) 기본값 : 0시 0분 0초 )</description>
+		</var>
+
+		<var name="timeend" type="text">
+			<title xml:lang="ko">출석 가능 마감 시간</title>
+			<description xml:lang="ko">출석 가능 시간을 표기합니다. 이란은 출책 마감시간입니다. (ex, 01:00:00 (시, 분, 초) 기본값 : 24시 0분 0초 )</description>
+		</var>
+
 	</extra_vars>
 </skin>
