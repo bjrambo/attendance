@@ -1,18 +1,29 @@
-<table cellspacing="0" class="listTable">
-
+<table cellspacing="0" class="personalTable">
+<thead>
+    <tr>
+        <th class="sunday center same_height" >{$lang->attend_week_name['sun']}</th>
+        <th class="center same_height" >{$lang->attend_week_name['mon']}</th>
+        <th class="center same_height" >{$lang->attend_week_name['tue']}</th>
+        <th class="center same_height" >{$lang->attend_week_name['wed']}</th>
+        <th class="center same_height" >{$lang->attend_week_name['thu']}</th>
+        <th class="center same_height" >{$lang->attend_week_name['fri']}</th>
+        <th class="saturday center same_height">{$lang->attend_week_name['sat']}</th>
+    </tr>
+    </thead>
     <tbody>
 
-		<tr>    
+    
     {@$_day=1}
     {@$j=0}
     <!--@while($_day <= $admin_date_info->day_max)-->
-
+        <!--@if($j % 7 == 0)-->
+            <tr>
+        <!--@end-->
         <!--@while($j < $admin_date_info->week_start)-->
-
+            <td>&nbsp;</td>
         {@$j++}
         <!--@end-->
-
-			<td height="35px" class="stamp">
+            <td height="80px" class="stamp">
                 {@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
                 {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
                 
@@ -36,8 +47,8 @@
                 <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day-1) == $selected_date)-->
                 
                 <!--@end--><br/>
-                <div class="check" cond="$is_logged">
-                <img src="./css/check.gif" />
+                <div class="check">
+                <img src="./css/good.gif" />
                 </div>
                 <!--@elseif($checked >= 2)-->
                 <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))-->
@@ -48,7 +59,7 @@
                 <!--@end-->
                 
                 
-                <a href="#fixAttendanceData" onclick="att_fix_attendance_data('{$logged_info->member_srl}','{$checked}','{$check_date}','{$lang->attend_fix_att}','{$logged_info->nick_name}');" cond="$is_logged"><p class="check">?</p></a><!--@if($admin_date_info->_day == sprintf("%2d",$_day-1))-->
+                <a href="#fixAttendanceData" onclick="att_fix_attendance_data('{$logged_info->member_srl}','{$checked}','{$check_date}','{$lang->attend_fix_att}','{$logged_info->nick_name}');"><p class="check">?</p></a><!--@if($admin_date_info->_day == sprintf("%2d",$_day-1))-->
                 
                 
                 <!--@end-->
@@ -60,7 +71,7 @@
                 
                 <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))-->
 
-                <span <!--@if(sprintf("%04d%02d%02d",$year,$month,$day) == date("Ymd"))-->style="background:#f66;padding:0 3px; color:#fff;"<!--@else-->style="background:#000; padding:0 3px; color:#fff;"<!--@end-->>{$_day++}</span>
+                <span style="background:#000; padding:0 3px; color:#fff;">{$_day++}</span>
                 <!--@else-->
                 {$_day++}
                 <!--@end-->
@@ -79,8 +90,17 @@
                         
                 <!--@if(sprintf("%04d%02d%02d",$year,$month,$day) == date("Ymd"))-->
                 
-                <img src="./css/day.gif" />
-
+                <!--@if($config->about_admin_check!='no')-->
+                <form action="./" method="post" id="click_button" onsubmit="return attendance_check()">
+                <input type="image" src="./css/no.gif" alt="{$lang->click}" />
+                </form>
+                <!--@else-->
+                <!--@if($logged_info->is_admin != 'Y')-->
+                <form action="./" method="post" id="click_button" onsubmit="return attendance_check()">
+                <input type="image" src="./css/no.gif" alt="{$lang->click}" /></form>
+                <!--@end-->
+                <!--@end-->              
+                
                 <!--@end-->
                 
                                 
@@ -94,14 +114,17 @@
                
                 <!--@end-->
             </td>
-
         <!--@if($_day-1 == $admin_date_info->day_max)-->
-
+            <!--@while($j %7 < 6)-->
+                <td>&nbsp;</td>
+                {@$j++}
+            <!--@end-->
         <!--@end-->
-
+        <!--@if($j % 7 == 6)-->
+            </tr>
+        <!--@end-->
         {@$j++}
 
     <!--@end-->
-</tr>
     </tbody>
 </table>

@@ -53,6 +53,9 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 
 업뎃 사항 
 ---------
+**Ver. 2.3**
+* 스킨 대폭개선 [#69](https://github.com/qw5414/attendance/pull/69) [@kaijess](https://github.com/kaijess)
+* 
 
 **Ver. 2.2**
 * 옵션을 통해 첫 출석일부터 30일간격으로 월개근을 구할 수 있도록 개선. [#50](https://github.com/qw5414/attendance/pull/50) [CONORY](https://conory.com)

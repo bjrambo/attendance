@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+.att img{border:0}
+.att table,
+.att input,
+.att textarea,
+.att select{font-size:12px;letter-spacing:normal; }
+.att .iCheck{width:13px;height:13px;margin:0;vertical-align:middle}
+.att .iText{position:relative;padding:3px 4px;_margin:-1px 0;height:17px;line-height:17px;border:1px solid #a6a6a6;border-right-color:#d8d8d8;border-bottom-color:#d8d8d8;background:transparent}
+.att textarea{margin:0;padding:3px 4px;border:1px solid #a6a6a6;border-right-color:#d8d8d8;border-bottom-color:#d8d8d8}
+
+/*수정*/
+#attendance_board_modify{ color:#000000; font-size:12px; }
+.at_modify_title{ width:100%; font-weight:bold; position:relative; margin:0; padding:10px 0; }
+.modify_table {width:100%; text-align:center; border-bottom:1px solid #ccc; border-top:1px solid #ccc;}
+.modify_table th{ background:#f7f7f7; padding:7px; border-bottom:1px solid #ccc; }
+.modify_table th span{display:block;border-left:1px solid #c7c7c7;padding:0 10px;}
+.modify_table td{ padding:7px;}
+.modify_text { padding:5px; text-align:center}
+.fo{ position:relative; padding:10px; margin-bottom:10px; border:1px solid #ccc; background:#f7f7f7;}
+.mod,
+.mod a {width:100%; padding:5px 0; text-align:right;  text-decoration:none; color:#000;}
+.mod a:hover,
+.mod a:active,
+.mod a:focus{ text-decoration:none; color:#000;}
+.mod span{ padding-left:10px;}
