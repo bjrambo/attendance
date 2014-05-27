@@ -8,76 +8,83 @@
 {@$week=$oAttendanceModel->getWeek($selected_date)}
 <script type="text/javascript">
     var warn_msg = '{$lang->attend_warn}';
-	function toggle(post_id){   
-    var obj = xGetElementById(post_id);   
+	function toggle(post_id)
+	{   
+		var obj = xGetElementById(post_id);   
     	if(!obj) return;   
-    		if(obj.style.display=="block"){obj.style.display='none';
-			} else {obj.style.display="block";}
+    	if(obj.style.display=="block")
+		{
+			obj.style.display='none';
 		}
+		else
+		{
+			obj.style.display="block";
+		}
+	}
 </script>
 
 
 
 <!--//지금 출석하시면 받을 수 있는 포인트 목록-->
-    <div class="sat" style="position:relative">
-    <table width="100%" class="table table-bordered ">
-    	<tr>
-        	<th>출석점수</th>
-            <td style="font-weight:bold; color:#F33; text-align:left"><!--@if($config->add_point > 0)-->{$config->add_point}<!--@elseif($config->add_point == 0)--> {$lang->attend_none}<!--@end--></td>
-            <th>개근점수</th>
-            <td style="position:relative">
-            <span id="rank_on" style="display:block" ><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;">자세히보기 <i class="fa fa-caret-down"></i></a></span>
-            <span id="rank_off" style="display:none;"><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
-            	<div class="popover bottom arrow">
-                <div class="popover-title">개근점수</div>
-                <div class="popover-content" style="width:100px">
-
-            		<span class="label label-info"><!--@if($config->weekly_point > 0)-->{$config->weekly_point}<!--@elseif($config->weekly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-                    
-					<span class="label label-success"><!--@if($config->monthly_point > 0)-->{$config->monthly_point}<!--@elseif($config->monthly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-                    
-           <span class="label label-warning"><!--@if($config->yearly_point > 0)-->{$config->yearly_point}<!--@elseif($config->yearly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-            
-                </div>
-				</div>
-            </span>
-            </td>
-            <th>랭킹점수</th>
-            <td style="position:relative">
-            <span id="point_on" style="display:block" ><a href="#" onclick="toggle('point_on'); toggle('point_off');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
-            <span id="point_off" style="display:none;" ><a href="#" onclick="toggle('point_on'); toggle('point_off');return false;">자세히보기 <i class="fa fa-caret-up"></i></a>
-	            <div class="popover bottom arrow">
-                <div class="popover-title">랭킹점수</div>
-                <div class="popover-content">
-               
-                <span class="label label-important"> {$lang->attendance_first_point} <!--@if($config->first_point > 0)-->{$config->first_point}<!--@elseif($config->first_point == 0)--> {$lang->attend_none}<!--@end--></span>
-                
-                <span class="label label-inverse">{$lang->attendance_second_point} <!--@if($config->second_point > 0)-->{$config->second_point}<!--@elseif($config->second_point == 0)--> {$lang->attend_none}<!--@end--></span>
-                
-                <span class="label">{$lang->attendance_third_point} <!--@if($config->third_point > 0)-->{$config->third_point}<!--@elseif($config->third_point == 0)--> {$lang->attend_none}<!--@end--></span>
-                    </div>
-    	        </div></span>
-            </td>
-            <th>출석권한</th><td>로그인사용자</td>
-        </tr>
-        <tr>
-            <th>출석시간</th><td style="text-align:left; font-size:10px">00:00:00~24:00:00 </td>
-            <th>진행상태</th><td>출석가능</td>
-            <th>출석여부</th>
-            <td><!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->출석완료<!--@else-->미출석<!--@end--></td>
-            <th>개근분류</th>
-            <td style="position:relative">
-            <span id="point_7" style="display:block" ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
-            <span id="point_8" style="display:none;"  ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
+	<div class="sat" style="position:relative">
+	<table width="100%" class="table table-bordered ">
+		<tr>
+			<th>출석점수</th>
+			<td style="font-weight:bold; color:#F33; text-align:left"><!--@if($config->add_point > 0)-->{$config->add_point}<!--@elseif($config->add_point == 0)--> {$lang->attend_none}<!--@end--></td>
+			<th>개근점수</th>
+			<td style="position:relative">
+			<span id="rank_on" style="display:block" ><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;">자세히보기 <i class="fa fa-caret-down"></i></a></span>
+			<span id="rank_off" style="display:none;"><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
 				<div class="popover bottom arrow">
-                <div class="popover-title">개근분류</div>
-                <div class="popover-content">
-                	<span class="label label-info">{$lang->week}</span> <span class="label label-success">{$lang->monthly_perfect}</span> <span class="label label-warning">{$lang->yearly_perfect}</span><br/>
-                	<font color="#FF0000" >최근만 표시</font>
-    	        </div></div> </span>
-            </td>
-        </tr>
-    </table>
+				<div class="popover-title">개근점수</div>
+				<div class="popover-content" style="width:100px">
+
+					<span class="label label-info"><!--@if($config->weekly_point > 0)-->{$config->weekly_point}<!--@elseif($config->weekly_point == 0)--> {$lang->attend_none}<!--@end--></span>
+					
+					<span class="label label-success"><!--@if($config->monthly_point > 0)-->{$config->monthly_point}<!--@elseif($config->monthly_point == 0)--> {$lang->attend_none}<!--@end--></span>
+					
+		   <span class="label label-warning"><!--@if($config->yearly_point > 0)-->{$config->yearly_point}<!--@elseif($config->yearly_point == 0)--> {$lang->attend_none}<!--@end--></span>
+			
+				</div>
+				</div>
+			</span>
+			</td>
+			<th>랭킹점수</th>
+			<td style="position:relative">
+			<span id="point_on" style="display:block" ><a href="#" onclick="toggle('point_on'); toggle('point_off');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
+			<span id="point_off" style="display:none;" ><a href="#" onclick="toggle('point_on'); toggle('point_off');return false;">자세히보기 <i class="fa fa-caret-up"></i></a>
+				<div class="popover bottom arrow">
+				<div class="popover-title">랭킹점수</div>
+				<div class="popover-content">
+			   
+				<span class="label label-important"> {$lang->attendance_first_point} <!--@if($config->first_point > 0)-->{$config->first_point}<!--@elseif($config->first_point == 0)--> {$lang->attend_none}<!--@end--></span>
+				
+				<span class="label label-inverse">{$lang->attendance_second_point} <!--@if($config->second_point > 0)-->{$config->second_point}<!--@elseif($config->second_point == 0)--> {$lang->attend_none}<!--@end--></span>
+				
+				<span class="label">{$lang->attendance_third_point} <!--@if($config->third_point > 0)-->{$config->third_point}<!--@elseif($config->third_point == 0)--> {$lang->attend_none}<!--@end--></span>
+					</div>
+				</div></span>
+			</td>
+			<th>출석권한</th><td>로그인사용자</td>
+		</tr>
+		<tr>
+			<th>출석시간</th><td style="text-align:left; font-size:10px">00:00:00~24:00:00 </td>
+			<th>진행상태</th><td>출석가능</td>
+			<th>출석여부</th>
+			<td><!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->출석완료<!--@else-->미출석<!--@end--></td>
+			<th>개근분류</th>
+			<td style="position:relative">
+			<span id="point_7" style="display:block" ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
+			<span id="point_8" style="display:none;"  ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
+				<div class="popover bottom arrow">
+				<div class="popover-title">개근분류</div>
+				<div class="popover-content">
+					<span class="label label-info">{$lang->week}</span> <span class="label label-success">{$lang->monthly_perfect}</span> <span class="label label-warning">{$lang->yearly_perfect}</span><br/>
+					<font color="#FF0000" >최근만 표시</font>
+				</div></div> </span>
+			</td>
+		</tr>
+	</table>
 </div>
 
 	<include target="list.html" />
