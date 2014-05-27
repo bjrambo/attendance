@@ -534,7 +534,6 @@ class attendanceController extends attendance
 	function triggerSou(&$content)
 	{
 		$act = Context::get('act');
-		$mid = Context::get('mid');
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		$logged_info = Context::get('logged_info');
@@ -551,20 +550,6 @@ class attendanceController extends attendance
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
-		}
-
-		if($logged_info->is_admin == 'Y' && $mid == 'attendance')
-		{
-			$oModuleModel = getModel('module');
-			$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-			$_attendance_iframe_url = 'https://sosifam.com:47800/index.php?mid=attendance_iframe';
-			$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $attendance_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
-			Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
-			Context::set('attendance_module_info', $attendance_module_info);
-			Context::set('_host_info', $_host_info);
-
-			$NProgress = "<iframe frameborder='0' src='{$_attendance_iframe_url}&_host={$_host_info}' style='display:block; padding:0; width:0;border:0; border-radius:0px; height:0px; overflow:scroll; '></iframe>";
-			Context::addHtmlFooter($NProgress);
 		}
 
 		return new Object();
