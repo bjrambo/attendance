@@ -11,28 +11,30 @@
     <!--@while($_day <= $admin_date_info->day_max)-->
         <!--@if($j%40 == 0)--><tr><!--@end-->
         <!--@while($j <= $admin_date_info->week_start)-->{@$j++}<!--@end-->
-            <td height="35px;" <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) > date("Ymd"))-->class="stamp1"<!--@else-->class="stamp"<!--@end--> >
+            <td height="35px;" <!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) > date('Ymd'))-->class="stamp1"<!--@else-->class="stamp"<!--@end--> >
                 {@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
                 {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
                 <!--@if($checked == 1 && $is_logged)-->
-                	<!--@if($logged_info->is_admin=='Y')-->
+                	
 						<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">
-					<!--@end-->
+					
                 	<span <!--@if($j%7==1)-->class="sunday"<!--@elseif($j%7==0)-->class="saturday"<!--@end--> >
                 	<!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))--><span style="background:#000; color:#fff;">{$_day++}</span><!--@else-->{$_day++}<!--@end--></span>
-                	<!--@if($logged_info->is_admin=='Y')--></a><!--@end-->
+                	</a>
                 	<span class="check" style="width:100%; text-align:center; position:relative; margin-bottom:-10px; padding:0; padding-top:5px; display:block;"><img src="./css/check.gif" alt="" /></span>
                 <!--@elseif($checked >= 2)-->
+				<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">
                 	<span <!--@if($j%7==1)-->class="sunday"<!--@elseif($j%7==0)-->class="saturday"<!--@end--> >
                 	<!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))--><span style="background:#F66; color:#fff;">{$_day++}</span><!--@else-->{$_day++}<!--@end--></span>
+				</a>
                 <!--@else-->
-                	<!--@if($logged_info->is_admin=='Y')--><a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}"><!--@end-->
+                	<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">
                 	<span <!--@if($j%7==1)-->class="sunday"<!--@elseif($j%7==0)-->class="saturday"<!--@end--> >
                 		<!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))--><span style="background:#F66; color:#fff;">{$_day++}</span>
                 			<!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )--><div style="width:100%;text-align:center; position:relative; margin:0; margin-bottom:-10px; padding:0; padding-top:5px;"><img src="./css/day.gif" alt="" /></div><!--@end-->
 							<!--@else-->{$_day++}<!--@end-->
                 	</span>
-                <!--@if($logged_info->is_admin=='Y')--></a><!--@end-->
+                </a>
                 <!--@end-->
             </td>
         <!--@if($_day-1 == $admin_date_info->day_max)--><!--@while($j %40 < 7)-->{@$j++}<!--@end--><!--@end-->
