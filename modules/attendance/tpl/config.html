@@ -277,43 +277,46 @@
 		</div>
 
 		<div class="x_control-group">
-			<label class="x_control-label">event random</label>
+			<label class="x_control-label">{$lang->event_random}</label>
 			<div class="x_controls">
 				<select name="use_random_sm">
 					<option value="no" selected="selected"|cond="$config->use_random_sm!='yes'">{$lang->attendance_no}</option>
 					<option value="yes" selected="selected"|cond="$config->use_random_sm=='yes'">{$lang->attendance_yes}</option>
 				</select>
+				<a href="#use_random_sm" data-toggle class="x_icon-question-sign">{$lang->help}</a> {$lang->attimg}
+				<p class="x_help-block" id="use_random_sm" hidden><img src="config.jpg" /></p>
 			</div>
 		</div>
 
 
 		<div class="x_control-group">
-			<label class="x_control-label">random small win</label>
+			<label class="x_control-label">{$lang->random_small_win}</label>
 			<div class="x_controls">
 				<input type="text" name="random_small_win" value="{$config->random_small_win}"/>
+				<p>{$lang->random_small_win_h}</p>
 			</div>
 		</div>
 
 
 		<div class="x_control-group">
-			<label class="x_control-label">small event point</label>
+			<label class="x_control-label">{$lang->small_event_point}</label>
 			<div class="x_controls">
 				<p>
 					{$lang->minimum} : <input type="text" name="random_small_point_f" value="{$config->random_small_point_f}" style="width:60px" /> &nbsp; 
 					{$lang->maximum} : <input type="text" name="random_small_point_s" value="{$config->random_small_point_s}" style="width:60px" />
 				</p>
-			small event point
+				<p>{$lang->small_event_point_h}</p>
 			</div>
 		</div>
 
 		<div class="x_control-group">
-			<label class="x_control-label">large event point</label>
+			<label class="x_control-label">{$lang->large_event_point}</label>
 			<div class="x_controls">
 				<p>
 					{$lang->minimum} : <input type="text" name="random_big_point_f" value="{$config->random_big_point_f}" style="width:60px" /> &nbsp; 
 					{$lang->maximum} : <input type="text" name="random_big_point_s" value="{$config->random_big_point_s}" style="width:60px" />
 				</p>
-			large event point
+				<p>{$lang->large_event_point_h}</p>
 			</div>
 		</div>
 

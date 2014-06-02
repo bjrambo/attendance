@@ -537,13 +537,13 @@
 		<value xml:lang="ko"><![CDATA[최댓값]]></value>
 	</item>
 	<item name = "random_select">
-		<value xml:lang="ko"><![CDATA[꽝확률 사용여부]]></value>
+		<value xml:lang="ko"><![CDATA[당첨확률 사용여부]]></value>
 	</item>
 	<item name = "random_input">
-		<value xml:lang="ko"><![CDATA[꽝확률 설정]]></value>
+		<value xml:lang="ko"><![CDATA[당첨확률 설정]]></value>
 	</item>
 	<item name = "random_input_help">
-		<value xml:lang="ko"><![CDATA[꽝확률은 1에서 100까지만 사용가능합니다. 만약 비워두거나 그 이상 이하의 수치일경우 랜덤포인트가 꽝확률이 없이 작동됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[당첨확률은 1에서 100까지만 사용가능합니다. 만약 비워두거나 그 이상 이하의 수치일경우 랜덤포인트가 무조건당첨으로 작동됩니다.]]></value>
 	</item>
 	<item name = "birthday_setting">
 		<value xml:lang="ko"><![CDATA[생일 포인트 사용여부]]></value>
@@ -586,5 +586,29 @@
 	</item>
 	<item name = "dn_use">
 		<value xml:lang="ko"><![CDATA[사용하지 않음]]></value>
+	</item>
+	<item name = "event_random">
+		<value xml:lang="ko"><![CDATA[이벤트 랜덤 사용여부]]></value>
+	</item>
+	<item name = "random_small_win">
+		<value xml:lang="ko"><![CDATA[이벤트 랜덤 당첨확률]]></value>
+	</item>
+	<item name = "random_small_win_h">
+		<value xml:lang="ko"><![CDATA[이것을 지정하면 설정된 당첨확률에 따라 랜덤포인트를 더 크게 혹은 더 적게 줄 수 있습니다.]]></value>
+	</item>
+	<item name = "small_event_point">
+		<value xml:lang="ko"><![CDATA[평상시 랜덤 포인트]]></value>
+	</item>
+	<item name = "small_event_point_h">
+		<value xml:lang="ko"><![CDATA[이벤트로 주지 않고 평상시 주는 포인트와 동일하게 설정하세요.]]></value>
+	</item>
+	<item name = "large_event_point">
+		<value xml:lang="ko"><![CDATA[이벤트 랜덤 포인트]]></value>
+	</item>
+	<item name = "large_event_point_h">
+		<value xml:lang="ko"><![CDATA[이벤트로 큰폭, 혹은 작은폭만큼 정하여 이벤트성 포인트를 주기위한 설정란입니다.]]></value>
+	</item>
+	<item name = "attimg">
+		<value xml:lang="ko"><![CDATA[그림설명이 담겨져있습니다.]]></value>
 	</item>
 </lang>
