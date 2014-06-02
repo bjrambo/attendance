@@ -449,4 +449,3 @@ class attendanceAdminModel extends attendance
 		$oAttendanceModel->insertWeekly($obj->member_srl, $attendance, $sum, $obj->selected_date.'000000');
 	}
 }
-?>

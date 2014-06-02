@@ -103,6 +103,13 @@ class attendanceAdminController extends attendance
 		$config->brithday_point = $obj->brithday_point;
 		$config->continuity_monthly = $obj->continuity_monthly;
 		$config->use_document = $obj->use_document;
+		$config->use_random_sm = $obj->use_random_sm;
+		$config->random_small_win = $obj->random_small_win;
+		$config->random_small_point_f = $obj->random_small_point_f;
+		$config->random_small_point_s = $obj->random_small_point_s;
+		$config->random_big_point_f = $obj->random_big_point_f;
+		$config->random_big_point_s = $obj->random_big_point_s;
+
 
 		$this->setMessage('success_updated');
 
@@ -114,7 +121,6 @@ class attendanceAdminController extends attendance
 			header('location: ' . $returnUrl);
 			return;
 		}
-
 	}
 
 	/**
@@ -387,4 +393,3 @@ class attendanceAdminController extends attendance
 		$oModuleController->deleteModule($module_info->module_srl);
 	}
 }
-?>

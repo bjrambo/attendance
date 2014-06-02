@@ -7,13 +7,15 @@
  * 관리자페이지에 표시할 내용과 사용변수에 대한 정의/전달
  **/
 
-class attendanceAdminView extends attendance{
+class attendanceAdminView extends attendance
+{
 
 	function init()
 	{
 		// module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
 		$module_srl = Context::get('module_srl');
-		if(!$module_srl && $this->module_srl) {
+		if(!$module_srl && $this->module_srl)
+		{
 			$module_srl = $this->module_srl;
 			Context::set('module_srl', $module_srl);
 		}
@@ -22,12 +24,16 @@ class attendanceAdminView extends attendance{
 		$oModuleModel = getModel('module');
 
 		// module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
-		if($module_srl) {
+		if($module_srl)
+		{
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-			if(!$module_info) {
+			if(!$module_info)
+			{
 				Context::set('module_srl','');
 				$this->act = 'list';
-			} else {
+			}
+			else
+			{
 				ModuleModel::syncModuleToSite($module_info);
 				$this->module_info = $module_info;
 				Context::set('module_info',$module_info);
@@ -147,6 +153,9 @@ class attendanceAdminView extends attendance{
 			}
 		}
 		else Context::set('_attendance_env_agreement', 'NULL');
+
+
+
 		/*템플릿 설정*/
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('index');
@@ -293,4 +302,3 @@ class attendanceAdminView extends attendance{
 		$this->setTemplateFile('sosi_setup');
 	}
 }
-?>

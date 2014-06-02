@@ -1,13 +1,19 @@
-<include target="_setting.html" />
-<!-- css -->
-<load target="css/default.css" />
+{@
+	$mi = $module_info;
+	$cd = $config;
+	$lgi = $logged_info;
+	$lang->yyear = '년';
+	$lang->mmo = '월';
+	$lang->dday = '일';
+}
 
+<load target="css/gray.css" />
+<load target="css/font-awesome.css" />
 
+<div class="att_header" cond="$module_info->header_text">
+	<div class="att_header_title">
+		<span>{$module_info->header_text}</span>
+	</div>
+</div>
 
-
-
-
-<!--//제목 출력-->
-{$mi->header_text}
-
-<div class="att" id="attsosi">
+<div class="att">

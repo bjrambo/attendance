@@ -260,30 +260,62 @@ class attendanceController extends attendance
 			}
 
 			/* 랜덤포인트 추가 */
-			if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0)
+			if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
 			{
 				$sosirandom = mt_rand($config->minimum,$config->maximum);
-				if($config->about_lottery == 'yes' && $config->lottery >= 0 && $config->lottery <= 100)
+				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
 				{
 					$win = mt_rand(1,100);
-					if($win<=$config->lottery)
+					if($win<=$config->lottery) //30설정시 30퍼센트 확률로 당첨되도록 수정.(방향 수정)
 					{
 						$obj->today_point += $sosirandom;
 						$obj->today_random = $sosirandom;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 					else
 					{
 						$obj->today_point;
 						$obj->today_random = 0;
-						$output = executeQuery("attendance.insertAttendance",$obj);
 					}
 				}
 				else
 				{
 					$obj->today_point += $sosirandom;
 					$obj->today_random = $sosirandom;
-					$output = executeQuery("attendance.insertAttendance",$obj);
+				}
+			}
+			elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
+			{
+				$objs = new stdClass;
+				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
+				{
+					$win = mt_rand(1,100);
+					if($win<=$config->lottery)
+					{
+						// $win 이 small_win 보다 크고, big_win보다 작을경우
+						if($win<=$config->lottery && $win>=$config->random_small_win)
+						{
+							$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+							$obj->today_point += $sosirandom;
+							$obj->today_random = $sosirandom;
+						}
+						elseif($win<$config->random_small_win)
+						{
+							$sosirandom = mt_rand($config->random_big_point_f,$config->random_big_point_s);
+							$obj->today_point += $sosirandom;
+							$obj->today_random = $sosirandom;
+						}
+					}
+					else
+					{
+						$obj->today_point;
+						$obj->today_random = 0;
+					}
+				}
+				else
+				{
+					$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+					$obj->today_point += $sosirandom;
+					$obj->today_random = $sosirandom;
 				}
 			}
 			else
@@ -295,6 +327,7 @@ class attendanceController extends attendance
 			$args->attendance_srl = getNextSequence();
 			$args->greetings="^admin_checked^";
 			$args->today_point = $obj->today_point;
+			$args->today_random = $obj->today_random;
 
 			//출석부에 기록(쿼리 수행)
 			executeQuery("attendance.insertAttendance", $args);
@@ -391,9 +424,9 @@ class attendanceController extends attendance
 		}
 	}
 
-    /**
-    * @brief 출석내용 수정
-    **/
+	/**
+	 * @brief 출석내용 수정
+	 **/
     function procAttendanceModifyData()
 	{
 		$obj = Context::getRequestVars();
@@ -500,19 +533,20 @@ class attendanceController extends attendance
 	
 	function triggerSou(&$content)
 	{
-
-		$logged_info = Context::get('logged_info');	
-		$oAttendanceModel = getModel('attendance');
-		$oMemberModel = getModel('member');
-		//module의 설정값 가져오기
+		$act = Context::get('act');
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
-
-		$act = Context::get('act');				
-		$member_srl = $logged_info->member_srl;
+		$logged_info = Context::get('logged_info');
 
 		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
 		{
+			$oAttendanceModel = getModel('attendance');
+			$oMemberModel = getModel('member');
+			//module의 설정값 가져오기
+
+			$member_srl = $logged_info->member_srl;
+
+
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
@@ -520,5 +554,6 @@ class attendanceController extends attendance
 
 		return new Object();
 	}
+
+
 }
-?>

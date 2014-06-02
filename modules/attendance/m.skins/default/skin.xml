@@ -25,7 +25,19 @@
             </options>
             <description />
         </var>
-		
+
+
+        <var name="headertextdisplay" type="select">
+            <title xml:lang="ko">헤더디스플레이 출력 on/off</title>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+            </options>
+            <description />
+        </var>
+
 		<var name="maxlength" type="text" default="30">
             <title xml:lang="ko">인사말 입력 글자수</title>
             <description xml:lang="ko">인사말의 입력 글자수를 지정할 수 있습니다. (기본 : 30)</description>

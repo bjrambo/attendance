@@ -1,0 +1,138 @@
+
+<div style="position:relative;">
+<!--//등수변수 초기화-->
+<!--@if($module_info->order_type=='desc')-->{@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}<!--@else-->{@$position=1+($oAttendance->page-1)*$module_info->list_count}<!--@end-->
+<div class="sat">
+<table class="table table-condensed  table-striped">
+    <thead>
+        <tr >
+            <th scope="col" style="text-align:center">{$lang->position}</th>
+            <th scope="col" style="text-align:center">{$lang->time}</th>
+            <th scope="col" style="text-align:center">{$lang->greetings}</th>
+            <th scope="col" style="text-align:center">{$lang->nick_name}</th>
+            <th scope="col" style="text-align:center">{$lang->point}</th>
+			<th scope="col" style="text-align:center" cond="$cd->about_random == 'yes'"><span>랜덤 {$lang->point}</span></th>
+            <th scope="col" style="text-align:right;">{$lang->attendance_perfect}</th>
+            <th scope="col" style="text-align:right;"><span>{$lang->view_total_day}</span></th>
+            <!--@if($module_info->display_ip_address != 'N')-->
+            <th scope="col" style="text-align:right;">{$lang->ipaddress}</th>
+            <!--@end-->
+        </tr>
+    </thead>   
+    <tbody>
+    <!--@if($oAttendanceAdminModel->getTodayTotalCount($selected_date)==0)-->
+    <td colspan="8" class="no_checked">{$lang->attend_no_checked}</td></tr>
+    <!--@else-->
+    <!--//출석한 사람이 있다면 반복문 시작-->
+    <!--//쿼리를 통해 받은 사용자정보를 순서대로 얻어오는 구문-->
+    <!--@foreach($oAttendance->data as $data)-->
+        {@ $is_perfect = $oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
+        {@ $weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
+        {@ $member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
+        {@
+			$oDB = &DB::getInstance();
+			$query = $oDB->_query('select continuity from xe_attendance_total where member_srl = '.$member->member_srl);
+			$result = $oDB->_fetch($query);
+		}
+        	<!--@if(ereg("^#[0-9]+$",$data->greetings))-->
+                {@$length_greetings = strlen($data->greetings) -1}
+                {@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
+                <!--@if($oDocument->document_srl)-->
+                    {@$exist_document = 1}
+                <!--@else-->
+                    {@$exist_document = 0}
+                <!--@end-->
+            <!--@else-->
+                {@$exist_document = 0}
+            <!--@end-->
+            
+            <tr <!--@if($data->member_srl == $logged_info->member_srl)-->class="success"<!--@end-->>
+                <td style="text-align:center">
+                <!--@if($position == 1)--><img src="./css/rank1.png" />
+                <!--@elseif($position == 2)--><img src="./css/rank2.png" />
+                <!--@elseif($position == 3)--><img src="./css/rank3.png" />
+                <!--@else-->{$position}<!--@end--></td>
+                <td style="text-align:center">
+                {substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)}</td>
+                <td class="span4">
+                
+                    <!--@if($data->greetings)-->
+                        <!--@if($exist_document == 1)-->
+                            {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')}
+                        <!--@else-->
+                            {@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
+                            <!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
+                            <!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
+                            <!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
+                            <!--@else-->{$lang->default_greetings}
+                            <!--@end-->
+                        <!--@end-->
+                    <!--@else-->
+                        {$lang->attend_no_greetings}
+                    <!--@end--></td>
+                <td style="text-align:center">
+					<span><a href="#popup_menu_area" class="member_{$member->member_srl}" onclick="return false"><b>{$member->nick_name}</b></a></span>
+				</td>
+                <td style="text-align:center">
+                <!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
+                	<a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">{$data->today_point}</a>
+                <!--@else-->
+                	{$data->today_point}
+                <!--@end--></td>
+				<td style="text-align:center" class="randomdata" cond="$cd->about_random == 'yes'">
+					<span class="cri"|cond="$data->att_random_set=='1'">
+					<block cond="$data->today_random=='0'">꽝</block>
+					<block cond="$data->today_random>='1'"><i class="fa fa-certificate" cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
+					</span>
+				</td>
+                <td <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->style="text-align:right"<!--@else-->style="text-align:center" <!--@end-->>
+                <!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><span class="label label-info">{$lang->attendance_perfect}</span><!--@end-->
+                <!--@if($is_perfect->monthly_perfect)--><span class="label label-success">{$lang->attendance_perfect}</span><!--@end-->
+                <!--@if($is_perfect->yearly_perfect)--><span class="label label-warning">{$lang->attendance_perfect}</span><!--@end-->
+                <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->
+                {@ $perfect_de = $selected_date - date("Ymd")}
+    			{@ $perfect_dec = $result->continuity + $perfect_de}
+                <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} 일째
+                <!--@else-->0 일째<!--@end-->
+                <!--@end-->
+                </td>
+                <td style="text-align:right">
+                {number_format($oAttendanceModel->getTotalAttendance($member->member_srl))}  일
+                </td>
+                <!--@if($module_info->display_ip_address != 'N')-->
+                <td class="ip" style="text-align:left;">
+                    <!--@if($data->ipaddress == 'none')-->{$data->ipaddress}
+                    <!--@elseif(!$data->ipaddress)-->{$lang->attend_warn_ip}
+                    <!--@else-->
+                        <!--@if($data->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->{$data->ipaddress}
+                        <!--@else-->
+                            {@$ip_tmp = explode('.',$data->ipaddress)}
+                            {@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
+                        <!--@end-->
+                    <!--@end--></td>
+                <!--@end-->
+            </tr>
+            
+    		<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
+    <!--@end-->      
+	<!--@end--></tbody></table></div>   
+    <!--@if(!$oAttendanceAdminModel->getTodayTotalCount($selected_date)==0)-->
+    
+    	<div style="position:relative; width:100%; padding:0; text-align:center" class="sat">       
+            <!--//페이지 내비게이션-->
+			<div class="pagination">
+            
+            <ul>
+			<li><a href="{getUrl('page',$oAttendance->page_navigation->first_page,'module_srl','')}">&laquo;</a></li>
+			<!--@while($page_no = $oAttendance->page_navigation->getNextPage())-->
+			<li class="active"|cond="$oAttendance->page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+			<!--@end-->
+			<li><a href="{getUrl('page',$oAttendance->page_navigation->last_page,'module_srl','')}">&raquo;</a></li>
+			</ul>
+    
+            
+    		</div>
+    	</div>
+
+    <!--@end-->
+</div>
