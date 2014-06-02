@@ -55,7 +55,10 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 ---------
 **Ver. 2.3**
 * 스킨 대폭개선 [#69](https://github.com/qw5414/attendance/pull/69) [@kaijess](https://github.com/kaijess)
-* 
+* PC버전 날자 클릭하여 출석 현황보기를 모든회원에게 보이도록 개선. [#71](https://github.com/qw5414/attendance/issues/71)
+* 모바일 상단 테스트 내용을 나타나지 않도록 할 필요성 있음 [#70](https://github.com/qw5414/attendance/issues/70)
+* NOISSUES php 마지막 "?>" 문구제거
+* 랜덤포인트를 세분화 하여 사용하도록 쓰기 [#67](https://github.com/qw5414/attendance/issues/67)
 
 **Ver. 2.2**
 * 옵션을 통해 첫 출석일부터 30일간격으로 월개근을 구할 수 있도록 개선. [#50](https://github.com/qw5414/attendance/pull/50) [CONORY](https://conory.com)
