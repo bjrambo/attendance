@@ -66,6 +66,7 @@
 .listTable .check { margin:0; text-align:center; font-weight:bold; padding:0; border:0;}
 .listTable td.stamp { font-size:10px; position:relative; line-height:16px; padding:0; margin:0; background:url(bg1.gif) no-repeat bottom center; }
 .listTable td.stamp1 { font-size:10px; position:relative; line-height:16px; padding:0; margin:0;background:url(bg.gif) no-repeat bottom center;}
+.listTable td img {vertical-align:baseline}
 .cal_info {margin:10px 0 30px 0; position:relative; clear:both; display:block;}
 .cal_info table{ width:100%; }
 .cal_info th{ padding-left:5px; margin-left:5px;}
