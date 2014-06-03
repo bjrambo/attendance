@@ -29,11 +29,7 @@
         {@ $is_perfect = $oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
         {@ $weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
         {@ $member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
-        {@
-			$oDB = &DB::getInstance();
-			$query = $oDB->_query('select continuity from xe_attendance_total where member_srl = '.$member->member_srl);
-			$result = $oDB->_fetch($query);
-		}
+
         	<!--@if(ereg("^#[0-9]+$",$data->greetings))-->
                 {@$length_greetings = strlen($data->greetings) -1}
                 {@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
@@ -90,9 +86,13 @@
                 <!--@if($is_perfect->monthly_perfect)--><span class="label label-success">{$lang->attendance_perfect}</span><!--@end-->
                 <!--@if($is_perfect->yearly_perfect)--><span class="label label-warning">{$lang->attendance_perfect}</span><!--@end-->
                 <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->
-                {@ $perfect_de = $selected_date - date("Ymd")}
-    			{@ $perfect_dec = $result->continuity + $perfect_de}
-                <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} 일째
+                {@ 
+					$oAttendanceModel = &getModel('attendance');
+					$total_info = $oAttendanceModel->getTotalData($member->member_srl);
+					$perfect_de = $selected_date - date("Ymd");
+					$perfect_dec = $total_info->continuity + $perfect_de;
+				}
+                <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} {$total_info->continuity} 일째
                 <!--@else-->0 일째<!--@end-->
                 <!--@end-->
                 </td>
