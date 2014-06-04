@@ -1,11 +1,16 @@
 <div class="alert">{$lang->attend_click_msg}</div>
-
-<form action="{getUrl('')}" method="post" id="click_button" onsubmit="return attendance_check()" name="f1" style="text-align:center" class="write_author">
+<!--// <form action="{getUrl('')}" method="post" id="click_button" onsubmit="return attendance_check()" name="f1" style="text-align:center" class="write_author">-->
+<form action="./" method="post" id="click_button" style="text-align:center" class="write_author" ruleset="Attendanceinsert">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="act" value="procAttendanceInsertAttendance" />
+	<input type="hidden" name="xe_validator_id" value="modules/attendance/skins/default/attendanceinsert" />
 
         <span class="input-append" style="width:100%; display:inline-block">   
-			<input type="text" onclick="this.value='';" name="greetings" id="greetings" onkeypress="return text_entercheck(event);" onfocus="alll()" style="width:550px" class="write_text" />
+			<!-- <input type="text" onclick="this.value='';" name="greetings" id="greetings" onkeypress="return text_entercheck(event);" onfocus="alll()" style="width:550px" class="write_text" /> -->
+			<input type="text" name="greetings" id="greetings" style="width:550px" class="write_text" />
 			<input type="hidden" name="about_position" value="yes"  />
-			<button type="button" onclick="if(f1.greetings.value){return attendance_check()}else{return attendance_no_check()}" class="sm-btn">{$lang->click}</button>
+			<button type="submit" class="sm-btn">{$lang->click}</button>
+			<!--//<button type="button" onclick="if(f1.greetings.value){return attendance_check()}else{return attendance_no_check()}" class="sm-btn">{$lang->click}</button>-->
 		</span>
 	
     

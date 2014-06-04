@@ -34,6 +34,17 @@ class attendanceController extends attendance
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1,'attend_greetings_error');
 
 		$oAttendanceModel->insertAttendance($obj->about_position, $obj->greetings);
+
+		$this->setMessage('출석을 완료했습니다.');
+
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance');
+			header('location: ' . $returnUrl);
+			return;
+		}
+
 	}
 
 	/**
