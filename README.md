@@ -53,6 +53,9 @@ $weekly->weekly == 7 && $selected_date == $week->sunday1
 
 업뎃 사항 
 ---------
+**Ver. 2.3.1**
+* 스킨 수정
+
 **Ver. 2.3**
 * 스킨 대폭개선 [#69](https://github.com/qw5414/attendance/pull/69) [@kaijess](https://github.com/kaijess)
 * PC버전 날자 클릭하여 출석 현황보기를 모든회원에게 보이도록 개선. [#71](https://github.com/qw5414/attendance/issues/71)
