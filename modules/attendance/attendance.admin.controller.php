@@ -21,7 +21,7 @@ class attendanceAdminController extends attendance
 	{
 		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = &getAdminModel('attendance');
-		$obj=Context::getRequestVars();
+		$obj = Context::getRequestVars();
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceYearlyData($obj->member_srl);
@@ -182,6 +182,7 @@ class attendanceAdminController extends attendance
 		$oAttendanceModel = &getModel('attendance');
 		$oAttendanceAdminModel = &getAdminModel('attendance');
 		$obj = Context::getRequestVars();
+		$continuity = new stdClass;
 		$continuity->point = 0;
 		if(!$obj->continuity)
 		{
@@ -217,11 +218,11 @@ class attendanceAdminController extends attendance
 	function procAttendanceAdminFixAttendanceData()
 	{
 		//모델 연동
-		$oAttendanceModel = &getModel('attendance');
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 		//포인트 모듈 연동
-		$oPointModel = &getModel('point');
-		$oPointController = &getController('point');
+		$oPointModel = getModel('point');
+		$oPointController = getController('point');
 		$obj = Context::getRequestVars();
 		$output = $oAttendanceAdminModel->getDuplicatedData($obj->member_srl, $obj->selected_date);
 		$j = 1;
@@ -241,7 +242,7 @@ class attendanceAdminController extends attendance
 		//중복된 출석내용 제거
 		$oAttendanceAdminModel->deleteDuplicatedData($obj->member_srl, $obj->selected_date);
 		//비정상적으로 지급된 포인트 차감(포인트모듈 연동)
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
 		$my_point = $oPointModel->getPoint($member_info->member_srl);
 		$my_point -=$today_point;
@@ -287,10 +288,11 @@ class attendanceAdminController extends attendance
 	 **/
 	function procAttendanceAdminInitAll()
 	{
-		$oAttendanceModel = &getModel('attendance');
-		$oAttendanceAdminModel = &getAdminModel('attendance');
-		$oPointController = &getController('point');
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oPointController = getController('point');
 		$obj = Context::getRequestVars();
+		$continuity =  new stdClass;
 		$continuity->point = 0;
 		if(!$obj->continuity)
 		{
@@ -335,8 +337,8 @@ class attendanceAdminController extends attendance
 	function procAttendanceAdminInsertBoard()
 	{
 		// module 모듈의 model/controller 객체 생성
-		$oModuleController = &getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleController = getController('module');
+		$oModuleModel = getModel('module');
 
 		// 게시판 모듈의 정보 설정
 		$args = Context::getRequestVars();
@@ -368,7 +370,7 @@ class attendanceAdminController extends attendance
 	function procAttendanceAdminEnviromentGatheringAgreement()
 	{
 		$vars = Context::getRequestVars();
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
 		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/cache/attendance/attendance-', $attendance_module_info->version));
 
@@ -387,8 +389,8 @@ class attendanceAdminController extends attendance
 	 **/
 	function procAttendanceAdminDeleteBoard()
 	{
-		$oModuleModel = &getModel('module');
-		$oModuleController = &getController('module');
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleController->deleteModule($module_info->module_srl);
 	}

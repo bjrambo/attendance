@@ -13,7 +13,8 @@ class attendanceAdminModel extends attendance
 	/**
 	 * @brief 초기화
 	 **/
-	function init(){
+	function init()
+	{
 	}
 
 	/**

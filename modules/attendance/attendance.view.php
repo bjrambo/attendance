@@ -7,7 +7,8 @@
 * 관리자페이지에 표시할 내용과 사용변수에 대한 정의/전달
 **/
 
-class attendanceView extends attendance{
+class attendanceView extends attendance
+{
 
 	function init()
 	{

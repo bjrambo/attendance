@@ -533,7 +533,6 @@ class attendanceController extends attendance
 	
 	function triggerSou(&$content)
 	{
-		$act = Context::get('act');
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		$logged_info = Context::get('logged_info');
@@ -546,8 +545,7 @@ class attendanceController extends attendance
 
 			$member_srl = $logged_info->member_srl;
 
-
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
 		}
