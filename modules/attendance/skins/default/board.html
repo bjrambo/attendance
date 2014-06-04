@@ -86,13 +86,13 @@
                 <!--@if($is_perfect->monthly_perfect)--><span class="label label-success">{$lang->attendance_perfect}</span><!--@end-->
                 <!--@if($is_perfect->yearly_perfect)--><span class="label label-warning">{$lang->attendance_perfect}</span><!--@end-->
                 <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->
-                {@ 
+				{@ 
 					$oAttendanceModel = &getModel('attendance');
 					$total_info = $oAttendanceModel->getTotalData($member->member_srl);
 					$perfect_de = $selected_date - date("Ymd");
 					$perfect_dec = $total_info->continuity + $perfect_de;
 				}
-                <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} {$total_info->continuity} 일째
+                <!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} 일째
                 <!--@else-->0 일째<!--@end-->
                 <!--@end-->
                 </td>
