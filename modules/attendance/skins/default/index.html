@@ -110,7 +110,7 @@
 			<th>출석시간</th><td style="text-align:left; font-size:10px"><span class="<!--@if($is_available == 0)-->label label-success <!--@else-->label label-danger<!--@end-->"><!--@if($mi->timestart)-->{$mi->timestart}<!--@else-->00:00:00<!--@end-->~<!--@if($mi->timeend)-->{$mi->timeend}<!--@else-->24:00:00<!--@end--></span></td>
 			<th>진행상태</th><td><!--@if($is_available == 0)--><span class="label label-success">출석가능</span><!--@else--><span class="label label-warning">불가능</span><!--@end--></td>
 			<th>출석여부</th>
-			<td><!--@if(!$is_logged)--><span class="label label-danger">비로그인</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==0)--><span class="label label-warning">출책안함</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==1)--> <span class="label label-success">출책완료</span><!--@end--></td>
+			<td><!--@if(!$is_logged)--><span class="label label-danger">비로그인</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==0)--><span class="label label-warning">출첵안함</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==1)--> <span class="label label-success">출첵완료</span><!--@end--></td>
 			<th>개근분류</th>
 			<td style="position:relative">
 			<span id="point_7" style="display:block" ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
