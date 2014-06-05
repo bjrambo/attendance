@@ -139,12 +139,19 @@
 	<!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
 
 		<!--@if($config->about_admin_check!='no')-->
-		<include target="att.html" /><!--@else-->
-			<!--@if($logged_info->is_admin != 'Y')--><include target="att.html" /><!--@end--> 
-		{$lang->attend_banned_admin}<!--@end-->
+		<include target="att.html" />
+		<!--@else-->
+			<!--@if($logged_info->is_admin != 'Y')-->
+			<include target="att.html" />
+			<!--@end--> 
+		{$lang->attend_banned_admin}
+		<!--@end-->
 
 	<!--@end-->
 
-<!--@else--><div class="alert alert-error">{$lang->msg_not_logged}</div><!--@end--></div>
+<!--@else-->
+<div class="alert alert-error">{$lang->msg_not_logged}</div>
+<!--@end-->
+</div>
 	<include target="board.html" /><br/>
 	<include target="_footer.html" />
