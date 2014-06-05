@@ -204,7 +204,7 @@ class attendanceModel extends attendance
 		$year_month = zDate(date('YmdHis'),"Ym");
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
 
-		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+		//if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
