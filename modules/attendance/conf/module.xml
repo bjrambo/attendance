@@ -18,7 +18,7 @@
     </permissions>
     <actions>
 	    <action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
-	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" />
+	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" ruleset="attendanceinsert" />
 		<action name="procAttendanceAdminInsertAttendance" type="controller" standalone="true" />
 	    <action name="procAttendanceInsertConfig" type="controller" standalone="true" />
 	    <action name="procAttendanceDeleteData" type="controller" standalone="true" />

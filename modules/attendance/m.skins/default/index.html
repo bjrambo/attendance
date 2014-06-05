@@ -74,87 +74,41 @@
 
     
     <div class="cal">
-    
+		<div class="sat" style="margin:10px 1px">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID  == 'modules/attendance/skins/default/attendanceinsert'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+		<block cond="$is_logged">
 		<!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
-			
-
-			<div class="sat" style="margin:10px 1px" cond="$is_logged">
-				<div class="alert alert-success">
-					<h4>{$lgi->nick_name} 님은</a><block cond="$mi->logo_image"><img style="margin-bottom:-10px;" src="{$mi->logo_image}" />에서</block> 출석이 완료되었습니다.</h4>
-					출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^
-				</div>	
-			</div>
-
-			<div class="sat" style="margin:10px 1px" cond="!$is_logged">
-				<div class="alert alert-danger">
-					<h4>현재 로그인이 되지 않은 상태입니다.</h4>
-					로그인을 하신다음 출책이 가능합니다.
-				</div>	
+			<div class="alert alert-success" cond="$is_logged">
+				<h4>{$lgi->nick_name} 님은</a><block cond="$mi->logo_image"><img style="margin-bottom:-10px;" src="{$mi->logo_image}" />에서</block> 출석이 완료되었습니다.</h4>
+				출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^
 			</div>
 		<!--@end-->
  
 	    <!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
 	    <!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
 			<!--@if($config->about_admin_check!='no')-->
-
-			<div class="sat" style="margin:10px 1px" cond="$is_logged">
-				<div class="alert alert-warning">출석도장 찍으세요</div>
-            
-
-                <div class="x">
-	                <form action="{getUrl('')}" method="post" id="click_button" onsubmit="return attendance_check()" name="f1" style="text-align:center" >                   
-
-                    <span class="x_input-append" style="width:100%; display:inline-block">
-                   
-						<input type="text" onclick="this.value='';" name="greetings" id="greetings" class="iText" onkeypress="return text_entercheck(event); " maxlength="<!--@if(!$mi->maxlength)-->30<!--@end--> {$mi->maxlength}" onfocus="alll()" style="width:50%;" />
-						<input type="hidden" name="about_position" value="yes" />
-                        
-
-					<button type="button" class="x_btn x_btn-inverse" onclick="if(f1.greetings.value){return attendance_check()}else{return attendance_no_check()}">출석 도장!</button>
-					</span>
-	                </form>
-                </div>
-			</div>
-
-			<div class="sat" style="margin:10px 1px" cond="!$is_logged">
-				<div class="alert alert-danger">
-					<h4>현재 로그인이 되지 않은 상태입니다.</h4>
-					로그인을 하신다음 출책이 가능합니다.
-				</div>	
-			</div>
+				<include target="att.html" />
 			<!--@else-->
-			<!--@if($logged_info->is_admin != 'Y')-->
-			<div class="sat" style="margin:10px 1px" cond="$is_logged">
-				<div class="alert">출석도장 찍으세요</div>
-            
-
-                <div class="x">
-	                <form action="{getUrl('')}" method="post" id="click_button" onsubmit="return attendance_check()" name="f1" style="text-align:center" >                   
-
-                    <span class="x_input-append" style="width:100%; display:inline-block">
-                   
-						<input type="text" onclick="this.value='';" name="greetings" id="greetings" class="iText" onkeypress="return text_entercheck(event); " maxlength="<!--@if(!$mi->maxlength)-->30<!--@end--> {$mi->maxlength}" onfocus="alll()" style="width:50%;" />
-						<input type="hidden" name="about_position" value="yes" />
-                        
-
-					<button type="button" class="x_btn x_btn-inverse" onclick="if(f1.greetings.value){return attendance_check()}else{return attendance_no_check()}">출석 도장!</button>
-					</span>
-	                </form>
-                </div>
-			</div>
+				<!--@if($logged_info->is_admin != 'Y')-->
+					<include target="att.html" />
+				<!--@end-->
+				<div class="sat" style="margin:10px 1px" cond="$logged_info->is_admin == 'Y'">
+					<div class="alert alert-admin"><h4>{$lang->attend_banned_admin}</h4></div>	
+				</div>
 			<!--@end-->
-			<div class="sat" style="margin:10px 1px" cond="$logged_info->is_admin == 'Y'">
-				<div class="alert alert-admin"><h4>{$lang->attend_banned_admin}</h4></div>	
-			</div>
-			<div class="sat" style="margin:10px 1px" cond="!$is_logged">
-				<div class="alert alert-danger">
-					<h4>현재 로그인이 되지 않은 상태입니다.</h4>
-					로그인을 하신다음 출책이 가능합니다.
-				</div>	
-			</div>			
-			<!--@end-->
+
 	    <!--@end-->
-        </div>
+		</block>
+		<block cond="!$is_logged">
+			<div class="alert alert-danger">
+				<h4>현재 로그인이 되지 않은 상태입니다.</h4>
+				로그인을 하신다음 출책이 가능합니다.
+			</div>
+		</block>
+		</div>
+	</div>
 
 
 
