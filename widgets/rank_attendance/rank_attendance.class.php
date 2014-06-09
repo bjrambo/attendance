@@ -4,6 +4,11 @@ class rank_attendance extends WidgetHandler{
 	function proc($args)
 	{
 
+		if(!$args)
+		{
+			$args = new stdClass;
+		}
+
 		// 위젯 자체적으로 설정한 변수들을 체크
 		$title = $args->title;
 		$list_count = (int)$args->list_count;
