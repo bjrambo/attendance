@@ -33,7 +33,7 @@
 <!--@if($obj->addon_view == 'yes')-->
 <div class="addon_view">
 <!--@if($logged_info->is_admin=='Y')-->
-    <a href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a>  |
+    <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a>  |
 <!--@end-->
     <!--@if($is_logged)--><a href="{getUrl('act','dispAttendancePersonalInfo')}" alt="{$lang->attend_calendar}">▤{$lang->attend_calendar}</a><!--@end-->
 </div>

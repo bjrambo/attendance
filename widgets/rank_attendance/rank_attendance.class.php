@@ -3,6 +3,12 @@ class rank_attendance extends WidgetHandler{
 
 	function proc($args)
 	{
+
+		if(!$args)
+		{
+			$args = new stdClass;
+		}
+
 		// 위젯 자체적으로 설정한 변수들을 체크
 		$title = $args->title;
 		$list_count = (int)$args->list_count;
@@ -99,12 +105,12 @@ class rank_attendance extends WidgetHandler{
 		Context::set('Model', $oAttendanceModel);
 		Context::set('oMemberModel', $oMemberModel);
 
-		// 템플릿의 스킨 경로를 지정 
+					 // 템플릿의 스킨 경로를 지정 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
 		$tpl_file = 'body';
 		Context::set('colorset', $args->colorset);
 
-		// 템플릿 컴파일
+					 // 템플릿 컴파일
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
