@@ -1,6 +1,6 @@
 <!--//출석랭킹 기본 스킨-->
 <!--//최종 수정일 : 2009.12.10-->
-<!--//제작자 : 매실茶 (http://maesiltea.linuxstudy.pe.kr)-->
+<!--//제작자 : 람보 (http://sosifam.com)-->
 
 <!--//컬러셋-->
 <!--@if($colorset=="black")-->
@@ -28,7 +28,7 @@
 <!--@if($widget_info->addon_view == 'yes')-->
 <div class="aab">
 <!--@if($logged_info->is_admin=='Y')-->
-    <a href="{getUrl('module','admin','act','dispAdminAttendanceList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a> |
+    <a href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >※{$lang->cmd_management}</a> |
 <!--@end-->
     <!--@if($is_logged)--><a href="{getUrl('act','dispAttendancePersonalInfo')}" alt="{$lang->attend_calendar}">▤{$lang->attend_calendar}</a><!--@end-->
 </div>
