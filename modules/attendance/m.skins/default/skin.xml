@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">부트스트랩 출석부 모바일버전</title>
+    <title xml:lang="ko">출석부 기본 모바일스킨</title>
     <description xml:lang="ko">
-        부트스트랩 모바일 출석부 스킨
+        출석부 기본 모바일스킨
         제작: 람보짱(http://sosifam.com)
     </description>
-    <version>0.0.2</version>
+    <version>3.0</version>
     <date>2013-11-28</date>
 	<author email_address="qw5414@gmail.com" link="http://sosifam.com">
         <name xml:lang="ko">소시팸</name>

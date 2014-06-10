@@ -9,7 +9,7 @@
 		출석부 기본 스킨
 		제작: BJ람보(http://sosifam.com)
 	</description>
-	<version>2.1</version>
+	<version>3.0</version>
 	<date>2014-03-24</date>
 	<author email_address="sosifam@070805.co.kr" link="http://sosifam.com">
 		<name xml:lang="ko">BJ람보</name>
@@ -37,27 +37,7 @@
 			</options>
 			<description />
 		</var>
-		
-		<var name="maxlength" type="text" default="30">
-			<title xml:lang="ko">인사말 입력 글자수</title>
-			<description xml:lang="ko">인사말의 입력 글자수를 지정할 수 있습니다. (기본 : 30)</description>
-		</var>
-		
-		<var name="greetings_cut_size" type="text">
-			<title xml:lang="ko">인사말 글자수</title>
-			<title xml:lang="jp">length of greetings characters</title>
-			<title xml:lang="zh-CN">length of greetings characters</title>
-			<title xml:lang="en">Length of greetings</title>
-			<title xml:lang="es">Length of greetings</title>
-			<title xml:lang="zh-TW">Length of greetings</title>
-			<description xml:lang="ko">인사말의 글자수를 지정할 수 있습니다. (기본 : 30)</description>
-			<description xml:lang="jp">You may set length of greetings. (default : 30)</description>
-			<description xml:lang="zh-CN">You may set length of greetings. (default : 30)</description>
-			<description xml:lang="en">You may set length of greetings. (default : 30)</description>
-			<description xml:lang="es">You may set length of greetings. (default : 30)</description>
-			<description xml:lang="zh-TW">You may set length of greetings. (default : 30)</description>
-		</var>
-		
+
 		<var name="display_ip_address" type="select">
 			<title xml:lang="ko">아이피주소 표시</title>
 			<title xml:lang="en">Display ip address</title>

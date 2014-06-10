@@ -15,7 +15,7 @@
 				{@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
 				{@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
 				<!--@if($checked == 1 && $is_logged)-->
-					<!--@if($logged_info->is_admin=='Y')-->
+					<!--@if($logged_info->is_admin=='Y' || $checked == 1 && $is_logged)-->
 						<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">
 					<!--@end-->
 					<span class="sunday"|cond="$j%7==1" class="saturday"|cond="$j%7==0">
@@ -27,7 +27,7 @@
 							{$_day++}
 						<!--@end-->
 					</span>
-					<!--@if($logged_info->is_admin=='Y')-->
+					<!--@if($logged_info->is_admin=='Y' || $checked == 1 && $is_logged)-->
 						</a>
 					<!--@end-->
 					<span class="check" style="width:100%; text-align:center; position:relative; margin-bottom:-10px; padding:0; padding-top:5px; display:block;">
@@ -37,7 +37,7 @@
 					<span <!--@if($j%7==1)-->class="sunday"<!--@elseif($j%7==0)-->class="saturday"<!--@end--> >
 					<!--@if(sprintf("%04d%02d%02d",$admin_date_info->_year,$admin_date_info->_month,$_day) == date("Ymd"))--><span style="background:#F66; color:#fff;">{$_day++}</span><!--@else-->{$_day++}<!--@end--></span>
 				<!--@else-->
-					<!--@if($logged_info->is_admin=='Y')-->
+					<!--@if($logged_info->is_admin=='Y' || $checked == 1 && $is_logged)-->
 						<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">
 					<!--@end-->
 					<span class="sunday"|cond="$j%7==1" class="saturday"|cond="$j%7==0">
@@ -52,7 +52,7 @@
 							{$_day++}
 						<!--@end-->
 					</span>
-					<!--@if($logged_info->is_admin=='Y')-->
+					<!--@if($logged_info->is_admin=='Y' || $checked == 1 && $is_logged)-->
 						</a>
 					<!--@end-->
 				<!--@end-->

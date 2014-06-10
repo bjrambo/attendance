@@ -1,4 +1,4 @@
-<filter name="delete_all_data" module="attendance" act="procAdminAttendanceDeleteAllData" confirm_msg_code="confirm_delete">
+<filter name="delete_all_data" module="attendance" act="procAttendanceAdminDeleteAllData" confirm_msg_code="confirm_delete">
     <form />
     <parameter />
     <response>

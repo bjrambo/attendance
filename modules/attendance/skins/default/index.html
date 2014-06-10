@@ -129,6 +129,9 @@
 	<include target="list.html" />
 <!--//도장버튼 노출-->
 <div class="sat" style="margin:10px 1px">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID  == 'modules/attendance/skins/default/attendanceinsert'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <!--@if($is_logged)-->
 
 	<!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )--><div class="alert alert-success"><h4>출석이 완료되었습니다.</h4>출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^</div><!--@end-->
@@ -136,12 +139,19 @@
 	<!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
 
 		<!--@if($config->about_admin_check!='no')-->
-		<include target="att.html" /><!--@else-->
-			<!--@if($logged_info->is_admin != 'Y')--><include target="att.html" /><!--@end--> 
-		{$lang->attend_banned_admin}<!--@end-->
+		<include target="att.html" />
+		<!--@else-->
+			<!--@if($logged_info->is_admin != 'Y')-->
+			<include target="att.html" />
+			<!--@end--> 
+		{$lang->attend_banned_admin}
+		<!--@end-->
 
 	<!--@end-->
 
-<!--@else--><div class="alert alert-error">{$lang->msg_not_logged}</div><!--@end--></div>
+<!--@else-->
+<div class="alert alert-error">{$lang->msg_not_logged}</div>
+<!--@end-->
+</div>
 	<include target="board.html" /><br/>
 	<include target="_footer.html" />

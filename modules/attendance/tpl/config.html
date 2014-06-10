@@ -368,6 +368,7 @@
 <br />
 
 <h3 class="xeAdmin" style="margin-bottom:0; border:none;">{$lang->attend_init_all}</h3>
+<load target="filter/init_all.xml" />
 <form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, init_all);">
     <table cellspacing="0" class="rowTable" >
         <tr>
@@ -392,7 +393,9 @@
         <th width="150px">{$lang->attend_remove_board}</th>
         <td>
             {$lang->attend_board_info}<br/>
-            <form action="{getUrl('')}" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
+			<load target="filter/delete_attendance_board.xml" />
+
+            <form action="./" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
                 <input type="hidden" name="type" value="{$type}" />

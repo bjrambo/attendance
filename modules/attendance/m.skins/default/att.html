@@ -1,0 +1,21 @@
+
+<div class="alert alert-warning">{$lang->attend_click_msg}</div>
+
+
+<div class="x">
+	<form action="./" method="post" id="click_button" style="text-align:center" class="write_author" ruleset="Attendanceinsert">                  
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="act" value="procAttendanceInsertAttendance" />
+		<input type="hidden" name="xe_validator_id" value="modules/attendance/skins/default/attendanceinsert" />
+
+
+		<span class="x_input-append" style="width:100%; display:inline-block">
+	   
+			<input type="text" name="greetings" id="greetings" style="width:50%;" class="write_text" />
+			<input type="hidden" name="about_position" value="yes" />
+			
+
+			<button type="submit" class="x_btn x_btn-inverse">{$lang->click}</button>
+		</span>
+	</form>
+</div>

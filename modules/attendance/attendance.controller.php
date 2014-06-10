@@ -23,7 +23,7 @@ class attendanceController extends attendance
 	function procAttendanceInsertAttendance()
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
-		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+		//if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
@@ -34,6 +34,17 @@ class attendanceController extends attendance
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1,'attend_greetings_error');
 
 		$oAttendanceModel->insertAttendance($obj->about_position, $obj->greetings);
+
+		$this->setMessage('출석을 완료했습니다.');
+
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance');
+			header('location: ' . $returnUrl);
+			return;
+		}
+
 	}
 
 	/**
@@ -62,12 +73,14 @@ class attendanceController extends attendance
 		/*출석당일 포인트 꺼내오기*/
 		$daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
 
+		//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
+		//$_SESSION['is_attended'] = '0';
+
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)!=0)
 		{
 			//포인트도 감소
 			$oPointController->setPoint($member_info->member_srl, $daily_info->today_point, 'minus');
-			//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
-			$_SESSION['is_attended'] = 0;
+
 
 			//등록된 인사말 제거
 			if(substr($daily_info->greetings,0,1) == '#')
@@ -533,7 +546,6 @@ class attendanceController extends attendance
 	
 	function triggerSou(&$content)
 	{
-		$act = Context::get('act');
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 		$logged_info = Context::get('logged_info');
@@ -546,8 +558,7 @@ class attendanceController extends attendance
 
 			$member_srl = $logged_info->member_srl;
 
-
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);	
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
 		}
