@@ -505,8 +505,14 @@ class attendanceModel extends attendance
 			$obj->regdate = zDate(date("YmdHis"),"YmdHis");
 
 			/*Query 실행 : 출석부 기록*/
-			executeQuery("attendance.insertAttendance", $obj);
-			$_SESSION['is_attended'] = $today;
+			$output = executeQuery("attendance.insertAttendance", $obj);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
+			//$_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
 			if($obj->today_point != 0 && $logged_info->member_srl)
@@ -598,6 +604,15 @@ class attendanceModel extends attendance
 				$weekly_point += $obj->today_point;
 				/*주간 출석데이터 업데이트*/
 				$this->updateWeekly($logged_info->member_srl, $week, $weekly_data, $weekly_point, null);	
+			}
+		}
+		if($output->toBool())
+		{
+			$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+			if(!$trigger_output->toBool())
+			{
+				$oDB->rollback();
+				return $trigger_output;
 			}
 		}
 	}
