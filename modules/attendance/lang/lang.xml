@@ -611,4 +611,7 @@
 	<item name = "attimg">
 		<value xml:lang="ko"><![CDATA[그림설명이 담겨져있습니다.]]></value>
 	</item>
+	<item name = "att_success">
+		<value xml:lang="ko"><![CDATA[출석을 완료 하였습니다.]]></value>
+	</item>
 </lang>

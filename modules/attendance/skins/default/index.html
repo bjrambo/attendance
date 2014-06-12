@@ -45,20 +45,23 @@
 		</span>
     <!--@end-->
 	<span style="float:right; margin-right:10px; font-weight:none;">
-	<!--@if(substr($selected_date,0,6) == zdate($logged_info->regdate,"Ym") || !$is_logged)-->
-	<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC"><i class="fa fa-angle-double-left"></i> 이전달</font></span>
-	<!--@else-->
-	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month-1, $day, $year)),'Ymd'))}" >
-	<i class="fa fa-angle-double-left"></i> 이전달</a>
-	<!--@end-->
+		<!--@if(substr($selected_date,0,6) == zdate($logged_info->regdate,"Ym") || !$is_logged)-->
+			<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC"><i class="fa fa-angle-double-left"></i> 이전달</font></span>
+		<!--@else-->
+			<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month-1, $day, $year)),'Ymd'))}" >
+				<i class="fa fa-angle-double-left"></i> 이전달
+			</a>
+		<!--@end-->
 
-	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),'Ymd'))}"><i class="fa fa-calendar"></i> 이번달</a>
+		<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis'),'Ymd'))}"><i class="fa fa-calendar"></i> 이번달</a>
 
-	<!--@if($selected_date == date("Ymd")  || !$is_logged)-->
-	<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC">다음달 <i class="fa fa-angle-double-right"></i></font></span>
-	<!--@else-->
-	<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month+1, $day, $year)),'Ymd'))}" >다음달 <i class="fa fa-angle-double-right"></i></a>
-	<!--@end-->
+		<!--@if($selected_date == date("Ymd")  || !$is_logged)-->
+			<span class="att-btn att-btn-primary disabled"><font color="#CCCCCC">다음달 <i class="fa fa-angle-double-right"></i></font></span>
+		<!--@else-->
+			<a class="att-btn att-btn-primary" href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$month+1, $day, $year)),'Ymd'))}" >
+				다음달 <i class="fa fa-angle-double-right"></i>
+			</a>
+		<!--@end-->
 	</span>
 </div>
 
@@ -68,24 +71,51 @@
 	<table width="100%" class="table table-bordered ">
 		<tr>
 			<th>출석점수</th>
-			<td style="font-weight:bold; color:#F33; text-align:left"><!--@if($config->add_point > 0)-->{$config->add_point}<!--@elseif($config->add_point == 0)--> {$lang->attend_none}<!--@end--></td>
+			<td style="font-weight:bold; color:#F33; text-align:left">
+				<!--@if($config->add_point > 0)-->
+					{$config->add_point}
+				<!--@elseif($config->add_point == 0)-->
+					{$lang->attend_none}
+				<!--@end-->
+			</td>
 			<th>개근점수</th>
 			<td style="position:relative">
-			<span id="rank_on" style="display:block" ><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;">자세히보기 <i class="fa fa-caret-down"></i></a></span>
-			<span id="rank_off" style="display:none;"><a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
-				<div class="popover bottom arrow">
-				<div class="popover-title">개근점수</div>
-				<div class="popover-content" style="width:100px">
-
-					<span class="label label-info"><!--@if($config->weekly_point > 0)-->{$config->weekly_point}<!--@elseif($config->weekly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-					
-					<span class="label label-success"><!--@if($config->monthly_point > 0)-->{$config->monthly_point}<!--@elseif($config->monthly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-					
-		   <span class="label label-warning"><!--@if($config->yearly_point > 0)-->{$config->yearly_point}<!--@elseif($config->yearly_point == 0)--> {$lang->attend_none}<!--@end--></span>
-			
-				</div>
-				</div>
-			</span>
+				<span id="rank_on" style="display:block" >
+					<a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;">
+						자세히보기 <i class="fa fa-caret-down"></i>
+					</a>
+				</span>
+				<span id="rank_off" style="display:none;">
+					<a href="#" onclick="toggle('rank_on'); toggle('rank_off');return false;" >
+						자세히보기 <i class="fa fa-caret-up"></i>
+					</a>
+					<div class="popover bottom arrow">
+						<div class="popover-title">개근점수</div>
+						<div class="popover-content" style="width:100px">
+							<span class="label label-info">
+								<!--@if($config->weekly_point > 0)-->
+									{$config->weekly_point}
+								<!--@elseif($config->weekly_point == 0)-->
+									{$lang->attend_none}
+								<!--@end-->
+							</span>
+							<span class="label label-success">
+								<!--@if($config->monthly_point > 0)-->
+									{$config->monthly_point}
+								<!--@elseif($config->monthly_point == 0)-->
+									{$lang->attend_none}
+								<!--@end-->
+							</span>
+							<span class="label label-warning">
+								<!--@if($config->yearly_point > 0)-->
+									{$config->yearly_point}
+								<!--@elseif($config->yearly_point == 0)-->
+									{$lang->attend_none}
+								<!--@end-->
+							</span>
+						</div><!-- .popover-content -->
+					</div><!-- .popover -->
+				</span><!-- #rank_off -->
 			</td>
 			<th>랭킹점수</th>
 			<td style="position:relative">
@@ -104,54 +134,127 @@
 				</div></span>
 			</td>
 			<th>출석권한</th>
-			<td><span class="label label-success" cond="$mi->pomis">{$mi->pomis}</span><span class="label label-success" cond="!$mi->pomis">로그인 사용자</span></td>
+			<td>
+				<span class="label label-success" cond="$mi->pomis">
+					{$mi->pomis}
+				</span>
+				<span class="label label-success" cond="!$mi->pomis">
+					로그인 사용자
+				</span>
+			</td>
 		</tr>
 		<tr>
-			<th>출석시간</th><td style="text-align:left; font-size:10px"><span class="<!--@if($is_available == 0)-->label label-success <!--@else-->label label-danger<!--@end-->"><!--@if($mi->timestart)-->{$mi->timestart}<!--@else-->00:00:00<!--@end-->~<!--@if($mi->timeend)-->{$mi->timeend}<!--@else-->24:00:00<!--@end--></span></td>
-			<th>진행상태</th><td><!--@if($is_available == 0)--><span class="label label-success">출석가능</span><!--@else--><span class="label label-warning">불가능</span><!--@end--></td>
+			<th>출석시간</th>
+			<td style="text-align:left; font-size:10px">
+				<span class="<!--@if($is_available == 0)-->label label-success <!--@else-->label label-danger<!--@end-->">
+					<!--@if($mi->timestart)-->
+						{$mi->timestart}
+					<!--@else-->
+						00:00:00
+					<!--@end-->
+
+					~
+
+					<!--@if($mi->timeend)-->
+						{$mi->timeend}
+					<!--@else-->
+						24:00:00
+					<!--@end-->
+				</span>
+			</td>
+			<th>진행상태</th>
+			<td>
+				<!--@if($is_available == 0)-->
+					<span class="label label-success">
+						출석가능
+					</span>
+				<!--@else-->
+					<span class="label label-warning">
+						불가능
+					</span>
+				<!--@end-->
+			</td>
 			<th>출석여부</th>
-			<td><!--@if(!$is_logged)--><span class="label label-danger">비로그인</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==0)--><span class="label label-warning">출첵안함</span><!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==1)--> <span class="label label-success">출첵완료</span><!--@end--></td>
+			<td>
+				<!--@if(!$is_logged)-->
+					<span class="label label-danger">
+						비로그인
+					</span>
+				<!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==0)-->
+					<span class="label label-warning">
+						출첵안함
+					</span>
+				<!--@elseif($oAttendanceModel->getIsChecked($logged_info->member_srl)==1)-->
+					<span class="label label-success">
+						출첵완료
+					</span>
+				<!--@end-->
+			</td>
 			<th>개근분류</th>
 			<td style="position:relative">
-			<span id="point_7" style="display:block" ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-down"></i></a></span>
-			<span id="point_8" style="display:none;"  ><a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >자세히보기 <i class="fa fa-caret-up"></i></a>
-				<div class="popover bottom arrow">
-				<div class="popover-title">개근분류</div>
-				<div class="popover-content">
-					<span class="label label-info">{$lang->week}</span> <span class="label label-success">{$lang->monthly_perfect}</span> <span class="label label-warning">{$lang->yearly_perfect}</span><br/>
-					<font color="#FF0000">최근만 표시</font>
-				</div></div> </span>
+				<span id="point_7" style="display:block">
+					<a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >
+						자세히보기<i class="fa fa-caret-down"></i>
+					</a>
+				</span>
+				<span id="point_8" style="display:none;">
+					<a href="#" onclick="toggle('point_7'); toggle('point_8');return false;" >
+						자세히보기 <i class="fa fa-caret-up"></i>
+					</a>
+					<div class="popover bottom arrow">
+						<div class="popover-title">개근분류</div>
+						<div class="popover-content">
+							<span class="label label-info">
+								{$lang->week}
+							</span>
+							<span class="label label-success">
+								{$lang->monthly_perfect}
+							</span>
+							<span class="label label-warning">
+								{$lang->yearly_perfect}
+							</span>
+
+							<br/>
+
+							<font color="#FF0000">
+								최근만 표시
+							</font>
+						</div><!-- .popover-content -->
+					</div><!-- .popover -->
+				</span>
 			</td>
 		</tr>
 	</table>
 </div>
 
-	<include target="list.html" />
+<include target="list.html" />
 <!--//도장버튼 노출-->
 <div class="sat" style="margin:10px 1px">
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID  == 'modules/attendance/skins/default/attendanceinsert'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
-<!--@if($is_logged)-->
-
-	<!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )--><div class="alert alert-success"><h4>출석이 완료되었습니다.</h4>출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^</div><!--@end-->
-	<!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
-	<!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
-
-		<!--@if($config->about_admin_check!='no')-->
-		<include target="att.html" />
-		<!--@else-->
-			<!--@if($logged_info->is_admin != 'Y')-->
-			<include target="att.html" />
-			<!--@end--> 
-		{$lang->attend_banned_admin}
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID  == 'modules/attendance/skins/default/attendanceinsert'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<!--@if($is_logged)-->
+		<!--@if(!$oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
+			<div class="alert alert-success">
+				<h4>출석이 완료되었습니다.</h4>출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^
+			</div>
 		<!--@end-->
 
-	<!--@end-->
+		<!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
+		<!--@if($oAttendanceModel->getIsChecked($logged_info->member_srl) == 0 && $is_available == 0 )-->
+			<!--@if($config->about_admin_check!='no')-->
+			<include target="att.html" />
+			<!--@else-->
+				<!--@if($logged_info->is_admin != 'Y')-->
+					<include target="att.html" />
+				<!--@end--> 
+			{$lang->attend_banned_admin}
+			<!--@end-->
+		<!--@end-->
 
-<!--@else-->
-<div class="alert alert-error">{$lang->msg_not_logged}</div>
-<!--@end-->
+	<!--@elseif(!$is_logged)-->
+		<div class="alert alert-error">{$lang->msg_not_logged}</div>
+	<!--@end-->
 </div>
-	<include target="board.html" /><br/>
-	<include target="_footer.html" />
+<include target="board.html" />
+<include target="_footer.html" />

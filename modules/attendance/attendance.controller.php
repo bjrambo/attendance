@@ -35,8 +35,7 @@ class attendanceController extends attendance
 
 		$oAttendanceModel->insertAttendance($obj->about_position, $obj->greetings);
 
-		$this->setMessage('출석을 완료했습니다.');
-
+		$this->setMessage('att_success');
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
