@@ -288,7 +288,6 @@ class attendanceModel extends attendance
 					
 					if($config->continuity_monthly == 'yes')
 					{
-						$continuity->data++;
 						for($i=1;$i<=12;$i++)
 						{
 							if($continuity->data==(30*$i))
@@ -297,8 +296,9 @@ class attendanceModel extends attendance
 								break;
 							}
 						}
+						$continuity->data++;
 					}
-					elseif($config->continuity_monthly == 'no')
+					else
 					{
 						$continuity->data++;
 					}
