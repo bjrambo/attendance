@@ -39,8 +39,21 @@ PR을 위한 코드공헌하시는 여러분들을 위한 출석부모듈만의 
 최근 출석부 모듈의 config 설정(포인트 및 등등여러가지) 를 자주 바꾸는 이유는 요즘 모듈의 코드로 수정 하는 작업입니다.
 추후 xe코어 업뎃으로 인해 지원이 안될 경우가 생길 것 같아서 요즘들어서 바꾸고 있습니다. 최대한 모듈의 호환성을 생각하여 수정된 것 입니다.
 
-업뎃 사항 
+업뎃 사항
 ---------
+**Ver. 3.0**
+* PC버전 출석 현황보기를 모든 회원에게 보이지 않도록 바꿈. [#71](https://github.com/qw5414/attendance/issues/71)
+* 니트레이아웃에서 Vertical-align 설정이 middel 으로 되어있어 스킨표현에 문제점 개선 [#75](https://github.com/qw5414/attendance/issues/75)
+* 출석하기를 룰셋을 이용하여 작동하도록 개선 [#77](https://github.com/qw5414/attendance/issues/77)
+* 총 출석관리에서 X표시를 클릭시 삭제가 되지 않는 문제 해결 [#82](https://github.com/qw5414/attendance/issues/82)
+* 세션에 today 정보를 저장하지 않도록 함 [#83](https://github.com/qw5414/attendance/issues/83)
+* 위젯코드 정리 [#84](https://github.com/qw5414/attendance/issues/84)
+* 일부 위젯 php5.4 호환성 개선 [#85](https://github.com/qw5414/attendance/issues/85)
+* 기본 스킨 파일의 코드 정리 [#86](https://github.com/qw5414/attendance/issues/86)
+* insert를 처리하는 트리거 추가. [#89](https://github.com/qw5414/attendance/issues/89)
+* 출석 완료 문구를 Lang 파일으로 처리 [#90](https://github.com/qw5414/attendance/issues/90)
+* 연속출석일이 기록이 안되는 버그 해결 [#91](https://github.com/qw5414/attendance/issues/91)
+
 **Ver. 2.3.1**
 * 스킨 수정
 
