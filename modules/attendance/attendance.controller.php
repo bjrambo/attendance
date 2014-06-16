@@ -29,9 +29,22 @@ class attendanceController extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$obj = Context::getRequestVars();
 
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('attendance');
+		if(!$config)
+		{
+			$config = new stdClass;
+		}
+		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
+		if($ip_count >= $config->allow_duplicaton_ip_count)
+		{
+			return new Object(-1, 'attend_allow_duplicaton_ip_count');
+		}
+
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
-		if(preg_match("/^\^/",$obj->greetings)) return new Object(-1,'attend_greetings_error');
-		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1,'attend_greetings_error');
+		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
+
+
 
 		$oAttendanceModel->insertAttendance($obj->about_position, $obj->greetings);
 

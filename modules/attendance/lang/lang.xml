@@ -457,10 +457,10 @@
 		<value xml:lang="ko"><![CDATA[관리자 출석 회원은 수정하실 수 없습니다.]]></value>
 	</item>
 	<item name = "attend_greetings_error">
-		<value xml:lang="ko"><![CDATA[중복IP 허용횟수]]></value>
+		<value xml:lang="ko"><![CDATA[^와 #로 시작하는 인사말은 입력하실 수 없습니다.]]></value>
 	</item>
 	<item name = "attend_duplication_ip_error">
-		<value xml:lang="ko"><![CDATA[^와 #로 시작하는 인사말은 입력하실 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[중복IP 허용횟수]]></value>
 	</item>
 	<item name = "attend_allow_duplicaton_ip_count">
 		<value xml:lang="ko"><![CDATA[같은아이피로 설정된 횟수 이상 중복출석하실 수 없습니다.]]></value>

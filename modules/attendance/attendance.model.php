@@ -17,6 +17,21 @@ class attendanceModel extends attendance
 	{
 	}
 
+
+	/**
+	 * @brief Attendance 모듈의 존재를 나타내도록
+	 */
+	function getAttendanceInfo()
+	{
+		$output = executeQuery('attendance.getAttendance');
+		if(!$output->data->module_srl) return;
+		
+		$oModuleModel = &getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
+
+		return $module_info;
+	}
+
 	/**
 	 * @brief 오늘 같은 ip에서 몇번 출석했는지 출력
 	 */
@@ -181,8 +196,6 @@ class attendanceModel extends attendance
 	 */
 	function insertAttendance($about_position, $greetings, $member_srl=null)
 	{
-		//#문자 한번 더 필터링
-		if(preg_match("/^\#/",$greetings)) return new Object(-1,'attend_greetings_error');
 
 		/*사용자 정보 로드*/
 		$logged_info = Context::get('logged_info');
@@ -228,16 +241,16 @@ class attendanceModel extends attendance
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($this->getIsChecked($logged_info->member_srl)>0)
 		{
-			return new Object(-1,'attend_already_checked');
+			return new Object(-1, 'attend_already_checked');
 		}
 
 		//ip중복 횟수 확인
-		if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = 3;
 		$ip_count = $this->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if($ip_count >= $config->allow_duplicaton_ip_count)
 		{
-			return new Object(-1,'attend_duplication_ip_error');
+			return new Object(-1, 'attend_allow_duplicaton_ip_count');
 		}
+
 		$is_logged = Context::get('is_logged');
 		if(!$is_logged)
 		{
@@ -467,7 +480,7 @@ class attendanceModel extends attendance
 			$module_info = $oModule->getModuleInfoByMid('attendance');
 			if(!$module_info->module_srl)
 			{
-				return new Object(-1,'attend_no_board');
+				return new Object(-1, 'attend_no_board');
 			}
 
 			if($config->use_document == 'yes')
@@ -492,7 +505,7 @@ class attendanceModel extends attendance
 					$output = $oDocumentController->insertDocument($d_obj, false);
 					if(!$output->get('document_srl'))
 					{
-						return new Object(-1,'attend_error_no_greetings');
+						return new Object(-1, 'attend_error_no_greetings');
 					}
 					$obj->greetings = "#".$output->get('document_srl');
 				}
