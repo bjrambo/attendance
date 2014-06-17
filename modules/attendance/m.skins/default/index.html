@@ -152,7 +152,7 @@
         {@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
         {@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
             {@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
-            <!--@if(ereg("^#[0-9]+$",$data->greetings))-->
+            <!--@if(preg_match("/^#[0-9]+$/",$data->greetings))-->
                 {@$length_greetings = strlen($data->greetings) -1}
                 {@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
                 <!--@if($oDocument->document_srl)-->
