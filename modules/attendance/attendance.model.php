@@ -25,7 +25,6 @@ class attendanceModel extends attendance
 	{
 		$output = executeQuery('attendance.getAttendance');
 		if(!$output->data->module_srl) return;
-		
 		$oModuleModel = &getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
 
@@ -511,7 +510,6 @@ class attendanceModel extends attendance
 				}
 			}
 
-
 			/*접속자의 ip주소 기록*/
 			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 			$obj->attendance_srl = getNextSequence();
@@ -523,6 +521,17 @@ class attendanceModel extends attendance
 			{
 				$oDB->rollback();
 				return $output;
+			}
+
+			// Attendance insert Trigger setting
+			if($output->toBool())
+			{
+				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+				if(!$trigger_output->toBool())
+				{
+					$oDB->rollback();
+					return $trigger_output;
+				}
 			}
 
 			//$_SESSION['is_attended'] = $today;
@@ -617,15 +626,6 @@ class attendanceModel extends attendance
 				$weekly_point += $obj->today_point;
 				/*주간 출석데이터 업데이트*/
 				$this->updateWeekly($logged_info->member_srl, $week, $weekly_data, $weekly_point, null);	
-			}
-		}
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
 			}
 		}
 	}

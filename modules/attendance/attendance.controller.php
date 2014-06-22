@@ -310,7 +310,6 @@ class attendanceController extends attendance
 			}
 			elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
 			{
-				$objs = new stdClass;
 				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
 				{
 					$win = mt_rand(1,100);
@@ -480,6 +479,7 @@ class attendanceController extends attendance
 		$yearly_info = $oAttendanceModel->getYearlyAttendance($oAttendance->member_srl, $year);
 		//총 출석포인트 꺼내기
 		$total_info = $oAttendanceModel->getTotalData($oAttendance->member_srl);
+		$continuity = new stdClass;
 		$continuity->data = $total_info->continuity;
 		$continuity->point = $total_info->continuity_point;
 		//오늘날짜와 등록시각 수정
