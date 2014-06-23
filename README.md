@@ -1,5 +1,11 @@
 attendance XE 출석부
 ====================
+[![Build Status](https://travis-ci.org/qw5414/attendance.svg?branch=master)](https://travis-ci.org/qw5414/attendance)
+[![License](http://img.shields.io/badge/license-GNU%20LGPL-brightgreen.svg)](http://www.gnu.org/licenses/gpl.html)
+[![Latest release](http://img.shields.io/github/release/qw5414/attendance.svg)](https://github.com/qw5414/attendance/releases)
+
+
+
 
 개요
 ----
