@@ -216,7 +216,7 @@ class attendanceModel extends attendance
 		$year_month = zDate(date('YmdHis'),"Ym");
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
 
-		//if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
@@ -300,13 +300,10 @@ class attendanceModel extends attendance
 					
 					if($config->continuity_monthly == 'yes')
 					{
-						for($i=1;$i<=12;$i++)
+						if($continuity->data % 30 === 0)
 						{
-							if($continuity->data==(30*$i))
-							{
-								$obj->perfect_m = 'Y';
-								break;
-							}
+							$obj->perfect_m = 'Y';
+							break;
 						}
 						$continuity->data++;
 					}
@@ -534,7 +531,7 @@ class attendanceModel extends attendance
 				}
 			}
 
-			//$_SESSION['is_attended'] = $today;
+			$_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
 			if($obj->today_point != 0 && $logged_info->member_srl)
