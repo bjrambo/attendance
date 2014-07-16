@@ -297,20 +297,15 @@ class attendanceModel extends attendance
 						$obj->today_point += $obj->continuity_point;
 						$continuity->point = $obj->continuity_point;
 					}
-					
+
 					if($config->continuity_monthly == 'yes')
 					{
 						if($continuity->data % 30 === 0)
 						{
 							$obj->perfect_m = 'Y';
-							break;
 						}
-						$continuity->data++;
 					}
-					else
-					{
-						$continuity->data++;
-					}
+					$continuity->data++;
 				}
 				else
 				{
@@ -514,6 +509,7 @@ class attendanceModel extends attendance
 
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
+			$_SESSION['is_attended'] = $today;
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -530,8 +526,6 @@ class attendanceModel extends attendance
 					return $trigger_output;
 				}
 			}
-
-			$_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
 			if($obj->today_point != 0 && $logged_info->member_srl)
