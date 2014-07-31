@@ -509,7 +509,6 @@ class attendanceModel extends attendance
 
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
-			$_SESSION['is_attended'] = $today;
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -526,6 +525,8 @@ class attendanceModel extends attendance
 					return $trigger_output;
 				}
 			}
+
+			$_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
 			if($obj->today_point != 0 && $logged_info->member_srl)

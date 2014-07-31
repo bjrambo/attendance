@@ -23,7 +23,7 @@ class attendanceController extends attendance
 	function procAttendanceInsertAttendance()
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
-		if($_SESSION['is_attended'] == $today) return new Object(-1, 'attend_already_checked');
+		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
@@ -83,13 +83,14 @@ class attendanceController extends attendance
 		/*출석당일 포인트 꺼내오기*/
 		$daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
 
+		//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
+		$_SESSION['is_attended'] = '0';
+
 		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)!=0)
 		{
 			//포인트도 감소
 			$oPointController->setPoint($member_info->member_srl, $daily_info->today_point, 'minus');
 
-			//삭제시 출책여부를 하지않았다고 인식시켜 스킨용 표기 방법 찾게 (2013.12.11 by BJRambo)
-			$_SESSION['is_attended'] = '0';
 
 			//등록된 인사말 제거
 			if(substr($daily_info->greetings,0,1) == '#')
