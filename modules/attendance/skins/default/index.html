@@ -256,5 +256,6 @@
 		<div class="alert alert-error">{$lang->msg_not_logged}</div>
 	<!--@end-->
 </div>
-<include target="board.html" />
+<include target="board.html" cond="$module_info->boardstyle == 'list'" />
+<include target="twitter_board.html" />
 <include target="_footer.html" />

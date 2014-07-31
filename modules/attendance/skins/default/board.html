@@ -10,14 +10,14 @@
 <table class="table table-condensed  table-striped">
 	<thead>
 		<tr >
-			<th scope="col" style="text-align:center">{$lang->position}</th>
-			<th scope="col" style="text-align:center">{$lang->time}</th>
+			<th scope="col" style="width:40px;text-align:center">{$lang->position}</th>
+			<th scope="col" style="width:65px;text-align:center">{$lang->time}</th>
 			<th scope="col" style="text-align:center">{$lang->greetings}</th>
-			<th scope="col" style="text-align:center">{$lang->nick_name}</th>
-			<th scope="col" style="text-align:center">{$lang->point}</th>
-			<th scope="col" style="text-align:center" cond="$cd->about_random == 'yes'"><span>랜덤 {$lang->point}</span></th>
-			<th scope="col" style="text-align:right;">{$lang->attendance_perfect}</th>
-			<th scope="col" style="text-align:right;"><span>{$lang->view_total_day}</span></th>
+			<th scope="col" style="width:130px;text-align:center">{$lang->nick_name}</th>
+			<th scope="col" style="width:45px;text-align:center">{$lang->point}</th>
+			<th scope="col" style="width:100px;text-align:center" cond="$cd->about_random == 'yes'"><span>랜덤 {$lang->point}</span></th>
+			<th scope="col" style="width:60px;text-align:right;">{$lang->attendance_perfect}</th>
+			<th scope="col" style="width:70px;text-align:right;"><span>{$lang->view_total_day}</span></th>
 			<!--@if($module_info->display_ip_address != 'N')-->
 			<th scope="col" style="text-align:right;">{$lang->ipaddress}</th>
 			<!--@end-->
@@ -34,7 +34,7 @@
 		{@ $weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
 		{@ $member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
 
-			<!--@if(ereg("^#[0-9]+$",$data->greetings))-->
+			<!--@if(preg_match("/^#[0-9]+$/",$data->greetings))-->
 				{@$length_greetings = strlen($data->greetings) -1}
 				{@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
 				<!--@if($oDocument->document_srl)-->
