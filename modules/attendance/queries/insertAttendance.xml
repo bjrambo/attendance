@@ -12,5 +12,6 @@
 		<column name="today_random" var="today_random" default="0" />
 		<column name="att_random_set" var="att_random_set" default="0" />
 		<column name="perfect_m" var="perfect_m" />
+		<column name="present_y" var="present_y" />
 	</columns>
 </query>
