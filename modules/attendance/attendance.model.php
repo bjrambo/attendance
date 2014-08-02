@@ -52,7 +52,6 @@ class attendanceModel extends attendance
 		$args->today = $today;
 		$args->present_y = 'Y';
 		$output = executeQuery('attendance.isExistTodayGift', $args);
-		debugPrint($output);
 		return (int)$output->data->count;
 	}
 
@@ -352,8 +351,9 @@ class attendanceModel extends attendance
 						$gift_args->sender = 'N';
 						$gift_args->regdate = $today;
 						$output_gift = executeQuery("attendance.insertPresent", $gift_args);
+						$obj->present_y = 'Y';
 					}
-					$obj->present_y = 'Y';
+
 				}
 				else
 				{
@@ -548,10 +548,9 @@ class attendanceModel extends attendance
 			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 			$obj->attendance_srl = getNextSequence();
 			$obj->regdate = zDate(date("YmdHis"),"YmdHis");
-			debugPrint($obj);
+
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
-			debugPrint($output);
 			if(!$output->toBool())
 			{
 
