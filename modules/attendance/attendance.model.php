@@ -44,6 +44,19 @@ class attendanceModel extends attendance
 	}
 
 	/**
+	 * @brief 오늘 출석한 사람중에 선물당첨된 사람 수.
+	 */
+	function getTodayGiftCount($today)
+	{
+		$args = new stdClass();
+		$args->today = $today;
+		$args->present_y = 'Y';
+		$output = executeQuery('attendance.isExistTodayGift', $args);
+		debugPrint($output);
+		return (int)$output->data->count;
+	}
+
+	/**
 	 * @brief 회원의 출석데이터 출력
 	 */
 	function getUserAttendanceData($member_srl, $date)
@@ -311,6 +324,7 @@ class attendanceModel extends attendance
 				{
 					//어제 출석 정보가 없다면
 					$continuity->data = 1;
+					$obj->perfect_m = 'N';
 				}
 			}
 
@@ -320,7 +334,35 @@ class attendanceModel extends attendance
 				if($today == $config->target_day)
 				{
 					$obj->today_point += $config->target_point;
+					$obj->present_y = 'N';
 				}
+			}
+			elseif($config->about_target == 'gift')
+			{
+				$todaygift = $this->getTodayGiftCount($today);
+				if($todaygift <= 3)
+				{
+					$intrand = rand(1,1000);
+					if($intrand <= 1000)
+					{
+						$gift_args = new stdClass();
+						$gift_args->present_srl = getNextSequence();
+						$gift_args->member_srl = $logged_info->member_srl;
+						$gift_args->present = 'sosirang';
+						$gift_args->sender = 'N';
+						$gift_args->regdate = $today;
+						$output_gift = executeQuery("attendance.insertPresent", $gift_args);
+					}
+					$obj->present_y = 'Y';
+				}
+				else
+				{
+					$obj->present_y = 'N';
+				}
+			}
+			else
+			{
+				$obj->present_y = 'N';
 			}
 
 			/*개근포인트 지급*/
@@ -506,12 +548,13 @@ class attendanceModel extends attendance
 			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 			$obj->attendance_srl = getNextSequence();
 			$obj->regdate = zDate(date("YmdHis"),"YmdHis");
-
+			debugPrint($obj);
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
+			debugPrint($output);
 			if(!$output->toBool())
 			{
-				$oDB->rollback();
+
 				return $output;
 			}
 
@@ -521,7 +564,7 @@ class attendanceModel extends attendance
 				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
 				if(!$trigger_output->toBool())
 				{
-					$oDB->rollback();
+
 					return $trigger_output;
 				}
 			}

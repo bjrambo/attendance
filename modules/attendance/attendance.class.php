@@ -299,9 +299,9 @@ class attendance extends ModuleObject
 		}
 
 		if(!$oDB->isColumnExists("attendance", "present_y"))
-                {
-                        $oDB->addColumn("attendance", "present_y", "char", 1);
-                }
+		{
+			$oDB->addColumn("attendance", "present_y", "char", 1);
+		}
 
 		//check a mid attendance
 		$oModule = getModel('module');

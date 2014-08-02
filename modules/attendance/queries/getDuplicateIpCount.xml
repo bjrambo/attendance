@@ -9,5 +9,4 @@
 		<condition operation="equal" column="ipaddress" var="ipaddress" />
 		<condition operation="like_prefix" column="regdate" var="today" pipe="and"/>
     </conditions>
-
 </query>
