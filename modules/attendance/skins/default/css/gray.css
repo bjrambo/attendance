@@ -1,4 +1,25 @@
 @charset "utf-8";
+/*최상단*/
+
+.xl .nav{margin:0 0 20px 0;padding:0;list-style:none}
+.xl .nav>li>a{display:block}
+.xl .nav>li>a:hover,
+.xl .nav>li>a:focus{text-decoration:none;background-color:#eeeeee}
+.xl .nav-tabs{*zoom:1}
+.xl .nav-tabs:before,
+.xl .nav-tabs:after{display:table;line-height:0;content:""}
+.xl .nav-tabs:after{clear:both}
+.xl .nav-tabs>li{float:left}
+.xl .nav-tabs>li>a{padding-right:12px;padding-left:12px;margin-right:2px;line-height:14px}
+.xl .nav-tabs{border-bottom:1px solid #ddd}
+.xl .nav-tabs>li{margin-bottom:-1px}
+.xl .nav-tabs>li>a{padding-top:8px;padding-bottom:8px;line-height:20px;border:1px solid transparent;-webkit-border-radius:4px 4px 0 0;-moz-border-radius:4px 4px 0 0;border-radius:4px 4px 0 0}
+.xl .nav-tabs>li>a:hover,
+.xl .nav-tabs>li>a:focus{border-color:#eeeeee #eeeeee #dddddd}
+.xl .nav-tabs>.active>a,
+.xl .nav-tabs>.active>a:hover,
+.xl .nav-tabs>.active>a:focus{color:#555555;cursor:default;background-color:#ffffff;border:1px solid #ddd;border-bottom-color:transparent}
+
 
 .att img{border:0}
 .att table,

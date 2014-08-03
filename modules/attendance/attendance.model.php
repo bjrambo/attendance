@@ -232,10 +232,6 @@ class attendanceModel extends attendance
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
-		if(!$config)
-		{
-			$config = new stdClass;
-		}
 
 		//포인트 모듈 연동
 		$oPointController = getController('point');
@@ -349,11 +345,10 @@ class attendanceModel extends attendance
 						$gift_args->member_srl = $logged_info->member_srl;
 						$gift_args->present = 'sosirang';
 						$gift_args->sender = 'N';
-						$gift_args->regdate = $today;
 						$output_gift = executeQuery("attendance.insertPresent", $gift_args);
 						$obj->present_y = 'Y';
+						Context::addHtmlFooter( '<script type="text/javascript"> alert("축하합니다 당첨됨"); </script>' );
 					}
-
 				}
 				else
 				{
@@ -553,7 +548,6 @@ class attendanceModel extends attendance
 			$output = executeQuery("attendance.insertAttendance", $obj);
 			if(!$output->toBool())
 			{
-
 				return $output;
 			}
 
@@ -563,7 +557,6 @@ class attendanceModel extends attendance
 				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
 				if(!$trigger_output->toBool())
 				{
-
 					return $trigger_output;
 				}
 			}

@@ -2,18 +2,28 @@
 	$mi = $module_info;
 	$cd = $config;
 	$lgi = $logged_info;
-	$lang->yyear = '��';
-	$lang->mmo = '��';
-	$lang->dday = '��';
+	$lang->yyear = '년';
+	$lang->mmo = '월';
+	$lang->dday = '일';
 }
 
 <load target="css/gray.css" />
 <load target="css/font-awesome.css" />
 
-<div class="att_header" cond="$module_info->header_text">
-	<div class="att_header_title">
-		<span>{$module_info->header_text}</span>
-	</div>
-</div>
+<section class="xl">
+	<ul class="nav nav-tabs">
+		<li class="active"|cond="$act!='dispAttendanceBoardGiftList'">
+			<a href="{getUrl('','mid','attendance','act','dispAttendanceBoard')}">출석부</a>
+		</li>
+		<li class="active"|cond="$act=='dispAttendanceBoardGiftList'" cond="$is_logged">
+			<a href="{getUrl('','mid','attendance','act','dispAttendanceBoardGiftList')}">받은선물리스트</a>
+		</li>
+	</ul>
 
-<div class="att">
+	<div class="att_header" cond="$module_info->header_text">
+		<div class="att_header_title">
+			<span>{$module_info->header_text}</span>
+		</div>
+	</div>
+
+	<div class="att">

@@ -33,6 +33,7 @@
 		<action name="procAttendanceAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="dispAttendanceAdminBoardAdditionSetup" type="view" />
         <action name="dispAttendanceBoard" type="view" standalone="true" index="true" />
+	<action name="dispAttendanceBoardGiftList" type="view" standalone="true" />
         <action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" setup_index="true" />
         <action name="dispAttendanceAdminBoardSkinConfig" type="view" standalone="true" />
 		<action name="dispAttendanceAdminMobileBoardSkinConfig" type="view" standalone="true" />
