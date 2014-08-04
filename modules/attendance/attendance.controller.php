@@ -825,7 +825,7 @@ class attendanceController extends attendance
 				/*출석 포인트는 예전 자료 꺼내기*/
 				$year_info = $oAttendanceModel->getYearlyAttendance($obj->member_srl, $year);
 				$yearly_point = $year_info->yearly_point;
-				$yearly_point += $obj->today_point;
+                $yearly_point += $obj->today_point;
 				/*연간출석데이터 업데이트*/
 				$oAttendanceModel->updateYearly($obj->member_srl, $year, $yearly_data, $yearly_point, $regdate);
 			}
@@ -845,7 +845,7 @@ class attendanceController extends attendance
 				/*출석 포인트는 예전 자료 꺼내기*/
 				$month_info = $oAttendanceModel->getMonthlyAttendance($obj->member_srl, $year_month);
 				$monthly_point = $month_info->monthly_point;
-				$monthly_point += $obj->today_point;
+                $monthly_point += $obj->today_point;
 				/*월간출석데이터 업데이트*/
 				$oAttendanceModel->updateMonthly($obj->member_srl, $year_month, $monthly_data, $monthly_point, $regdate);
 			}
@@ -865,7 +865,7 @@ class attendanceController extends attendance
 				/*출석 포인트는 예전자료 꺼내기*/
 				$week_info = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
 				$weekly_point = $week_info->weekly_point;
-				$weekly_point +=$obj->today_point;
+                $weekly_point +=$obj->today_point;
 				/*주간 출석데이터 업데이트*/
 				$oAttendanceModel->updateWeekly($obj->member_srl, $week, $weekly_data, $weekly_point, $regdate);	
 			}
@@ -939,9 +939,9 @@ class attendanceController extends attendance
 		//회원의 출석통계 갱신
 	}
 
-	/**
-	 * @brief 회원 탈퇴시 출석 기록을 모두 제거하는 trigger
-	 **/
+    /**
+     * @brief 회원 탈퇴시 출석 기록을 모두 제거하는 trigger
+     **/
 	function triggerDeleteMember($obj)
 	{
 		/*attendance admin model 객체 생성*/
@@ -969,18 +969,18 @@ class attendanceController extends attendance
 			$_SESSION['is_attended'] = $today;
 			return;
 		}
-
+		
 		//module의 설정값 가져오기
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
-
+		
 		if($config->about_auto_attend == 'yes')
 		{
 			$oAttendanceModel = getModel('attendance');
 			$oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
 		}
 	}
-
+	
 	function triggerSou(&$content)
 	{
 		$oModuleModel = getModel('module');
@@ -1002,4 +1002,6 @@ class attendanceController extends attendance
 
 		return new Object();
 	}
+
+
 }
