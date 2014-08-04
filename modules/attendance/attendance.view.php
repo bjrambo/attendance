@@ -101,6 +101,15 @@ class attendanceView extends attendance
 			$oAttendance = $oAttendanceModel->getAttendanceList($module_info->list_count, $selected_date);
 		}
 
+
+		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->present_y = 'Y';
+		$args->today = $selected_date;
+		$ouuputs = executeQuery('attendance.getTodayMyGiftList', $args);
+		debugPrint($outputs);
+
 		//출석달력 설정
 		$date_info = new stdClass;
 		$date_info->_year = substr($selected_date,0,4);
@@ -111,8 +120,8 @@ class attendanceView extends attendance
 
 		Context::set('admin_date_info',$date_info);
 
-
 		//변수 내보내기
+		Context::set('todaymygift',$ouuputs->data);
 		Context::set('selected_date',$selected_date);
 		Context::set('is_available',$is_available);
 		Context::set('oAttendance',$oAttendance);
