@@ -201,6 +201,469 @@ class attendanceModel extends attendance
 		return (int)$output->data->count;
 	}
 
+
+	/**
+	 * @brief 출석부 기록 함수
+	 */
+	function insertAttendance($about_position, $greetings, $member_srl=null)
+	{
+
+		/*사용자 정보 로드*/
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info)
+		{
+			if($member_srl)
+			{
+				$oMemberModel = getModel('member');
+				$logged_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			}
+			else
+			{
+				return;
+			}
+		}
+
+		$today = zDate(date('YmdHis'),"Ymd");
+		$year = zDate(date('YmdHis'),"Y");
+		$year_month = zDate(date('YmdHis'),"Ym");
+		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
+
+		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('attendance');
+		if(!$config)
+		{
+			$config = new stdClass;
+		}
+
+		//포인트 모듈 연동
+		$oPointController = getController('point');
+		$obj = new stdClass;
+		$obj->continuity_day = $config->continuity_day;
+		$obj->continuity_point = $config->continuity_point;
+		$obj->today_point = $config->add_point;
+		$obj->greetings = $greetings;
+		$obj->member_srl = $logged_info->member_srl;
+
+		//관리자 출석이 허가가 나지 않았다면,
+		if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y') return;
+
+		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
+		if($this->getIsChecked($logged_info->member_srl)>0)
+		{
+			return new Object(-1, 'attend_already_checked');
+		}
+
+		//ip중복 횟수 확인
+		$ip_count = $this->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
+		if($ip_count >= $config->allow_duplicaton_ip_count)
+		{
+			return new Object(-1, 'attend_allow_duplicaton_ip_count');
+		}
+
+		$is_logged = Context::get('is_logged');
+		if(!$is_logged)
+		{
+			if($member_srl)
+			{
+				$is_logged = true;
+			}
+		}
+
+		//logged && 기록이 없고, 출석 제한 시간대가 아니면
+		if($this->getIsChecked($logged_info->member_srl)==0 && $this->availableCheck($config) == 0 && $is_logged)
+		{
+			//등수 확인
+			$position = $this->getPositionData($today);
+			//1,2,3,등 가산점 부여
+			if($about_position == 'yes')
+			{
+				if($position == 0)
+				{
+					$obj->today_point += $config->first_point;
+				}
+				else if($position == 1)
+				{
+					$obj->today_point += $config->second_point;
+				}
+				else if($position == 2)
+				{
+					$obj->today_point += $config->third_point;
+				}
+			}
+
+			/*연속출석*/
+			if($this->isExistTotal($logged_info->member_srl, $today) >= 0)
+			{
+				/*연속출석 일수 받기*/
+				$yesterday_continuity_data = $this->isExistContinuity($logged_info->member_srl, $yesterday);
+
+				//어제 출석했다면
+				if($yesterday_continuity_data > 0)
+				{
+					$continuity = $this->getContinuityData($logged_info->member_srl, $yesterday);
+					/*연속출석일수가 설정된 일수보다 많고, 설정된 연속출석일이 0일이 아니고, 연속출석 여부가 yes 이면, 보너스 부여*/
+					if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config->about_continuity=='yes')
+					{
+						$obj->today_point += $obj->continuity_point;
+						$continuity->point = $obj->continuity_point;
+					}
+
+					if($config->continuity_monthly == 'yes')
+					{
+						if($continuity->data % 30 === 0)
+						{
+							$obj->perfect_m = 'Y';
+						}
+					}
+					$continuity->data++;
+				}
+				else
+				{
+					//어제 출석 정보가 없다면
+					$continuity->data = 1;
+					$obj->perfect_m = 'N';
+				}
+			}
+
+			/*지정일 포인트 지급*/
+			if($config->about_target == 'yes')
+			{
+				if($today == $config->target_day)
+				{
+					$obj->today_point += $config->target_point;
+					$obj->present_y = 'N';
+				}
+			}
+			elseif($config->about_target == 'gift')
+			{
+				$todaygift = $this->getTodayGiftCount($today);
+				if($todaygift <= 3)
+				{
+					$intrand = rand(1,1000);
+					if($intrand <= 1000)
+					{
+						$gift_args = new stdClass();
+						$gift_args->present_srl = getNextSequence();
+						$gift_args->member_srl = $logged_info->member_srl;
+						$gift_args->present = 'sosirang';
+						$gift_args->sender = 'N';
+						$gift_args->regdate = $today;
+						$output_gift = executeQuery("attendance.insertPresent", $gift_args);
+						$obj->present_y = 'Y';
+					}
+
+				}
+				else
+				{
+					$obj->present_y = 'N';
+				}
+			}
+			else
+			{
+				$obj->present_y = 'N';
+			}
+
+			/*개근포인트 지급*/
+			$about_perfect = $this->isPerfect($logged_info->member_srl, $today, false);
+			if($about_perfect->yearly_perfect == 1)
+			{
+				$obj->today_point += $config->yearly_point;
+			}
+			if($about_perfect->monthly_perfect == 1 && $config->continuity_monthly == 'no')
+			{
+				$obj->today_point += $config->monthly_point;
+			}
+			elseif($config->continuity_monthly == 'yes' && $obj->perfect_m == 'Y')
+			{
+				$obj->today_point += $config->monthly_point;
+			}
+			$week = $this->getWeek($today);
+			$weekly_data = $this->getWeeklyData($logged_info->member_srl, $week);
+			if($weekly_data->weekly == 6)
+			{
+				$obj->today_point += $config->weekly_point;
+			}
+
+			/*정근포인트 관련 추가*/
+			if($config->about_diligence_yearly == 'yes')
+			{
+				if($this->checkYearlyDiligence($logged_info->member_srl, $config->diligence_yearly-1, null) == 1)
+				{
+					$obj->today_point += $config->diligence_yearly_point;
+				}
+			}
+			if($config->about_diligence_monthly == 'yes')
+			{
+				if($this->checkMonthlyDiligence($logged_info->member_srl, $config->diligence_monthly-1, null) == 1)
+				{
+					$obj->today_point += $config->diligence_monthly_point;
+				}
+			}
+			if($config->about_diligence_weekly == 'yes')
+			{
+				if($this->checkWeeklyDiligence($logged_info->member_srl, $config->diligence_weekly-1, null) == 1)
+				{
+					$obj->today_point += $config->diligence_weekly_point;
+				}
+			}
+
+			/* 랜덤포인트 추가 */
+			if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
+			{
+				$sosirandom = mt_rand($config->minimum,$config->maximum);
+				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
+				{
+					$win = mt_rand(1,100);
+					if($win<=$config->lottery) //30설정시 30퍼센트 확률로 당첨되도록 수정.(방향 수정)
+					{
+						$obj->today_point += $sosirandom;
+						$obj->today_random = $sosirandom;
+						$obj->att_random_set = 0;
+					}
+					else
+					{
+						$obj->today_point;
+						$obj->today_random = 0;
+						$obj->att_random_set = 0;
+					}
+				}
+				else
+				{
+					$obj->today_point += $sosirandom;
+					$obj->today_random = $sosirandom;
+					$obj->att_random_set = 0;
+				}
+			}
+			elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
+			{
+				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
+				{
+					$win = mt_rand(1,100);
+					if($win<=$config->lottery)
+					{
+						// $win 이 small_win 보다 크고, big_win보다 작을경우
+						if($win<=$config->lottery && $win>=$config->random_small_win)
+						{
+							$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+							$obj->today_point += $sosirandom;
+							$obj->today_random = $sosirandom;
+							$obj->att_random_set = 0;
+						}
+						elseif($win<$config->random_small_win)
+						{
+							$sosirandom = mt_rand($config->random_big_point_f,$config->random_big_point_s);
+							$obj->today_point += $sosirandom;
+							$obj->today_random = $sosirandom;
+							$obj->att_random_set = 1;
+						}
+					}
+					else
+					{
+						$obj->today_point;
+						$obj->today_random = 0;
+						$obj->att_random_set = 0;
+					}
+				}
+				else
+				{
+					$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+					$obj->today_point += $sosirandom;
+					$obj->today_random = $sosirandom;
+					$obj->att_random_set = 0;
+				}
+			}
+			else
+			{
+				$obj->today_point;
+				$obj->att_random_set = '0';
+			}
+
+
+			if($config->about_birth_day=='yes')
+			{
+				/* 생일 포인트 추가 */
+				$oMemberModel = getModel('member');
+				$member_srl = $logged_info->member_srl;
+				$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+				$birthdays = substr($member_info->birthday,4,4);
+				$todays = substr($today,4,4);
+
+				if($todays==$birthdays)
+				{
+					$obj->today_point += $config->brithday_point;
+				}
+				else
+				{
+					$obj->today_point;
+				}
+			}
+			else
+			{
+				$obj->today_point;
+			}
+
+			if(!$logged_info->member_srl)
+			{
+				return;
+			}
+
+			$oModule = getModel('module');
+			$module_info = $oModule->getModuleInfoByMid('attendance');
+			if(!$module_info->module_srl)
+			{
+				return new Object(-1, 'attend_no_board');
+			}
+
+			if($config->use_document == 'yes')
+			{
+				// document module의 model 객체 생성
+				$oDocumentModel = getModel('document');
+
+				// document module의 controller 객체 생성
+				$oDocumentController = getController('document');
+
+				if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
+				{
+					/*Document module connection : greetings process*/
+					$d_obj = new stdClass;
+					$d_obj->content = $obj->greetings;
+					$d_obj->nick_name = $logged_info->nick_name;
+					$d_obj->email_address = $logged_info->email_address;
+					$d_obj->homepage = $logged_info->homepage;
+					$d_obj->is_notice = 'N';
+					$d_obj->module_srl = $module_info->module_srl;
+					$d_obj->allow_comment = 'Y';
+					$output = $oDocumentController->insertDocument($d_obj, false);
+					if(!$output->get('document_srl'))
+					{
+						return new Object(-1, 'attend_error_no_greetings');
+					}
+					$obj->greetings = "#".$output->get('document_srl');
+				}
+			}
+
+			/*접속자의 ip주소 기록*/
+			$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$obj->attendance_srl = getNextSequence();
+			$obj->regdate = zDate(date("YmdHis"),"YmdHis");
+
+			/*Query 실행 : 출석부 기록*/
+			$output = executeQuery("attendance.insertAttendance", $obj);
+			if(!$output->toBool())
+			{
+
+				return $output;
+			}
+
+			// Attendance insert Trigger setting
+			if($output->toBool())
+			{
+				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+				if(!$trigger_output->toBool())
+				{
+
+					return $trigger_output;
+				}
+			}
+
+			$_SESSION['is_attended'] = $today;
+
+			/*포인트 추가*/
+			if($obj->today_point != 0 && $logged_info->member_srl)
+			{
+				$oPointController->setPoint($logged_info->member_srl,$obj->today_point,'add');
+			}
+
+			/*attendance_total 테이블에 총 출석내용 및 연속출석데이터 기록(2009.02.15)*/
+			if($this->isExistTotal($logged_info->member_srl) == 0)
+			{
+				/*총 출석횟수 계산*/
+				$total_attendance = $this->getTotalAttendance($logged_info->member_srl);
+				/*총 출석 기록*/
+				$this->insertTotal($logged_info->member_srl, $continuity, $total_attendance, $obj->today_point, null);
+			}
+			else
+			{
+				/*총 출석횟수 계산*/
+				$total_attendance = $this->getTotalAttendance($logged_info->member_srl);
+				/*총 출석포인트 받아오기*/
+				$total_point = $this->getTotalPoint($logged_info->member_srl);
+				$total_point += $obj->today_point;
+				/*총 출석 기록*/
+				$this->updateTotal($logged_info->member_srl, $continuity, $total_attendance, $total_point, null);
+			}
+
+			/* attendace_yearly 테이블에 연간 출석 데이터 기록(2009.02.15) */
+			if($this->isExistYearly($logged_info->member_srl, $year) == 0)
+			{
+				/*올 해 출석횟수 계산*/
+				$yearly_data = $this->getYearlyData($year, $logged_info->member_srl);
+				/*출석 포인트는 초기화(올 해 처음이므로)*/
+				$yearly_point = $obj->today_point;
+				/*연간출석데이터 추가*/
+				$this->insertYearly($logged_info->member_srl, $yearly_data, $yearly_point, null);
+			}
+			else
+			{
+				/*올 해 출석횟수 계산*/
+				$yearly_data = $this->getYearlyData($year, $logged_info->member_srl);
+				/*출석 포인트는 예전 자료 꺼내기*/
+				$year_info = $this->getYearlyAttendance($logged_info->member_srl, $year);
+				$yearly_point = $year_info->yearly_point;
+				$yearly_point += $obj->today_point;
+				/*연간출석데이터 업데이트*/
+				$this->updateYearly($logged_info->member_srl, $year, $yearly_data, $yearly_point,null);
+			}
+			
+			/*attendance_monthly 테이블에 월간 출석 데이터 기록(2009.02.15)*/
+			if($this->isExistMonthly($logged_info->member_srl, $year_month) == 0)
+			{
+				/*이달 출석횟수 계산*/
+				$monthly_data = $this->getMonthlyData($year_month, $logged_info->member_srl);
+				/*출석 포인트는 초기화(이달 처음이므로)*/
+				$monthly_point = $obj->today_point;
+				/*월간출석데이터 추가*/
+				$this->insertMonthly($logged_info->member_srl, $monthly_data, $monthly_point, null);
+			}
+			else
+			{
+				/*이달 출석횟수 계산*/
+				$monthly_data = $this->getMonthlyData($year_month, $logged_info->member_srl);
+				/*출석 포인트는 예전 자료 꺼내기*/
+				$month_info = $this->getMonthlyAttendance($logged_info->member_srl, $year_month);
+				$monthly_point = $month_info->monthly_point;
+				$monthly_point += $obj->today_point;
+				/*월간출석데이터 업데이트*/
+				$this->updateMonthly($logged_info->member_srl, $year_month, $monthly_data, $monthly_point, null);
+			}
+			
+			/*attendance_weekly 테이블에 주간 출석 데이터 기록(2009.02.15)*/
+			$week = $this->getWeek($today);
+			if($this->isExistWeekly($logged_info->member_srl, $week) == 0 )
+			{
+				/*이번 주 출석 횟수 계산*/
+				$weekly_data = $this->getWeeklyAttendance($logged_info->member_srl, $week);
+				/*출석 포인트는 오늘 받은 포인트로 초기화*/
+				$weekly_point = $obj->today_point;
+				/*주간 출석데이터 추가*/
+				$this->insertWeekly($logged_info->member_srl, $weekly_data, $weekly_point, null);
+			}
+			else
+			{
+				/*이번 주 출석 횟수 계산*/
+				$weekly_data = $this->getWeeklyAttendance($logged_info->member_srl, $week);
+				/*출석 포인트는 예전자료 꺼내기*/
+				$week_info = $this->getWeeklyData($logged_info->member_srl, $week);
+				$weekly_point = $week_info->weekly_point;
+				$weekly_point += $obj->today_point;
+				/*주간 출석데이터 업데이트*/
+				$this->updateWeekly($logged_info->member_srl, $week, $weekly_data, $weekly_point, null);	
+			}
+		}
+	}
+
     /**
      * @brief 오늘 내 등수 체크
      */
