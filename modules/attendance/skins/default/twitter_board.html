@@ -1,8 +1,18 @@
 <load target="css/twitterstyle.css" />
+<div class="sat">
+    <!--//등수변수 초기화-->
+    <!--@if($module_info->order_type=='desc')-->
+        {@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}
+    <!--@else-->
+        {@$position=1+($oAttendance->page-1)*$module_info->list_count}
+    <!--@end-->
+
 
 <ul class="lulu-list left cfix clarity-font">
 
 	<li class="lulu-item cfix" loop="$oAttendance->data=>$data">
+
+			
 			<!--@if(preg_match("/^#[0-9]+$/",$data->greetings))-->
 				{@$length_greetings = strlen($data->greetings) -1}
 				{@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
@@ -15,7 +25,7 @@
 				{@$exist_document = 0}
 			<!--@end-->
 			{@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
-		{@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
+			{@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
 			{@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
 	   <div class="lulu-block cfix">
 			<div class="caret-block">
@@ -54,12 +64,25 @@
 					</li>
 					<li class="lulu-info-item time-ago left">{substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)}</li>
 					<li class="lulu-info-item cla-comments right">
-					{@
-						$oDB = &DB::getInstance();
-						$query = $oDB->_query('select continuity from xe_attendance_total where member_srl = '.$member->member_srl);
-						$result = $oDB->_fetch($query);
-					}
-					개근 {$result->continuity}일째
+						<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+						<span class="label label-info">{$lang->attendance_perfect}</span>
+						<!--@elseif($is_perfect->monthly_perfect)-->
+						<span class="label label-success">{$lang->attendance_perfect}</span>
+						<!--@elseif($is_perfect->yearly_perfect)-->
+						<span class="label label-warning">{$lang->attendance_perfect}</span>
+						<!--@else-->
+						{@ 
+							$oAttendanceModel = &getModel('attendance');
+							$total_info = $oAttendanceModel->getTotalData($member->member_srl);
+							$perfect_de = $selected_date - date("Ymd");
+							$perfect_dec = $total_info->continuity + $perfect_de;
+						}
+						<!--@if($perfect_dec > 0)-->
+						&nbsp;{$perfect_dec} 일째
+						<!--@else-->
+						0 일째
+						<!--@end-->
+						<!--@end-->
 					</li>
 					<li class="lulu-info-item bullet right" >•</li>
 					<li class="lulu-info-item cla-comments right">
@@ -93,27 +116,29 @@
 						<div class="lulu-content-title">
 							<a class="lulu-title-link">
 
-				<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><span class="per">{$lang->attendance_perfect}</span><!--@end-->
-				
-				<!--@if($is_perfect->monthly_perfect)--><span class="perm">{$lang->attendance_perfect}</span><!--@end-->
-				
-				<!--@if($is_perfect->yearly_perfect)--><span class="pery">{$lang->attendance_perfect}</span><!--@end-->
-
-					<!--@if($data->greetings)-->
-						<!--@if($exist_document == 1)-->
-							<!-- {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')} -->
-							{cut_str($oDocument->getContentText(text))}
-						<!--@else-->
-							{@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
-							<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
-							<!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
-							<!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
-							<!--@else-->{$lang->default_greetings}
+							<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+							<span class="label label-info">{$lang->attendance_perfect}</span>
+							<!--@elseif($is_perfect->monthly_perfect)-->
+							<span class="label label-success">{$lang->attendance_perfect}</span>
+							<!--@elseif($is_perfect->yearly_perfect)-->
+							<span class="label label-warning">{$lang->attendance_perfect}</span>
 							<!--@end-->
-						<!--@end-->
-					<!--@else-->
-						{$lang->attend_no_greetings}
-					<!--@end-->
+
+							<!--@if($data->greetings)-->
+								<!--@if($exist_document == 1)-->
+									<!-- {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')} -->
+									{cut_str($oDocument->getContentText(text))}
+								<!--@else-->
+									{@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
+									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
+									<!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
+									<!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
+									<!--@else-->{$lang->default_greetings}
+									<!--@end-->
+								<!--@end-->
+							<!--@else-->
+								{$lang->attend_no_greetings}
+							<!--@end-->
 							</a>
 						</div>
 					</div><!-- .lulu-content-info -->
@@ -137,3 +162,4 @@
 		<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
 	</li>
 <ul>
+</div>
