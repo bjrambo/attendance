@@ -353,6 +353,7 @@ class attendanceController extends attendance
 
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
+			debugPrint($config);
 			if(!$output->toBool())
 			{
 				return $output;
