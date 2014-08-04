@@ -34,18 +34,6 @@ class attendanceController extends attendance
 
 		/*사용자 정보 로드*/
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info)
-		{
-			if($member_srl)
-			{
-				$oMemberModel = getModel('member');
-				$logged_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-			}
-			else
-			{
-				return;
-			}
-		}
 
 		$today = zDate(date('YmdHis'),"Ymd");
 		$year = zDate(date('YmdHis'),"Y");
