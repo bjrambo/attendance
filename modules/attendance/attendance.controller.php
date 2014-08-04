@@ -42,7 +42,7 @@ class attendanceController extends attendance
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
 
-		$oAttendanceController->insertAttendances($obj->about_position, $obj->greetings);
+		$oAttendanceController->insertAttendance($obj->about_position, $obj->greetings);
 
 		$this->setMessage('att_success');
 
@@ -59,7 +59,7 @@ class attendanceController extends attendance
 	/**
 	 * @brief 출석부 기록 함수
 	 */
-	function insertAttendances($about_position, $greetings, $member_srl=null)
+	function insertAttendance($about_position, $greetings, $member_srl=null)
 	{
 		$oAttendanceModel = getModel('attendance');
 		/*사용자 정보 로드*/
@@ -193,17 +193,16 @@ class attendanceController extends attendance
 			elseif($config->about_target == 'gift')
 			{
 				$todaygift = $oAttendanceModel->getTodayGiftCount($today);
-				if($todaygift <= 3)
+				if($todaygift <= $config->manygiftlist && $today == $config->target_day)
 				{
-					$intrand = rand(1,1000);
-					if($intrand <= 1000)
+					$intrand = rand(1,100);
+					if($intrand <= $config->gift_random)
 					{
 						$gift_args = new stdClass();
 						$gift_args->present_srl = getNextSequence();
 						$gift_args->member_srl = $logged_info->member_srl;
-						$gift_args->present = 'sosirang';
+						$gift_args->present = $config->giftname;
 						$gift_args->sender = 'N';
-						$gift_args->regdate = $today;
 						$output_gift = executeQuery("attendance.insertPresent", $gift_args);
 						$obj->present_y = 'Y';
 					}
@@ -1011,8 +1010,7 @@ class attendanceController extends attendance
 		
 		if($config->about_auto_attend == 'yes')
 		{
-			$oAttendanceModel = getModel('attendance');
-			$oAttendanceModel->insertAttendance('yes','^auto^',$obj->member_srl);
+			$this->insertAttendance('yes','^auto^',$obj->member_srl);
 		}
 	}
 	

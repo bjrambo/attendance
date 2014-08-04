@@ -110,6 +110,8 @@ class attendanceAdminController extends attendance
 		$config->random_big_point_f = $obj->random_big_point_f;
 		$config->random_big_point_s = $obj->random_big_point_s;
 		$config->giftname = $obj->giftname;
+		$config->manygiftlist = $obj->manygiftlist;
+		$config->gift_random = $obj->gift_random;
 
 		$this->setMessage('success_updated');
 
