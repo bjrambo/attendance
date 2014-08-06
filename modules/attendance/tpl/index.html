@@ -33,8 +33,8 @@
 <!--@end-->
 <!--@if(!$type)-->
 	{@$type='config'}
+<!--@elseif($act=='dispAttendanceAdminGift')--> <!-- dispAttendanceAdminGift에서는 type의 영향을 받아야할필요가 없으므로 제거 -->
 <!--@end-->
-
 
 <script type="text/javascript">
     function moveDate() {
@@ -91,8 +91,9 @@
 
     <ul class="x_nav x_nav-tabs">
         <!--@foreach($lang->view_type as $key => $val)-->
-        <li class="x_active"|cond="$type==$key || (!$type)"><a href="{getUrl('type',$key,'page',1)}">{$val}</a></li>
+        <li class="x_active"|cond="$type==$key"><a href="{getUrl('act','dispAttendanceAdminList','type',$key,'page',1)}">{$val}</a></li>
         <!--@end-->
+		<li class="x_active"|cond="$act=='dispAttendanceAdminGift'"><a href="./index.php?module=admin&act=dispAttendanceAdminGift">dispAttgiftList</a></li>
     </ul>
 </div>
 
@@ -112,6 +113,8 @@
 	<!--#include("config.html")-->
 <!--@elseif($type=='time')-->
 	<!--#include("time.html")-->
+<!--@elseif($act=='dispAttendanceAdminGift')-->
+	<!--#include("giftlist.html")-->
 <!--@end-->
 <div cond="$_attendance_iframe_url" style="margin-top:20px;">
 	<p>설치된 출석부 스킨 버전 : ver{$attendance_module_info->version}</p>

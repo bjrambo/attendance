@@ -107,7 +107,7 @@ class attendanceView extends attendance
 		$args->member_srl = $logged_info->member_srl;
 		$args->present_y = 'Y';
 		$args->today = $selected_date;
-		$ouuputs = executeQuery('attendance.getTodayMyGiftList', $args);
+		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
 		debugPrint($outputs);
 
 		//출석달력 설정
@@ -145,6 +145,7 @@ class attendanceView extends attendance
 		$args->page_count = '10';
 		$args->member_srl = $logged_info->member_srl;
 		$output = executeQuery('attendance.getGiftList', $args);
+		debugPrint($output);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);

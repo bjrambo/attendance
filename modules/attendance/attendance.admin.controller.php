@@ -386,6 +386,8 @@ class attendanceAdminController extends attendance
 		}
 	}
 
+
+
 	/**
 	 * @brief 출석부 게시판 삭제
 	 **/
