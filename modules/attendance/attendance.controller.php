@@ -193,6 +193,7 @@ class attendanceController extends attendance
 			elseif($config->about_target == 'gift')
 			{
 				$todaygift = $oAttendanceModel->getTodayGiftCount($today);
+                                debugPrint($todaygift);
 				if($todaygift <= $config->manygiftlist && $today == $config->target_day)
 				{
 					$intrand = rand(1,100);
