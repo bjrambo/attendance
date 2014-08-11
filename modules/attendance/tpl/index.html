@@ -31,9 +31,10 @@
 <!--@if(!$selected_date)-->
 	{@$selected_date = zDate(date('YmdHis'),"Ymd")}
 <!--@end-->
-<!--@if(!$type)-->
+<!--@if($act=='dispAttendanceAdminList' && !$type)-->
 	{@$type='config'}
-<!--@elseif($act=='dispAttendanceAdminGift')--> <!-- dispAttendanceAdminGift에서는 type의 영향을 받아야할필요가 없으므로 제거 -->
+<!--@elseif(!$type && $act=='dispAttendanceAdminGift')-->
+
 <!--@end-->
 
 <script type="text/javascript">
