@@ -407,7 +407,7 @@ class attendanceAdminController extends attendance
 		$output = executeQuery('attendance.updateAttendanceGift', $args);
 		if(!$output->toBool()) return $output;
 
-		$this->setMessage('success_updated');
+		$this->setMessage('att_gift_success');
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
