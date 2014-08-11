@@ -5,4 +5,5 @@ php:
   - "5.3"
   - "5.2"
 
-script: build.sh
+script:
+  - grunt lint
