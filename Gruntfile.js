@@ -17,15 +17,6 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('build', '', function(branch) {
-		var build_dir = 'build/';
-		grunt.file.mkdir(build_dir);
-		grunt.util.spawn({
-			cmd: "git",
-			args: ['archive', '--prefix=attendance/', '--output=' + build_dir + 'xe-module-attendance.zip', branch, '.']
-		});
-	});
-
 	grunt.loadNpmTasks('grunt-phplint');
 
 	grunt.registerTask('default', ['phplint']);
