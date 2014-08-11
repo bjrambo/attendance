@@ -94,7 +94,7 @@
         <!--@foreach($lang->view_type as $key => $val)-->
         <li class="x_active"|cond="$type==$key"><a href="{getUrl('act','dispAttendanceAdminList','type',$key,'page',1)}">{$val}</a></li>
         <!--@end-->
-		<li class="x_active"|cond="$act=='dispAttendanceAdminGift'"><a href="./index.php?module=admin&act=dispAttendanceAdminGift">dispAttgiftList</a></li>
+		<li class="x_active"|cond="$act=='dispAttendanceAdminGift'"><a href="./index.php?module=admin&act=dispAttendanceAdminGift">{$lang->dispAttgiftList}</a></li>
     </ul>
 </div>
 

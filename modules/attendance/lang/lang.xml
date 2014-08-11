@@ -638,4 +638,7 @@
 	<item name = "gift_random_h">
 		<value xml:lang="ko"><![CDATA[지정일날 선물 당첨 확률을 여기서 설정 가능합니다. 최대 100퍼까지 가능합니다. 100퍼 설정시 선착순으로 진행됩니다. 설정값은 숫자만 입력하세요.]]></value>
 	</item>
+	<item name = "dispAttgiftList">
+		<value xml:lang="ko"><![CDATA[선물관리]]></value>
+	</item>
 </lang>
