@@ -398,4 +398,26 @@ class attendanceAdminController extends attendance
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleController->deleteModule($module_info->module_srl);
 	}
+
+	function procAttendanceAdminInsertGift()
+	{
+		$args = new stdCLass();
+		$present_srl = Context::get('present_srl');
+		$args->present_srl = $present_srl;
+		$output = executeQuery('attendance.updateAttendanceGift', $args);
+		if(!$output->toBool()) return $output;
+
+		$this->setMessage('success_updated');
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminGift');
+			header('location: ' . $returnUrl);
+					debugPrint($returnUrl);
+			return;
+		}
+
+
+	}
+
 }

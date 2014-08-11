@@ -314,7 +314,6 @@ class attendanceAdminView extends attendance
 		$args->list_count = '20';
 		$args->page_count = '10';
 		$output = executeQuery('attendance.getAdminGiftList', $args);
-		debugPrint($output);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);

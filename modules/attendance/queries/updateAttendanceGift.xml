@@ -1,0 +1,11 @@
+<query id="updateAttendanceGift" action="update">
+	<tables>
+		<table name="attendance_present" />
+	</tables>
+	<columns>
+		<column name="sender" default="Y" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="present_srl" var="present_srl" notnull="notnull" />
+	</conditions>
+</query>

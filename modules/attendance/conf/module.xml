@@ -4,6 +4,7 @@
     <permissions>
         <permission action="dispAttendanceAdminList" target="manager" />
 		<permission action="dispAttendanceAdminGift" target="manager" />
+		<permission action="procAttendanceAdminInsertGift" target="manager"/>
 		<permission action="procAttendanceAdminInsertAttendance" target="manager"/>
         <permission action="procAttendanceAdminDeleteAllData" target="manager"/>
         <permission action="procAttendanceAdminInitAll" target="manager"/>
@@ -22,6 +23,7 @@
 		<action name="dispAttendanceAdminGift" type="view" standalone="true" />
 	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" ruleset="attendanceinsert" />
 		<action name="procAttendanceAdminInsertAttendance" type="controller" standalone="true" />
+		<action name="procAttendanceAdminInsertGift" type="controller" standalone="true" />
 	    <action name="procAttendanceInsertConfig" type="controller" standalone="true" />
 	    <action name="procAttendanceDeleteData" type="controller" standalone="true" />
 	    <action name="procAttendanceCheckData" type="controller" standalone="true" />
