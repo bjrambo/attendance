@@ -16,6 +16,7 @@
 		<column name="attendance.today_random" alias="today_random" />
         <column name="attendance.ipaddress" alias="ipaddress" />
 		<column name="attendance.att_random_set" alias="att_random_set" />
+		<cloumn name="attendance.present_y" alias="present_y" />
     </columns>
     <conditions>
 		<condition operation="like_prefix" column="attendance.regdate" var="now" />

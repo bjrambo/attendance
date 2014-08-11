@@ -57,7 +57,7 @@ class attendanceAdminView extends attendance
 		$selected_date = Context::get('selected_date'); //선택한 날짜 받아오기
 
 		$type=Context::get('type');
-		if(!$type) $type='config';
+
 
 		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = getAdminModel('attendance');
@@ -300,5 +300,28 @@ class attendanceAdminView extends attendance
 		// setup the template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('sosi_setup');
+	}
+
+	/**
+	 * @brief diplay the gift List
+	 */
+	function dispAttendanceAdminGift()
+	{
+		$oMemberModel = getModel('member');
+
+		$args = new stdClass();
+		$args->page = Context::get('page');
+		$args->list_count = '20';
+		$args->page_count = '10';
+		$output = executeQuery('attendance.getAdminGiftList', $args);
+
+		Context::set('total_count', $output->page_navigation->total_count);
+		Context::set('total_page', $output->page_navigation->total_page);
+		Context::set('page', $output->page);
+		Context::set('admingift_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('index');
 	}
 }

@@ -238,6 +238,12 @@
 			<div class="alert alert-success">
 				<h4>출석이 완료되었습니다.</h4>출석은 하루 1회만 참여하실 수 있습니다. 내일 다시 출석해 주세요.^^
 			</div>
+			<block cond="$is_logged && $todaymygift->member_srl == $logged_info->member_srl">
+				<div class="alert alert-success">
+					<h4>이벤트 당첨되었습니다. </h4> "{$config->giftname}"을 받아가세요.
+					<a href="{getUrl('','mid','attendance','act','dispAttendanceBoardGiftList')}">받은선물확인</a>
+				</div>
+			</block>
 		<!--@end-->
 
 		<!--//출석을 하지 않았고, 출석 가능한 시간대라면-->
@@ -256,5 +262,7 @@
 		<div class="alert alert-error">{$lang->msg_not_logged}</div>
 	<!--@end-->
 </div>
-<include target="board.html" />
+{@ if(!$module_info->board_type) $module_info->board_type = 'board'; }
+<include target="board.html" cond="$module_info->board_type == 'board'" />
+<include target="twitter_board.html" cond="$module_info->board_type == 'twitter'" />
 <include target="_footer.html" />

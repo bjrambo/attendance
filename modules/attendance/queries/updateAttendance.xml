@@ -10,6 +10,7 @@
 	    <column name="today_point" var="today_point" />
 		<column name="today_random" var="today_random" />
 		<column name="perfect_m" var="perfect_m" />
+		<column name="present_y" var="present_y" />
 		<column name="att_random_set" var="att_random_set" />
     </columns>
     <conditions>

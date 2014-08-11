@@ -1,0 +1,164 @@
+<load target="css/twitterstyle.css" />
+<div class="sat">
+    <!--//등수변수 초기화-->
+    <!--@if($module_info->order_type=='desc')-->
+        {@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}
+    <!--@else-->
+        {@$position=1+($oAttendance->page-1)*$module_info->list_count}
+    <!--@end-->
+
+
+<ul class="lulu-list left cfix clarity-font">
+
+	<li class="lulu-item cfix" loop="$oAttendance->data=>$data">
+
+			
+			<!--@if(preg_match("/^#[0-9]+$/",$data->greetings))-->
+				{@$length_greetings = strlen($data->greetings) -1}
+				{@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
+				<!--@if($oDocument->document_srl)-->
+					{@$exist_document = 1}
+				<!--@else-->
+					{@$exist_document = 0}
+				<!--@end-->
+			<!--@else-->
+				{@$exist_document = 0}
+			<!--@end-->
+			{@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
+			{@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
+			{@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
+	   <div class="lulu-block cfix">
+			<div class="caret-block">
+				<span class="caret-outer"></span>
+				<span class="caret-inner"></span>
+			</div>
+			
+			<div class="lulu-main cfix">
+				<ul class="lulu-info cfix">
+					<li class="lulu-info-item nickname clarity-font left">
+					<!--@if($position == 1)-->
+						<img src="./css/rank1.png" />1등
+					<!--@elseif($position == 2)-->
+						<img src="./css/rank2.png" />2등
+					<!--@elseif($position == 3)-->
+						<img src="./css/rank3.png" />3등
+					<!--@else-->
+						{$position}등
+					<!--@end-->
+						<a href="#popup_menu_area" class="lulu-info-link member_{$member->member_srl}" onclick="return false">{$member->nick_name}</a>
+				<!--@if($module_info->display_ip_address != 'N')-->
+
+					<!--@if($data->ipaddress == 'none')-->
+						{$data->ipaddress}
+					<!--@elseif(!$data->ipaddress)-->
+						{$lang->attend_warn_ip}
+					<!--@else-->
+						<!--@if($data->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->
+							{$data->ipaddress}
+						<!--@else-->
+							{@$ip_tmp = explode('.',$data->ipaddress)}
+							{@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
+						<!--@end-->
+					<!--@end-->
+				<!--@end-->
+					</li>
+					<li class="lulu-info-item time-ago left">{substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)}</li>
+					<li class="lulu-info-item cla-comments right">
+						<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+						<span class="label label-info">{$lang->attendance_perfect}</span>
+						<!--@elseif($is_perfect->monthly_perfect)-->
+						<span class="label label-success">{$lang->attendance_perfect}</span>
+						<!--@elseif($is_perfect->yearly_perfect)-->
+						<span class="label label-warning">{$lang->attendance_perfect}</span>
+						<!--@else-->
+						{@ 
+							$oAttendanceModel = &getModel('attendance');
+							$total_info = $oAttendanceModel->getTotalData($member->member_srl);
+							$perfect_de = $selected_date - date("Ymd");
+							$perfect_dec = $total_info->continuity + $perfect_de;
+						}
+						<!--@if($perfect_dec > 0)-->
+						&nbsp;{$perfect_dec} 일째
+						<!--@else-->
+						0 일째
+						<!--@end-->
+						<!--@end-->
+					</li>
+					<li class="lulu-info-item bullet right" >•</li>
+					<li class="lulu-info-item cla-comments right">
+					총 출석일이 {number_format($oAttendanceModel->getTotalAttendance($member->member_srl))}일째 입니다.
+					</li>
+					<li class="lulu-info-item bullet right" >•</li>
+					<li class="lulu-info-item cla-comments right">
+					<!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
+					<a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">
+					<!--@if($data->today_point > 5)-->
+					<font color="#FF0000">
+					포인트 {$data->today_point}</font>
+					<!--@else-->
+					포인트 {$data->today_point}
+					<!--@end-->
+					</a>
+					<!--@else-->
+					<!--@if($data->today_point > 5)-->
+					<font color="#FF0000">
+					포인트 {$data->today_point}</font>
+					<!--@else-->
+					포인트 {$data->today_point}
+					<!--@end-->
+					<!--@end-->
+					</li>
+					<li class="lulu-info-item bullet right" >•</li>
+					<li class="lulu-info-item cla-comments right" cond="$cd->about_random == 'yes'">
+						랜덤 {$lang->point} 
+						<span class="cri"|cond="$data->att_random_set=='1'" style="color:#222; font-weight:bold;">
+						<block cond="$data->today_random=='0'">꽝</block>
+						<block cond="$data->today_random>='1'"><i class="fa fa-certificate" cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
+						</span>
+					</li>
+				</ul>
+				<div class="lulu-content">
+				
+					
+					<div class="lulu-content-info pix-lulu">
+						<div class="lulu-content-title">
+							<a class="lulu-title-link">
+							<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+							<span class="label label-info">{$lang->attendance_perfect}</span>
+							<!--@elseif($is_perfect->monthly_perfect)-->
+							<span class="label label-success">{$lang->attendance_perfect}</span>
+							<!--@elseif($is_perfect->yearly_perfect)-->
+							<span class="label label-warning">{$lang->attendance_perfect}</span>
+							<!--@end-->
+							<!--@if($data->greetings)-->
+								<!--@if($exist_document == 1)-->
+									<!-- {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')} -->
+									{cut_str($oDocument->getContentText(text))}
+								<!--@else-->
+									{@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
+									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
+									<!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
+									<!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
+									<!--@else-->{$lang->default_greetings}
+									<!--@end-->
+								<!--@end-->
+							<!--@else-->
+								{$lang->attend_no_greetings}
+							<!--@end-->
+							</a>
+						</div>
+					</div><!-- .lulu-content-info -->
+				</div><!-- .lulu-content -->
+			</div><!-- .lulu-main -->
+		</div><!-- .lulu-block -->
+ 
+
+		<a class="lulu-thumb-link clarity-thumb avatar-radius">
+			<img class="lulu-thumb-img avatar-icons" src="{$member->profile_image->file}" cond="$member->profile_image->file" />
+			<img class="lulu-thumb-img avatar-icons" src="{$mi->no_profile}" cond="!$member->profile_image->file && $mi->no_profile" />
+			<img class="lulu-thumb-img avatar-icons" src="./noprofile.gif" cond="!$member->profile_image->file && !$mi->no_profile" />
+		</a>
+		<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
+	</li>
+<ul>
+</div>

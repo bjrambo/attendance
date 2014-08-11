@@ -7,9 +7,9 @@
 	{@$position=1+($oAttendance->page-1)*$module_info->list_count}
 <!--@end-->
 <div class="sat">
-<table class="table table-condensed table-striped">
+<table class="table table-condensed  table-striped">
 	<thead>
-		<tr>
+		<tr >
 			<th scope="col" style="width:40px;text-align:center">{$lang->position}</th>
 			<th scope="col" style="width:65px;text-align:center">{$lang->time}</th>
 			<th scope="col" style="text-align:center">{$lang->greetings}</th>
@@ -22,7 +22,7 @@
 			<th scope="col" style="text-align:right;">{$lang->ipaddress}</th>
 			<!--@end-->
 		</tr>
-	</thead>
+	</thead>   
 	<tbody>
 	<!--@if($oAttendanceAdminModel->getTodayTotalCount($selected_date)==0)-->
 	<td colspan="8" class="no_checked">{$lang->attend_no_checked}</td></tr>
@@ -86,18 +86,24 @@
 					</span>
 				</td>
 				<td <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->style="text-align:right"<!--@else-->style="text-align:center" <!--@end-->>
-				<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)--><span class="label label-info">{$lang->attendance_perfect}</span><!--@end-->
-				<!--@if($is_perfect->monthly_perfect)--><span class="label label-success">{$lang->attendance_perfect}</span><!--@end-->
-				<!--@if($is_perfect->yearly_perfect)--><span class="label label-warning">{$lang->attendance_perfect}</span><!--@end-->
-				<!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->
+				<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+				<span class="label label-info">{$lang->attendance_perfect}</span>
+				<!--@elseif($is_perfect->monthly_perfect)-->
+				<span class="label label-success">{$lang->attendance_perfect}</span>
+				<!--@elseif($is_perfect->yearly_perfect)-->
+				<span class="label label-warning">{$lang->attendance_perfect}</span>
+				<!--@else-->
 				{@ 
 					$oAttendanceModel = &getModel('attendance');
 					$total_info = $oAttendanceModel->getTotalData($member->member_srl);
 					$perfect_de = $selected_date - date("Ymd");
 					$perfect_dec = $total_info->continuity + $perfect_de;
 				}
-				<!--@if($perfect_dec > 0)-->&nbsp;{$perfect_dec} 일째
-				<!--@else-->0 일째<!--@end-->
+				<!--@if($perfect_dec > 0)-->
+				&nbsp;{$perfect_dec} 일째
+				<!--@else-->
+				0 일째
+				<!--@end-->
 				<!--@end-->
 				</td>
 				<td style="text-align:right">

@@ -1,0 +1,12 @@
+<query id="isExistTodayGift" action="select">
+	<tables>
+		<table name="attendance" />
+	</tables>
+	<columns>
+		<column name="count(*)" alias="count"/>
+	</columns>
+	<conditions>
+		<condition operation="equal" column="present_y" var="present_y"/>
+		<condition operation="like_prefix" column="regdate" var="today" pipe="and"/>
+	</conditions>
+</query>

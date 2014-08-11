@@ -1,0 +1,12 @@
+<query id="insertPresent" action="insert">
+	<tables>
+		<table name="attendance_present" />
+	</tables>
+	<columns>
+		<column name="present_srl" var="present_srl" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
+		<column name="member_srl" var="member_srl" />
+		<column name="present" var="present" />
+		<column name="sender" var="sender" />
+	</columns>
+</query>

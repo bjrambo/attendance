@@ -1,0 +1,7 @@
+<table name="attendance_present">
+	<column name="present_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+	<column name="regdate" type="date" index="idx_regdate" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="present" type="varchar" size="250" notnull="notnull" />
+	<column name="sender" type="varchar" size="20" notnull="notnull" />
+</table>

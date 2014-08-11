@@ -113,6 +113,8 @@ class attendance extends ModuleObject
 
 		if(!$oDB->isColumnExists("attendance", "perfect_m")) return true;
 
+		if(!$oDB->isColumnExists("attendance", "present_y")) return true;
+
 		//check a mid attendance
 		$oModule = getModel('module');
 		$module_info = $oModule->getModuleInfoByMid('attendance');
@@ -296,6 +298,11 @@ class attendance extends ModuleObject
 			$oDB->addColumn("attendance", "perfect_m", "char", 1);
 		}
 
+		if(!$oDB->isColumnExists("attendance", "present_y"))
+		{
+			$oDB->addColumn("attendance", "present_y", "char", 1);
+		}
+
 		//check a mid attendance
 		$oModule = getModel('module');
 		$module_info = $oModule->getModuleInfoByMid('attendance');
@@ -307,7 +314,7 @@ class attendance extends ModuleObject
 			$args = new stdClass;
 			$args->mid = 'attendance';
 			$args->module = 'attendance';
-			$args->browser_title = '출석채크';
+			$args->browser_title = '출석체크';
 			$args->site_srl = 0;
 			$args->skin = 'default';
 			$args->order_type = 'desc';

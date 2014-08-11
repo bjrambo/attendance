@@ -9,6 +9,7 @@
 		<column name="today_random" alias="today_random" />
         <column name="ipaddress" alias="ipaddress" />
 		<column name="perfect_m" alias="perfect_m" />
+		<column name="present_y" alias="present_y" />
 		<column name="count(*)" alias="count"/>
     </columns>
     <conditions>

@@ -85,12 +85,14 @@
 			<div class="x_controls">
 				<select name="about_target" id="include_duplicated_user">
 					<option value="yes" selected="selected"|cond="$config->about_target=='yes'">{$lang->attendance_yes}</option>
+					<option value="gift" selected="selected"|cond="$config->about_target=='gift'">gift</option>
 					<option value="no" selected="selected"|cond="$config->about_target=='no'">{$lang->attendance_no}</option>
 				</select>
+				<p>{$lang->attendance_about_target_h}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="nowconnect_name">{$lang->attendance_target_day}</label>
+			<label class="x_control-label">{$lang->attendance_target_day}</label>
 			<div class="x_controls">
 				<input type="text" name="target_day" value="{$config->target_day}" />
 				<p>{$lang->attendance_target_day_info}</p>
@@ -102,6 +104,29 @@
 				<input type="text" name="target_point" value="{$config->target_point}"/>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->giftnames}</label>
+			<div class="x_controls">
+				<input type="text" name="giftname" value="{$config->giftname}" />
+				<p>{$lang->giftnames_h}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->manygiftlist}</label>
+			<div class="x_controls">
+				<input type="text" name="manygiftlist" value="{$config->manygiftlist}" />
+				<p>{$lang->manygiftlists}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->gift_random}</label>
+			<div class="x_controls">
+				<input type="text" name="gift_random" value="{$config->gift_random}" />
+				<p>{$lang->gift_random_h}</p>
+			</div>
+		</div>
+
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_continuity}</label>
 			<div class="x_controls">

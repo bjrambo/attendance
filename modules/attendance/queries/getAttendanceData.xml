@@ -1,13 +1,12 @@
 <query id="getAttendanceData" action="select">
-    <tables>
-        <table name="attendance" />
-    </tables>
-    <columns>
-        <column name="count(*)" alias="count"/>
-    </columns>
-    <conditions>
+	<tables>
+		<table name="attendance" />
+	</tables>
+	<columns>
+		<column name="count(*)" alias="count"/>
+	</columns>
+	<conditions>
 		<condition operation="like_prefix" column="regdate" var="selected_date"  />
 		<condition operation="equal" column="member_srl" var="member_srl" pipe="and"/>
-    </conditions>
-
+	</conditions>
 </query>

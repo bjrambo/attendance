@@ -23,7 +23,7 @@ class attendanceView extends attendance
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		}
 		$this->setTemplatePath($template_path);
-		$this->setTemplateFile('index');
+
 	}
     
 	//개인의 출석달력
@@ -63,7 +63,6 @@ class attendanceView extends attendance
     //출석게시판 출력
 	function dispAttendanceBoard()
 	{
-
 		$oModuleModel = getModel('module');
 		$oDocumentModel = getModel('document');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
@@ -102,6 +101,15 @@ class attendanceView extends attendance
 			$oAttendance = $oAttendanceModel->getAttendanceList($module_info->list_count, $selected_date);
 		}
 
+
+		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->present_y = 'Y';
+		$args->today = $selected_date;
+		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
+		debugPrint($outputs);
+
 		//출석달력 설정
 		$date_info = new stdClass;
 		$date_info->_year = substr($selected_date,0,4);
@@ -111,9 +119,9 @@ class attendanceView extends attendance
 		$date_info->week_start = date("w",mktime(0,0,0,$date_info->_month,1,$date_info->_year));
 
 		Context::set('admin_date_info',$date_info);
-		Context::set('logged_info',Context::get('logged_info'));
 
 		//변수 내보내기
+		Context::set('todaymygift',$ouuputs->data);
 		Context::set('selected_date',$selected_date);
 		Context::set('is_available',$is_available);
 		Context::set('oAttendance',$oAttendance);
@@ -123,5 +131,28 @@ class attendanceView extends attendance
 		Context::set('oMemberModel',$oMemberModel);
 		Context::set('module_info',$module_info);
 		Context::set('config',$config);
+
+		$this->setTemplateFile('index');
+	}
+
+	function dispAttendanceBoardGiftList()
+	{
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass;
+		$args->page = Context::get('page');
+		$args->list_count = '20';
+		$args->page_count = '10';
+		$args->member_srl = $logged_info->member_srl;
+		$output = executeQuery('attendance.getGiftList', $args);
+		debugPrint($output);
+
+		Context::set('total_count', $output->page_navigation->total_count);
+		Context::set('total_page', $output->page_navigation->total_page);
+		Context::set('page', $output->page);
+		Context::set('attendance_gift', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+		/*템플릿 설정*/
+		$this->setTemplateFile('gift');
 	}
 }

@@ -109,7 +109,9 @@ class attendanceAdminController extends attendance
 		$config->random_small_point_s = $obj->random_small_point_s;
 		$config->random_big_point_f = $obj->random_big_point_f;
 		$config->random_big_point_s = $obj->random_big_point_s;
-
+		$config->giftname = $obj->giftname;
+		$config->manygiftlist = $obj->manygiftlist;
+		$config->gift_random = $obj->gift_random;
 
 		$this->setMessage('success_updated');
 
@@ -384,6 +386,8 @@ class attendanceAdminController extends attendance
 		}
 	}
 
+
+
 	/**
 	 * @brief 출석부 게시판 삭제
 	 **/
@@ -394,4 +398,26 @@ class attendanceAdminController extends attendance
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleController->deleteModule($module_info->module_srl);
 	}
+
+	function procAttendanceAdminInsertGift()
+	{
+		$args = new stdCLass();
+		$present_srl = Context::get('present_srl');
+		$args->present_srl = $present_srl;
+		$output = executeQuery('attendance.updateAttendanceGift', $args);
+		if(!$output->toBool()) return $output;
+
+		$this->setMessage('att_gift_success');
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminGift');
+			header('location: ' . $returnUrl);
+					debugPrint($returnUrl);
+			return;
+		}
+
+
+	}
+
 }
