@@ -10,7 +10,7 @@
     }
   ],
   "keywords": ["Attendance", "XpressEngine", "XE", "SosiFam"],
-  "license": "GNU GPL v2",
+  "license": "GNU GPL",
   "repository": {
     "type": "git",
     "url": "git://github.com/qw5414/attendance.git"
