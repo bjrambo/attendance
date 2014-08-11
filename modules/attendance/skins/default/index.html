@@ -262,6 +262,7 @@
 		<div class="alert alert-error">{$lang->msg_not_logged}</div>
 	<!--@end-->
 </div>
-<include target="board.html" cond="$module_info->boardstyle == 'list'" />
-<include target="twitter_board.html" />
+{@ if(!$module_info->board_type) $module_info->board_type = 'board'; }
+<include target="board.html" cond="$module_info->board_type == 'board'" />
+<include target="twitter_board.html" cond="$module_info->board_type == 'twitter'" />
 <include target="_footer.html" />

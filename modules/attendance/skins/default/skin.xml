@@ -26,7 +26,18 @@
 			<title xml:lang="ko">상단 이미지</title>
 			<description xml:lang="ko">작성하면 화면에 표시 됨</description>
 		</var>
-		
+
+		<var name="board_type" type="select">
+			<title xml:lang="ko">출석 스킨 스타일 설정</title>
+			<options value="board">
+				<title xml:lang="ko">Board 게시판형 (기본값)</title>
+			</options>
+			<options value="twitter">
+				<title xml:lang="ko">Twitter (트위터 스타일)</title>
+			</options>
+			<description />
+		</var>
+
 		<var name="display_setup_button" type="select">
 			<title xml:lang="ko">설정 표시</title>
 			<options value="Y">
@@ -76,6 +87,10 @@
 		<var name="timeend" type="text">
 			<title xml:lang="ko">출석 가능 마감 시간</title>
 			<description xml:lang="ko">출석 가능 시간을 표기합니다. 이란은 출책 마감시간입니다. (ex, 01:00:00 (시, 분, 초) 기본값 : 24시 0분 0초 )</description>
+		</var>
+		<var name="no_profile" type="image">
+			<title xml:lang="ko">프로필 이미지</title>
+			<description xml:lang="ko">프로필 이미지가 없는 사람들에게 띄울 프로필 이미지입니다. 이는 Twitter Style에서만 설정됩니다.</description>
 		</var>
 
 	</extra_vars>
