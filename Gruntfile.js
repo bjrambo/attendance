@@ -3,16 +3,30 @@ module.exports = function(grunt) {
 
 	grunt.file.defaultEncoding = 'utf8';
 
-	grunt.initConfig({});
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-csslint');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.initConfig({
+		phplint: {
+			default : {
+				options: {
+					phpCmd: "php",
+				},
+				src: [
+					"*.php",
+					"!node_modules/**",
+				],
+			},
+		}
+	});
+
+	grunt.registerTask('build', '', function(branch) {
+		var build_dir = 'build/';
+		grunt.file.mkdir(build_dir);
+		grunt.util.spawn({
+			cmd: "git",
+			args: ['archive', '--prefix=attendance/', '--output=' + build_dir + 'xe-module-attendance.zip', branch, '.']
+		});
+	});
+
 	grunt.loadNpmTasks('grunt-phplint');
 
-	grunt.registerTask('default', ['jshint', 'csslint']);
-	grunt.registerTask('lint', ['jshint', 'csslint', 'phplint']);
-	grunt.registerTask('minify', ['jshint', 'csslint', 'clean', 'concat', 'uglify', 'cssmin']);
+	grunt.registerTask('default', ['phplint']);
 };
