@@ -193,7 +193,6 @@ class attendanceController extends attendance
 			elseif($config->about_target == 'gift')
 			{
 				$todaygift = $oAttendanceModel->getTodayGiftCount($today);
-				debugPrint($todaygift);
 				if($todaygift <= $config->manygiftlist && $today == $config->target_day)
 				{
 					$intrand = rand(1,100);
@@ -405,7 +404,6 @@ class attendanceController extends attendance
 
 			/*Query 실행 : 출석부 기록*/
 			$output = executeQuery("attendance.insertAttendance", $obj);
-			debugPrint($output);
 			if(!$output->toBool())
 			{
 
