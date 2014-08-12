@@ -413,7 +413,6 @@ class attendanceAdminController extends attendance
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminGift');
 			header('location: ' . $returnUrl);
-					debugPrint($returnUrl);
 			return;
 		}
 

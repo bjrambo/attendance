@@ -190,7 +190,6 @@ class attendanceAdminModel extends attendance
 			{
 				$query_id = 'attendance.getMemberListWeekly';
 				$args->sort_index = "attendance_weekly.weekly";
-				debugPrint($query_id);
 			}
 			//탈퇴한 회원 정보 찾기 위한 쿼리 수정
 			if($args->unjoined_members)
