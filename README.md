@@ -2,7 +2,7 @@ attendance XE 출석부
 ====================
 [![License](http://img.shields.io/badge/license-GNU%20LGPL-brightgreen.svg)](http://www.gnu.org/licenses/gpl.html)
 [![Latest release](http://img.shields.io/github/release/qw5414/attendance.svg)](https://github.com/qw5414/attendance/releases)
-[![Latest release](http://img.shields.io/github/release/qw5414/attendance.svg)](https://github.com/qw5414/attendance/releases)
+
 개요
 ----
 이 소프트웨어는 'XE 출석부' 입니다.
