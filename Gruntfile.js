@@ -4,7 +4,62 @@ module.exports = function(grunt) {
 	grunt.file.defaultEncoding = 'utf8';
 
 	grunt.initConfig({
-
+		clean: {
+			minify: [
+				'common/js/attendance.js',
+				'common/js/attendance.min.js',
+				'common/css/attendance.min.css',
+				'common/css/mobile.min.css'
+			]
+		},
+		concat: {
+			'common-js': {
+				options: {
+					stripBanners: true,
+					banner: banner_attendance_js
+				},
+				src: [
+					'common/js/common.js',
+					'common/js/js_app.js',
+					'common/js/xml_handler.js',
+					'common/js/xml_js_filter.js'
+				],
+				dest: 'common/js/attendance.js'
+			},
+			'xpresseditor': {
+				options: {
+					stripBanners: true,
+					banner: banner_attendance_js
+				},
+				src: [
+					'modules/editor/skins/xpresseditor/js/Xpress_Editor.js',
+					'modules/editor/skins/xpresseditor/js/attendance_interface.js',
+				],
+				dest: 'modules/editor/skins/xpresseditor/js/xpresseditor.js'
+			}
+		},
+		uglify: {
+			'common-js': {
+				options: {
+					banner: banner_attendance_js
+				},
+				files: {
+					'common/js/attendance.min.js': ['common/js/attendance.js']
+				}
+			},
+			'modules': {
+				files: {
+					'common/js/x.min.js' : ['common/js/x.js'],
+				}
+			},
+		},
+		cssmin: {
+			'common-css': {
+				files: {
+					'common/css/attendance.min.css': ['common/css/attendance.css'],
+				}
+			}
+		},
 		jshint: {
 			files: [
 				'Gruntfile.js',
@@ -25,6 +80,28 @@ module.exports = function(grunt) {
 					'**/*.min.js',
 					'**/*-packed.js',
 					'**/*.compressed.js'
+				]
+			}
+		},
+		csslint: {
+			'common-css': {
+				options: {
+					import : 2,
+					'adjoining-classes' : false,
+					'box-model' : false,
+					'duplicate-background-images' : false,
+					'ids' : false,
+					'important' : false,
+					'overqualified-elements' : false,
+					'qualified-headings' : false,
+					'star-property-hack' : false,
+					'underscore-property-hack' : false,
+				},
+				src: [
+					'common/css/*.css',
+					'!common/css/bootstrap.css',
+					'!common/css/bootstrap-responsive.css',
+					'!**/*.min.css',
 				]
 			}
 		},
@@ -202,7 +279,8 @@ module.exports = function(grunt) {
 		});
 	});
 
-
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
