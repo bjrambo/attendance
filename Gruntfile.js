@@ -9,12 +9,11 @@ module.exports = function(grunt) {
 				options: {
 					phpCmd: "php",
 				},
-				src: [
-					"*.php",
-					"!node_modules/**",
-				],
 			},
 		}
 	});
+
+	grunt.loadNpmTasks('grunt-phpunit');
+
 
 };
