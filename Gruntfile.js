@@ -14,10 +14,6 @@ module.exports = function(grunt) {
 		},
 		concat: {
 			'common-js': {
-				options: {
-					stripBanners: true,
-					banner: banner_attendance_js
-				},
 				src: [
 					'common/js/common.js',
 					'common/js/js_app.js',
@@ -26,11 +22,7 @@ module.exports = function(grunt) {
 				],
 				dest: 'common/js/attendance.js'
 			},
-			'xpresseditor': {
-				options: {
-					stripBanners: true,
-					banner: banner_attendance_js
-				},
+			'attendance': {
 				src: [
 					'modules/editor/skins/xpresseditor/js/Xpress_Editor.js',
 					'modules/editor/skins/xpresseditor/js/attendance_interface.js',
@@ -40,9 +32,6 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			'common-js': {
-				options: {
-					banner: banner_attendance_js
-				},
 				files: {
 					'common/js/attendance.min.js': ['common/js/attendance.js']
 				}
