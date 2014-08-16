@@ -108,6 +108,7 @@ class attendanceView extends attendance
 		$args->present_y = 'Y';
 		$args->today = $selected_date;
 		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
+		debugPrint($outputs);
 
 		//출석달력 설정
 		$date_info = new stdClass;
@@ -120,7 +121,7 @@ class attendanceView extends attendance
 		Context::set('admin_date_info',$date_info);
 
 		//변수 내보내기
-		Context::set('todaymygift',$ouuputs->data);
+		Context::set('todaymygift',$outputs->data);
 		Context::set('selected_date',$selected_date);
 		Context::set('is_available',$is_available);
 		Context::set('oAttendance',$oAttendance);
