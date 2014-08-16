@@ -41,7 +41,8 @@ class attendanceController extends attendance
 
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
-
+		$_SESSION['is_attended'] = $today;
+		debugPrint($_SESSION);
 		$oAttendanceController->insertAttendance($obj->about_position, $obj->greetings);
 
 		$this->setMessage('att_success');
@@ -81,8 +82,6 @@ class attendanceController extends attendance
 		$year = zDate(date('YmdHis'),"Y");
 		$year_month = zDate(date('YmdHis'),"Ym");
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
-
-		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
@@ -196,7 +195,7 @@ class attendanceController extends attendance
 				if($todaygift <= $config->manygiftlist && $today == $config->target_day)
 				{
 					$intrand = rand(1,100);
-					if($intrand <= $config->gift_random)
+					if($intrand <= $config->gift_random)	
 					{
 						$gift_args = new stdClass();
 						$gift_args->present_srl = getNextSequence();
@@ -420,8 +419,6 @@ class attendanceController extends attendance
 					return $trigger_output;
 				}
 			}
-
-			$_SESSION['is_attended'] = $today;
 
 			/*포인트 추가*/
 			if($obj->today_point != 0 && $logged_info->member_srl)
