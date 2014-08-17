@@ -121,7 +121,7 @@ class attendanceView extends attendance
 		Context::set('admin_date_info',$date_info);
 
 		//변수 내보내기
-		Context::set('todaymygift',$ouuputs->data);
+		Context::set('todaymygift',$outputs->data);
 		Context::set('selected_date',$selected_date);
 		Context::set('is_available',$is_available);
 		Context::set('oAttendance',$oAttendance);
@@ -145,7 +145,6 @@ class attendanceView extends attendance
 		$args->page_count = '10';
 		$args->member_srl = $logged_info->member_srl;
 		$output = executeQuery('attendance.getGiftList', $args);
-		debugPrint($output);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
