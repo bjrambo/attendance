@@ -641,4 +641,7 @@
 	<item name = "dispAttgiftList">
 		<value xml:lang="ko"><![CDATA[선물관리]]></value>
 	</item>
+	<item name = "msg_admin_to_use">
+		<value xml:lang="ko"><![CDATA[관리자페이지에서 접속해주세요.]]></value>
+	</item>
 </lang>
