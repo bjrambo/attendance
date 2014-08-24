@@ -182,6 +182,7 @@ class attendanceController extends attendance
 					$continuity->data = 1;
 					$obj->perfect_m = 'N';
 				}
+				$obj->a_continuity = $continuity->data;
 			}
 
 			/*지정일 포인트 지급*/

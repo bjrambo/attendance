@@ -9,4 +9,5 @@
 	<column name="present_y" type="char" size="1" index="idx_present_y" />
 	<column name="ipaddress" type="varchar" size="23" notnull="notnull" />
 	<column name="att_random_set" type="number" size="20" notnull="notnull" />
+	<column name="a_continuity" type="number" size="20" notnull="notnull" />
 </table>
