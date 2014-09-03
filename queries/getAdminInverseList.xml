@@ -1,7 +1,7 @@
 <query id="getAdminInverseList" action="select">
 	<tables>
 		<table name="attendance" />
-		<table name="member" type="left join" />
+		<table name="member" type="left join">
 		<conditions>
 			<condition operation="equal" column="attendance.member_srl" default="member.member_srl" />
 		</conditions>

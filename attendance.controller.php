@@ -410,7 +410,6 @@ class attendanceController extends attendance
 			$output = executeQuery("attendance.insertAttendance", $obj);
 			if(!$output->toBool())
 			{
-
 				return $output;
 			}
 
@@ -420,7 +419,6 @@ class attendanceController extends attendance
 				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
 				if(!$trigger_output->toBool())
 				{
-
 					return $trigger_output;
 				}
 			}
