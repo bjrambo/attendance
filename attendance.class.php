@@ -10,6 +10,12 @@
 class attendance extends ModuleObject 
 {
 
+	private $triggers = array(
+		array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'),
+		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
+		array('display', 'attendance', 'controller', 'triggerSou', 'before'),
+	);
+
     /**
     * @brief 모듈 설치
     **/
@@ -131,13 +137,10 @@ class attendance extends ModuleObject
 
 		//회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
 		$oModuleModel = getModel('module');
-		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
-
-		//When a member is do login, 
-		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
-
-		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')) return true;
-
+		foreach ($this->triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return TRUE;
+		}
 	}
 
 	/**
@@ -341,18 +344,12 @@ class attendance extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')){
-			$oModuleController->insertTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after');
-		}
-
-		//Add a Auto Login trigger
-		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')){
-			$oModuleController->insertTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after');
-		}
-
-		//displaySou 트리거 설치
-		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')){
-			$oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
+		foreach ($this->triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
 		}
 
 		return new Object(0,'success_updated');
