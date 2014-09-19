@@ -1,4 +1,5 @@
 <load target="css/twitterstyle.css" />
+<load target="js/jquery.infinitescroll.js" />
 <div class="sat">
     <!--//등수변수 초기화-->
     <!--@if($module_info->order_type=='desc')-->
@@ -7,6 +8,26 @@
         {@$position=1+($oAttendance->page-1)*$module_info->list_count}
     <!--@end-->
 
+	<script type="text/javascript"> 
+	jQuery(function($) {
+		$('.lulu-list').infinitescroll({
+			loading: {
+					speed: 0,
+					img: 'modules/board/skins/Clarity/img/loading.gif',
+					finishedMsg: '',
+					msgText: '',
+				},
+
+			navSelector  	: ".elise-pagination",
+			nextSelector 	: ".page-link",
+			itemSelector 	: ".lulu-list .lulu-item",
+			debug		 	: false,
+			dataType	 	: 'html',
+	        maxPage         : 3,
+
+	    });
+	});
+	</script>
 
 <ul class="lulu-list left cfix clarity-font">
 
@@ -174,4 +195,20 @@
 		<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
 	</li>
 <ul>
+
+<div class="list_footer">
+
+    <div class="elise-pagination cfix">
+        <a href="{getUrl('page',$oAttendance->page_navigation->first_page,'module_srl','')}" class="page-direction page-prev"><span class="arrow-prev">←</span>First Page</a> 
+        <div class="page-list">
+        	<block loop="$page_no=$oAttendance->page_navigation->getNextPage()">
+            	<span cond="$oAttendance->page == $page_no" class="page page-current"><span class="page-current-mark"></span>{$page_no}</span>
+                <a cond="$oAttendance->page != $page_no" class="page page-link" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+			</block>
+        </div>
+        <a href="{getUrl('page',$oAttendance->page_navigation->last_page,'module_srl','')}" class="page-direction page-next">Last Page<span class="arrow-next">→</span></a>
+    </div><!-- .elise-pagination -->
+   
+</div><!-- .list-footer -->
+
 </div>
