@@ -14,6 +14,7 @@ class attendance extends ModuleObject
 		array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'),
 		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
 		array('display', 'attendance', 'controller', 'triggerSou', 'before'),
+		array('member.updateMember','attendance', 'controller', 'triggerUpdateMemberBefore', 'before')
 	);
 
     /**

@@ -1035,5 +1035,27 @@ class attendanceController extends attendance
 		return new Object();
 	}
 
+	function triggerUpdateMemberAfter($args)
+	{
+	}
+
+	function triggerUpdateMemberBefore($args)
+	{
+		// 로그인 정보 가져옴
+		$logged_info = Context::get('logged_info');
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($logged_info->member_srl);
+
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('attendance');
+
+		if($logged_info->is_admin=='N' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
+		{
+			if($member_info->birthday!=$args->birthday)
+			{
+				return new Object(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
+			}
+		}	
+	}
 
 }
