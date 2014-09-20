@@ -1035,10 +1035,6 @@ class attendanceController extends attendance
 		return new Object();
 	}
 
-	function triggerUpdateMemberAfter($args)
-	{
-	}
-
 	function triggerUpdateMemberBefore($args)
 	{
 		// 로그인 정보 가져옴
@@ -1055,7 +1051,7 @@ class attendanceController extends attendance
 			{
 				return new Object(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
 			}
-		}	
+		}
 	}
 
 }
