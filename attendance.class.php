@@ -22,7 +22,7 @@ class attendance extends ModuleObject
     **/
 	function moduleInstall()
 	{
-		//moduleController 등록
+		//moduleController 등
 		$oModuleController = getController('module');
 		$oModuleController->insertActionForward('attendance', 'view', 'dispAttendanceAdminList');
 		$oModuleController->insertActionForward('attendance', 'view', 'dispAttendanceAdminBoardConfig');
