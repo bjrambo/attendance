@@ -16,7 +16,7 @@ class attendanceController extends attendance
 	function init()
 	{
 	}
-
+.
 	/**
 	 * @brief 출석부 기록
 	 **/
