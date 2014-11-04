@@ -30,8 +30,7 @@ class attendanceController extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$obj = Context::getRequestVars();
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $oAttendanceModel->getConfig();
 
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if($ip_count >= $config->allow_duplicaton_ip_count)
@@ -83,11 +82,7 @@ class attendanceController extends attendance
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
 
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
-		if(!$config)
-		{
-			$config = new stdClass;
-		}
+		$config = $oAttendanceModel->getConfig();
 
 		//포인트 모듈 연동
 		$oPointController = getController('point');
@@ -684,7 +679,7 @@ class attendanceController extends attendance
 		$args->member_srl = $obj->member_srl;
 
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $oAttendanceModel->getConfig();
 
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
@@ -1003,11 +998,11 @@ class attendanceController extends attendance
 			$_SESSION['is_attended'] = $today;
 			return;
 		}
-		
+
 		//module의 설정값 가져오기
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
-		
+		$oAttendanceModel = getModel('attendance');
+		$config = $oAttendanceModel->getConfig();
+
 		if($config->about_auto_attend == 'yes')
 		{
 			$this->insertAttendance('yes','^auto^',$obj->member_srl);
@@ -1017,12 +1012,12 @@ class attendanceController extends attendance
 	function triggerSou(&$content)
 	{
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$oAttendanceModel = getModel('attendance');
+		$config = $oAttendanceModel->getConfig();
 		$logged_info = Context::get('logged_info');
 
 		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
 		{
-			$oAttendanceModel = getModel('attendance');
 			$oMemberModel = getModel('member');
 			//module의 설정값 가져오기
 

@@ -86,7 +86,7 @@ class attendanceView extends attendance
 
 		//module의 설정값 가져오기
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $oAttendanceModel->getConfig();
 
 		//출석가능 시간대인지 판단
 		$is_available = $oAttendanceModel->availableCheck($config);
@@ -108,7 +108,6 @@ class attendanceView extends attendance
 		$args->present_y = 'Y';
 		$args->today = $selected_date;
 		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
-		debugPrint($outputs);
 
 		//출석달력 설정
 		$date_info = new stdClass;

@@ -95,7 +95,7 @@ class attendanceAdminView extends attendance
 
 		//module의 설정값 가져오기
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $oAttendanceModel->getConfig();
 		$oModuleAdminModel = getAdminModel('module');
 		Context::set('config',$config);
 

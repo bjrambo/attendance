@@ -9,6 +9,7 @@
 
 class attendanceModel extends attendance
 {
+	var $config;
 
 	/**
 	 * @brief 초기화
@@ -17,6 +18,31 @@ class attendanceModel extends attendance
 	{
 	}
 
+	function getConfig()
+	{
+		if(!$this->config)
+		{
+			$oModuleModel = getModel('module');
+			$config = $oModuleModel->getModuleConfig('attendance');
+
+			if(!$config->add_point) $config->add_point == '5';
+			if(!$config->first_point) $config->first_point == '30';
+			if(!$config->second_point) $config->second_point == '15';
+			if(!$config->third_point) $config->third_point == '5';
+			if(!$config->yearly_point) $config->yearly_point == '500';
+			if(!$config->monthly_point) $config->monthly_point == '50';
+			if(!$config->weekly_point) $config->weekly_point == '5';
+			if(!$config->about_target) $config->about_target == 'no';
+			if(!$config->about_continuity) $config->about_continuity == 'no';
+			if(!$config->about_time_control) $config->about_time_control == 'no';
+			if(!$config->about_diligence_yearly) $config->about_diligence_yearly == 'no';
+			//if(!$config->) $config-> == '';
+
+			$this->config = $config;
+		}
+
+		return $this->config;
+	}
 
 	/**
 	 * @brief Attendance 모듈의 존재를 나타내도록
@@ -225,7 +251,7 @@ class attendanceModel extends attendance
 	function isPerfect($member_srl, $today, $real=true)
 	{
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $this->getConfig();
 
 		$current_month = substr($today,4,2);
 		$current_year = substr($today,0,4);
@@ -638,7 +664,7 @@ class attendanceModel extends attendance
 	{
 		// 모듈 설정값 가져오기
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('attendance');
+		$config = $this->getConfig();
 
 		if($config->about_time_control == 'yes')
 		{
