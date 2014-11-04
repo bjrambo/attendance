@@ -50,6 +50,16 @@ class attendanceAdminView extends attendance
 	//출석부 관리페이지 출력
 	function dispAttendanceAdminList()
 	{
+		$document_srl = Context::get('document_srl');
+		if($document_srl)
+		{
+			return $this->stop('msg_admin_to_use');
+		}
+		$mid = Context::get('mid');
+		if($mid)
+		{
+			return $this->stop('msg_admin_to_use');
+		}
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
 		Context::set('Model',$oAttendanceModel);

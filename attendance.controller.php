@@ -177,6 +177,7 @@ class attendanceController extends attendance
 					$continuity->data = 1;
 					$obj->perfect_m = 'N';
 				}
+				$obj->a_continuity = $continuity->data;
 			}
 
 			/*지정일 포인트 지급*/
@@ -404,7 +405,6 @@ class attendanceController extends attendance
 			$output = executeQuery("attendance.insertAttendance", $obj);
 			if(!$output->toBool())
 			{
-
 				return $output;
 			}
 
@@ -414,7 +414,6 @@ class attendanceController extends attendance
 				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
 				if(!$trigger_output->toBool())
 				{
-
 					return $trigger_output;
 				}
 			}
@@ -1031,5 +1030,23 @@ class attendanceController extends attendance
 		return new Object();
 	}
 
+	function triggerUpdateMemberBefore($args)
+	{
+		// 로그인 정보 가져옴
+		$logged_info = Context::get('logged_info');
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($logged_info->member_srl);
+
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('attendance');
+
+		if($logged_info->is_admin=='N' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
+		{
+			if($member_info->birthday!=$args->birthday)
+			{
+				return new Object(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
+			}
+		}
+	}
 
 }

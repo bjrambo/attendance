@@ -1,19 +1,20 @@
 <query id="updateAttendance" action="update">
-    <tables>
-        <table name="attendance" />
-    </tables>
-    <columns>
-        <column name="regdate" var="regdate" notnull="notnull" />
-        <column name="member_srl" var="member_srl" />
-        <column name="ipaddress" var="ipaddress" />
-    	<column name="greetings" var="greetings" />
-	    <column name="today_point" var="today_point" />
+	<tables>
+		<table name="attendance" />
+	</tables>
+	<columns>
+		<column name="regdate" var="regdate" notnull="notnull" />
+		<column name="member_srl" var="member_srl" />
+		<column name="ipaddress" var="ipaddress" />
+		<column name="greetings" var="greetings" />
+		<column name="today_point" var="today_point" />
 		<column name="today_random" var="today_random" />
 		<column name="perfect_m" var="perfect_m" />
 		<column name="present_y" var="present_y" />
 		<column name="att_random_set" var="att_random_set" />
-    </columns>
-    <conditions>
-        <condition operation="equal" column="attendance_srl" var="attendance_srl"  />
-    </conditions>
+		<column name="a_continuity" var="a_continuity" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="attendance_srl" var="attendance_srl"  />
+	</conditions>
 </query>

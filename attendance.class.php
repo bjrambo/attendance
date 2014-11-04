@@ -10,6 +10,13 @@
 class attendance extends ModuleObject 
 {
 
+	private $triggers = array(
+		array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'),
+		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
+		array('display', 'attendance', 'controller', 'triggerSou', 'before'),
+		array('member.updateMember','attendance', 'controller', 'triggerUpdateMemberBefore', 'before')
+	);
+
     /**
     * @brief 모듈 설치
     **/
@@ -71,6 +78,10 @@ class attendance extends ModuleObject
 		$act = $oDB->isColumnExists("attendance","att_random_set");
 		if(!$act) return true;
 
+		// attendance 테이블에 a_continuity 필드 추가 (2014.08.24)
+		$act = $oDB->isColumnExists("attendance","a_continuity");
+		if(!$act) return true;
+
 		// attendance 테이블에 ipaddress 필드 추가 (2009.09.15)
 		$act = $oDB->isColumnExists("attendance", "ipaddress");
 		if(!$act) return true;
@@ -127,13 +138,10 @@ class attendance extends ModuleObject
 
 		//회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
 		$oModuleModel = getModel('module');
-		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')) return true;
-
-		//When a member is do login, 
-		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')) return true;
-
-		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')) return true;
-
+		foreach ($this->triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return TRUE;
+		}
 	}
 
 	/**
@@ -168,6 +176,11 @@ class attendance extends ModuleObject
 		if(!$oDB->isColumnExists("attendance", "att_random_set"))
 		{
 			$oDB->addColumn("attendance", "att_random_set", "number", 20);
+		}
+
+		if(!$oDB->isColumnExists("attendance", "a_continuity"))
+		{
+			$oDB->addColumn("attendance", "a_continuity", "number", 20);
 		}
 
 		//attendance 테이블에 member_srl 필드 추가
@@ -332,18 +345,12 @@ class attendance extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		if(!$oModuleModel->getTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after')){
-			$oModuleController->insertTrigger('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after');
-		}
-
-		//Add a Auto Login trigger
-		if(!$oModuleModel->getTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after')){
-			$oModuleController->insertTrigger('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after');
-		}
-
-		//displaySou 트리거 설치
-		if(!$oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before')){
-			$oModuleController->insertTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
+		foreach ($this->triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
 		}
 
 		return new Object(0,'success_updated');
