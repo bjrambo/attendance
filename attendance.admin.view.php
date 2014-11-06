@@ -167,10 +167,12 @@ class attendanceAdminView extends attendance
 				Context::set('_attendance_iframe_url', $_attendance_iframe_url . '&_host='. $_host_info);
 				Context::set('attendance_module_info', $attendance_module_info);
 			}
+			FileHandler::writeFile($agreement_ver_file, 'Y');
 		}
-		else Context::set('_attendance_env_agreement', 'NULL');
-
-		FileHandler::writeFile($agreement_ver_file, 'Y');
+		else
+		{
+			Context::set('_attendance_env_agreement', 'NULL');
+		}
 
 		/*템플릿 설정*/
 		$this->setTemplatePath($this->module_path.'tpl');

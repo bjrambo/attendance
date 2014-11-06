@@ -23,9 +23,8 @@ class attendanceView extends attendance
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		}
 		$this->setTemplatePath($template_path);
-
 	}
-    
+
 	//개인의 출석달력
 	function dispAttendancePersonalInfo()
 	{
