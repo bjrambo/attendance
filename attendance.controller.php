@@ -223,7 +223,7 @@ class attendanceController extends attendance
 			{
 				$obj->today_point += $config->yearly_point;
 			}
-			if($about_perfect->monthly_perfect == 1 && $config->continuity_monthly == 'no')
+			if($about_perfect->monthly_perfect == 1 && $config->continuity_monthly != 'yes')
 			{
 				$obj->today_point += $config->monthly_point;
 			}
