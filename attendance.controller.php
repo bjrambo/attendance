@@ -408,10 +408,17 @@ class attendanceController extends attendance
 				return $output;
 			}
 
+
+			$trigger_obj = new stdClass();
+			$trigger_obj->regdate = $obj->regdate;
+			$trigger_obj->ipaddress = $obj->ipaddress;
+			$trigger_obj->today_point = $obj->today_point;
+			$trigger_obj->greetings = $obj->greetings;
+			$trigger_obj->member_srl = $obj->member_srl;
 			// Attendance insert Trigger setting
 			if($output->toBool())
 			{
-				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+				$trigger_output = ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $trigger_obj);
 				if(!$trigger_output->toBool())
 				{
 					return $trigger_output;
