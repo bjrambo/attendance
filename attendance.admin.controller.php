@@ -101,7 +101,6 @@ class attendanceAdminController extends attendance
 		$config->about_lottery = $obj->about_lottery;
 		$config->lottery = $obj->lottery;
 		$config->brithday_point = $obj->brithday_point;
-		$config->continuity_monthly = $obj->continuity_monthly;
 		$config->use_document = $obj->use_document;
 		$config->use_random_sm = $obj->use_random_sm;
 		$config->random_small_win = $obj->random_small_win;
