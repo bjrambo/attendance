@@ -273,51 +273,9 @@ class attendanceModel extends attendance
 
 		$arg = new stdClass;
 
-		if($config->continuity_monthly == 'no')
+		if($real == true)
 		{
-			if($real == true)
-			{
-				if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
-				{
-					$arg->monthly_perfect = 1;
-				}
-				else
-				{
-					$arg->monthly_perfect = 0;
-				}
-				if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
-				{
-					$arg->yearly_perfect = 1;
-				}
-				else
-				{
-					$arg->yearly_perfect = 0;
-				}
-			}
-			else
-			{
-				if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
-				{
-					$arg->monthly_perfect = 1;
-				}
-				else
-				{
-					$arg->monthly_perfect = 0;
-				}
-				if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
-				{
-					$arg->yearly_perfect = 1;
-				}
-				else
-				{
-					$arg->yearly_perfect = 0;
-				}
-			}
-		}
-		elseif($config->continuity_monthly == 'yes')
-		{
-			$user_attendance = $this->getUserAttendanceData($member_srl, $today);
-			if($user_attendance->perfect_m=='Y')
+			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
 			{
 				$arg->monthly_perfect = 1;
 			}
@@ -326,6 +284,25 @@ class attendanceModel extends attendance
 				$arg->monthly_perfect = 0;
 			}
 			if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
+			{
+				$arg->yearly_perfect = 1;
+			}
+			else
+			{
+				$arg->yearly_perfect = 0;
+			}
+		}
+		else
+		{
+			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
+			{
+				$arg->monthly_perfect = 1;
+			}
+			else
+			{
+				$arg->monthly_perfect = 0;
+			}
+			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
 			{
 				$arg->yearly_perfect = 1;
 			}

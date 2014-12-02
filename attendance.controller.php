@@ -162,6 +162,7 @@ class attendanceController extends attendance
 						$continuity->point = $obj->continuity_point;
 					}
 
+					/* 해당 코드 문제점으로 더이상 코드에서 제외
 					if($config->continuity_monthly == 'yes')
 					{
 						if($continuity->data % 30 === 0)
@@ -169,6 +170,7 @@ class attendanceController extends attendance
 							$obj->perfect_m = 'Y';
 						}
 					}
+					*/
 					$continuity->data++;
 				}
 				else
@@ -223,14 +225,11 @@ class attendanceController extends attendance
 			{
 				$obj->today_point += $config->yearly_point;
 			}
-			if($about_perfect->monthly_perfect == 1 && $config->continuity_monthly != 'yes')
+			if($about_perfect->monthly_perfect == 1)
 			{
 				$obj->today_point += $config->monthly_point;
 			}
-			elseif($config->continuity_monthly == 'yes' && $obj->perfect_m == 'Y')
-			{
-				$obj->today_point += $config->monthly_point;
-			}
+
 			$week = $oAttendanceModel->getWeek($today);
 			$weekly_data = $oAttendanceModel->getWeeklyData($logged_info->member_srl, $week);
 			if($weekly_data->weekly == 6)
