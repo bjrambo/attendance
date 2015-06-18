@@ -49,6 +49,10 @@
 			<description />
 		</var>
 
+		<var name="greetings_cut_size" type="text">
+			<title xml:lang="ko">출석인사말갯수</title>
+		</var>
+
 		<var name="display_ip_address" type="select">
 			<title xml:lang="ko">아이피주소 표시</title>
 			<title xml:lang="en">Display ip address</title>

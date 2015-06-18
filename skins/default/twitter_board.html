@@ -168,7 +168,7 @@
 									{cut_str($oDocument->getContentText(text))}
 								<!--@else-->
 									{@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
-									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{$greetings_filtering}
+									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
 									<!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
 									<!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
 									<!--@else-->{$lang->default_greetings}
