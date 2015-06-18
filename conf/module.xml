@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions>
-        <permission action="dispAttendanceAdminList" target="manager" />
+	<grants />
+	<permissions>
+		<permission action="dispAttendanceAdminList" target="manager" />
 		<permission action="dispAttendanceAdminGift" target="manager" />
+		
 		<permission action="procAttendanceAdminInsertGift" target="manager"/>
 		<permission action="procAttendanceAdminInsertAttendance" target="manager"/>
-        <permission action="procAttendanceAdminDeleteAllData" target="manager"/>
-        <permission action="procAttendanceAdminInitAll" target="manager"/>
-        <permission action="procAttendanceAdminUpdatePoint" target="manager"/>
-        <permission action="procAttendanceInsertConfig" target="manager"/>
-        <permission action="dispAttendanceAdminBoardConfig" target="manager"/>
-        <permission action="dispAttendanceAdminBoardSkinConfig" target="manager"/>
+		<permission action="procAttendanceAdminDeleteAllData" target="manager"/>
+		<permission action="procAttendanceAdminInitAll" target="manager"/>
+		<permission action="procAttendanceAdminUpdatePoint" target="manager"/>
+		<permission action="procAttendanceInsertConfig" target="manager"/>
+		<permission action="dispAttendanceAdminBoardConfig" target="manager"/>
+		<permission action="dispAttendanceAdminBoardSkinConfig" target="manager"/>
 		<permission action="dispAttendanceAdminBoardAdditionSetup" target="manager"/>
-        <permission action="procAttendanceAdminDeleteBoard" target="manager"/>
-        <permission action="dispAttendanceAdminGrantList" target="manager"/>
-        <permission action="dispAttendanceAdminModifyAttendance" target="manager"/>
-        <permission action="dispAttendanceMobileModifyAttendance" target="manager"/>
-    </permissions>
-    <actions>
-	    <action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
+		<permission action="procAttendanceAdminDeleteBoard" target="manager"/>
+		<permission action="dispAttendanceAdminGrantList" target="manager"/>
+		<permission action="dispAttendanceAdminModifyAttendance" target="manager"/>
+		<permission action="dispAttendanceMobileModifyAttendance" target="manager"/>
+	</permissions>
+	<actions>
+		<action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
 		<action name="dispAttendanceAdminGift" type="view" standalone="true" />
-	    <action name="procAttendanceInsertAttendance" type="controller" standalone="true" ruleset="attendanceinsert" />
+		<action name="procAttendanceInsertAttendance" type="controller" standalone="true" ruleset="attendanceinsert" />
 		<action name="procAttendanceAdminInsertAttendance" type="controller" standalone="true" />
 		<action name="procAttendanceAdminInsertGift" type="controller" standalone="true" />
-	    <action name="procAttendanceInsertConfig" type="controller" standalone="true" />
-	    <action name="procAttendanceDeleteData" type="controller" standalone="true" />
-	    <action name="procAttendanceCheckData" type="controller" standalone="true" />
-        <action name="procAttendanceAdminDeleteAllData" type="controller" standalone="true" />
-        <action name="procAttendanceAdminUpdatePoint" type="controller" standalone="true" />
-        <action name="procAttendanceAdminFixTotalData" type="controller" standalone="true" />
-        <action name="procAttendanceAdminFixAttendanceData" type="controller" standalone="true" />
-        <action name="procAttendanceAdminInsertBoard" type="controller" standalone="true" />
-        <action name="procAttendanceAdminInitAll" type="controller" standalone="true" />
-        <action name="dispAttendancePersonalInfo" type="view" standalone="true" />
+		<action name="procAttendanceInsertConfig" type="controller" standalone="true" />
+		<action name="procAttendanceDeleteData" type="controller" standalone="true" />
+		<action name="procAttendanceCheckData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminDeleteAllData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminUpdatePoint" type="controller" standalone="true" />
+		<action name="procAttendanceAdminFixTotalData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminFixAttendanceData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminInsertBoard" type="controller" standalone="true" />
+		<action name="procAttendanceAdminInitAll" type="controller" standalone="true" />
+		<action name="dispAttendancePersonalInfo" type="view" standalone="true" />
 		<action name="procAttendanceAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="dispAttendanceAdminBoardAdditionSetup" type="view" />
-        <action name="dispAttendanceBoard" type="view" standalone="true" index="true" />
+		<action name="dispAttendanceBoard" type="view" standalone="true" index="true" />
 	<action name="dispAttendanceBoardGiftList" type="view" standalone="true" />
-        <action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" setup_index="true" />
-        <action name="dispAttendanceAdminBoardSkinConfig" type="view" standalone="true" />
+		<action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" setup_index="true" />
+		<action name="dispAttendanceAdminBoardSkinConfig" type="view" standalone="true" />
 		<action name="dispAttendanceAdminMobileBoardSkinConfig" type="view" standalone="true" />
-        <action name="procAttendanceAdminDeleteBoard" type="controller" standalone="true" />
-        <action name="dispAttendanceAdminGrantList" type="view" standalone="true"/>
-        <action name="dispAttendanceAdminModifyAttendance" type="view" standalone="true"/>
-        <action name="procAttendanceModifyData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminDeleteBoard" type="controller" standalone="true" />
+		<action name="dispAttendanceAdminGrantList" type="view" standalone="true"/>
+		<action name="dispAttendanceAdminModifyAttendance" type="view" standalone="true"/>
+		<action name="procAttendanceModifyData" type="controller" standalone="true" />
 
-        <action name="dispAttendanceMobileModifyAttendance" type="mobile" />
-    </actions>
+		<action name="dispAttendanceMobileModifyAttendance" type="mobile" />
+	</actions>
 </module>
