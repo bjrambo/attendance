@@ -98,7 +98,10 @@ class attendanceController extends attendance
 		$obj->member_srl = $logged_info->member_srl;
 
 		//관리자 출석이 허가가 나지 않았다면,
-		if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y') return;
+		if($config->about_admin_check != 'yes' && $logged_info->is_admin=='Y')
+		{
+			return new Object(-1, '관리자는 출석할 수 없습니다.');
+		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
@@ -160,16 +163,6 @@ class attendanceController extends attendance
 						$obj->today_point += $obj->continuity_point;
 						$continuity->point = $obj->continuity_point;
 					}
-
-					/* 해당 코드 문제점으로 더이상 코드에서 제외
-					if($config->continuity_monthly == 'yes')
-					{
-						if($continuity->data % 30 === 0)
-						{
-							$obj->perfect_m = 'Y';
-						}
-					}
-					*/
 					$continuity->data++;
 				}
 				else
@@ -1019,6 +1012,7 @@ class attendanceController extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$config = $oAttendanceModel->getConfig();
 		$logged_info = Context::get('logged_info');
+		$act = Context::get('act');
 
 		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
 		{
