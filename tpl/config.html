@@ -382,6 +382,14 @@
 				<p>{$lang->continuity_monthly_help}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">인사말 설정</label>
+			<div class="x_controls">
+				<textarea name="greeting_list" style="width:300px; height:200px;">{htmlspecialchars($config->greeting_list)}</textarea>
+				<p>출석 인사말을 남길 수 있습니다. 출석 인사말구분은 엔터로 구분합니다. 한줄씩 내려서 기록하시면 됩니다. (여러개 사용가능합니다.)</p>
+			</div>
+
+		</div>
 	</section>
 
 	<div class="x_clearfix btnArea">

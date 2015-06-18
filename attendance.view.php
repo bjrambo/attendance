@@ -87,6 +87,16 @@ class attendanceView extends attendance
 		$oModuleModel = getModel('module');
 		$config = $oAttendanceModel->getConfig();
 
+		if($config->greeting_list)
+		{
+			$greeting_list = explode("\r\n", $config->greeting_list);
+			$grc = count($greeting_list);
+			$rands = mt_rand(0, $grc-1);
+			$greeting_name = $greeting_list[$rands];
+			
+			Context::set('greeting_name', $greeting_name);
+		}
+
 		//출석가능 시간대인지 판단
 		$is_available = $oAttendanceModel->availableCheck($config);
 

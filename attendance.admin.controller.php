@@ -111,6 +111,7 @@ class attendanceAdminController extends attendance
 		$config->giftname = $obj->giftname;
 		$config->manygiftlist = $obj->manygiftlist;
 		$config->gift_random = $obj->gift_random;
+		$config->greeting_list = $obj->greeting_list;
 
 		$this->setMessage('success_updated');
 
