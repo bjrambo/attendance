@@ -23,9 +23,28 @@
 	}
 </script>
 
+<script language="JavaScript"> 
+function printTime() { 
+var clock = document.getElementById("clock"); 
+var now = new Date(); 
+
+clock.innerHTML = now.getFullYear() + "년 " + 
+(now.getMonth()+1) + "월 " + 
+now.getDate() + "일 " + 
+now.getHours() + "시 " + 
+now.getMinutes() + "분 " + 
+now.getSeconds() + "초"; 
+
+setTimeout("printTime()", 50); 
+} 
+
+window.onload = function() { 
+printTime(); 
+}; 
+</script> 
 
 <div class="navi">
-	<strong class="att-btn att-btn-primary"><i class="fa fa-calendar"></i> {$year}년 {$month}월 {$day}일</strong>
+	<strong class="att-btn att-btn-primary"><i class="fa fa-calendar"></i> <span id="clock"></span></strong>
 	<!--@if($logged_info->is_admin=='Y')-->
 		<span style="margin-left:20px;">
 			<!--@if($module_info->display_setup_button!="N" && ($logged_info->is_admin=="Y" || $grant->manager == 1) )-->

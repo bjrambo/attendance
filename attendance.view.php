@@ -137,6 +137,11 @@ class attendanceView extends attendance
 	{
 		$logged_info = Context::get('logged_info');
 
+		if(!$logged_info)
+		{
+			return new Object(-1, '로그인 사용자만 이용 가능합니다.');
+		}
+
 		$args = new stdClass;
 		$args->page = Context::get('page');
 		$args->list_count = '20';

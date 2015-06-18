@@ -372,6 +372,16 @@
 				<p>{$lang->birthday_member_help}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->continuity_monthly}</label>
+			<div class="x_controls">
+				<select name="continuity_monthly">
+					<option value="no" selected="selected"|cond="$config->continuity_monthly=='no'">{$lang->monthly_one}</option>
+					<option value="yes" selected="selected"|cond="$config->continuity_monthly=='yes'">{$lang->monthly_two}</option>
+				</select>
+				<p>{$lang->continuity_monthly_help}</p>
+			</div>
+		</div>
 	</section>
 
 	<div class="x_clearfix btnArea">

@@ -23,7 +23,12 @@ class attendanceController extends attendance
 	function procAttendanceInsertAttendance()
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
-		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
+		if($_SESSION['is_attended'] == $today)
+		{
+			return new Object(-1,'attend_already_checked');
+		}
+
+		$_SESSION['is_attended'] = $today;
 
 		/*attendance model 객체 생성*/
 		$oAttendanceController = getController('attendance');
@@ -41,7 +46,7 @@ class attendanceController extends attendance
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
 
-		$oAttendanceController->insertAttendance($obj->about_position, $obj->greetings);
+		$output = $oAttendanceController->insertAttendance($obj->about_position, $obj->greetings);
 
 		$this->setMessage('att_success');
 
@@ -51,7 +56,6 @@ class attendanceController extends attendance
 			header('location: ' . $returnUrl);
 			return;
 		}
-
 	}
 
 
@@ -96,9 +100,6 @@ class attendanceController extends attendance
 		//관리자 출석이 허가가 나지 않았다면,
 		if($config->about_admin_check == 'no' && $logged_info->is_admin=='Y') return;
 
-		//오늘 출석시 리턴.
-		if($_SESSION['is_attended'] == $today) return new Object(-1,'attend_already_checked');
-
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
 		{
@@ -120,8 +121,6 @@ class attendanceController extends attendance
 				$is_logged = true;
 			}
 		}
-
-		$_SESSION['is_attended'] = $today;
 
 		//logged && 기록이 없고, 출석 제한 시간대가 아니면
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl)==0 && $oAttendanceModel->availableCheck($config) == 0 && $is_logged)
