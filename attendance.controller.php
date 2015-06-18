@@ -17,6 +17,41 @@ class attendanceController extends attendance
 	{
 	}
 
+	function procAttendanceModifyContinuous()
+	{
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, '관리자만 설정이 가능합니다.');
+		}
+
+		$oAttendanceModel = getModel('attendance');
+		$obj = Context::getRequestVars();
+		$member_srl = $obj->member_srl;
+		if(!$member_srl)
+		{
+			return new Object(-1, '회원번호는 필수 입니다.');
+		}
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->continuity = $obj->continuity;
+		$output = executeQuery('attendance.updateTotal', $args);
+		if($output->toBool())
+		{
+			$this->setMessage('수정완료');
+		}
+		else
+		{
+			$this->errorMessage('에러발생');
+		}
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		{
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance', 'act', 'dispAttendanceModifyContinuous', 'member_srl', $member_srl);
+			header('location: ' . $returnUrl);
+			return;
+		}
+	}
+
 	/**
 	 * @brief 출석부 기록
 	 **/

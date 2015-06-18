@@ -12,11 +12,14 @@
 
 <section class="xl">
 	<ul class="nav nav-tabs">
-		<li class="active"|cond="$act!='dispAttendanceBoardGiftList'">
+		<li class="active"|cond="$act!='dispAttendanceBoardGiftList' && $act != 'dispAttendanceModifyContinuous'">
 			<a href="{getUrl('','mid','attendance','act','dispAttendanceBoard')}">출석부</a>
 		</li>
 		<li class="active"|cond="$act=='dispAttendanceBoardGiftList'" cond="$is_logged">
 			<a href="{getUrl('','mid','attendance','act','dispAttendanceBoardGiftList')}">받은선물리스트</a>
+		</li>
+		<li class="active"|cone="$act=='dispAttendanceModifyContinuous'" cond="$is_logged && $act=='dispAttendanceModifyContinuous' && $logged_info->is_admin=='Y'">
+			<a href="{getUrl('','mid','attendance','act','dispAttendanceModifyContinuous')}">연속출석 수정</a>
 		</li>
 	</ul>
 

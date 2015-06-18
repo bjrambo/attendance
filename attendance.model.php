@@ -357,6 +357,19 @@ class attendanceModel extends attendance
 		return $continuity;
 	}
 
+	function getContinuityDataByMemberSrl($member_srl)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+
+		$output = executeQuery('attendance.getContinuityData', $args);
+		if(count($output->data) != '1')
+		{
+			return new Object(-1, '한명의 회원의 정보만 입력이 가능합니다.');
+		}
+		return $output->data;
+	}
+
 	/**
 	 * @brief attendance_total 테이블 기록
 	 */

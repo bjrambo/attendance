@@ -87,6 +87,9 @@ class attendanceView extends attendance
 		$oModuleModel = getModel('module');
 		$config = $oAttendanceModel->getConfig();
 
+		//출석가능 시간대인지 판단
+		$is_available = $oAttendanceModel->availableCheck($config);
+
 		if($config->greeting_list)
 		{
 			$greeting_list = explode("\r\n", $config->greeting_list);
@@ -97,8 +100,6 @@ class attendanceView extends attendance
 			Context::set('greeting_name', $greeting_name);
 		}
 
-		//출석가능 시간대인지 판단
-		$is_available = $oAttendanceModel->availableCheck($config);
 
 		//오름차순, 내림차순에 따라 출력방법 결정
 		if($module_info->order_type == 'desc')
@@ -166,5 +167,26 @@ class attendanceView extends attendance
 		Context::set('page_navigation', $output->page_navigation);
 		/*템플릿 설정*/
 		$this->setTemplateFile('gift');
+	}
+
+	function dispAttendanceModifyContinuous()
+	{
+		$logged_info = Context::get('logged_info');
+		if($logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, '관리자만 접속 할 수 있습니다.');
+		}
+
+		$member_srl = Context::get('member_srl');
+		if(!$member_srl)
+		{
+			return new Object(-1, '회원번호는 필수입니다.');
+		}
+		$oAttendanceModel = getModel('attendance');
+		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl);
+		debugPrint($data);
+		Context::set('data', $data);
+		$this->setTemplateFile('continuous');
+		
 	}
 }
