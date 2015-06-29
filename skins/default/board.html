@@ -99,7 +99,7 @@
 					$perfect_de = $selected_date - date("Ymd");
 					$perfect_dec = $total_info->continuity + $perfect_de;
 				}
-				<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}">
+				<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}"|cond="$logged_info->is_admin == 'Y'">
 				<!--@if($perfect_dec > 0)-->
 				&nbsp;{$perfect_dec} 일째
 				<!--@else-->

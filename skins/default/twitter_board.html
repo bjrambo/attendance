@@ -84,39 +84,29 @@
 					</li>
 					<li class="lulu-info-item time-ago left">{substr($data->regdate,8,2).":".substr($data->regdate,10,2).":".substr($data->regdate,12,2)}</li>
 					<li class="lulu-info-item cla-comments right">
-						<!--@if(!$data->a_continuity)-->
-							<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-							<span class="label label-info">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->monthly_perfect)-->
-							<span class="label label-success">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->yearly_perfect)-->
-							<span class="label label-warning">{$lang->attendance_perfect}</span>
-							<!--@else-->
-							{@ 
-								$oAttendanceModel = &getModel('attendance');
-								$total_info = $oAttendanceModel->getTotalData($member->member_srl);
-								$perfect_de = $selected_date - date("Ymd");
-								$perfect_dec = $total_info->continuity + $perfect_de;
-							}
-							<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}">
-							<!--@if($perfect_dec > 0)-->
-							&nbsp;{$perfect_dec} 일째
-							<!--@else-->
-							0 일째
-							<!--@end-->
-							</a>
-							<!--@end-->
-						<!--@else-->
-							<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-							<span class="label label-info">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->monthly_perfect)-->
-							<span class="label label-success">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->yearly_perfect)-->
-							<span class="label label-warning">{$lang->attendance_perfect}</span>
-							<!--@else-->
-							{$data->a_continuity} 일째
-							<!--@end-->
-						<!--@end-->
+
+					<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+					<span class="label label-info">{$lang->attendance_perfect}</span>
+					<!--@elseif($is_perfect->monthly_perfect)-->
+					<span class="label label-success">{$lang->attendance_perfect}</span>
+					<!--@elseif($is_perfect->yearly_perfect)-->
+					<span class="label label-warning">{$lang->attendance_perfect}</span>
+					<!--@else-->
+					{@ 
+						$oAttendanceModel = &getModel('attendance');
+						$total_info = $oAttendanceModel->getTotalData($member->member_srl);
+						$perfect_de = $selected_date - date("Ymd");
+						$perfect_dec = $total_info->continuity + $perfect_de;
+					}
+					<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}"|cond="$logged_info->is_admin == 'Y'">
+					<!--@if($perfect_dec > 0)-->
+					&nbsp;{$perfect_dec} 일째
+					<!--@else-->
+					0 일째
+					<!--@end-->
+					</a>
+					<!--@end-->
+
 					</li>
 					<li class="lulu-info-item bullet right" >•</li>
 					<li class="lulu-info-item cla-comments right">
