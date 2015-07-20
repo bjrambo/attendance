@@ -58,6 +58,8 @@ class attendanceController extends attendance
 	function procAttendanceInsertAttendance()
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
+		debugPrint($_SESSION);
+
 		if($_SESSION['is_attended'] == $today)
 		{
 			return new Object(-1,'attend_already_checked');
@@ -75,6 +77,7 @@ class attendanceController extends attendance
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if($ip_count >= $config->allow_duplicaton_ip_count)
 		{
+			$_SESSION['is_attended'] = 0;
 			return new Object(-1, 'attend_allow_duplicaton_ip_count');
 		}
 
@@ -135,12 +138,14 @@ class attendanceController extends attendance
 		//관리자 출석이 허가가 나지 않았다면,
 		if($config->about_admin_check != 'yes' && $logged_info->is_admin=='Y')
 		{
+			$_SESSION['is_attended'] = 0;
 			return new Object(-1, '관리자는 출석할 수 없습니다.');
 		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
 		{
+			$_SESSION['is_attended'] = 0;
 			return new Object(-1, 'attend_already_checked');
 		}
 
@@ -148,6 +153,7 @@ class attendanceController extends attendance
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if($ip_count >= $config->allow_duplicaton_ip_count)
 		{
+			$_SESSION['is_attended'] = 0;
 			return new Object(-1, 'attend_allow_duplicaton_ip_count');
 		}
 
@@ -396,9 +402,6 @@ class attendanceController extends attendance
 
 			if($config->use_document == 'yes')
 			{
-				// document module의 model 객체 생성
-				$oDocumentModel = getModel('document');
-
 				// document module의 controller 객체 생성
 				$oDocumentController = getController('document');
 

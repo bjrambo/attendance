@@ -64,6 +64,10 @@ class attendanceAdminController extends attendance
 		{
 			$obj->diligence_weekly = 6;
 		}
+		if($obj->allow_duplicaton_ip_count > 0)
+		{
+			$obj->allow_duplicaton_ip_count = 3;
+		}
 		$config = new stdClass;
 		$config->about_admin_check = $obj->about_admin_check;
 		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;

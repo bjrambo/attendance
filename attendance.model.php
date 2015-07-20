@@ -25,17 +25,18 @@ class attendanceModel extends attendance
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
 
-			if(!$config->add_point) $config->add_point == '5';
-			if(!$config->first_point) $config->first_point == '30';
-			if(!$config->second_point) $config->second_point == '15';
-			if(!$config->third_point) $config->third_point == '5';
-			if(!$config->yearly_point) $config->yearly_point == '500';
-			if(!$config->monthly_point) $config->monthly_point == '50';
-			if(!$config->weekly_point) $config->weekly_point == '5';
-			if(!$config->about_target) $config->about_target == 'no';
-			if(!$config->about_continuity) $config->about_continuity == 'no';
-			if(!$config->about_time_control) $config->about_time_control == 'no';
-			if(!$config->about_diligence_yearly) $config->about_diligence_yearly == 'no';
+			if(!$config->add_point) $config->add_point = '5';
+			if(!$config->first_point) $config->first_point = '30';
+			if(!$config->second_point) $config->second_point = '15';
+			if(!$config->third_point) $config->third_point = '5';
+			if(!$config->yearly_point) $config->yearly_point== '500';
+			if(!$config->monthly_point) $config->monthly_point = '50';
+			if(!$config->weekly_point) $config->weekly_point = '5';
+			if(!$config->about_target) $config->about_target = 'no';
+			if(!$config->about_continuity) $config->about_continuity = 'no';
+			if(!$config->about_time_control) $config->about_time_control = 'no';
+			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
+			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
 			//if(!$config->) $config-> == '';
 
 			$this->config = $config;
