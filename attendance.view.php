@@ -184,7 +184,6 @@ class attendanceView extends attendance
 		}
 		$oAttendanceModel = getModel('attendance');
 		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl);
-		debugPrint($data);
 		Context::set('data', $data);
 		$this->setTemplateFile('continuous');
 		

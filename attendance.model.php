@@ -9,7 +9,7 @@
 
 class attendanceModel extends attendance
 {
-	var $config;
+	private static $config = NULL;
 
 	/**
 	 * @brief 초기화
@@ -20,7 +20,7 @@ class attendanceModel extends attendance
 
 	function getConfig()
 	{
-		if(!$this->config)
+		if(self::$config === NULL)
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
@@ -37,12 +37,11 @@ class attendanceModel extends attendance
 			if(!$config->about_time_control) $config->about_time_control = 'no';
 			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
 			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
-			//if(!$config->) $config-> == '';
 
-			$this->config = $config;
+			self::$config = $config;
 		}
 
-		return $this->config;
+		return self::$config;
 	}
 
 	/**
@@ -135,7 +134,7 @@ class attendanceModel extends attendance
 	 */
 	function getAttendanceData($member_srl, $selected_date)
 	{
-		$flag=false;
+		$flag = false;
 		$arg = new stdClass;
 		$arg->member_srl = $member_srl;
 		$arg->selected_date = $selected_date;
