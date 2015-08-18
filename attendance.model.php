@@ -37,6 +37,7 @@ class attendanceModel extends attendance
 			if(!$config->about_time_control) $config->about_time_control = 'no';
 			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
 			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
+			if(!$config->about_admin_check) $config->about_admin_check = 'yes';
 
 			self::$config = $config;
 		}
