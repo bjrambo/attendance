@@ -19,6 +19,9 @@ class attendanceController extends attendance
 
 	function procAttendanceModifyContinuous()
 	{
+		$logged = adsfasdf();
+		
+
 		$logged_info = Context::get('logged_info');
 
 		if($logged_info->is_admin != 'Y')
@@ -101,7 +104,7 @@ class attendanceController extends attendance
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
 
-		$output = self::insertAttendance($obj->about_position, $obj->greetings);
+		$output = self::insertAttendance($obj->about_position, $config, $obj->greetings);
 
 		if($output->toBool())
 		{
@@ -688,7 +691,7 @@ class attendanceController extends attendance
 				$weekly_point -= $daily_info->today_point;
 				if($weekly_point < 0){ $weekly_point = 0; }
 				/*주간 출석데이터 업데이트*/
-				$oAttendanceModel->updateWeekly($obj->member_srl, $week, $weekly_data, $weekly_point, $regdate);	
+				$oAttendanceModel->updateWeekly($obj->member_srl, $week, $weekly_data, $weekly_point, $regdate);
 			}
 			$this->setMessage("success_deleted");
 		}
