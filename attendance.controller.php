@@ -59,7 +59,13 @@ class attendanceController extends attendance
 	function procAttendanceInsertAttendance()
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
-		debugPrint($_SESSION);
+
+		/*attendance model 객체 생성*/
+		$oAttendanceModel = getModel('attendance');
+
+		$logged_info = Context::get('logged_info');
+
+		$config = $oAttendanceModel->getConfig();
 
 		if($_SESSION['is_attended'] == $today)
 		{
@@ -68,13 +74,21 @@ class attendanceController extends attendance
 
 		$_SESSION['is_attended'] = $today;
 
-		/*attendance model 객체 생성*/
-		$oAttendanceController = getController('attendance');
-		$oAttendanceModel = getModel('attendance');
-		$obj = Context::getRequestVars();
+		//관리자 출석이 허가가 나지 않았다면,
+		if($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
+		{
+			$_SESSION['is_attended'] = 0;
+			return new Object(-1, '관리자는 출석할 수 없습니다.');
+		}
 
-		$config = $oAttendanceModel->getConfig();
+		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
+		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
+		{
+			$_SESSION['is_attended'] = 0;
+			return new Object(-1, 'attend_already_checked');
+		}
 
+		//ip중복 횟수 확인
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if($ip_count >= $config->allow_duplicaton_ip_count)
 		{
@@ -82,12 +96,21 @@ class attendanceController extends attendance
 			return new Object(-1, 'attend_allow_duplicaton_ip_count');
 		}
 
+		$obj = Context::getRequestVars();
+
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
 		if(preg_match("/^\#/",$obj->greetings)) return new Object(-1, 'attend_greetings_error');
 
-		$output = $oAttendanceController->insertAttendance($obj->about_position, $obj->greetings);
+		$output = self::insertAttendance($obj->about_position, $obj->greetings);
 
-		$this->setMessage('att_success');
+		if($output->toBool())
+		{
+			$this->setMessage('att_success');
+		}
+		else
+		{
+			return new Object(-1, '에러?');
+		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
@@ -101,7 +124,7 @@ class attendanceController extends attendance
 	/**
 	 * @brief 출석부 기록 함수
 	 */
-	function insertAttendance($about_position, $greetings, $member_srl=null)
+	function insertAttendance($about_position, $greetings, $config, $member_srl=null)
 	{
 		$oAttendanceModel = getModel('attendance');
 		/*사용자 정보 로드*/
@@ -124,9 +147,6 @@ class attendanceController extends attendance
 		$year_month = zDate(date('YmdHis'),"Ym");
 		$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
 
-		$oModuleModel = getModel('module');
-		$config = $oAttendanceModel->getConfig();
-
 		//포인트 모듈 연동
 		$oPointController = getController('point');
 		$obj = new stdClass;
@@ -135,28 +155,6 @@ class attendanceController extends attendance
 		$obj->today_point = $config->add_point;
 		$obj->greetings = $greetings;
 		$obj->member_srl = $logged_info->member_srl;
-
-		//관리자 출석이 허가가 나지 않았다면,
-		if($config->about_admin_check != 'yes' && $logged_info->is_admin=='Y')
-		{
-			$_SESSION['is_attended'] = 0;
-			return new Object(-1, '관리자는 출석할 수 없습니다.');
-		}
-
-		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
-		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
-		{
-			$_SESSION['is_attended'] = 0;
-			return new Object(-1, 'attend_already_checked');
-		}
-
-		//ip중복 횟수 확인
-		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
-		if($ip_count >= $config->allow_duplicaton_ip_count)
-		{
-			$_SESSION['is_attended'] = 0;
-			return new Object(-1, 'attend_allow_duplicaton_ip_count');
-		}
 
 		$is_logged = Context::get('is_logged');
 		if(!$is_logged)
@@ -391,7 +389,7 @@ class attendanceController extends attendance
 
 			if(!$logged_info->member_srl)
 			{
-				return;
+				return new Object(-1, '로그인 사용자만 가능합니다.');
 			}
 
 			$oModule = getModel('module');
@@ -547,6 +545,8 @@ class attendanceController extends attendance
 				$oAttendanceModel->updateWeekly($logged_info->member_srl, $week, $weekly_data, $weekly_point, null);	
 			}
 		}
+
+		return $output;
 	}
 
 	/**
