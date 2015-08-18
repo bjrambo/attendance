@@ -33,7 +33,7 @@ class attendanceView extends attendance
 		$oAttendanceModel = getModel('attendance');
 
 		$selected_date = Context::get('selected_date');
-		$date_info = new stdClass;
+		$date_info = new stdClass();
 		if(!$selected_date)
 		{
 			$date_info->year = zDate(date('YmdHis'),"Y");
@@ -120,7 +120,7 @@ class attendanceView extends attendance
 		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
 
 		//출석달력 설정
-		$date_info = new stdClass;
+		$date_info = new stdClass();
 		$date_info->_year = substr($selected_date,0,4);
 		$date_info->_month = substr($selected_date,4,2);
 		$date_info->_day = substr($selected_date,6,2);
@@ -153,7 +153,7 @@ class attendanceView extends attendance
 			return new Object(-1, '로그인 사용자만 이용 가능합니다.');
 		}
 
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->list_count = '20';
 		$args->page_count = '10';
@@ -172,6 +172,7 @@ class attendanceView extends attendance
 	function dispAttendanceModifyContinuous()
 	{
 		$logged_info = Context::get('logged_info');
+
 		if($logged_info->is_admin != 'Y')
 		{
 			return new Object(-1, '관리자만 접속 할 수 있습니다.');
@@ -186,6 +187,5 @@ class attendanceView extends attendance
 		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl);
 		Context::set('data', $data);
 		$this->setTemplateFile('continuous');
-		
 	}
 }

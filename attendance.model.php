@@ -29,7 +29,7 @@ class attendanceModel extends attendance
 			if(!$config->first_point) $config->first_point = '30';
 			if(!$config->second_point) $config->second_point = '15';
 			if(!$config->third_point) $config->third_point = '5';
-			if(!$config->yearly_point) $config->yearly_point== '500';
+			if(!$config->yearly_point) $config->yearly_point = '500';
 			if(!$config->monthly_point) $config->monthly_point = '50';
 			if(!$config->weekly_point) $config->weekly_point = '5';
 			if(!$config->about_target) $config->about_target = 'no';
@@ -50,8 +50,11 @@ class attendanceModel extends attendance
 	function getAttendanceInfo()
 	{
 		$output = executeQuery('attendance.getAttendance');
-		if(!$output->data->module_srl) return;
-		$oModuleModel = &getModel('module');
+		if(!$output->data->module_srl)
+		{
+			return;
+		}
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
 
 		return $module_info;
@@ -62,7 +65,7 @@ class attendanceModel extends attendance
 	 */
 	function getDuplicateIpCount($today, $ipaddress)
 	{
-		$obj = new stdClass;
+		$obj = new stdClass();
 		$obj->today = $today;
 		$obj->ipaddress = $ipaddress;
 		$output = executeQuery('attendance.getDuplicateIpCount', $obj);
@@ -86,7 +89,7 @@ class attendanceModel extends attendance
 	 */
 	function getUserAttendanceData($member_srl, $date)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->date = $date;
 		$output = executeQuery('attendance.getUserAttendanceData',$arg);
@@ -98,7 +101,7 @@ class attendanceModel extends attendance
 	 */
 	function getGreetingsData($document_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->greetings = $document_srl;
 		$output = executeQuery('attendance.getGreetingsData',$arg);
 		return $output->data;
@@ -109,7 +112,7 @@ class attendanceModel extends attendance
 	 */
 	function updateAttendance($attendance_srl, $regdate, $today_point=null, $member_srl=null, $greetings=null)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->attendance_srl = $attendance_srl;
 		$arg->regdate = $regdate;
 		$arg->today_point = $today_point;
@@ -123,7 +126,7 @@ class attendanceModel extends attendance
 	 */
 	function getAttendanceDataSrl($attendance_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->attendance_srl = $attendance_srl;
 		$output = executeQuery('attendance.getAttendanceDataSrl',$arg);
 		return $output->data;
@@ -135,7 +138,7 @@ class attendanceModel extends attendance
 	function getAttendanceData($member_srl, $selected_date)
 	{
 		$flag = false;
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->selected_date = $selected_date;
 		$output = executeQuery('attendance.getAttendanceData',$arg);
@@ -156,7 +159,7 @@ class attendanceModel extends attendance
 	 */
 	function getAttendanceList($list_count, $today)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->now = $today;
 		$args->list_count = $list_count;
@@ -170,7 +173,7 @@ class attendanceModel extends attendance
 	 */
 	function getInverseList($list_count, $today)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->now = $today;
 		$args->list_count = $list_count;
@@ -184,7 +187,7 @@ class attendanceModel extends attendance
 	 */
 	function getMonthlyData($monthly, $member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getMonthlyData', $args);
@@ -196,7 +199,7 @@ class attendanceModel extends attendance
 	 */
 	function getYearlyData($yearly, $member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->yearly = $yearly;
 		$args->member_srl=$member_srl;
 		$output = executeQuery('attendance.getYearlyData', $args);
@@ -208,7 +211,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsChecked($member_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->day = zDate(date('YmdHis'),"Ymd");
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getIsChecked',$arg);
@@ -220,7 +223,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsCheckedA($member_srl, $today)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->day = $today;
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getIsChecked',$arg);
@@ -232,7 +235,7 @@ class attendanceModel extends attendance
      */
 	function getPositionData($today, $greetings=null)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->today = $today;
 		if($greetings)
 		{
@@ -271,7 +274,7 @@ class attendanceModel extends attendance
 		$is_perfect_m = $this->getMonthlyData($ym,$member_srl);
 		$is_perfect_y = $this->getYearlyData($current_year,$member_srl);
 
-		$arg = new stdClass;
+		$arg = new stdClass();
 
 		if($real == true)
 		{
@@ -324,7 +327,7 @@ class attendanceModel extends attendance
 	 */
 	function isExistTotal($member_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.isExistTotal',$arg);
 		return (int)$output->data->count;
@@ -335,7 +338,7 @@ class attendanceModel extends attendance
 	 */
 	function isExistContinuity($member_srl, $yesterday)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
 		$output = executeQuery('attendance.isExistContinuity',$arg);
@@ -347,11 +350,11 @@ class attendanceModel extends attendance
 	 */
 	function getContinuityData($member_srl, $yesterday)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
 		$output = executeQuery('attendance.getContinuityData',$arg);
-		$continuity = new stdClass;
+		$continuity = new stdClass();
 		$continuity->data = (int)$output->data->continuity;
 		$continuity->point = (int)$output->data->continuity_point;
 		return $continuity;
@@ -375,7 +378,7 @@ class attendanceModel extends attendance
 	 */
 	function insertTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->continuity = $continuity->data;
 		$arg->continuity_point = $continuity->point;
@@ -390,7 +393,7 @@ class attendanceModel extends attendance
 	 */
 	function updateTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->continuity = $continuity->data;
 		$arg->continuity_point = $continuity->point;
@@ -405,7 +408,7 @@ class attendanceModel extends attendance
 	 */
 	function getTotalAttendance($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl=$member_srl;
 		$output = executeQuery('attendance.getTotalAttendance', $args);
 		return (int)$output->data->total_count;
@@ -416,7 +419,7 @@ class attendanceModel extends attendance
 	 */
 	function getTotalPoint($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalPoint', $args);
 		return (int)$output->data->total_point;
@@ -428,10 +431,10 @@ class attendanceModel extends attendance
 	 */
 	function getTotalData($member_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalData',$arg);
-		$total_info = new stdClass;
+		$total_info = new stdClass();
 		$total_info->total = (int)$output->data->total;
 		$total_info->total_point = (int)$output->data->total_point;
 		$total_info->continuity_point = (int)$output->data->continuity_point;
@@ -448,7 +451,7 @@ class attendanceModel extends attendance
 	 */
 	function isExistYearly($member_srl, $year)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->year = $year;
 		$output = executeQuery('attendance.isExistYearly',$arg);
@@ -460,7 +463,7 @@ class attendanceModel extends attendance
      */
 	function insertYearly($member_srl, $yearly, $yearly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yearly = $yearly;
 		$arg->yearly_point = $yearly_point;
@@ -473,7 +476,7 @@ class attendanceModel extends attendance
 	 */
 	function updateYearly($member_srl, $year, $yearly, $yearly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yearly = $yearly;
 		$arg->yearly_point = $yearly_point;
@@ -487,11 +490,11 @@ class attendanceModel extends attendance
 	*/
 	function getYearlyAttendance($member_srl, $year)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->year = $year;
 		$output = executeQuery('attendance.getYearlyAttendance',$arg);
-		$year_data = new stdClass;
+		$year_data = new stdClass();
 		$year_data->yearly = (int)$output->data->yearly;
 		$year_data->yearly_point = (int)$output->data->yearly_point;
 		return $year_data;
@@ -507,7 +510,7 @@ class attendanceModel extends attendance
 	 */
 	function isExistMonthly($member_srl, $year_month)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->month = $year_month;
 		$output = executeQuery('attendance.isExistMonthly',$arg);
@@ -519,7 +522,7 @@ class attendanceModel extends attendance
 	 */
 	function insertMonthly($member_srl, $monthly, $monthly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->monthly = $monthly;
 		$arg->monthly_point = $monthly_point;
@@ -532,7 +535,7 @@ class attendanceModel extends attendance
 	 */
 	function updateMonthly($member_srl, $year_month, $monthly, $monthly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->monthly = $monthly;
 		$arg->monthly_point = $monthly_point;
@@ -546,11 +549,11 @@ class attendanceModel extends attendance
 	 */
 	function getMonthlyAttendance($member_srl, $year_month)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->month = $year_month;
 		$output = executeQuery('attendance.getMonthlyAttendance',$arg);
-		$month_data = new stdClass;
+		$month_data = new stdClass();
 		$month_data->monthly = (int)$output->data->monthly;
 		$month_data->monthly_point = (int)$output->data->monthly_point;
 		return $month_data;
@@ -570,7 +573,7 @@ class attendanceModel extends attendance
 		{
 			return 0;
 		}
-		$week = new stdClass;
+		$week = new stdClass();
 		$week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today)))."235959";
 		$week->sunday1 = date('Ymd', strtotime('SUNDAY', strtotime($today)));
 		$week->monday = date('Ymd', strtotime('last MONDAY', strtotime($week->sunday)))."000000";
@@ -582,7 +585,7 @@ class attendanceModel extends attendance
 	 */
 	function isExistWeekly($member_srl, $week)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->monday = $week->monday;
 		$arg->sunday = $week->sunday;
@@ -595,7 +598,7 @@ class attendanceModel extends attendance
 	 */
 	function getWeeklyAttendance($member_srl, $week)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
 		$arg->monday = $week->monday;
@@ -608,7 +611,7 @@ class attendanceModel extends attendance
 	 */
 	function insertWeekly($member_srl, $weekly, $weekly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->weekly = $weekly;
 		$arg->weekly_point = $weekly_point;
@@ -621,7 +624,7 @@ class attendanceModel extends attendance
 	 */
 	function updateWeekly($member_srl, $week, $weekly, $weekly_point, $regdate)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->weekly = $weekly;
 		$arg->sunday = $week->sunday;
@@ -636,12 +639,12 @@ class attendanceModel extends attendance
 	 */
 	function getWeeklyData($member_srl, $week)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
 		$arg->monday = $week->monday;
 		$output = executeQuery('attendance.getWeeklyData',$arg);
-		$week_data = new stdClass;
+		$week_data = new stdClass();
 		$week_data->weekly = (int)$output->data->weekly;
 		$week_data->weekly_point = (int)$output->data->weekly_point;
 		return $week_data;
@@ -658,9 +661,9 @@ class attendanceModel extends attendance
 
 		if($config->about_time_control == 'yes')
 		{
-			$start = new stdClass;
-			$end = new stdClass;
-			$now = new stdClass;
+			$start = new stdClass();
+			$end = new stdClass();
+			$now = new stdClass();
 			$start->hour = substr($config->start_time,0,2);
 			$start->min = substr($config->start_time,2,2);
 			$end->hour = substr($config->end_time,0,2);
@@ -749,7 +752,7 @@ class attendanceModel extends attendance
 	 */
 	function getGreetingsList($member_srl)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$output = executeQueryArray('attendance.getGreetingsList',$arg);
 		if(!$output->data) $output->data = array();

@@ -20,6 +20,7 @@ class attendanceController extends attendance
 	function procAttendanceModifyContinuous()
 	{
 		$logged_info = Context::get('logged_info');
+
 		if($logged_info->is_admin != 'Y')
 		{
 			return new Object(-1, '관리자만 설정이 가능합니다.');
