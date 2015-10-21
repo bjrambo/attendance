@@ -46,7 +46,7 @@
 	font-family: 'Helvetica Neue', Helvetica, 나눔고딕, NanumGothic, ng, 'Open Sans', 'Myriad Pro', Verdana, 돋움, dotum, sans-serif;
 }
 .lulu-list .lulu-main .bullet { 
-	font-size: 75%; color: #ccc; line-height:39px; padding:0 6px; 
+	font-size: 75%; color: #ccc; padding:0 6px;
 	font-family: "Helvetica Neue",arial,sans-serif;
 }
 .lulu-list .lulu-main .spotify {
