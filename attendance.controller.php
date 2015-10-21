@@ -19,8 +19,6 @@ class attendanceController extends attendance
 
 	function procAttendanceModifyContinuous()
 	{
-		
-
 		$logged_info = Context::get('logged_info');
 
 		if($logged_info->is_admin != 'Y')
@@ -556,7 +554,6 @@ class attendanceController extends attendance
 	 **/
 	function procAttendanceDeleteData()
 	{
-
 		//포인트 모듈 연동
 		$oPointController = getController('point');
 
