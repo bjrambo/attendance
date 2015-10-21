@@ -19,7 +19,6 @@ class attendanceController extends attendance
 
 	function procAttendanceModifyContinuous()
 	{
-		$logged = adsfasdf();
 		
 
 		$logged_info = Context::get('logged_info');
