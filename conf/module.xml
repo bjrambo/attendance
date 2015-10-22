@@ -48,6 +48,7 @@
 		<action name="dispAttendanceAdminGrantList" type="view" standalone="true"/>
 		<action name="dispAttendanceAdminModifyAttendance" type="view" standalone="true"/>
 		<action name="procAttendanceModifyData" type="controller" standalone="true" />
+		<action name="procAttendanceAdminCheckData" type="controller" />
 
 		<action name="dispAttendanceMobileModifyAttendance" type="mobile" />
 	</actions>

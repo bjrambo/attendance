@@ -419,8 +419,30 @@ class attendanceAdminController extends attendance
 			header('location: ' . $returnUrl);
 			return;
 		}
-
-
 	}
 
+
+	function procAttendanceAdminCheckData()
+	{
+		$obj = Context::getRequestVars();
+		$oAttendanceModel = getModel('attendance');
+		$config = $oAttendanceModel->getConfig();
+
+		$g_obj = new stdClass();
+
+		$g_obj->about_position = 'No';
+		$g_obj->greetings = '^admin_checked^';
+		$member_srl = $obj->member_srl;
+
+		//기록될 날짜부터
+		$r_args = new stdClass();
+		$r_args->regdate = sprintf('%s235959', $obj->check_day);
+		debugPrint($r_args->regdate);
+		$r_args->year = substr($obj->check_day,0,4);
+		$r_args->year_month = substr($obj->check_day,0,6);
+		$r_args->week = $oAttendanceModel->getWeek($obj->check_day);
+
+		$oAttendanceController = getController('attendance');
+		$output = $oAttendanceController->insertAttendance($g_obj, $config, $member_srl, $r_args);
+	}
 }
