@@ -161,7 +161,7 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			$today = zDate(date('YmdHis'),"Ymd");
+			$today = date('YmdHis');
 			$year = zDate(date('YmdHis'),"Y");
 			$year_month = zDate(date('YmdHis'),"Ym");
 			$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
@@ -437,7 +437,7 @@ class attendanceController extends attendance
 		/*접속자의 ip주소 기록*/
 		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$obj->attendance_srl = getNextSequence();
-		$obj->regdate = date('YmdHis');
+		$obj->regdate = $today;
 
 		/*Query 실행 : 출석부 기록*/
 		$output = executeQuery("attendance.insertAttendance", $obj);
