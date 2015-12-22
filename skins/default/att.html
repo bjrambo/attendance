@@ -1,19 +1,62 @@
 <div class="alert alert-warning">{$lang->attend_click_msg}</div>
 
 <div class="x">
-	<form action="./" method="post" id="click_button" style="text-align:center" class="write_author" ruleset="Attendanceinsert">                  
+	<form action="./" method="post" id="click_button" style="text-align:center" class="write_author" ruleset="Attendanceinsert">
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="act" value="procAttendanceInsertAttendance" />
 		<input type="hidden" name="xe_validator_id" value="modules/attendance/skins/default/attendanceinsert" />
 
 
 		<span class="input-append" style="width:100%; display:inline-block">
-	   
+
 			<input type="text" name="greetings" id="greetings" style="width:50%; height:26px" value="{$greeting_name}" class="write_text" />
 			<input type="hidden" name="about_position" value="yes" />
-			
 
-			<button type="submit" class="x_btn x_btn-inverse sm-btn"><i class="fa fa-paw fa-2x"></i></button>
+
+
+			<button type="submit" class="x_btn x_btn-inverse sm-btn" onclick="beCheckWrite(this)"><i class="fa fa-paw fa-2x"></i></button>
 		</span>
 	</form>
 </div>
+
+<script>
+	function beCheckWrite(obj){
+
+		var delaytime = 10000, // 몇초 후 재활성화 해줄 건지 설정 1000 = 1초
+				submingText = '출석중..', // 클릭했을 때 보여줄 멘트..
+				ori_text = '<i class="fa fa-paw fa-2x"></i>',
+				checkInput = false;
+
+//button 인지 submit인지 체크..
+		if(!ori_text){
+			checkInput = false;
+			ori_text = jQuery(obj).text();
+		}else{
+			checkInput = true;
+		}
+
+//현재 버튼 이름이 submingText와 동일한 경우 전송중으로 판단 전송하지 않음.
+		if(ori_text == submingText) return false;
+
+//우선 비활성화를 한다.
+//obj.disabled=true;
+
+//기존 멘트를 바꿔준다.
+		if(!checkInput){
+			jQuery(obj).text(submingText);
+		}else{
+			jQuery(obj).val(submingText);
+		}
+
+// 설정한 시간이 지나면 다시 활성화
+		setTimeout(function(){
+
+			if(checkInput) jQuery(obj).val(ori_text);
+			else jQuery(obj).text(ori_text);
+
+		},delaytime);
+
+		return true;
+
+	}
+</script>
