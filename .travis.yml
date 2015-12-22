@@ -4,8 +4,12 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7
+  - hhvm
 before_script:
   - npm install -g grunt-cli
   - npm install
 script:
   - grunt lint
+notifications:
+  slack: sosifam:syE5LOVu2BVezyxshh8y5LwJ
