@@ -158,7 +158,6 @@ class attendanceController extends attendance
 			$today = $r_args->regdate;
 			$year = $r_args->year;
 			$year_month = $r_args->year_month;
-			debugPrint('1');
 		}
 		else
 		{
@@ -166,9 +165,8 @@ class attendanceController extends attendance
 			$year = zDate(date('YmdHis'),"Y");
 			$year_month = zDate(date('YmdHis'),"Ym");
 			$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
-			debugPrint('2');
 		}
-		debugPrint($today);
+
 
 		//포인트 모듈 연동
 		$oPointController = getController('point');
@@ -439,11 +437,10 @@ class attendanceController extends attendance
 		/*접속자의 ip주소 기록*/
 		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$obj->attendance_srl = getNextSequence();
-		$obj->regdate = $today;
+		$obj->regdate = date('YmdHis');
 
 		/*Query 실행 : 출석부 기록*/
 		$output = executeQuery("attendance.insertAttendance", $obj);
-		debugPrint($output);
 		if(!$output->toBool())
 		{
 			return $output;
