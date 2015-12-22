@@ -20,43 +20,39 @@
 </div>
 
 <script>
-	function beCheckWrite(obj){
+function beCheckWrite(obj){
 
-		var delaytime = 10000, // 몇초 후 재활성화 해줄 건지 설정 1000 = 1초
-				submingText = '출석중..', // 클릭했을 때 보여줄 멘트..
-				ori_text = '<i class="fa fa-paw fa-2x"></i>',
-				checkInput = false;
-
-//button 인지 submit인지 체크..
-		if(!ori_text){
+	var delaytime = 10000,
+			submingText = '출석중..',
+			ori_text = '<i class="fa fa-paw fa-2x"></i>',
 			checkInput = false;
-			ori_text = jQuery(obj).text();
-		}else{
-			checkInput = true;
-		}
 
-//현재 버튼 이름이 submingText와 동일한 경우 전송중으로 판단 전송하지 않음.
-		if(ori_text == submingText) return false;
-
-//우선 비활성화를 한다.
-//obj.disabled=true;
-
-//기존 멘트를 바꿔준다.
-		if(!checkInput){
-			jQuery(obj).text(submingText);
-		}else{
-			jQuery(obj).val(submingText);
-		}
-
-// 설정한 시간이 지나면 다시 활성화
-		setTimeout(function(){
-
-			if(checkInput) jQuery(obj).val(ori_text);
-			else jQuery(obj).text(ori_text);
-
-		},delaytime);
-
-		return true;
-
+	if(!ori_text){
+		checkInput = false;
+		ori_text = jQuery(obj).text();
+	}else{
+		checkInput = true;
 	}
+
+
+	if(ori_text == submingText) return false;
+
+
+	//obj.disabled=true;
+
+
+	if(!checkInput){
+		jQuery(obj).text(submingText);
+	}else{
+		jQuery(obj).val(submingText);
+	}
+
+	// 설정한 시간이 지나면 다시 활성화
+	setTimeout(function(){
+		if(checkInput) jQuery(obj).val(ori_text);
+		else jQuery(obj).text(ori_text);
+	},delaytime);
+
+	return true;
+}
 </script>
