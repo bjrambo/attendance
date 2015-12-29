@@ -25,7 +25,7 @@ class attendanceAdminModel extends attendance
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
 		// 검색 옵션 정리
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
 		$args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
 		$args->selected_group_srl = Context::get('selected_group_srl');
@@ -210,7 +210,7 @@ class attendanceAdminModel extends attendance
 	 * @brief 오늘 총 출석인원 계산
 	 **/
 	function getTodayTotalCount($today){
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->today = $today;
 		$output = executeQuery("attendance.getTodayTotalCount",$arg);
 		return (int)$output->data->count;
@@ -221,7 +221,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getTodayTimeCount($today_time)
 	{
-		$arg = new stdClass;
+		$arg = new stdClass();
 		$arg->today_time = $today_time;
 		$output = executeQuery("attendance.getTodayTimeCount",$arg);
 		return (int)$output->data->count;
@@ -251,7 +251,7 @@ class attendanceAdminModel extends attendance
 			}
 		}
 
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceData",$args);
 	}
@@ -261,7 +261,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAllAttendanceTotalData($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceTotalData",$args);
 	}
@@ -271,7 +271,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAllAttendanceYearlyData($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceYearlyData",$args);
 	}
@@ -281,7 +281,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAllAttendanceMonthlyData($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceMonthlyData",$args);
 	}
@@ -291,7 +291,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAllAttendanceWeeklyData($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceWeeklyData",$args);
 	}
@@ -301,7 +301,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAttendanceWeeklyData($member_srl, $week)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->monday = $week->monday;
 		$args->sunday = $week->sunday;
 		$args->member_srl = $member_srl;
@@ -313,7 +313,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAttendanceMonthlyData($member_srl, $monthly)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAttendanceMonthlyData",$args);
@@ -324,7 +324,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteAttendanceYearlyData($member_srl, $year)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->year = $year;
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAttendanceYearlyData",$args);
@@ -335,7 +335,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getWeeklyPoint($member_srl, $week)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->monday = $week->monday;
 		$args->sunday = $week->sunday;
@@ -349,7 +349,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getMonthlyPoint($member_srl, $monthly)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->monthly = $monthly;
 		$output = executeQueryArray("attendance.getMonthlyPoint",$args);
@@ -362,7 +362,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getYearlyPoint($member_srl, $year)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->year = $year;
 		$output = executeQueryArray("attendance.getYearlyPoint",$args);
@@ -375,7 +375,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getTotalPoint($member_srl)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQueryArray("attendance.getYearlyPoint",$args);
 		if(!$output->data) $output->data = array();
@@ -387,7 +387,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getDuplicatedData($member_srl,$selected_date)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->selected_date = $selected_date;
 		$output = executeQueryArray("attendance.getDuplicatedData",$args);
@@ -400,7 +400,7 @@ class attendanceAdminModel extends attendance
 	 **/
 	function deleteDuplicatedData($member_srl, $selected_date)
 	{
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->selected_date = $selected_date;
 		$output = executeQuery("attendance.deleteAllAttendanceData",$args);

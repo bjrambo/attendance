@@ -119,7 +119,9 @@ class attendanceModel extends attendance
 		$arg->today_point = $today_point;
 		$arg->member_srl = $member_srl;
 		$arg->greetings = $greetings;
-		executeQuery('attendance.updateAttendance',$arg);
+		$output = executeQuery('attendance.updateAttendance', $arg);
+
+		return $output;
 	}
 
 	/**
@@ -254,9 +256,6 @@ class attendanceModel extends attendance
 	 */
 	function isPerfect($member_srl, $today, $real=true)
 	{
-		$oModuleModel = getModel('module');
-		$config = $this->getConfig();
-
 		$current_month = substr($today,4,2);
 		$current_year = substr($today,0,4);
 		$current_day = substr($today,6,2);

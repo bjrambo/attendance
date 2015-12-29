@@ -42,9 +42,6 @@ class attendanceAdminController extends attendance
 		}
 		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
 
-		$oModule = getModel('module');
-		$output = $oModule->getModuleConfig('attendance');
-
 		$oModuleController = &getController('module');
 
 		$obj = Context::getRequestVars();
@@ -279,7 +276,7 @@ class attendanceAdminController extends attendance
 		$continuity->point = $total_data->continuity_point;
 		$oAttendanceModel->updateTotal($obj->member_srl, $continuity, $total_data->total, $total_data->total_point, $total_data->regdate);
 		//정상적인 출석정보 삽입
-		$args = new stdClass;
+		$args = new stdClass();
 		$args->attendance_srl = getNextSequence();
 		$args->regdate = $regdate;
 		$args->member_srl = $obj->member_srl;
