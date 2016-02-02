@@ -26,7 +26,6 @@ class attendanceController extends attendance
 			return new Object(-1, '관리자만 설정이 가능합니다.');
 		}
 
-		$oAttendanceModel = getModel('attendance');
 		$obj = Context::getRequestVars();
 		$member_srl = $obj->member_srl;
 		if(!$member_srl)
@@ -60,7 +59,7 @@ class attendanceController extends attendance
 	{
 		$today = zDate(date('YmdHis'),"Ymd");
 
-		if($_SESSION['is_attended'] == $today)
+		if($_SESSION['is_attended'] === $today)
 		{
 			return new Object(-1,'attend_already_checked');
 		}
@@ -120,7 +119,7 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			return new Object(-1, '에러?');
+			return new Object(-1, '출석을 하지 못했습니다.');
 		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -138,19 +137,15 @@ class attendanceController extends attendance
 	function insertAttendance($g_obj, $config, $member_srl, $r_args)
 	{
 		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = getModel('member');
 		/*사용자 정보 로드*/
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info)
+		if($member_srl)
 		{
-			if($member_srl)
-			{
-				$oMemberModel = getModel('member');
-				$logged_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-			}
-			else
-			{
-				return;
-			}
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+		}
+		else
+		{
+			return;
 		}
 
 		if($r_args)
@@ -175,7 +170,7 @@ class attendanceController extends attendance
 		$obj->continuity_point = $config->continuity_point;
 		$obj->today_point = $config->add_point;
 		$obj->greetings = $g_obj->greetings;
-		$obj->member_srl = $logged_info->member_srl;
+		$obj->member_srl = $member_info->member_srl;
 
 
 		//등수 확인
@@ -198,22 +193,29 @@ class attendanceController extends attendance
 		}
 
 		/*연속출석*/
-		if($oAttendanceModel->isExistTotal($logged_info->member_srl, $today) >= 0)
+		if($oAttendanceModel->isExistTotal($member_info->member_srl, $today) >= 0)
 		{
 			/*연속출석 일수 받기*/
-			$yesterday_continuity_data = $oAttendanceModel->isExistContinuity($logged_info->member_srl, $yesterday);
+			$yesterday_continuity_data = $oAttendanceModel->isExistContinuity($member_info->member_srl, $yesterday);
 
 			//어제 출석했다면
 			if($yesterday_continuity_data > 0)
 			{
-				$continuity = $oAttendanceModel->getContinuityData($logged_info->member_srl, $yesterday);
+				$continuity = $oAttendanceModel->getContinuityData($member_info->member_srl, $yesterday);
 				/*연속출석일수가 설정된 일수보다 많고, 설정된 연속출석일이 0일이 아니고, 연속출석 여부가 yes 이면, 보너스 부여*/
 				if($continuity->data+1 >=$obj->continuity_day && $obj->continuity_day != 0 && $config->about_continuity=='yes')
 				{
 					$obj->today_point += $obj->continuity_point;
 					$continuity->point = $obj->continuity_point;
 				}
-				$continuity->data++;
+				if(!$r_args)
+				{
+					$continuity->data++;
+				}
+				else
+				{
+					$continuity->data = 1;
+				}
 			}
 			else
 			{
@@ -243,11 +245,18 @@ class attendanceController extends attendance
 				{
 					$gift_args = new stdClass();
 					$gift_args->present_srl = getNextSequence();
-					$gift_args->member_srl = $logged_info->member_srl;
+					$gift_args->member_srl = $member_info->member_srl;
 					$gift_args->present = $config->giftname;
 					$gift_args->sender = 'N';
 					$output_gift = executeQuery("attendance.insertPresent", $gift_args);
-					$obj->present_y = 'Y';
+					if($output_gift->toBool())
+					{
+						$obj->present_y = 'Y';
+					}
+					else
+					{
+						$obj->present_y = 'N';
+					}
 				}
 
 			}
@@ -262,7 +271,7 @@ class attendanceController extends attendance
 		}
 
 		/*개근포인트 지급*/
-		$about_perfect = $oAttendanceModel->isPerfect($logged_info->member_srl, $today, false);
+		$about_perfect = $oAttendanceModel->isPerfect($member_info->member_srl, $today, false);
 		if($about_perfect->yearly_perfect == 1)
 		{
 			$obj->today_point += $config->yearly_point;
@@ -273,7 +282,7 @@ class attendanceController extends attendance
 		}
 
 		$week = $oAttendanceModel->getWeek($today);
-		$weekly_data = $oAttendanceModel->getWeeklyData($logged_info->member_srl, $week);
+		$weekly_data = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
 		if($weekly_data->weekly == 6)
 		{
 			$obj->today_point += $config->weekly_point;
@@ -282,21 +291,21 @@ class attendanceController extends attendance
 		/*정근포인트 관련 추가*/
 		if($config->about_diligence_yearly == 'yes')
 		{
-			if($oAttendanceModel->checkYearlyDiligence($logged_info->member_srl, $config->diligence_yearly-1, null) == 1)
+			if($oAttendanceModel->checkYearlyDiligence($member_info->member_srl, $config->diligence_yearly-1, null) == 1)
 			{
 				$obj->today_point += $config->diligence_yearly_point;
 			}
 		}
 		if($config->about_diligence_monthly == 'yes')
 		{
-			if($oAttendanceModel->checkMonthlyDiligence($logged_info->member_srl, $config->diligence_monthly-1, null) == 1)
+			if($oAttendanceModel->checkMonthlyDiligence($member_info->member_srl, $config->diligence_monthly-1, null) == 1)
 			{
 				$obj->today_point += $config->diligence_monthly_point;
 			}
 		}
 		if($config->about_diligence_weekly == 'yes')
 		{
-			if($oAttendanceModel->checkWeeklyDiligence($logged_info->member_srl, $config->diligence_weekly-1, null) == 1)
+			if($oAttendanceModel->checkWeeklyDiligence($member_info->member_srl, $config->diligence_weekly-1, null) == 1)
 			{
 				$obj->today_point += $config->diligence_weekly_point;
 			}
@@ -377,9 +386,6 @@ class attendanceController extends attendance
 		if($config->about_birth_day=='yes')
 		{
 			/* 생일 포인트 추가 */
-			$oMemberModel = getModel('member');
-			$member_srl = $logged_info->member_srl;
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			$birthdays = substr($member_info->birthday,4,4);
 			$todays = substr($today,4,4);
 
@@ -397,7 +403,7 @@ class attendanceController extends attendance
 			$obj->today_point;
 		}
 
-		if(!$logged_info->member_srl)
+		if(!$member_info->member_srl)
 		{
 			return new Object(-1, '로그인 사용자만 가능합니다.');
 		}
@@ -446,7 +452,6 @@ class attendanceController extends attendance
 			return $output;
 		}
 
-
 		$trigger_obj = new stdClass();
 		$trigger_obj->regdate = $obj->regdate;
 		$trigger_obj->ipaddress = $obj->ipaddress;
@@ -464,95 +469,95 @@ class attendanceController extends attendance
 		}
 
 		/*포인트 추가*/
-		if($obj->today_point != 0 && $logged_info->member_srl)
+		if($obj->today_point != 0 && $member_info->member_srl)
 		{
-			$oPointController->setPoint($logged_info->member_srl,$obj->today_point,'add');
+			$oPointController->setPoint($member_info->member_srl,$obj->today_point,'add');
 		}
 
 		/*attendance_total 테이블에 총 출석내용 및 연속출석데이터 기록(2009.02.15)*/
-		if($oAttendanceModel->isExistTotal($logged_info->member_srl) == 0)
+		if($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
 			/*총 출석횟수 계산*/
-			$total_attendance = $oAttendanceModel->getTotalAttendance($logged_info->member_srl);
+			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			/*총 출석 기록*/
-			$oAttendanceModel->insertTotal($logged_info->member_srl, $continuity, $total_attendance, $obj->today_point, null);
+			$oAttendanceModel->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, null);
 		}
 		else
 		{
 			/*총 출석횟수 계산*/
-			$total_attendance = $oAttendanceModel->getTotalAttendance($logged_info->member_srl);
+			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			/*총 출석포인트 받아오기*/
-			$total_point = $oAttendanceModel->getTotalPoint($logged_info->member_srl);
+			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl);
 			$total_point += $obj->today_point;
 			/*총 출석 기록*/
-			$oAttendanceModel->updateTotal($logged_info->member_srl, $continuity, $total_attendance, $total_point, null);
+			$oAttendanceModel->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, null);
 		}
 
 		/* attendace_yearly 테이블에 연간 출석 데이터 기록(2009.02.15) */
-		if($oAttendanceModel->isExistYearly($logged_info->member_srl, $year) == 0)
+		if($oAttendanceModel->isExistYearly($member_info->member_srl, $year) == 0)
 		{
 			/*올 해 출석횟수 계산*/
-			$yearly_data = $oAttendanceModel->getYearlyData($year, $logged_info->member_srl);
+			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			/*출석 포인트는 초기화(올 해 처음이므로)*/
 			$yearly_point = $obj->today_point;
 			/*연간출석데이터 추가*/
-			$oAttendanceModel->insertYearly($logged_info->member_srl, $yearly_data, $yearly_point, null);
+			$oAttendanceModel->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, null);
 		}
 		else
 		{
 			/*올 해 출석횟수 계산*/
-			$yearly_data = $oAttendanceModel->getYearlyData($year, $logged_info->member_srl);
+			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			/*출석 포인트는 예전 자료 꺼내기*/
-			$year_info = $oAttendanceModel->getYearlyAttendance($logged_info->member_srl, $year);
+			$year_info = $oAttendanceModel->getYearlyAttendance($member_info->member_srl, $year);
 			$yearly_point = $year_info->yearly_point;
 			$yearly_point += $obj->today_point;
 			/*연간출석데이터 업데이트*/
-			$oAttendanceModel->updateYearly($logged_info->member_srl, $year, $yearly_data, $yearly_point,null);
+			$oAttendanceModel->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,null);
 		}
 
 		/*attendance_monthly 테이블에 월간 출석 데이터 기록(2009.02.15)*/
-		if($oAttendanceModel->isExistMonthly($logged_info->member_srl, $year_month) == 0)
+		if($oAttendanceModel->isExistMonthly($member_info->member_srl, $year_month) == 0)
 		{
 			/*이달 출석횟수 계산*/
-			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $logged_info->member_srl);
+			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			/*출석 포인트는 초기화(이달 처음이므로)*/
 			$monthly_point = $obj->today_point;
 			/*월간출석데이터 추가*/
-			$oAttendanceModel->insertMonthly($logged_info->member_srl, $monthly_data, $monthly_point, null);
+			$oAttendanceModel->insertMonthly($member_info->member_srl, $monthly_data, $monthly_point, null);
 		}
 		else
 		{
 			/*이달 출석횟수 계산*/
-			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $logged_info->member_srl);
+			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			/*출석 포인트는 예전 자료 꺼내기*/
-			$month_info = $oAttendanceModel->getMonthlyAttendance($logged_info->member_srl, $year_month);
+			$month_info = $oAttendanceModel->getMonthlyAttendance($member_info->member_srl, $year_month);
 			$monthly_point = $month_info->monthly_point;
 			$monthly_point += $obj->today_point;
 			/*월간출석데이터 업데이트*/
-			$oAttendanceModel->updateMonthly($logged_info->member_srl, $year_month, $monthly_data, $monthly_point, null);
+			$oAttendanceModel->updateMonthly($member_info->member_srl, $year_month, $monthly_data, $monthly_point, null);
 		}
 
 		/*attendance_weekly 테이블에 주간 출석 데이터 기록(2009.02.15)*/
 		$week = $oAttendanceModel->getWeek($today);
-		if($oAttendanceModel->isExistWeekly($logged_info->member_srl, $week) == 0 )
+		if($oAttendanceModel->isExistWeekly($member_info->member_srl, $week) == 0 )
 		{
 			/*이번 주 출석 횟수 계산*/
-			$weekly_data = $oAttendanceModel->getWeeklyAttendance($logged_info->member_srl, $week);
+			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			/*출석 포인트는 오늘 받은 포인트로 초기화*/
 			$weekly_point = $obj->today_point;
 			/*주간 출석데이터 추가*/
-			$oAttendanceModel->insertWeekly($logged_info->member_srl, $weekly_data, $weekly_point, null);
+			$oAttendanceModel->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, null);
 		}
 		else
 		{
 			/*이번 주 출석 횟수 계산*/
-			$weekly_data = $oAttendanceModel->getWeeklyAttendance($logged_info->member_srl, $week);
+			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			/*출석 포인트는 예전자료 꺼내기*/
-			$week_info = $oAttendanceModel->getWeeklyData($logged_info->member_srl, $week);
+			$week_info = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
 			$weekly_point = $week_info->weekly_point;
 			$weekly_point += $obj->today_point;
 			/*주간 출석데이터 업데이트*/
-			$oAttendanceModel->updateWeekly($logged_info->member_srl, $week, $weekly_data, $weekly_point, null);
+			$oAttendanceModel->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, null);
 		}
 
 
@@ -704,250 +709,6 @@ class attendanceController extends attendance
 	}
 
 	/**
-	 * @brief 관리자 임의 출석 기록
-	 **/
-	function procAttendanceCheckData()
-	{
-
-		//포인트 모듈 연동
-		$oPointController = getController('point');
-
-		/*attendance model 객체 생성*/
-		$oAttendanceModel = getModel('attendance');
-
-		//넘겨받고
-		$obj = Context::getRequestVars();
-		$year = substr($obj->check_day,0,4);
-		$args = new stdClass;
-		$year_month = substr($obj->check_day,0,6);
-		$args->check_day = $obj->check_day;
-		$args->member_srl = $obj->member_srl;
-
-		$oModuleModel = getModel('module');
-		$config = $oAttendanceModel->getConfig();
-
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
-
-		$obj->today_point = $config->add_point;
-
-		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)==0)
-		{
-			/*기록될 날짜!!*/
-			$regdate = sprintf("%s235959",$obj->check_day);
-			$year = substr($obj->check_day,0,4);
-			$year_month = substr($obj->check_day,0,6);
-			$week = $oAttendanceModel->getWeek($obj->check_day);
-
-			/*지정일 포인트 지급*/
-			if($config->about_target == 'yes')
-			{
-				if($obj->check_day == $config->target_day)
-				{
-					$obj->today_point += $config->target_point;
-				}
-			}
-
-			/*개근포인트 지급*/
-			$about_perfect = $oAttendanceModel->isPerfect($obj->member_srl, $obj->check_day, false);
-			if($about_perfect->yearly_perfect == 1)
-			{
-				$obj->today_point += $config->yearly_point;
-			}
-			if($about_perfect->monthly_perfect == 1)
-			{
-				$obj->today_point += $config->monthly_point;
-			}
-			$weekly_data = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
-			if($weekly_data->weekly == 6 && $obj->check_day==$week->sunday)
-			{
-				$obj->today_point += $config->weekly_point;
-			}
-
-			/*정근포인트 관련 추가*/
-			if($config->about_diligence_yearly == 'yes')
-			{
-				if($oAttendanceModel->checkYearlyDiligence($obj->member_srl, $config->diligence_yearly-1, $year) == 1)
-				{
-					$obj->today_point += $config->diligence_yearly_point;
-				}
-			}
-			if($config->about_diligence_monthly == 'yes'){
-				if($oAttendanceModel->checkMonthlyDiligence($obj->member_srl, $config->diligence_monthly-1, $year_month) == 1){
-					$obj->today_point += $config->diligence_monthly_point;
-				}
-			}
-			if($config->about_diligence_weekly == 'yes'){
-				if($oAttendanceModel->checkWeeklyDiligence($obj->member_srl, $config->diligence_weekly-1, $obj->check_day) == 1){
-					$obj->today_point += $config->diligence_weekly_point;
-				}
-			}
-
-			/* 랜덤포인트 추가 */
-			if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
-			{
-				$sosirandom = mt_rand($config->minimum,$config->maximum);
-				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
-				{
-					$win = mt_rand(1,100);
-					if($win<=$config->lottery) //30설정시 30퍼센트 확률로 당첨되도록 수정.(방향 수정)
-					{
-						$obj->today_point += $sosirandom;
-						$obj->today_random = $sosirandom;
-					}
-					else
-					{
-						$obj->today_point;
-						$obj->today_random = 0;
-					}
-				}
-				else
-				{
-					$obj->today_point += $sosirandom;
-					$obj->today_random = $sosirandom;
-				}
-			}
-			elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
-			{
-				if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
-				{
-					$win = mt_rand(1,100);
-					if($win<=$config->lottery)
-					{
-						// $win 이 small_win 보다 크고, big_win보다 작을경우
-						if($win<=$config->lottery && $win>=$config->random_small_win)
-						{
-							$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
-							$obj->today_point += $sosirandom;
-							$obj->today_random = $sosirandom;
-						}
-						elseif($win<$config->random_small_win)
-						{
-							$sosirandom = mt_rand($config->random_big_point_f,$config->random_big_point_s);
-							$obj->today_point += $sosirandom;
-							$obj->today_random = $sosirandom;
-						}
-					}
-					else
-					{
-						$obj->today_point;
-						$obj->today_random = 0;
-					}
-				}
-				else
-				{
-					$sosirandom = mt_rand($config->random_small_point_f,$config->random_small_point_s);
-					$obj->today_point += $sosirandom;
-					$obj->today_random = $sosirandom;
-				}
-			}
-			else
-			{
-				$obj->today_point;
-			}
-
-			$args->regdate = $regdate;
-			$args->attendance_srl = getNextSequence();
-			$args->greetings="^admin_checked^";
-			$args->today_point = $obj->today_point;
-			$args->today_random = $obj->today_random;
-
-			//출석부에 기록(쿼리 수행)
-			executeQuery("attendance.insertAttendance", $args);
-
-			//포인트도 기록
-			$new_point += $obj->today_point;
-			$oPointController->setPoint($member_info->member_srl,$obj->today_point, 'add');
-
-			//총 출석데이터 갱신
-			if($oAttendanceModel->isExistTotal($obj->member_srl) == 0)
-			{
-				/*총 출석횟수 계산*/
-				$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-				$continuity = new stdClass;
-				$continuity->data = 1;
-				$continuity->point = 0;
-				/*총 출석 기록*/
-				$oAttendanceModel->insertTotal($obj->member_srl, $continuity, $total_attendance, $obj->today_point, $regdate);
-			}
-			else
-			{
-				/*총 출석횟수 계산*/
-				$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-				/*총 출석포인트 받아오기*/
-				$total_point = $oAttendanceModel->getTotalPoint($obj->member_srl);
-				$total_point += $obj->today_point;
-				$continuity = new stdClass;
-				$continuity->data = null;
-				$continuity->point = 0;
-				/*총 출석 기록*/
-				$oAttendanceModel->updateTotal($obj->member_srl, $continuity=null, $total_attendance, $total_point, $regdate);
-			}
-
-			//연간 출석데이터 갱신 
-			if($oAttendanceModel->isExistYearly($obj->member_srl, $year) == 0)
-			{
-				/*올 해 출석횟수 계산*/
-				$yearly_data = $oAttendanceModel->getYearlyData($year, $obj->member_srl);
-				/*연간출석데이터 추가*/
-				$oAttendanceModel->insertYearly($obj->member_srl, $yearly_data, $obj->today_point, $regdate);
-			}
-			else
-			{
-				/*올 해 출석횟수 계산*/
-				$yearly_data = $oAttendanceModel->getYearlyData($year, $obj->member_srl);
-				/*출석 포인트는 예전 자료 꺼내기*/
-				$year_info = $oAttendanceModel->getYearlyAttendance($obj->member_srl, $year);
-				$yearly_point = $year_info->yearly_point;
-                $yearly_point += $obj->today_point;
-				/*연간출석데이터 업데이트*/
-				$oAttendanceModel->updateYearly($obj->member_srl, $year, $yearly_data, $yearly_point, $regdate);
-			}
-
-			//월간 출석데이터 갱신
-			if($oAttendanceModel->isExistMonthly($obj->member_srl, $year_month) == 0)
-			{
-				/*이달 출석횟수 계산*/
-				$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $obj->member_srl);
-				/*월간출석데이터 추가*/
-				$oAttendanceModel->insertMonthly($obj->member_srl, $monthly_data, $obj->today_point, $regdate);
-			}
-			else
-			{
-				/*이달 출석횟수 계산*/
-				$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $obj->member_srl);
-				/*출석 포인트는 예전 자료 꺼내기*/
-				$month_info = $oAttendanceModel->getMonthlyAttendance($obj->member_srl, $year_month);
-				$monthly_point = $month_info->monthly_point;
-                $monthly_point += $obj->today_point;
-				/*월간출석데이터 업데이트*/
-				$oAttendanceModel->updateMonthly($obj->member_srl, $year_month, $monthly_data, $monthly_point, $regdate);
-			}
-
-			//주간 출석데이터 갱신
-			if($oAttendanceModel->isExistWeekly($obj->member_srl, $week) == 0 )
-			{
-				/*이번 주 출석 횟수 계산*/
-				$weekly_data = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week);
-				/*주간 출석데이터 추가*/
-				$oAttendanceModel->insertWeekly($obj->member_srl, $weekly_data, $obj->today_point, $regdate);
-			}
-			else
-			{
-				/*이번 주 출석 횟수 계산*/
-				$weekly_data = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week);
-				/*출석 포인트는 예전자료 꺼내기*/
-				$week_info = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
-				$weekly_point = $week_info->weekly_point;
-                $weekly_point +=$obj->today_point;
-				/*주간 출석데이터 업데이트*/
-				$oAttendanceModel->updateWeekly($obj->member_srl, $week, $weekly_data, $weekly_point, $regdate);	
-			}
-            $this->setMessage('success_registed');
-		}
-	}
-
-	/**
 	 * @brief 출석내용 수정
 	 **/
     function procAttendanceModifyData()
@@ -1054,22 +815,14 @@ class attendanceController extends attendance
 		}
 	}
 	
-	function triggerSou(&$content)
+	function triggerBeforeDisplay(&$content)
 	{
-		$oModuleModel = getModel('module');
 		$oAttendanceModel = getModel('attendance');
 		$config = $oAttendanceModel->getConfig();
-		$logged_info = Context::get('logged_info');
 		$act = Context::get('act');
 
 		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
 		{
-			$oMemberModel = getModel('member');
-			//module의 설정값 가져오기
-
-			$member_srl = $logged_info->member_srl;
-
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
 		}

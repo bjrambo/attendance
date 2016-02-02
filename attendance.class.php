@@ -13,7 +13,7 @@ class attendance extends ModuleObject
 	private $triggers = array(
 		array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'),
 		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
-		array('display', 'attendance', 'controller', 'triggerSou', 'before'),
+		array('display', 'attendance', 'controller', 'triggerBeforeDisplay', 'before'),
 		array('member.updateMember','attendance', 'controller', 'triggerUpdateMemberBefore', 'before')
 	);
 
@@ -344,6 +344,14 @@ class attendance extends ModuleObject
 		//회원탈퇴시 출석정보도 같이 제거하는 trigger 추가
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
+		$soutrigger = $oModuleModel->getTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
+		if($soutrigger)
+		{
+			$oModuleController->deleteTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
+		}
+
+
+
 
 		foreach ($this->triggers as $trigger)
 		{

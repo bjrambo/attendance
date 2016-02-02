@@ -6,14 +6,9 @@
 		<input type="hidden" name="act" value="procAttendanceInsertAttendance" />
 		<input type="hidden" name="xe_validator_id" value="modules/attendance/skins/default/attendanceinsert" />
 
-
 		<span class="input-append" style="width:100%; display:inline-block">
-
 			<input type="text" name="greetings" id="greetings" style="width:50%; height:26px" value="{$greeting_name}" class="write_text" />
 			<input type="hidden" name="about_position" value="yes" />
-
-
-
 			<button type="submit" class="x_btn x_btn-inverse sm-btn" onclick="beCheckWrite(this)"><i class="fa fa-paw fa-2x"></i></button>
 		</span>
 	</form>
@@ -21,7 +16,6 @@
 
 <script>
 function beCheckWrite(obj){
-
 	var delaytime = 10000,
 			submingText = '출석중..',
 			ori_text = '<i class="fa fa-paw fa-2x"></i>',
@@ -33,20 +27,13 @@ function beCheckWrite(obj){
 	}else{
 		checkInput = true;
 	}
-
-
 	if(ori_text == submingText) return false;
-
-
 	//obj.disabled=true;
-
-
 	if(!checkInput){
 		jQuery(obj).text(submingText);
 	}else{
 		jQuery(obj).val(submingText);
 	}
-
 	// 설정한 시간이 지나면 다시 활성화
 	setTimeout(function(){
 		if(checkInput) jQuery(obj).val(ori_text);
