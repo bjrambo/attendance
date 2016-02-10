@@ -220,6 +220,7 @@ class attendanceController extends attendance
 			else
 			{
 				//어제 출석 정보가 없다면
+				$continuity = new stdClass();
 				$continuity->data = 1;
 				$obj->perfect_m = 'N';
 			}
@@ -425,9 +426,9 @@ class attendanceController extends attendance
 				/*Document module connection : greetings process*/
 				$d_obj = new stdClass;
 				$d_obj->content = $obj->greetings;
-				$d_obj->nick_name = $logged_info->nick_name;
-				$d_obj->email_address = $logged_info->email_address;
-				$d_obj->homepage = $logged_info->homepage;
+				$d_obj->nick_name = $member_info->nick_name;
+				$d_obj->email_address = $member_info->email_address;
+				$d_obj->homepage = $member_info->homepage;
 				$d_obj->is_notice = 'N';
 				$d_obj->module_srl = $module_info->module_srl;
 				$d_obj->allow_comment = 'Y';
@@ -474,6 +475,14 @@ class attendanceController extends attendance
 			$oPointController->setPoint($member_info->member_srl,$obj->today_point,'add');
 		}
 
+		$this->addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
+
+		return $output;
+	}
+
+	function addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity)
+	{
+		$oAttendanceModel = getModel('attendance');
 		/*attendance_total 테이블에 총 출석내용 및 연속출석데이터 기록(2009.02.15)*/
 		if($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
@@ -560,8 +569,6 @@ class attendanceController extends attendance
 			$oAttendanceModel->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, null);
 		}
 
-
-		return $output;
 	}
 
 	/**
