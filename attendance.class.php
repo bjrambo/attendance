@@ -48,7 +48,7 @@ class attendance extends ModuleObject
 			$args = new stdClass;
 			$args->mid = 'attendance';
 			$args->module = 'attendance';
-			$args->browser_title = '출석채크';
+			$args->browser_title = '출석체크';
 			$args->site_srl = 0;
 			$args->skin = 'default';
 			$args->order_type = 'desc';
@@ -349,9 +349,6 @@ class attendance extends ModuleObject
 		{
 			$oModuleController->deleteTrigger('display', 'attendance', 'controller', 'triggerSou', 'before');
 		}
-
-
-
 
 		foreach ($this->triggers as $trigger)
 		{
