@@ -656,7 +656,6 @@ class attendanceModel extends attendance
 	function availableCheck($config)
 	{
 		// 모듈 설정값 가져오기
-		$oModuleModel = getModel('module');
 		$config = $this->getConfig();
 
 		if($config->about_time_control == 'yes')

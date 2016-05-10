@@ -83,7 +83,6 @@ class attendanceView extends attendance
 		if(!$module_info->greetings_cut_size)$module_info->greetings_cut_size = 20;
 
 		//module의 설정값 가져오기
-		$oModuleModel = getModel('module');
 		$config = $oAttendanceModel->getConfig();
 
 		//출석가능 시간대인지 판단

@@ -68,8 +68,6 @@ class attendanceAdminView extends attendance
 
 		$type=Context::get('type');
 
-
-		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = getAdminModel('attendance');
 		Context::set('oAttendanceAdminModel',$oAttendanceAdminModel);
 		if($type!='config' && $type!='time')
@@ -104,7 +102,6 @@ class attendanceAdminView extends attendance
 		Context::set('oMemberModel',$oMemberModel);
 
 		//module의 설정값 가져오기
-		$oModuleModel = getModel('module');
 		$config = $oAttendanceModel->getConfig();
 
 		$oModuleAdminModel = getAdminModel('module');
@@ -218,10 +215,6 @@ class attendanceAdminView extends attendance
 	 **/
 	function dispAttendanceAdminBoardSkinConfig()
 	{
-		//모듈정보 로드
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-
 		// 공통 모듈 권한 설정 페이지 호출
 		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
@@ -240,10 +233,6 @@ class attendanceAdminView extends attendance
 	 **/
 	function dispAttendanceAdminMobileBoardSkinConfig()
 	{
-		//모듈정보 로드
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-
 		// 공통 모듈 권한 설정 페이지 호출
 		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
@@ -313,7 +302,7 @@ class attendanceAdminView extends attendance
 
 		// get the addtional setup trigger
 		// the additional setup triggers can be used in many modules
-		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
 
 		// setup the template file
@@ -326,8 +315,6 @@ class attendanceAdminView extends attendance
 	 */
 	function dispAttendanceAdminGift()
 	{
-		$oMemberModel = getModel('member');
-
 		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->list_count = '20';
