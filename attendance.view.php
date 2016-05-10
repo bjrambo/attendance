@@ -28,7 +28,6 @@ class attendanceView extends attendance
 	//개인의 출석달력
 	function dispAttendancePersonalInfo()
 	{
-
 		//attendance model 객체 로드
 		$oAttendanceModel = getModel('attendance');
 

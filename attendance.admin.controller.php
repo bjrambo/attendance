@@ -20,7 +20,7 @@ class attendanceAdminController extends attendance
 	function procAttendanceAdminDeleteAllData()
 	{
 		/*attendance admin model 객체 생성*/
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 		$obj = Context::getRequestVars();
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
@@ -42,7 +42,7 @@ class attendanceAdminController extends attendance
 		}
 		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
 
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$obj = Context::getRequestVars();
 		if($obj->continuity_day < 2)
@@ -182,8 +182,8 @@ class attendanceAdminController extends attendance
 	 **/
 	function procAttendanceAdminFixTotalData()
 	{
-		$oAttendanceModel = &getModel('attendance');
-		$oAttendanceAdminModel = &getAdminModel('attendance');
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceAdminModel = getAdminModel('attendance');
 		$obj = Context::getRequestVars();
 		$continuity = new stdClass;
 		$continuity->point = 0;

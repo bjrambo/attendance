@@ -34,9 +34,9 @@ class attendanceMobile extends attendanceView
 		$oMemberModel = getModel('member');
 
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($attendance_srl);
-		Context::set('oAttendance',$oAttendance);
-		Context::set('oAttendanceModel',$oAttendanceModel);
-		Context::set('oMemberModel',$oMemberModel);
+		Context::set('oAttendance', $oAttendance);
+		Context::set('oAttendanceModel', $oAttendanceModel);
+		Context::set('oMemberModel', $oMemberModel);
 
 		$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 		if(!is_dir($template_path)||!$this->module_info->mskin)
