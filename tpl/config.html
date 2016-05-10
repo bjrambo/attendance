@@ -373,16 +373,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->continuity_monthly}</label>
-			<div class="x_controls">
-				<select name="continuity_monthly">
-					<option value="no" selected="selected"|cond="$config->continuity_monthly=='no'">{$lang->monthly_one}</option>
-					<option value="yes" selected="selected"|cond="$config->continuity_monthly=='yes'">{$lang->monthly_two}</option>
-				</select>
-				<p>{$lang->continuity_monthly_help}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">인사말 설정</label>
 			<div class="x_controls">
 				<textarea name="greeting_list" style="width:300px; height:200px;">{htmlspecialchars($config->greeting_list)}</textarea>
