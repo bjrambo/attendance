@@ -1,7 +1,5 @@
 attendance XE 출석부
 ====================
-[![GitHub license](http://img.shields.io/badge/license-GPL%20v2-brightgreen.svg)](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-[![Build Status](https://travis-ci.org/qw5414/attendance.svg?branch=develop)](https://travis-ci.org/qw5414/attendance)
 
 개요
 ----
@@ -25,11 +23,6 @@ Author
 * email : sosifam@070805.co.kr
 * 문의 : http://sosifam.com/question
 * github : https://github.com/qw5414/attendance
-
-Thanks to...
-------------
-
-소녀시대..(나에게 힘을 주니깐..),몽실아빠 (http://pomelove.com), [@BNU](https://github.com/BNU), [@smaker](https://github.com/smaker)
 
 참고사항
 --------
