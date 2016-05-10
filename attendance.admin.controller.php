@@ -32,39 +32,10 @@ class attendanceAdminController extends attendance
 
 	function procAttendanceAdminInsertAttendance()
 	{
-		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
-		{
-			$end_of_year = 366;
-		}
-		else
-		{
-			$end_of_year = 365;
-		}
-		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
-
 		$oModuleController = getController('module');
 
 		$obj = Context::getRequestVars();
-		if($obj->continuity_day < 2)
-		{
-			$obj->continuity_day = 2;
-		}
-		if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
-		{
-			$obj->diligence_yearly = $end_of_year - 1;
-		}
-		if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
-		{
-			$obj->diligence_monthly = $end_of_month - 1;
-		}
-		if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
-		{
-			$obj->diligence_weekly = 6;
-		}
-		if($obj->allow_duplicaton_ip_count > 0)
-		{
-			$obj->allow_duplicaton_ip_count = 3;
-		}
+
 		$config = new stdClass;
 		$config->about_admin_check = $obj->about_admin_check;
 		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
@@ -113,6 +84,37 @@ class attendanceAdminController extends attendance
 		$config->manygiftlist = $obj->manygiftlist;
 		$config->gift_random = $obj->gift_random;
 		$config->greeting_list = $obj->greeting_list;
+
+		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
+		{
+			$end_of_year = 366;
+		}
+		else
+		{
+			$end_of_year = 365;
+		}
+		$end_of_month = date('t', mktime(0,0,0,zDate(date('YmdHis'),"m"),1,zDate(date('YmdHis'),"Y")));
+
+		if($obj->continuity_day < 2)
+		{
+			$obj->continuity_day = 2;
+		}
+		if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
+		{
+			$obj->diligence_yearly = $end_of_year - 1;
+		}
+		if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
+		{
+			$obj->diligence_monthly = $end_of_month - 1;
+		}
+		if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
+		{
+			$obj->diligence_weekly = 6;
+		}
+		if($obj->allow_duplicaton_ip_count > 0)
+		{
+			$obj->allow_duplicaton_ip_count = 3;
+		}
 
 		$this->setMessage('success_updated');
 
