@@ -249,7 +249,8 @@ class attendanceModel extends attendance
 			$args->greetings = '^admin_checked^';
 		}
 		$output = executeQuery('attendance.getPositionData', $args);
-		return (int)$output->data->count;
+
+		return $output->data->count;
 	}
 	/**
 	 * @brief 개근 여부 파악

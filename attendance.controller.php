@@ -172,9 +172,10 @@ class attendanceController extends attendance
 		$obj->greetings = $g_obj->greetings;
 		$obj->member_srl = $member_info->member_srl;
 
-
 		//등수 확인
-		$position = $oAttendanceModel->getPositionData($today);
+		$today_position = zDate($today, 'Ymd');
+		$position = $oAttendanceModel->getPositionData($today_position);
+
 		//1,2,3,등 가산점 부여
 		if($g_obj->about_position == 'yes')
 		{
