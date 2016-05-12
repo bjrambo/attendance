@@ -3,7 +3,7 @@
   "version": "7.0.3",
   "author": "BJRambo",
   "keywords": ["XpressEngine", "XE", "Attendance"],
-  "license": "GNU LGPL",
+  "license": "GPL v2",
   "repository": {
     "type": "git",
     "url": "git://github.com/qw5414/attendance.git"
