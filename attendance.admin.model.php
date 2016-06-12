@@ -209,11 +209,18 @@ class attendanceAdminModel extends attendance
 	/**
 	 * @brief 오늘 총 출석인원 계산
 	 **/
-	function getTodayTotalCount($today){
+	function getTodayTotalCount($today)
+	{
+		static $cache = array();
+		if(isset($cache[$today]))
+		{
+			return $cache[$today];
+		}
+		
 		$arg = new stdClass();
 		$arg->today = $today;
 		$output = executeQuery("attendance.getTodayTotalCount",$arg);
-		return (int)$output->data->count;
+		return $cache[$today] = (int)$output->data->count;
 	}
 
 	/**
@@ -221,10 +228,16 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getTodayTimeCount($today_time)
 	{
+		static $cache = array();
+		if(isset($cache[$today_time]))
+		{
+			return $cache[$today_time];
+		}
+		
 		$arg = new stdClass();
 		$arg->today_time = $today_time;
 		$output = executeQuery("attendance.getTodayTimeCount",$arg);
-		return (int)$output->data->count;
+		return $cache[$today_time] = (int)$output->data->count;
 	}
 
 	/**
