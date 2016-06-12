@@ -44,6 +44,10 @@ class attendanceController extends attendance
 		{
 			$this->errorMessage('에러발생');
 		}
+		
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
+		
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance', 'act', 'dispAttendanceModifyContinuous', 'member_srl', $member_srl);
@@ -570,6 +574,8 @@ class attendanceController extends attendance
 			$oAttendanceModel->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, null);
 		}
 
+		/* 캐시 비우기 */
+		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
 	}
 
 	/**
@@ -714,6 +720,12 @@ class attendanceController extends attendance
 			}
 			$this->setMessage("success_deleted");
 		}
+		
+		/* 캐시 비우기 */
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'daily', $obj->check_day);
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'weekly', $week);
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'monthly', $year_month);
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'yearly', $year);
 	}
 
 	/**
@@ -780,6 +792,9 @@ class attendanceController extends attendance
 		$oAttendanceModel->updateAttendance($obj->attendance_srl, $regdate, $obj->today_point, null, null);
 
 		//회원의 출석통계 갱신
+		
+		/* 캐시 비우기 */
+		$oAttendanceModel->clearCacheByMemberSrl($oAttendance->member_srl);
 	}
 
     /**
@@ -794,6 +809,8 @@ class attendanceController extends attendance
 		$oAttendanceAdminModel->deleteAllAttendanceYearlyData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceMonthlyData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceWeeklyData($obj->member_srl);
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl);
 		return new Object();
 	}
     

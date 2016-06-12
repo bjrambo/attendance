@@ -209,11 +209,41 @@ class attendanceAdminModel extends attendance
 	/**
 	 * @brief 오늘 총 출석인원 계산
 	 **/
-	function getTodayTotalCount($today){
+	function getTodayTotalCount($today)
+	{
+		static $cache = array();
+		if(isset($cache[$today]))
+		{
+			return $cache[$today];
+		}
+		
+		// 이틀 이상 지난 데이터는 캐시 사용
+		if(strtotime($today) < time() - (86400 * 2))
+		{
+			if($oCacheHandler = getModel('attendance')->getCacheHandler())
+			{
+				if($cache[$today] = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "todaytotal:$today")) !== false)
+				{
+					return $cache[$today];
+				}
+			}
+		}
+		else
+		{
+			$oCacheHandler = null;
+		}
+		
 		$arg = new stdClass();
 		$arg->today = $today;
 		$output = executeQuery("attendance.getTodayTotalCount",$arg);
-		return (int)$output->data->count;
+		$cache[$today] = (int)$output->data->count;
+		
+		if($oCacheHandler)
+		{
+			$expires = 86400 * min(31, substr($today, -2));
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "todaytotal:$today"), $cache[$today], $expires);
+		}
+		return $cache[$today];
 	}
 
 	/**
@@ -221,10 +251,16 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getTodayTimeCount($today_time)
 	{
+		static $cache = array();
+		if(isset($cache[$today_time]))
+		{
+			return $cache[$today_time];
+		}
+		
 		$arg = new stdClass();
 		$arg->today_time = $today_time;
 		$output = executeQuery("attendance.getTodayTimeCount",$arg);
-		return (int)$output->data->count;
+		return $cache[$today_time] = (int)$output->data->count;
 	}
 
 	/**
@@ -254,6 +290,8 @@ class attendanceAdminModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceData",$args);
+
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 	/**
@@ -264,6 +302,9 @@ class attendanceAdminModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceTotalData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 	/**
@@ -274,6 +315,9 @@ class attendanceAdminModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceYearlyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 	/**
@@ -284,6 +328,9 @@ class attendanceAdminModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceMonthlyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 	/**
@@ -294,6 +341,9 @@ class attendanceAdminModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAllAttendanceWeeklyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 	/**
@@ -306,6 +356,9 @@ class attendanceAdminModel extends attendance
 		$args->sunday = $week->sunday;
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAttendanceWeeklyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl, 'weekly', $week);
 	}
 
 	/**
@@ -317,6 +370,9 @@ class attendanceAdminModel extends attendance
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAttendanceMonthlyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl, 'monthly', $monthly);
 	}
 
 	/**
@@ -328,6 +384,9 @@ class attendanceAdminModel extends attendance
 		$args->year = $year;
 		$args->member_srl = $member_srl;
 		$output = executeQuery("attendance.deleteAttendanceYearlyData",$args);
+
+		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl, 'yearly', $yearly);
 	}
 
 	/**
@@ -447,5 +506,7 @@ class attendanceAdminModel extends attendance
 		}
 		$attendance = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week);
 		$oAttendanceModel->insertWeekly($obj->member_srl, $attendance, $sum, $obj->selected_date.'000000');
+		
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl);
 	}
 }

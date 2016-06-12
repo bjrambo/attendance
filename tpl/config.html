@@ -373,6 +373,16 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->attendance_use_cache}</label>
+			<div class="x_controls">
+				<select name="attendance_use_cache" disabled="disabled"|cond="!$object_cache_available">
+					<option value="yes" selected="selected"|cond="$config->use_cache=='yes' && $object_cache_available">{$lang->attendance_yes}</option>
+					<option value="no" selected="selected"|cond="$config->use_cache=='no' || !$object_cache_available">{$lang->attendance_no}</option>
+				</select>
+				<p>{$lang->attendance_use_cache_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">인사말 설정</label>
 			<div class="x_controls">
 				<textarea name="greeting_list" style="width:300px; height:200px;">{htmlspecialchars($config->greeting_list)}</textarea>

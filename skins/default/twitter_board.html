@@ -33,9 +33,8 @@
 	<li class="lulu-item cfix" loop="$oAttendance->data=>$data">
 
 			
-			<!--@if(preg_match("/^#[0-9]+$/",$data->greetings))-->
-				{@$length_greetings = strlen($data->greetings) -1}
-				{@$oDocument = $oDocumentModel->getDocument(substr($data->greetings,1,$length_greetings))}
+			<!--@if(preg_match("/^#([0-9]+)$/",$data->greetings, $document_srl))-->
+				{@$oDocument = $oDocumentModel->getDocument($document_srl[1], false, false)}
 				<!--@if($oDocument->document_srl)-->
 					{@$exist_document = 1}
 				<!--@else-->
