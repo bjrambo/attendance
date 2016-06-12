@@ -879,6 +879,7 @@ class attendanceModel extends attendance
 		$monthly = ($type === 'monthly' && $condition) ? $condition : zDate(date('YmdHis'), "Ym");
 		$yearly = ($type === 'yearly' && $condition) ? $condition : zDate(date('YmdHis'), "Y");
 		
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "todaytotal:$daily"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$daily"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$weekly"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"));
@@ -887,7 +888,7 @@ class attendanceModel extends attendance
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"));
 	}
-	
+
 	/**
 	 * @brief 모든 회원의 출석 통계 캐시 삭제
 	 */

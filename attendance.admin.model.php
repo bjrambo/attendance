@@ -217,10 +217,33 @@ class attendanceAdminModel extends attendance
 			return $cache[$today];
 		}
 		
+		// 이틀 이상 지난 데이터는 캐시 사용
+		if(strtotime($today) < time() - (86400 * 2))
+		{
+			if($oCacheHandler = getModel('attendance')->getCacheHandler())
+			{
+				if($cache[$today] = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "todaytotal:$today")) !== false)
+				{
+					return $cache[$today];
+				}
+			}
+		}
+		else
+		{
+			$oCacheHandler = null;
+		}
+		
 		$arg = new stdClass();
 		$arg->today = $today;
 		$output = executeQuery("attendance.getTodayTotalCount",$arg);
-		return $cache[$today] = (int)$output->data->count;
+		$cache[$today] = (int)$output->data->count;
+		
+		if($oCacheHandler)
+		{
+			$expires = 86400 * min(31, substr($today, -2));
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "todaytotal:$today"), $cache[$today], $expires);
+		}
+		return $cache[$today];
 	}
 
 	/**
