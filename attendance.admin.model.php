@@ -240,7 +240,7 @@ class attendanceAdminModel extends attendance
 		
 		if($oCacheHandler)
 		{
-			$expires = 86400 * (31 * min(31, substr($today, -2)));
+			$expires = 86400 * (31 - min(31, substr($today, -2)));
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "todaytotal:$today"), $cache[$today], $expires);
 		}
 		return $cache[$today];
