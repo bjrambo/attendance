@@ -190,11 +190,25 @@ class attendanceModel extends attendance
 	 */
 	function getMonthlyData($monthly, $member_srl)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+		
 		$args = new stdClass();
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getMonthlyData', $args);
-		return (int)$output->data->monthly_count;
+		$result = (int)$output->data->monthly_count;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), $result, 86400);
+		}
+		return $result;
 	}
 
 	/**
@@ -202,11 +216,25 @@ class attendanceModel extends attendance
 	 */
 	function getYearlyData($yearly, $member_srl)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+		
 		$args = new stdClass();
 		$args->yearly = $yearly;
 		$args->member_srl=$member_srl;
 		$output = executeQuery('attendance.getYearlyData', $args);
-		return (int)$output->data->yearly_count;
+		$result = (int)$output->data->yearly_count;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"), $result, 86400);
+		}
+		return $result;
 	}
 
 	/**
@@ -214,11 +242,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsChecked($member_srl)
 	{
-		$arg = new stdClass();
-		$arg->day = zDate(date('YmdHis'),"Ymd");
-		$arg->member_srl = $member_srl;
-		$output = executeQuery('attendance.getIsChecked',$arg);
-		return (int)$output->data->count;
+		return $this->getIsCheckedA($member_srl, zDate(date('YmdHis'),"Ymd"));
 	}
 
 	/**
@@ -226,11 +250,25 @@ class attendanceModel extends attendance
 	 */
 	function getIsCheckedA($member_srl, $today)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$today"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+		
 		$arg = new stdClass();
 		$arg->day = $today;
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getIsChecked',$arg);
-		return (int)$output->data->count;
+		$result = (int)$output->data->count;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$today"), $result, 86400);
+		}
+		return $result;
 	}
 
     /**
@@ -409,10 +447,24 @@ class attendanceModel extends attendance
 	 */
 	function getTotalAttendance($member_srl)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+		
 		$args = new stdClass();
 		$args->member_srl=$member_srl;
 		$output = executeQuery('attendance.getTotalAttendance', $args);
-		return (int)$output->data->total_count;
+		$result = (int)$output->data->total_count;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"), $result, 86400);
+		}
+		return $result;
 	}
 
 	/**
@@ -420,10 +472,24 @@ class attendanceModel extends attendance
 	 */
 	function getTotalPoint($member_srl)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalPoint', $args);
-		return (int)$output->data->total_point;
+		$result = (int)$output->data->total_point;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"), $result, 86400);
+		}
+		return $result;
 	}
 
 
@@ -432,6 +498,14 @@ class attendanceModel extends attendance
 	 */
 	function getTotalData($member_srl)
 	{
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($total_info = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"), time() - 86400)) !== false)
+			{
+				return $total_info;
+			}
+		}
+		
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalData',$arg);
@@ -441,6 +515,11 @@ class attendanceModel extends attendance
 		$total_info->continuity_point = (int)$output->data->continuity_point;
 		$total_info->continuity = (int)$output->data->continuity;
 		$total_info->regdate = $output->data->regdate;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"), $total_info, 86400);
+		}
 		return $total_info;
 	}
 
@@ -640,6 +719,15 @@ class attendanceModel extends attendance
 	 */
 	function getWeeklyData($member_srl, $week)
 	{
+		$week_cache_key = $week->sunday;
+		if($oCacheHandler = $this->getCacheHandler())
+		{
+			if(($week_data = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), time() - 86400)) !== false)
+			{
+				return $week_data;
+			}
+		}
+		
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
@@ -648,6 +736,11 @@ class attendanceModel extends attendance
 		$week_data = new stdClass();
 		$week_data->weekly = (int)$output->data->weekly;
 		$week_data->weekly_point = (int)$output->data->weekly_point;
+		
+		if($oCacheHandler)
+		{
+			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), $week_data, 86400);
+		}
 		return $week_data;
 	}
 
@@ -757,5 +850,72 @@ class attendanceModel extends attendance
 		$output = executeQueryArray('attendance.getGreetingsList',$arg);
 		if(!$output->data) $output->data = array();
 		return $output;
+	}
+
+
+	/*******************************************************
+	*                    캐싱 관련 함수                    *
+	********************************************************/
+	
+	/**
+	 * @brief 주어진 회원의 출석 통계 캐시 삭제
+	 */
+	function clearCacheByMemberSrl($member_srl, $type = 'all', $condition = null)
+	{
+		$member_srl = (int)$member_srl;
+		if(!$member_srl)
+		{
+			return;
+		}
+		
+		$oCacheHandler = $this->getCacheHandler();
+		if(!$oCacheHandler)
+		{
+			return;
+		}
+		
+		$daily = ($type === 'daily' && $condition) ? $condition : zDate(date('YmdHis'), "Ymd");
+		$weekly = ($type === 'weekly' && $condition) ? $condition->sunday : $this->getWeek(date('YmdHis'))->sunday;
+		$monthly = ($type === 'monthly' && $condition) ? $condition : zDate(date('YmdHis'), "Ym");
+		$yearly = ($type === 'yearly' && $condition) ? $condition : zDate(date('YmdHis'), "Y");
+		
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$daily"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$weekly"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"));
+	}
+	
+	/**
+	 * @brief 모든 회원의 출석 통계 캐시 삭제
+	 */
+	function clearCache()
+	{
+		$oCacheHandler = $this->getCacheHandler();
+		if(!$oCacheHandler)
+		{
+			return;
+		}
+		
+		$oCacheHandler->invalidateGroupKey('attendance');
+	}
+	
+	/**
+	 * @brief 캐시 핸들러를 사용할 수 있는지 확인하고, 사용할 수 있다면 인스턴스를 반환
+	 */
+	function getCacheHandler()
+	{
+		static $oCacheHandler = null;
+		if($oCacheHandler === null)
+		{
+			$oCacheHandler = CacheHandler::getInstance('object');
+			if(!$oCacheHandler->isSupport())
+			{
+				$oCacheHandler = false;
+			}
+		}
+		return $oCacheHandler;
 	}
 }

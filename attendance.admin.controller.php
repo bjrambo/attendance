@@ -176,6 +176,9 @@ class attendanceAdminController extends attendance
 			$oPointController->setPoint($member_srl,$personal_point,'update');
 			if($action=='update') $this->setMessage('attend_updated_points');
 		}
+
+		// 캐시 비우기
+		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 	}
 
 
@@ -215,6 +218,9 @@ class attendanceAdminController extends attendance
 		$oAttendanceModel->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date.'000000');
 
 		$oAttendanceAdminModel->fixYearMonthWeek($obj);
+
+		// 캐시 비우기
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl);
 	}
 
 	/**
@@ -286,6 +292,9 @@ class attendanceAdminController extends attendance
 		$args->today_point = $today_point;
 		executeQuery('attendance.insertAttendance', $args);
 		$this->setMessage('attend_fixed_doublecheck');
+
+		// 캐시 비우기
+		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl);
 	}
 
 	/**
@@ -334,6 +343,9 @@ class attendanceAdminController extends attendance
 
 			$oAttendanceAdminModel->fixYearMonthWeek($obj);
 		}
+
+		// 캐시 비우기
+		$oAttendanceModel->clearCache();
 	}
 
 	/**
@@ -400,6 +412,9 @@ class attendanceAdminController extends attendance
 		$oModuleController = getController('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleController->deleteModule($module_info->module_srl);
+
+		// 캐시 비우기
+		$oAttendanceModel->clearCache();
 	}
 
 	function procAttendanceAdminInsertGift()
