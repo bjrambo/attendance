@@ -83,6 +83,7 @@ class attendanceAdminController extends attendance
 		$config->giftname = $obj->giftname;
 		$config->manygiftlist = $obj->manygiftlist;
 		$config->gift_random = $obj->gift_random;
+		$config->use_cache = $obj->attendance_use_cache === 'yes' ? 'yes' : 'no';
 		$config->greeting_list = $obj->greeting_list;
 
 		if(date('t', mktime(0,0,0,02,1,zDate(date('YmdHis'),"Y")))==29)
