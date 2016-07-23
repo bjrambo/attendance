@@ -43,15 +43,17 @@
 			<!--@else-->
 				{@$exist_document = 0}
 			<!--@end-->
-			{@$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date)}
-			{@$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week)}
-			{@$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl)}
+			{@
+				$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date);
+				$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week);
+				$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl);
+			}
 	   <div class="lulu-block cfix">
 			<div class="caret-block">
 				<span class="caret-outer"></span>
 				<span class="caret-inner"></span>
 			</div>
-			
+
 			<div class="lulu-main cfix">
 				<ul class="lulu-info cfix">
 					<li class="lulu-info-item nickname clarity-font left">
@@ -84,14 +86,14 @@
 					<li class="lulu-info-item time-ago left">{substr($data->regdate,8,2).':'.substr($data->regdate,10,2).':'.substr($data->regdate,12,2)}</li>
 					<li class="lulu-info-item cla-comments right">
 
-					<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-					<span class="label label-info">{$lang->attendance_perfect}</span>
-					<!--@elseif($is_perfect->monthly_perfect)-->
-					<span class="label label-success">{$lang->attendance_perfect}</span>
-					<!--@elseif($is_perfect->yearly_perfect)-->
+					<!--@if($is_perfect->yearly_perfect === 1)-->
 					<span class="label label-warning">{$lang->attendance_perfect}</span>
+					<!--@elseif($is_perfect->monthly_perfect === 1)-->
+					<span class="label label-success">{$lang->attendance_perfect}</span>
+					<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+					<span class="label label-info">{$lang->attendance_perfect}</span>
 					<!--@else-->
-					{@ 
+					{@
 						$oAttendanceModel = &getModel('attendance');
 						$total_info = $oAttendanceModel->getTotalData($member->member_srl);
 						$perfect_de = $selected_date - date("Ymd");
@@ -133,7 +135,7 @@
 					</li>
 					<li class="lulu-info-item bullet right"  cond="$cd->about_random == 'yes'">•</li>
 					<li class="lulu-info-item cla-comments right" cond="$cd->about_random == 'yes'">
-						랜덤 {$lang->point} 
+						랜덤 {$lang->point}
 						<span class="cri"|cond="$data->att_random_set=='1'" style="color:#222; font-weight:bold;">
 						<block cond="$data->today_random=='0'">꽝</block>
 						<block cond="$data->today_random>='1'"><i class="fa fa-certificate" cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
@@ -141,18 +143,18 @@
 					</li>
 				</ul>
 				<div class="lulu-content">
-				
-					
+
+
 					<div class="lulu-content-info pix-lulu">
 						<div class="lulu-content-title">
 							<a class="lulu-title-link">
-							<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-							<span class="label label-info">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->monthly_perfect)-->
-							<span class="label label-success">{$lang->attendance_perfect}</span>
-							<!--@elseif($is_perfect->yearly_perfect)-->
-							<span class="label label-warning">{$lang->attendance_perfect}</span>
-							<!--@end-->
+								<!--@if($is_perfect->yearly_perfect === 1)-->
+								<span class="label label-warning">{$lang->attendance_perfect}</span>
+								<!--@elseif($is_perfect->monthly_perfect === 1)-->
+								<span class="label label-success">{$lang->attendance_perfect}</span>
+								<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+								<span class="label label-info">{$lang->attendance_perfect}</span>
+								<!--@end-->
 							<!--@if($data->greetings)-->
 								<!--@if($exist_document == 1)-->
 									<!-- {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')} -->
@@ -168,7 +170,6 @@
 							<!--@else-->
 								{$lang->attend_no_greetings}
 							<!--@end-->
-
 							</a>
 						</div>
 					</div><!-- .lulu-content-info -->
