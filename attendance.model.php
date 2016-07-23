@@ -326,7 +326,7 @@ class attendanceModel extends attendance
 			{
 				$arg->monthly_perfect = 0;
 			}
-			if($is_perfect_y >= $end_of_year && $end_of_sosi==$end_of_year)
+			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
 			{
 				$arg->yearly_perfect = 1;
 			}
