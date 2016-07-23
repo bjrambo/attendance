@@ -853,6 +853,22 @@ class attendanceModel extends attendance
 		return $output;
 	}
 
+	/**
+	 * @brief 회원의 총 결석정보를 가져옵니다.
+	 * @param $sing_date
+	 * @param $total_attendance
+	 */
+	function getTotalAbsent($sign_date, $total_attendance)
+	{
+		$today = date('Y-m-d');
+		$end_date = date(zdate($sign_date, 'Y-m-d'));
+		$d_day = floor(( strtotime(substr($end_date,0,10)) - strtotime($today) )/86400);
+
+		$total_absent_number = abs($d_day) - $total_attendance;
+
+		$total_absent = preg_replace('/.0/', '', $total_absent_number);
+		return $total_absent;
+	}
 
 	/*******************************************************
 	*                    캐싱 관련 함수                    *

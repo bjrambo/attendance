@@ -1,0 +1,13 @@
+<query id="getWeeklyAttendanceByMemberSrl" action="select">
+	<tables>
+		<table name="attendance_weekly" />
+	</tables>
+	<columns>
+		<column name="count(*)" alias="count" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+		<condition operation="equal" column="weekly" var="weekly" pipe="and" />
+	</conditions>
+</query>
+

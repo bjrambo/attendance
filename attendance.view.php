@@ -186,4 +186,37 @@ class attendanceView extends attendance
 		Context::set('data', $data);
 		$this->setTemplateFile('continuous');
 	}
+
+	function dispAttendanceMemberInfo()
+	{
+		if(!Context::get('is_logged'))
+		{
+			return new Object(-1, '로그인 사용자만 사용가능합니다.');
+		}
+
+		$logged_info = Context::get('logged_info');
+		$member_srl = Context::get('member_srl');
+
+		if(!$member_srl)
+		{
+			$member_srl = $logged_info->member_srl;
+			$member_info = $logged_info;
+		}
+		else
+		{
+			$member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+		}
+
+		$oAttendanceModel = getModel('attendance');
+		$total_attendance = $oAttendanceModel->getTotalAttendance($member_srl);
+		$user_sign_up_date = $member_info->regdate;
+		$total_absent = $oAttendanceModel->getTotalAbsent($user_sign_up_date, $total_attendance);
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->weekly = 7;
+		$output = executeQuery('attendance.getWeeklyAttendanceByMemberSrl', $args);
+		$total_weekly = $output->data->count;
+
+		$this->setTemplateFile('member_info');
+	}
 }
