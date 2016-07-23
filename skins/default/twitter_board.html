@@ -1,205 +1,219 @@
-<load target="css/twitterstyle.css" />
-<load target="js/jquery.infinitescroll.js" />
+<load target="css/twitterstyle.css"/>
+<load target="js/jquery.infinitescroll.js"/>
 <div class="sat">
-    <!--//등수변수 초기화-->
-    <!--@if($module_info->order_type=='desc')-->
-        {@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}
-    <!--@else-->
-        {@$position=1+($oAttendance->page-1)*$module_info->list_count}
-    <!--@end-->
+	<!--//등수변수 초기화-->
+	<!--@if($module_info->order_type=='desc')-->
+	{@$position=($module_info->start_num)-($module_info->list_count*($oAttendance->page-1))}
+	<!--@else-->
+	{@$position=1+($oAttendance->page-1)*$module_info->list_count}
+	<!--@end-->
 
-	<script type="text/javascript"> 
-	jQuery(function($) {
-		$('.lulu-list').infinitescroll({
-			loading: {
+	<script type="text/javascript">
+		jQuery(function ($) {
+			$('.lulu-list').infinitescroll({
+				loading: {
 					speed: 0,
 					img: 'modules/board/skins/Clarity/img/loading.gif',
 					finishedMsg: '',
 					msgText: '',
 				},
 
-			navSelector  	: ".elise-pagination",
-			nextSelector 	: ".page-link",
-			itemSelector 	: ".lulu-list .lulu-item",
-			debug		 	: false,
-			dataType	 	: 'html',
+				navSelector: ".elise-pagination",
+				nextSelector: ".page-link",
+				itemSelector: ".lulu-list .lulu-item",
+				debug: false,
+				dataType: 'html',
 
-	    });
-	});
+			});
+		});
 	</script>
 
-<ul class="lulu-list left cfix clarity-font">
+	<ul class="lulu-list left cfix clarity-font">
 
-	<li class="lulu-item cfix" loop="$oAttendance->data=>$data">
+		<li class="lulu-item cfix" loop="$oAttendance->data=>$data">
 
-			
+
 			<!--@if(preg_match("/^#([0-9]+)$/",$data->greetings, $document_srl))-->
-				{@$oDocument = $oDocumentModel->getDocument($document_srl[1], false, false)}
-				<!--@if($oDocument->document_srl)-->
-					{@$exist_document = 1}
-				<!--@else-->
-					{@$exist_document = 0}
-				<!--@end-->
+			{@$oDocument = $oDocumentModel->getDocument($document_srl[1], false, false)}
+			<!--@if($oDocument->document_srl)-->
+			{@$exist_document = 1}
 			<!--@else-->
-				{@$exist_document = 0}
+			{@$exist_document = 0}
+			<!--@end-->
+			<!--@else-->
+			{@$exist_document = 0}
 			<!--@end-->
 			{@
-				$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date);
-				$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week);
-				$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl);
+			$is_perfect=$oAttendanceModel->isPerfect($data->member_srl, $selected_date);
+			$weekly = $oAttendanceModel->getWeeklyData($data->member_srl, $week);
+			$member = $oMemberModel->getMemberInfoByMemberSrl($data->member_srl);
 			}
-	   <div class="lulu-block cfix">
-			<div class="caret-block">
-				<span class="caret-outer"></span>
-				<span class="caret-inner"></span>
-			</div>
+			<div class="lulu-block cfix">
+				<div class="caret-block">
+					<span class="caret-outer"></span>
+					<span class="caret-inner"></span>
+				</div>
 
-			<div class="lulu-main cfix">
-				<ul class="lulu-info cfix">
-					<li class="lulu-info-item nickname clarity-font left">
-					<!--@if($position == 1)-->
-						<img src="./css/rank1.png" />1등
-					<!--@elseif($position == 2)-->
-						<img src="./css/rank2.png" />2등
-					<!--@elseif($position == 3)-->
-						<img src="./css/rank3.png" />3등
-					<!--@else-->
-						{$position}등
-					<!--@end-->
-						<a href="#popup_menu_area" class="lulu-info-link member_{$member->member_srl}" onclick="return false">{$member->nick_name}</a>
-				<!--@if($module_info->display_ip_address != 'N')-->
+				<div class="lulu-main cfix">
+					<ul class="lulu-info cfix">
+						<li class="lulu-info-item nickname clarity-font left">
+							<!--@if($position == 1)-->
+							<img src="./css/rank1.png"/>1등
+							<!--@elseif($position == 2)-->
+							<img src="./css/rank2.png"/>2등
+							<!--@elseif($position == 3)-->
+							<img src="./css/rank3.png"/>3등
+							<!--@else-->
+							{$position}등
+							<!--@end-->
+							<a href="#popup_menu_area" class="lulu-info-link member_{$member->member_srl}"
+							   onclick="return false">{$member->nick_name}</a>
+							<!--@if($module_info->display_ip_address != 'N')-->
 
-					<!--@if($data->ipaddress == 'none')-->
-						{$data->ipaddress}
-					<!--@elseif(!$data->ipaddress)-->
-						{$lang->attend_warn_ip}
-					<!--@else-->
-						<!--@if($data->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->
+							<!--@if($data->ipaddress == 'none')-->
 							{$data->ipaddress}
-						<!--@else-->
+							<!--@elseif(!$data->ipaddress)-->
+							{$lang->attend_warn_ip}
+							<!--@else-->
+							<!--@if($data->member_srl == $logged_info->member_srl || $logged_info->is_admin =='Y')-->
+							{$data->ipaddress}
+							<!--@else-->
 							{@$ip_tmp = explode('.',$data->ipaddress)}
-							{@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
-						<!--@end-->
-					<!--@end-->
-				<!--@end-->
-					</li>
-					<li class="lulu-info-item time-ago left">{substr($data->regdate,8,2).':'.substr($data->regdate,10,2).':'.substr($data->regdate,12,2)}</li>
-					<li class="lulu-info-item cla-comments right">
+							{@$i=0}<!--@foreach($ip_tmp as $ip)--><!--@if($i==0 || $i==1)-->{@$i++}*.
+							<!--@elseif($i==2)-->{@$i++}{$ip}.<!--@else-->{@$i++}{$ip}<!--@end--><!--@end-->
+							<!--@end-->
+							<!--@end-->
+							<!--@end-->
+						</li>
+						<li class="lulu-info-item time-ago left">
+							{substr($data->regdate,8,2).':'.substr($data->regdate,10,2).':'.substr($data->regdate,12,2)}
+						</li>
+						<li class="lulu-info-item cla-comments right">
 
-					<!--@if($is_perfect->yearly_perfect === 1)-->
-					<span class="label label-warning">{$lang->attendance_perfect}</span>
-					<!--@elseif($is_perfect->monthly_perfect === 1)-->
-					<span class="label label-success">{$lang->attendance_perfect}</span>
-					<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-					<span class="label label-info">{$lang->attendance_perfect}</span>
-					<!--@else-->
-					{@
-						$oAttendanceModel = &getModel('attendance');
-						$total_info = $oAttendanceModel->getTotalData($member->member_srl);
-						$perfect_de = $selected_date - date("Ymd");
-						$perfect_dec = $total_info->continuity + $perfect_de;
-					}
-					<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}"|cond="$logged_info->is_admin == 'Y'">
-					<!--@if($perfect_dec > 0)-->
-					&nbsp;{$perfect_dec} 일째
-					<!--@else-->
-					0 일째
-					<!--@end-->
-					</a>
-					<!--@end-->
-
-					</li>
-					<li class="lulu-info-item bullet right" >•</li>
-					<li class="lulu-info-item cla-comments right">
-					총 출석일이 {number_format($oAttendanceModel->getTotalAttendance($member->member_srl))}일째 입니다.
-					</li>
-					<li class="lulu-info-item bullet right" >•</li>
-					<li class="lulu-info-item cla-comments right">
-					<!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
-					<a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">
-					<!--@if($data->today_point > 5)-->
-					<font color="#FF0000">
-					포인트 {$data->today_point}</font>
-					<!--@else-->
-					포인트 {$data->today_point}
-					<!--@end-->
-					</a>
-					<!--@else-->
-					<!--@if($data->today_point > 5)-->
-					<font color="#FF0000">
-					포인트 {$data->today_point}</font>
-					<!--@else-->
-					포인트 {$data->today_point}
-					<!--@end-->
-					<!--@end-->
-					</li>
-					<li class="lulu-info-item bullet right"  cond="$cd->about_random == 'yes'">•</li>
-					<li class="lulu-info-item cla-comments right" cond="$cd->about_random == 'yes'">
-						랜덤 {$lang->point}
-						<span class="cri"|cond="$data->att_random_set=='1'" style="color:#222; font-weight:bold;">
-						<block cond="$data->today_random=='0'">꽝</block>
-						<block cond="$data->today_random>='1'"><i class="fa fa-certificate" cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
-						</span>
-					</li>
-				</ul>
-				<div class="lulu-content">
-
-
-					<div class="lulu-content-info pix-lulu">
-						<div class="lulu-content-title">
-							<a class="lulu-title-link">
-								<!--@if($is_perfect->yearly_perfect === 1)-->
-								<span class="label label-warning">{$lang->attendance_perfect}</span>
-								<!--@elseif($is_perfect->monthly_perfect === 1)-->
-								<span class="label label-success">{$lang->attendance_perfect}</span>
-								<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-								<span class="label label-info">{$lang->attendance_perfect}</span>
+							<!--@if($is_perfect->yearly_perfect === 1)-->
+							<span class="label label-warning">{$lang->attendance_perfect}</span>
+							<!--@elseif($is_perfect->monthly_perfect === 1)-->
+							<span class="label label-success">{$lang->attendance_perfect}</span>
+							<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+							<span class="label label-info">{$lang->attendance_perfect}</span>
+							<!--@else-->
+							{@
+							$oAttendanceModel = &getModel('attendance');
+							$total_info = $oAttendanceModel->getTotalData($member->member_srl);
+							$perfect_de = $selected_date - date("Ymd");
+							$perfect_dec = $total_info->continuity + $perfect_de;
+							}
+							<a href="{getUrl('','mid','attendance','act', 'dispAttendanceModifyContinuous', 'member_srl', $data->member_srl)}"
+							   |cond="$logged_info->is_admin == 'Y'">
+								<!--@if($perfect_dec > 0)-->
+								&nbsp;{$perfect_dec} 일째
+								<!--@else-->
+								0 일째
 								<!--@end-->
-							<!--@if($data->greetings)-->
-								<!--@if($exist_document == 1)-->
+							</a>
+							<!--@end-->
+
+						</li>
+						<li class="lulu-info-item bullet right">•</li>
+						<li class="lulu-info-item cla-comments right">
+							총 출석일이 {number_format($oAttendanceModel->getTotalAttendance($member->member_srl))}일째 입니다.
+						</li>
+						<li class="lulu-info-item bullet right">•</li>
+						<li class="lulu-info-item cla-comments right">
+							<!--@if($logged_info->is_admin=="Y" && $grant->manager == 1)-->
+							<a href="{getUrl('act','dispAttendanceAdminModifyAttendance','mid','attendance','attendance_srl',$data->attendance_srl,'selected_date',$selected_date)}">
+								<!--@if($data->today_point > 5)-->
+								<font color="#FF0000">
+									포인트 {$data->today_point}</font>
+								<!--@else-->
+								포인트 {$data->today_point}
+								<!--@end-->
+							</a>
+							<!--@else-->
+							<!--@if($data->today_point > 5)-->
+							<font color="#FF0000">
+								포인트 {$data->today_point}</font>
+							<!--@else-->
+							포인트 {$data->today_point}
+							<!--@end-->
+							<!--@end-->
+						</li>
+						<li class="lulu-info-item bullet right" cond="$cd->about_random == 'yes'">•</li>
+						<li class="lulu-info-item cla-comments right" cond="$cd->about_random == 'yes'">
+							랜덤 {$lang->point}
+						<span class="cri" |cond="$data->att_random_set=='1'" style="color:#222; font-weight:bold;">
+						<block cond="$data->today_random=='0'">꽝</block>
+						<block cond="$data->today_random>='1'"><i class="fa fa-certificate"
+						                                          cond="$data->att_random_set=='1'"></i> {$data->today_random}</block>
+						</span>
+						</li>
+					</ul>
+					<div class="lulu-content">
+
+
+						<div class="lulu-content-info pix-lulu">
+							<div class="lulu-content-title">
+								<a class="lulu-title-link">
+									<!--@if($is_perfect->yearly_perfect === 1)-->
+									<span class="label label-warning">{$lang->attendance_perfect}</span>
+									<!--@elseif($is_perfect->monthly_perfect === 1)-->
+									<span class="label label-success">{$lang->attendance_perfect}</span>
+									<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+									<span class="label label-info">{$lang->attendance_perfect}</span>
+									<!--@end-->
+									<!--@if($data->greetings)-->
+									<!--@if($exist_document == 1)-->
 									<!-- {cut_str($oDocument->getContentText(text),$module_info->greetings_cut_size,'...')} -->
 									{cut_str($oDocument->getContentText(text))}
-								<!--@else-->
+									<!--@else-->
 									{@$greetings_filtering = str_replace('<','&lt;',$data->greetings)}
-									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
+									<!--@if($data->greetings!='^admin_checked^' && $data->greetings!='^auto^')-->
+									{cut_str($greetings_filtering, $module_info->greetings_cut_size, '...')}
 									<!--@elseif($data->greetings=='^admin_checked^')-->{$lang->attendance_admin_checked}
 									<!--@elseif($data->greetings=='^auto^')-->{$lang->attend_auto_check}
 									<!--@else-->{$lang->default_greetings}
 									<!--@end-->
-								<!--@end-->
-							<!--@else-->
-								{$lang->attend_no_greetings}
-							<!--@end-->
-							</a>
-						</div>
-					</div><!-- .lulu-content-info -->
-				</div><!-- .lulu-content -->
-			</div><!-- .lulu-main -->
-		</div><!-- .lulu-block -->
- 
+									<!--@end-->
+									<!--@else-->
+									{$lang->attend_no_greetings}
+									<!--@end-->
+								</a>
+							</div>
+						</div><!-- .lulu-content-info -->
+					</div><!-- .lulu-content -->
+				</div><!-- .lulu-main -->
+			</div><!-- .lulu-block -->
 
-		<a class="lulu-thumb-link clarity-thumb avatar-radius">
-			<img class="lulu-thumb-img avatar-icons" src="{$member->profile_image->file}" cond="$member->profile_image->file" />
-			<img class="lulu-thumb-img avatar-icons" src="{$mi->no_profile}" cond="!$member->profile_image->file && $mi->no_profile" />
-			<img class="lulu-thumb-img avatar-icons" src="./noprofile.gif" cond="!$member->profile_image->file && !$mi->no_profile" />
-		</a>
-		<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
-	</li>
-<ul>
 
-<div class="list_footer">
+			<a class="lulu-thumb-link clarity-thumb avatar-radius">
+				<img class="lulu-thumb-img avatar-icons" src="{$member->profile_image->file}"
+				     cond="$member->profile_image->file"/>
+				<img class="lulu-thumb-img avatar-icons" src="{$mi->no_profile}"
+				     cond="!$member->profile_image->file && $mi->no_profile"/>
+				<img class="lulu-thumb-img avatar-icons" src="./noprofile.gif"
+				     cond="!$member->profile_image->file && !$mi->no_profile"/>
+			</a>
+			<!--@if($module_info->order_type=='desc')-->{@$position--}<!--@else-->{@$position++}<!--@end-->
+		</li>
+		<ul>
 
-    <div class="elise-pagination cfix">
-        <a href="{getUrl('page',$oAttendance->page_navigation->first_page,'module_srl','')}" class="page-direction page-prev"><span class="arrow-prev">←</span>First Page</a> 
-        <div class="page-list">
-        	<block loop="$page_no=$oAttendance->page_navigation->getNextPage()">
-            	<span cond="$oAttendance->page == $page_no" class="page page-current"><span class="page-current-mark"></span>{$page_no}</span>
-                <a cond="$oAttendance->page != $page_no" class="page page-link" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
-			</block>
-        </div>
-        <a href="{getUrl('page',$oAttendance->page_navigation->last_page,'module_srl','')}" class="page-direction page-next">Last Page<span class="arrow-next">→</span></a>
-    </div><!-- .elise-pagination -->
-   
-</div><!-- .list-footer -->
+			<div class="list_footer">
+
+				<div class="elise-pagination cfix">
+					<a href="{getUrl('page',$oAttendance->page_navigation->first_page,'module_srl','')}"
+					   class="page-direction page-prev"><span class="arrow-prev">←</span>First Page</a>
+					<div class="page-list">
+						<block loop="$page_no=$oAttendance->page_navigation->getNextPage()">
+							<span cond="$oAttendance->page == $page_no" class="page page-current"><span
+									class="page-current-mark"></span>{$page_no}</span>
+							<a cond="$oAttendance->page != $page_no" class="page page-link"
+							   href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+						</block>
+					</div>
+					<a href="{getUrl('page',$oAttendance->page_navigation->last_page,'module_srl','')}"
+					   class="page-direction page-next">Last Page<span class="arrow-next">→</span></a>
+				</div><!-- .elise-pagination -->
+
+			</div><!-- .list-footer -->
 
 </div>
