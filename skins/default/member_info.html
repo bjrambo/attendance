@@ -1,0 +1,13 @@
+<include target="_header.html" />
+<div style="font-family: 'Lucida Grande', 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Lucida Sans Unicode', Helvetica, Arial, sans-serif; font-size: 0.9em; overflow-x: hidden; overflow-y: auto; margin: 0px !important; padding: 5px 20px 26px !important; background-color: rgb(255, 255, 255);font-family: 'Hiragino Sans GB', 'Microsoft YaHei', STHeiti, SimSun, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Segoe UI', AppleSDGothicNeo-Medium, 'Malgun Gothic', Verdana, Tahoma, sans-serif; padding: 20px;padding: 20px; color: rgb(34, 34, 34); font-size: 15px; font-family: 'Roboto Condensed', Tauri, 'Hiragino Sans GB', 'Microsoft YaHei', STHeiti, SimSun, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Segoe UI', AppleSDGothicNeo-Medium, 'Malgun Gothic', Verdana, Tahoma, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; background: rgb(255, 255, 255);">
+	<h2 id="출석-정보"
+	    style="clear: both;font-size: 1.8em; font-weight: bold; margin: 1.275em 0px 0.85em;margin-top: 0px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(230, 230, 230);">
+		<a name="출석-정보" href="#출석-정보"
+		   style="text-decoration: none; vertical-align: baseline;color: rgb(50, 105, 160);"></a>출석 정보</h2>
+	<ul>
+		<li style="display: list-item; line-height: 1.4em;">총 출석일이 {$member_data->total_attendance}일입니다.</li>
+		<li style="display: list-item; line-height: 1.4em;">총 결석일이 {$member_data->total_absent}일입니다. (사이트 가입일기준)</li>
+		<li style="display: list-item; line-height: 1.4em;">주간개근 횟수는 {$member_data->total_weekly}회 입니다.</li>
+	</ul>
+</div>
+<include target="_footer.html" />

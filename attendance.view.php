@@ -194,6 +194,8 @@ class attendanceView extends attendance
 			return new Object(-1, '로그인 사용자만 사용가능합니다.');
 		}
 
+		$oAttendanceModel = getModel('attendance');
+
 		$logged_info = Context::get('logged_info');
 		$member_srl = Context::get('member_srl');
 
@@ -207,15 +209,20 @@ class attendanceView extends attendance
 			$member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
 		}
 
-		$oAttendanceModel = getModel('attendance');
-		$total_attendance = $oAttendanceModel->getTotalAttendance($member_srl);
 		$user_sign_up_date = $member_info->regdate;
+		$total_attendance = $oAttendanceModel->getTotalAttendance($member_srl);
 		$total_absent = $oAttendanceModel->getTotalAbsent($user_sign_up_date, $total_attendance);
-		$args = new stdClass();
-		$args->member_srl = $member_srl;
-		$args->weekly = 7;
-		$output = executeQuery('attendance.getWeeklyAttendanceByMemberSrl', $args);
-		$total_weekly = $output->data->count;
+		$total_weekly = $oAttendanceModel->getWeeklyAttendanceByMemberSrl($member_srl);
+
+		$member_data = new stdClass();
+		$member_data->nick_name = $member_info->nick_name;
+		$member_data->profile_img = $member_info->profile_image->src;
+		$member_data->member_srl = $member_srl;
+		$member_data->total_attendance = $total_attendance;
+		$member_data->total_absent = $total_absent;
+		$member_data->total_weekly = $total_weekly;
+
+		Context::set('member_data', $member_data);
 
 		$this->setTemplateFile('member_info');
 	}

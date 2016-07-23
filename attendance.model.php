@@ -870,6 +870,16 @@ class attendanceModel extends attendance
 		return $total_absent;
 	}
 
+	function getWeeklyAttendanceByMemberSrl($member_srl)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->weekly = 7;
+		$output = executeQuery('attendance.getWeeklyAttendanceByMemberSrl', $args);
+
+		return $output->data->count;
+	}
+
 	/*******************************************************
 	*                    캐싱 관련 함수                    *
 	********************************************************/
