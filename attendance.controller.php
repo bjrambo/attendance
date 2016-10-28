@@ -874,4 +874,25 @@ class attendanceController extends attendance
 		}
 	}
 
+	function triggerAddMemberMenu()
+	{
+		$logged_info = Context::get('logged_info');
+		if(!Context::get('is_logged'))
+		{
+			return new Object();
+		}
+
+		$target_srl = Context::get('target_srl');
+
+		$oMemberController = getController('member');
+		$oMemberController->addMemberMenu('dispAttendanceMemberInfo', '출석사항');
+
+		if($logged_info->is_admin == 'Y')
+		{
+			$url = getUrl('', 'mid', 'attendance', 'act', 'dispAttendanceMemberInfo', 'member_srl', $target_srl);
+			$str = '회원출석사항';
+			$oMemberController->addMemberPopupMenu($url, $str, '');
+		}
+	}
+
 }
