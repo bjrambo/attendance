@@ -9,7 +9,7 @@
 
 class attendanceModel extends attendance
 {
-	private static $config = NULL;
+	const $config = NULL;
 
 	/**
 	 * @brief 초기화
