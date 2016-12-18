@@ -138,7 +138,7 @@ class attendanceController extends attendance
 	/**
 	 * @brief 출석부 기록 함수
 	 */
-	function insertAttendance($g_obj, $config, $member_srl, $r_args)
+	public static function insertAttendance($g_obj, $config, $member_srl, $r_args = false)
 	{
 		$oAttendanceModel = getModel('attendance');
 		$oMemberModel = getModel('member');
@@ -149,10 +149,10 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			return;
+			return false;
 		}
 
-		if($r_args)
+		if($r_args !== false)
 		{
 			$today = $r_args->regdate;
 			$year = $r_args->year;
@@ -480,7 +480,7 @@ class attendanceController extends attendance
 			$oPointController->setPoint($member_info->member_srl,$obj->today_point,'add');
 		}
 
-		$this->addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
+		self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
 
 		return $output;
 	}
