@@ -13,8 +13,11 @@
         <!--@end-->
 
 			<td height="35px" class="stamp">
-                {@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
-                {@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
+				{@
+					$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day);
+					if($check_date <= date('Ymd')) $checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date);
+					else $checked = 0;
+				}
                 
                
                 

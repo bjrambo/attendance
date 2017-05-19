@@ -12,8 +12,11 @@ e<!--%import("filter/fix_attendance_data.xml")-->
 		<!--@if($j%40 == 0)--><tr><!--@end-->
 		<!--@while($j <= $admin_date_info->week_start)-->{@$j++}<!--@end-->
 			<td height="35px;" <!--@if(sprintf('%04d%02d%02d',$admin_date_info->_year,$admin_date_info->_month,$_day) > date('Ymd'))-->class="stamp1"<!--@else-->class="stamp"<!--@end--> >
-				{@$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day)}
-				{@$checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date)}
+				{@
+					$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day);
+					if($check_date <= date('Ymd')) $checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date);
+					else $checked = 0;
+				}
 				<!--@if($checked == 1 && $is_logged)-->
 					<!--@if($logged_info->is_admin=='Y' || $checked == 1 && $is_logged)-->
 						<a href="{getUrl('document_srl','','selected_date',zDate(date('YmdHis',mktime(0,0,0,$admin_date_info->_month, $_day, $admin_date_info->_year)),'Ymd'))}">

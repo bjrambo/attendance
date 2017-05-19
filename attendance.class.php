@@ -154,6 +154,11 @@ class attendance extends ModuleObject
 			return true;
 		}
 
+		if($oDB->isIndexExists('attendance', 'idx_member_srl_and_regdate'))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -380,6 +385,12 @@ class attendance extends ModuleObject
 		{
 			$oDB->addIndex('attendance', 'idx_member_srl', array('member_srl'));
 		}
+
+		if($oDB->isIndexExists('attendance', 'idx_member_srl_and_regdate'))
+		{
+			$oDB->dropIndex('attendance', 'idx_member_srl_and_regdate');
+		}
+
 		return new Object(0,'success_updated');
 	}
 
