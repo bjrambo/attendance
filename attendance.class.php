@@ -143,6 +143,18 @@ class attendance extends ModuleObject
 		{
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return TRUE;
 		}
+
+		if(!$oDB->isIndexExists('attendance', 'idx_regdate'))
+		{
+			return true;
+		}
+
+		if(!$oDB->isIndexExists('attendance', 'idx_member_srl'))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -359,6 +371,15 @@ class attendance extends ModuleObject
 			}
 		}
 
+		if(!$oDB->isIndexExists('attendance', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance', 'idx_regdate', array('regdate'));
+		}
+
+		if(!$oDB->isIndexExists('attendance', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance', 'idx_member_srl', array('member_srl'));
+		}
 		return new Object(0,'success_updated');
 	}
 
