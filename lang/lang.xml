@@ -6,7 +6,7 @@
 	<item name="mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰]]></value>
 	</item>
-	<item name="about_mobile_view">
+	<item name="about_mobile_attendance_view">
 		<value xml:lang="ko"><![CDATA[모바일 출석부를 사용합니다.]]></value>
 	</item>
 	<item name="select_date">
