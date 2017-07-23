@@ -272,6 +272,40 @@ class attendanceModel extends attendance
 		return $result;
 	}
 
+	/**
+	 * 선택한 날자가 포함된 달에 출석한 날자를 모두 가져옴
+	 * @param $member_srl
+	 * @param $today
+	 * @return array|bool
+	 */
+	function getIsCheckedMonth($member_srl, $today)
+	{
+		if(!$member_srl)
+		{
+			return false;
+		}
+
+		$args = new stdClass();
+		$args->regdate = $today;
+		$args->member_srl = $member_srl;
+		$output = executeQueryArray('attendance.getIsCheckedMonth', $args);
+
+		$regdate_array = array();
+		if($output->data)
+		{
+			foreach($output->data as $val)
+			{
+				$regdate_array[] = substr($val->regdate, 0, 8);
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		return array_count_values($regdate_array);
+	}
+
     /**
      * @brief 오늘 내 등수 체크
      */
