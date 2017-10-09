@@ -232,6 +232,7 @@ class attendanceAdminController extends attendance
 		//모델 연동
 		$oAttendanceModel = getModel('attendance');
 		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendnaceController = getController('attendance');
 		//포인트 모듈 연동
 		$oPointModel = getModel('point');
 		$oPointController = getController('point');
@@ -264,26 +265,27 @@ class attendanceAdminController extends attendance
 		$week_data = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
 		$week_data->weekly = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week) +1;
 		$week_data->weekly_point = $week_data->weekly_point -$today_point;
-		$oAttendanceModel->updateWeekly($obj->member_srl, $week, $week_data->weekly, $week_data->weekly_point, $regdate);
+		$oAttendnaceController->updateWeekly($obj->member_srl, $week, $week_data->weekly, $week_data->weekly_point, $regdate);
 		//월간 출석정보 수정
 		$year_month = substr($obj->selected_date,0,6);
 		$monthly_data = $oAttendanceModel->getMonthlyAttendance($obj->member_srl, $year_month);
 		$monthly_data->monthly = $oAttendanceModel->getMonthlyData($year_month,$obj->member_srl) +1;
 		$monthly_data->monthly_point = $monthly_data->monthly_point - $today_point;
-		$oAttendanceModel->updateMonthly($obj->member_srl, $year_month, $monthly_data->monthly, $monthly_data->monthly_point, $regdate);
+		$oAttendnaceController->updateMonthly($obj->member_srl, $year_month, $monthly_data->monthly, $monthly_data->monthly_point, $regdate);
 		//연간 출석정보 수정
 		$year = substr($obj->selected_date,0,4);
 		$yearly_data = $oAttendanceModel->getYearlyAttendance($obj->member_srl, $year);
 		$yearly_data->yearly = $oAttendanceModel->getYearlyData($year,$obj->member_srl) +1;
 		$yearly_data->yearly_point = $yearly_data->yearly_point - $today_point;
-		$oAttendanceModel->updateYearly($obj->member_srl, $year, $yearly_data->yearly, $yearly_data->yearly_point, $regdate);
+		$oAttendnaceController->updateYearly($obj->member_srl, $year, $yearly_data->yearly, $yearly_data->yearly_point, $regdate);
 		//총 출석정보 수정
 		$total_data = $oAttendanceModel->getTotalData($obj->member_srl);
 		$total_data->total = $oAttendanceModel->getTotalAttendance($obj->member_srl) +1;
 		$total_data->total_point = $total_data->total_point - $today_point;
+		$continuity = new stdClass();
 		$continuity->data = $total_data->continuity;
 		$continuity->point = $total_data->continuity_point;
-		$oAttendanceModel->updateTotal($obj->member_srl, $continuity, $total_data->total, $total_data->total_point, $total_data->regdate);
+		$oAttendnaceController->updateTotal($obj->member_srl, $continuity, $total_data->total, $total_data->total_point, $total_data->regdate);
 		//정상적인 출석정보 삽입
 		$args = new stdClass();
 		$args->attendance_srl = getNextSequence();
@@ -291,7 +293,11 @@ class attendanceAdminController extends attendance
 		$args->member_srl = $obj->member_srl;
 		$args->greetings = $greetings;
 		$args->today_point = $today_point;
-		executeQuery('attendance.insertAttendance', $args);
+		$output = executeQuery('attendance.insertAttendance', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->setMessage('attend_fixed_doublecheck');
 
 		// 캐시 비우기

@@ -38,8 +38,6 @@ class attendanceModel extends attendance
 			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
 			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
 			if(!$config->about_admin_check) $config->about_admin_check = 'yes';
-
-			// TODO(BJRambo): check again.
 			if(!$config->use_cache) $config->use_cache = 'yes';
 
 			self::$config = $config;
@@ -356,38 +354,38 @@ class attendanceModel extends attendance
 		{
 			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
 			{
-				$regularlyObject->monthly_perfect = 1;
+				$regularlyObject->monthly_perfect = true;
 			}
 			else
 			{
-				$regularlyObject->monthly_perfect = 0;
+				$regularlyObject->monthly_perfect = false;
 			}
 			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
 			{
-				$regularlyObject->yearly_perfect = 1;
+				$regularlyObject->yearly_perfect = true;
 			}
 			else
 			{
-				$regularlyObject->yearly_perfect = 0;
+				$regularlyObject->yearly_perfect = false;
 			}
 		}
 		else
 		{
 			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
 			{
-				$regularlyObject->monthly_perfect = 1;
+				$regularlyObject->monthly_perfect = true;
 			}
 			else
 			{
-				$regularlyObject->monthly_perfect = 0;
+				$regularlyObject->monthly_perfect = false;
 			}
 			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
 			{
-				$regularlyObject->yearly_perfect = 1;
+				$regularlyObject->yearly_perfect = true;
 			}
 			else
 			{
-				$regularlyObject->yearly_perfect = 0;
+				$regularlyObject->yearly_perfect = false;
 			}
 		}
 
@@ -414,6 +412,10 @@ class attendanceModel extends attendance
 	 */
 	function isExistContinuity($member_srl, $yesterday)
 	{
+		if($yesterday == null)
+		{
+			return 0;
+		}
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
@@ -654,7 +656,7 @@ class attendanceModel extends attendance
 				return $week_data;
 			}
 		}
-		
+
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
@@ -663,11 +665,12 @@ class attendanceModel extends attendance
 		$week_data = new stdClass();
 		$week_data->weekly = (int)$output->data->weekly;
 		$week_data->weekly_point = (int)$output->data->weekly_point;
-		
+
 		if($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), $week_data, 86400);
 		}
+
 		return $week_data;
 	}
 

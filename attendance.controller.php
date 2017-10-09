@@ -168,6 +168,7 @@ class attendanceController extends attendance
 			$today = $r_args->regdate;
 			$year = $r_args->year;
 			$year_month = $r_args->year_month;
+			$yesterday = null;
 		}
 		else
 		{
@@ -188,20 +189,17 @@ class attendanceController extends attendance
 		$today_position = zDate($today, 'Ymd');
 		$position = $oAttendanceModel->getPositionData($today_position);
 
-		if($g_obj->about_position == 'yes')
+		if($position == 0)
 		{
-			if($position == 0)
-			{
-				$obj->today_point += $config->first_point;
-			}
-			else if($position == 1)
-			{
-				$obj->today_point += $config->second_point;
-			}
-			else if($position == 2)
-			{
-				$obj->today_point += $config->third_point;
-			}
+			$obj->today_point += $config->first_point;
+		}
+		else if($position == 1)
+		{
+			$obj->today_point += $config->second_point;
+		}
+		else if($position == 2)
+		{
+			$obj->today_point += $config->third_point;
 		}
 
 		$yesterday_continuity_data = $oAttendanceModel->isExistContinuity($member_info->member_srl, $yesterday);
@@ -215,7 +213,7 @@ class attendanceController extends attendance
 				$continuity->point = $obj->continuity_point;
 			}
 
-			// If insert attendance memeber in admin page, Initialize the continuity days.
+			// If insert attendance member in admin page, Initialize the continuity days.
 			if($r_args)
 			{
 				$continuity->data = 1;
@@ -276,11 +274,11 @@ class attendanceController extends attendance
 		}
 
 		$attendRegularly = $oAttendanceModel->isPerfect($member_info->member_srl, $today, false);
-		if($attendRegularly->yearly_perfect == 1)
+		if($attendRegularly->yearly_perfect == true)
 		{
 			$obj->today_point += $config->yearly_point;
 		}
-		if($attendRegularly->monthly_perfect == 1)
+		if($attendRegularly->monthly_perfect == true)
 		{
 			$obj->today_point += $config->monthly_point;
 		}
@@ -461,33 +459,32 @@ class attendanceController extends attendance
 		{
 			$oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
 		}
-
 		self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
-
 		return $output;
 	}
 
+	// TODO : check again to bug.
 	function addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity)
 	{
 		$oAttendanceModel = getModel('attendance');
 		if($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
-			$this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, null);
+			$this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $today);
 		}
 		else
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl);
 			$total_point += $obj->today_point;
-			$this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, null);
+			$this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $today);
 		}
 
 		if($oAttendanceModel->isExistYearly($member_info->member_srl, $year) == 0)
 		{
 			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			$yearly_point = $obj->today_point;
-			$this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, null);
+			$this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $today);
 		}
 		else
 		{
@@ -495,14 +492,14 @@ class attendanceController extends attendance
 			$year_info = $oAttendanceModel->getYearlyAttendance($member_info->member_srl, $year);
 			$yearly_point = $year_info->yearly_point;
 			$yearly_point += $obj->today_point;
-			$this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,null);
+			$this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,$today);
 		}
 
 		if($oAttendanceModel->isExistMonthly($member_info->member_srl, $year_month) == 0)
 		{
 			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			$monthly_point = $obj->today_point;
-			$this->insertMonthly($member_info->member_srl, $monthly_data, $monthly_point, null);
+			$this->insertMonthly($member_info->member_srl, $monthly_data, $monthly_point, $today);
 		}
 		else
 		{
@@ -510,7 +507,7 @@ class attendanceController extends attendance
 			$month_info = $oAttendanceModel->getMonthlyAttendance($member_info->member_srl, $year_month);
 			$monthly_point = $month_info->monthly_point;
 			$monthly_point += $obj->today_point;
-			$this->updateMonthly($member_info->member_srl, $year_month, $monthly_data, $monthly_point, null);
+			$this->updateMonthly($member_info->member_srl, $year_month, $monthly_data, $monthly_point, $today);
 		}
 
 		$week = $oAttendanceModel->getWeek($today);
@@ -518,7 +515,7 @@ class attendanceController extends attendance
 		{
 			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			$weekly_point = $obj->today_point;
-			$this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, null);
+			$this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $today);
 		}
 		else
 		{
@@ -526,7 +523,7 @@ class attendanceController extends attendance
 			$week_info = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
 			$weekly_point = $week_info->weekly_point;
 			$weekly_point += $obj->today_point;
-			$this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, null);
+			$this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $today);
 		}
 
 		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
@@ -758,10 +755,11 @@ class attendanceController extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$config = $oAttendanceModel->getConfig();
 
+		$args = new stdClass();
+		$args->greetings = '^auto^';
 		if($config->about_auto_attend == 'yes')
 		{
-			//TODO(BJRambo): Check again this parameters. g_obj should object.
-			$this->insertAttendance('yes','^auto^',$obj->member_srl);
+			$this->insertAttendance($args, $config, $obj->member_srl);
 		}
 	}
 
@@ -824,6 +822,7 @@ class attendanceController extends attendance
 		$target_srl = Context::get('target_srl');
 
 		$oMemberController = getController('member');
+		// Can i use the the Context::getLang in str (string)?
 		$oMemberController->addMemberMenu('dispAttendanceMemberInfo', '출석사항');
 
 		if($logged_info->is_admin == 'Y')
