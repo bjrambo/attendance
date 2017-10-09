@@ -46,6 +46,7 @@
 		<action name="procAttendanceAdminDeleteBoard" type="controller" standalone="true" />
 		<action name="procAttendanceAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="procAttendanceAdminCheckData" type="controller" />
+		<action name="procAttendanceAdminDeleteData" type="controller" standalone="true" />
 
 		<!-- user view -->
 		<action name="dispAttendanceBoard" type="view" standalone="true" index="true" />
@@ -54,7 +55,6 @@
 		<action name="dispAttendanceMobileModifyAttendance" type="mobile" />
 
 		<!-- user controller -->
-		<action name="procAttendanceDeleteData" type="controller" standalone="true" />
 		<action name="procAttendanceCheckData" type="controller" standalone="true" />
 		<action name="procAttendanceModifyData" type="controller" standalone="true" />
 		<action name="procAttendanceInsertConfig" type="controller" standalone="true" />

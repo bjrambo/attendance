@@ -463,7 +463,6 @@ class attendanceController extends attendance
 		return $output;
 	}
 
-	// TODO : check again to bug.
 	function addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity)
 	{
 		$oAttendanceModel = getModel('attendance');
@@ -529,128 +528,7 @@ class attendanceController extends attendance
 		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
 	}
 
-	/**
-	 * @brief 관리자 임의 출석 제거
-	 * @TODO(BjRambo): delete the this method and, move to admin controller.
-	 * Why now you in here?
-	 **/
-	function procAttendanceDeleteData()
-	{
-		//포인트 모듈 연동
-		$oPointController = getController('point');
 
-		/*attendance model 객체 생성*/
-		$oAttendanceModel = getModel('attendance');
-
-		//넘겨받고
-		$obj = Context::getRequestVars();
-		$year = substr($obj->check_day,0,4);
-		$year_month = substr($obj->check_day,0,6);
-		$args = new stdClass;
-		$args->check_day = $obj->check_day;
-		$args->member_srl = $obj->member_srl;
-
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
-
-		/*출석당일 포인트 꺼내오기*/
-		$daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
-
-		//If delete Attendace, should the is_attended session initialize.
-		$_SESSION['is_attended'] = '0';
-
-		$week = $oAttendanceModel->getWeek($obj->check_day);
-		if($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day)!=0)
-		{
-			$oPointController->setPoint($member_info->member_srl, $daily_info->today_point, 'minus');
-
-			if(substr($daily_info->greetings,0,1) == '#')
-			{
-				$length = strlen($daily_info->greetings) -1;
-				$document_srl = substr($daily_info->greetings, 1, $length);
-				$oDocumentController = getController('document');
-				$oDocumentController->deleteDocument($document_srl,true);
-			}
-
-			executeQuery("attendance.deleteAttendanceData", $args);
-
-			$regdate =  sprintf("%s235959",$obj->check_day);
-			$continuity = new stdClass;
-			$continuity->data = 1;
-			$continuity->point = 0;
-			if($oAttendanceModel->isExistTotal($obj->member_srl) == 0)
-			{
-				$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-				$this->insertTotal($obj->member_srl, $continuity, $total_attendance, 0, $regdate);
-			}
-			else
-			{
-				$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-				$total_point = $oAttendanceModel->getTotalPoint($obj->member_srl);
-				$total_point -= $daily_info->today_point;
-				if($total_point < 0) { $total_point = 0; }
-				$this->updateTotal($obj->member_srl, $continuity, $total_attendance, $total_point, $regdate);
-			}
-
-			if($oAttendanceModel->isExistYearly($obj->member_srl, $year) == 0)
-			{
-				$yearly_data = $oAttendanceModel->getYearlyData($year, $obj->member_srl);
-				$this->insertYearly($obj->member_srl, $yearly_data, 0, $regdate);
-			}
-			else
-			{
-				$yearly_data = $oAttendanceModel->getYearlyData($year, $obj->member_srl);
-				$year_info = $oAttendanceModel->getYearlyAttendance($obj->member_srl, $year);
-				$yearly_point = $year_info->yearly_point;
-				$yearly_point -= $daily_info->today_point;
-				if($yearly_point <0 )
-				{
-					$yearly_point = 0;
-				}
-				$this->updateYearly($obj->member_srl, $year, $yearly_data, $yearly_point, $regdate);
-			}
-
-			if($oAttendanceModel->isExistMonthly($obj->member_srl, $year_month) == 0)
-			{
-				$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $obj->member_srl);
-				$this->insertMonthly($obj->member_srl, $monthly_data, 0, $regdate);
-			}
-			else
-			{
-				$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $obj->member_srl);
-				$month_info = $oAttendanceModel->getMonthlyAttendance($obj->member_srl, $year_month);
-				$monthly_point = $month_info->monthly_point;
-				$monthly_point -= $daily_info->today_point;
-				if($monthly_point < 0)
-				{
-					$monthly_point = 0;
-				}
-				$this->updateMonthly($obj->member_srl, $year_month, $monthly_data, $monthly_point, $regdate);
-			}
-
-			if($oAttendanceModel->isExistWeekly($obj->member_srl, $week) == 0 )
-			{
-				$weekly_data = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week);
-				$this->insertWeekly($obj->member_srl, $weekly_data, 0, $regdate);
-			}
-			else
-			{
-				$weekly_data = $oAttendanceModel->getWeeklyAttendance($obj->member_srl, $week);
-				$week_info = $oAttendanceModel->getWeeklyData($obj->member_srl, $week);
-				$weekly_point = $week_info->weekly_point;
-				$weekly_point -= $daily_info->today_point;
-				if($weekly_point < 0){ $weekly_point = 0; }
-				$this->updateWeekly($obj->member_srl, $week, $weekly_data, $weekly_point, $regdate);
-			}
-			$this->setMessage("success_deleted");
-		}
-
-		// delete cache.
-		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'daily', $obj->check_day);
-		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'weekly', $week);
-		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'monthly', $year_month);
-		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl, 'yearly', $year);
-	}
 
 	/**
 	 * @brief 출석내용 수정
