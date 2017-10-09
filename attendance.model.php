@@ -54,10 +54,10 @@ class attendanceModel extends attendance
 		$output = executeQuery('attendance.getAttendance');
 		if(!$output->data->module_srl)
 		{
-			return;
+			return new stdClass();
 		}
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($output->data->module_srl);
+
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($output->data->module_srl);
 
 		return $module_info;
 	}
