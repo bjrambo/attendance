@@ -98,23 +98,23 @@ class attendanceAdminController extends attendance
 
 		if($obj->continuity_day < 2)
 		{
-			$obj->continuity_day = 2;
+			$config->continuity_day = 2;
 		}
 		if($obj->diligence_yearly >= $end_of_year || $obj->diligence_yearly < 32)
 		{
-			$obj->diligence_yearly = $end_of_year - 1;
+			$config->diligence_yearly = $end_of_year - 1;
 		}
 		if($obj->diligence_monthly >= $end_of_month || $obj->diligence_monthly < 8)
 		{
-			$obj->diligence_monthly = $end_of_month - 1;
+			$config->diligence_monthly = $end_of_month - 1;
 		}
 		if($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1)
 		{
-			$obj->diligence_weekly = 6;
+			$config->diligence_weekly = 6;
 		}
 		if($obj->allow_duplicaton_ip_count > 0)
 		{
-			$obj->allow_duplicaton_ip_count = 3;
+			$config->allow_duplicaton_ip_count = 3;
 		}
 
 		$this->setMessage('success_updated');
