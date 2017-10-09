@@ -144,7 +144,7 @@ class attendanceController extends attendance
 	// Why use the static function ?
 	/**
 	 * Insert of attendance
-	 * @param $g_obj
+	 * @param object $g_obj
 	 * @param $config
 	 * @param $member_srl
 	 * @param Object $r_args
@@ -534,6 +534,8 @@ class attendanceController extends attendance
 
 	/**
 	 * @brief 관리자 임의 출석 제거
+	 * @TODO(BjRambo): delete the this method and, move to admin controller.
+	 * Why now you in here?
 	 **/
 	function procAttendanceDeleteData()
 	{
@@ -658,12 +660,12 @@ class attendanceController extends attendance
 	 **/
     function procAttendanceModifyData()
 	{
-		$obj = Context::getRequestVars();
 		$oPointController = getController('point');
 		$oAttendanceModel = getModel('attendance');
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($obj->attendance_srl);
 
-		//입력한 시간 형식이 맞는지 판단하기
+		$obj = Context::getRequestVars();
+
 		if(strlen($obj->regdate) != 6) return ;
 		$hour = substr($obj->regdate,0,2);
 		$min = substr($obj->regdate,2,2);
@@ -676,25 +678,18 @@ class attendanceController extends attendance
 		$year_month = substr($obj->selected_date,0,6);
 		$week = $oAttendanceModel->getWeek($obj->selected_date);
 
-		//주간 출석포인트 꺼내기
 		$weekly_info = $oAttendanceModel->getWeeklyData($oAttendance->member_srl, $week);
-		//월간 출석포인트 꺼내기
 		$monthly_info = $oAttendanceModel->getMonthlyAttendance($oAttendance->member_srl, $year_month);
-		//연간 출석포인트 꺼내기
 		$yearly_info = $oAttendanceModel->getYearlyAttendance($oAttendance->member_srl, $year);
-		//총 출석포인트 꺼내기
 		$total_info = $oAttendanceModel->getTotalData($oAttendance->member_srl);
 		$continuity = new stdClass;
 		$continuity->data = $total_info->continuity;
 		$continuity->point = $total_info->continuity_point;
-		//오늘날짜와 등록시각 수정
 		$regdate = sprintf("%s%s",$obj->selected_date,$obj->regdate);
 
-		//입력된 당일기록포인트가 기존포인트와 비교하여 차이만큼 회원의 포인트 추가/차감
 		if(!$obj->today_point) return;
 		if($obj->today_point < $oAttendance->today_point)
 		{
-			/*포인트 차이만큼 빼기*/
 			$value = $oAttendance->today_point - $obj->today_point;
 			$oPointController->setPoint($oAttendance->member_srl,$value,'minus');
 			$this->updateWeekly($oAttendance->member_srl, $week, null, $weekly_info->weekly_point -$value, $regdate);
@@ -704,7 +699,6 @@ class attendanceController extends attendance
 		}
 		else if($obj->today_point > $oAttendance->today_point)
 		{
-			/*포인트 차이만큼 더하기*/
 			$value = $obj->today_point - $oAttendance->today_point;
 			$oPointController->setPoint($oAttendance->member_srl,$value,'add');
 			$this->updateWeekly($oAttendance->member_srl, $week, null, $weekly_info->weekly_point + $value, $regdate);
@@ -728,11 +722,12 @@ class attendanceController extends attendance
 	}
 
     /**
-     * @brief 회원 탈퇴시 출석 기록을 모두 제거하는 trigger
+     * @brief If leave member, delete the member attendance data.
+     * @param object $obj
+     * @return Object
      **/
 	function triggerDeleteMember($obj)
 	{
-		/*attendance admin model 객체 생성*/
 		$oAttendanceAdminModel = getAdminModel('attendance');
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
@@ -757,19 +752,24 @@ class attendanceController extends attendance
 		if($output->data->count > 0 )
 		{
 			$_SESSION['is_attended'] = $today;
-			return;
+			return new Object();
 		}
 
-		//module의 설정값 가져오기
 		$oAttendanceModel = getModel('attendance');
 		$config = $oAttendanceModel->getConfig();
 
 		if($config->about_auto_attend == 'yes')
 		{
+			//TODO(BJRambo): Check again this parameters. g_obj should object.
 			$this->insertAttendance('yes','^auto^',$obj->member_srl);
 		}
 	}
-	
+
+	/**
+	 * @brief If change the member info, do not change the birthday.
+	 * @param $content
+	 * @return Object
+	 */
 	function triggerBeforeDisplay(&$content)
 	{
 		$oAttendanceModel = getModel('attendance');
@@ -785,6 +785,11 @@ class attendanceController extends attendance
 		return new Object();
 	}
 
+	/**
+	 * @brief If change the member info, do not change the birthday.
+	 * @param $args
+	 * @return Object
+	 */
 	function triggerUpdateMemberBefore($args)
 	{
 		// 로그인 정보 가져옴
@@ -804,6 +809,10 @@ class attendanceController extends attendance
 		}
 	}
 
+	/**
+	 * @brief Add to member menu.
+	 * @return Object
+	 */
 	function triggerAddMemberMenu()
 	{
 		$logged_info = Context::get('logged_info');
@@ -826,7 +835,13 @@ class attendanceController extends attendance
 	}
 
 	/**
-	 * @brief attendance_total 테이블 기록
+	 * @brief Insert total attendance data by member_srl.
+	 * @param int $member_srl
+	 * @param object $continuity
+	 * @param string $total_attendance
+	 * @param string $total_point
+	 * @param string $regdate
+	 * @return object
 	 */
 	function insertTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
 	{
@@ -837,7 +852,11 @@ class attendanceController extends attendance
 		$arg->total = $total_attendance;
 		$arg->total_point = $total_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertTotal", $arg);
+		$output = executeQuery("attendance.insertTotal", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -852,7 +871,11 @@ class attendanceController extends attendance
 		$arg->total = $total_attendance;
 		$arg->total_point = $total_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateTotal", $arg);
+		$output = executeQuery("attendance.updateTotal", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -865,7 +888,11 @@ class attendanceController extends attendance
 		$arg->yearly = $yearly;
 		$arg->yearly_point = $yearly_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertYearly", $arg);
+		$output = executeQuery("attendance.insertYearly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -879,7 +906,11 @@ class attendanceController extends attendance
 		$arg->yearly_point = $yearly_point;
 		$arg->year = $year;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateYearly", $arg);
+		$output = executeQuery("attendance.updateYearly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -892,7 +923,11 @@ class attendanceController extends attendance
 		$arg->monthly = $monthly;
 		$arg->monthly_point = $monthly_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertMonthly", $arg);
+		$output = executeQuery("attendance.insertMonthly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -906,7 +941,11 @@ class attendanceController extends attendance
 		$arg->monthly_point = $monthly_point;
 		$arg->month = $year_month;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateMonthly", $arg);
+		$output = executeQuery("attendance.updateMonthly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -919,7 +958,11 @@ class attendanceController extends attendance
 		$arg->weekly = $weekly;
 		$arg->weekly_point = $weekly_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertWeekly", $arg);
+		$output = executeQuery("attendance.insertWeekly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -934,6 +977,10 @@ class attendanceController extends attendance
 		$arg->monday = $week->monday;
 		$arg->weekly_point = $weekly_point;
 		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateWeekly", $arg);
+		$output = executeQuery("attendance.updateWeekly", $arg);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 }
