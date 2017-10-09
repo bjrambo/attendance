@@ -12,10 +12,6 @@ class attendanceView extends attendance
 
 	function init()
 	{
-		/**
-		 * 스킨 경로를 미리 template_path 라는 변수로 설정함
-		 * 스킨이 존재하지 않는다면 default로 변경
-		 **/
 		$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		if(!is_dir($template_path)||!$this->module_info->skin)
 		{
@@ -25,7 +21,9 @@ class attendanceView extends attendance
 		$this->setTemplatePath($template_path);
 	}
 
-	//개인의 출석달력
+	/**
+	 * @brief Display the personal attendance data.
+	 */
 	function dispAttendancePersonalInfo()
 	{
 		//attendance model 객체 로드
@@ -58,18 +56,18 @@ class attendanceView extends attendance
 		$this->setTemplateFile('personal');
 	}
 
-    //출석게시판 출력
+	/**
+	 * @brief Display the attendance board.
+	 */
 	function dispAttendanceBoard()
 	{
-		$oModuleModel = getModel('module');
-		$oDocumentModel = getModel('document');
-		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
-		$oAttendanceModel = getModel('attendance');
 		$oMemberModel = getModel('member');
+		$oDocumentModel = getModel('document');
+		$oAttendanceModel = getModel('attendance');
+
+		$module_info = $oAttendanceModel->getAttendanceInfo();
 		$oAttendanceAdminModel = getAdminModel('attendance');
 
-		//날짜 초기화
 		$document_srl = Context::get('document_srl');
 		$selected_date = Context::get('selected_date');
 		if($document_srl)
@@ -77,15 +75,19 @@ class attendanceView extends attendance
 			$oAttendance = $oAttendanceModel->getGreetingsData("#".$document_srl);
 			$selected_date = substr($oAttendance->regdate,0,8);
 		}
-		if(!$selected_date) $selected_date = zDate(date('YmdHis'),"Ymd");
+		if (!$selected_date)
+		{
+			$selected_date = zDate(date('YmdHis'), "Ymd");
+		}
 
 		$module_info->start_num = $oAttendanceModel->getPositionData($selected_date,"^showall^");
-		if(!$module_info->greetings_cut_size)$module_info->greetings_cut_size = 20;
+		if (!$module_info->greetings_cut_size)
+		{
+			$module_info->greetings_cut_size = 20;
+		}
 
-		//module의 설정값 가져오기
 		$config = $oAttendanceModel->getConfig();
 
-		//출석가능 시간대인지 판단
 		$is_available = $oAttendanceModel->availableCheck();
 
 		if($config->greeting_list)
@@ -98,8 +100,6 @@ class attendanceView extends attendance
 			Context::set('greeting_name', $greeting_name);
 		}
 
-
-		//오름차순, 내림차순에 따라 출력방법 결정
 		if($module_info->order_type == 'desc')
 		{
 			$oAttendance = $oAttendanceModel->getInverseList($module_info->list_count, $selected_date);
@@ -109,7 +109,6 @@ class attendanceView extends attendance
 			$oAttendance = $oAttendanceModel->getAttendanceList($module_info->list_count, $selected_date);
 		}
 
-
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
@@ -117,7 +116,6 @@ class attendanceView extends attendance
 		$args->today = $selected_date;
 		$outputs = executeQuery('attendance.getTodayMyGiftList', $args);
 
-		//출석달력 설정
 		$date_info = new stdClass();
 		$date_info->_year = substr($selected_date,0,4);
 		$date_info->_month = substr($selected_date,4,2);
@@ -126,8 +124,6 @@ class attendanceView extends attendance
 		$date_info->week_start = date("w",mktime(0,0,0,$date_info->_month,1,$date_info->_year));
 
 		Context::set('admin_date_info',$date_info);
-
-		//변수 내보내기
 		Context::set('todaymygift',$outputs->data);
 		Context::set('selected_date',$selected_date);
 		Context::set('is_available',$is_available);
@@ -146,7 +142,7 @@ class attendanceView extends attendance
 	{
 		$logged_info = Context::get('logged_info');
 
-		if(!$logged_info)
+		if(!Context::get('is_logged'))
 		{
 			return new Object(-1, '로그인 사용자만 이용 가능합니다.');
 		}
