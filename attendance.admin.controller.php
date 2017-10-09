@@ -452,7 +452,6 @@ class attendanceAdminController extends attendance
 		//기록될 날짜부터
 		$r_args = new stdClass();
 		$r_args->regdate = sprintf('%s235959', $obj->check_day);
-		debugPrint($r_args->regdate);
 		$r_args->year = substr($obj->check_day,0,4);
 		$r_args->year_month = substr($obj->check_day,0,6);
 		$r_args->week = $oAttendanceModel->getWeek($obj->check_day);

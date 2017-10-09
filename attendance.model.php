@@ -38,6 +38,8 @@ class attendanceModel extends attendance
 			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
 			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
 			if(!$config->about_admin_check) $config->about_admin_check = 'yes';
+
+			// TODO(BJRambo): check again.
 			if(!$config->use_cache) $config->use_cache = 'yes';
 
 			self::$config = $config;
@@ -348,48 +350,48 @@ class attendanceModel extends attendance
 		$is_perfect_m = $this->getMonthlyData($ym,$member_srl);
 		$is_perfect_y = $this->getYearlyData($current_year,$member_srl);
 
-		$arg = new stdClass();
-
+		$regularlyObject = new stdClass();
+		//TODO(BJRambo) : change the numbering to bool. e.g) $regularlyObject->monthly_perfect = true;
 		if($real == true)
 		{
 			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
 			{
-				$arg->monthly_perfect = 1;
+				$regularlyObject->monthly_perfect = 1;
 			}
 			else
 			{
-				$arg->monthly_perfect = 0;
+				$regularlyObject->monthly_perfect = 0;
 			}
 			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
 			{
-				$arg->yearly_perfect = 1;
+				$regularlyObject->yearly_perfect = 1;
 			}
 			else
 			{
-				$arg->yearly_perfect = 0;
+				$regularlyObject->yearly_perfect = 0;
 			}
 		}
 		else
 		{
 			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
 			{
-				$arg->monthly_perfect = 1;
+				$regularlyObject->monthly_perfect = 1;
 			}
 			else
 			{
-				$arg->monthly_perfect = 0;
+				$regularlyObject->monthly_perfect = 0;
 			}
 			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
 			{
-				$arg->yearly_perfect = 1;
+				$regularlyObject->yearly_perfect = 1;
 			}
 			else
 			{
-				$arg->yearly_perfect = 0;
+				$regularlyObject->yearly_perfect = 0;
 			}
 		}
 
-		return $arg;
+		return $regularlyObject;
 	}
 
 
@@ -447,35 +449,7 @@ class attendanceModel extends attendance
 		return $output->data;
 	}
 
-	/**
-	 * @brief attendance_total 테이블 기록
-	 */
-	function insertTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->continuity = $continuity->data;
-		$arg->continuity_point = $continuity->point;
-		$arg->total = $total_attendance;
-		$arg->total_point = $total_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertTotal", $arg);
-	}
 
-	/**
-	 * @brief attendance_total 테이블 Update
-	 */
-	function updateTotal($member_srl, $continuity, $total_attendance, $total_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->continuity = $continuity->data;
-		$arg->continuity_point = $continuity->point;
-		$arg->total = $total_attendance;
-		$arg->total_point = $total_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateTotal", $arg);
-	}
 
 	/**
 	 * @brief 총 출석횟수 계산
@@ -573,33 +547,6 @@ class attendanceModel extends attendance
 		return (int)$output->data->count;
 	}
 
-    /**
-     * @brief 회원별 연간 출석통계 자료 생성
-     */
-	function insertYearly($member_srl, $yearly, $yearly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->yearly = $yearly;
-		$arg->yearly_point = $yearly_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertYearly", $arg);
-	}
-
-	/**
-	 * @brief 회원별 연간 출석통계 자료 Update
-	 */
-	function updateYearly($member_srl, $year, $yearly, $yearly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->yearly = $yearly;
-		$arg->yearly_point = $yearly_point;
-		$arg->year = $year;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateYearly", $arg);
-	}
-
 	/**
 	* @brief 연간자료 꺼내기
 	*/
@@ -630,33 +577,6 @@ class attendanceModel extends attendance
 		$arg->month = $year_month;
 		$output = executeQuery('attendance.isExistMonthly',$arg);
 		return (int)$output->data->count;
-	}
-
-	/**
-	 * @brief 회원별 월간 출석통계 자료 생성
-	 */
-	function insertMonthly($member_srl, $monthly, $monthly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->monthly = $monthly;
-		$arg->monthly_point = $monthly_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertMonthly", $arg);
-	}
-
-	/**
-	 * @brief 회원별 월간 출석통계 자료 Update
-	 */
-	function updateMonthly($member_srl, $year_month, $monthly, $monthly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->monthly = $monthly;
-		$arg->monthly_point = $monthly_point;
-		$arg->month = $year_month;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateMonthly", $arg);
 	}
 
 	/**
@@ -719,34 +639,6 @@ class attendanceModel extends attendance
 		$arg->monday = $week->monday;
 		$output = executeQuery('attendance.getWeeklyAttendance',$arg);
 		return (int)$output->data->weekly_count;
-	}
-
-	/**
-	 * @brief 주간 출석정보 입력
-	 */
-	function insertWeekly($member_srl, $weekly, $weekly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->weekly = $weekly;
-		$arg->weekly_point = $weekly_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.insertWeekly", $arg);
-	}
-
-	/**
-	 * @brief 주간 출석정보 Update
-	 */
-	function updateWeekly($member_srl, $week, $weekly, $weekly_point, $regdate)
-	{
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->weekly = $weekly;
-		$arg->sunday = $week->sunday;
-		$arg->monday = $week->monday;
-		$arg->weekly_point = $weekly_point;
-		if($regdate){$arg->regdate = $regdate;}
-		executeQuery("attendance.updateWeekly", $arg);
 	}
 
 	/**
