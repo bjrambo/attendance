@@ -509,7 +509,11 @@ class attendanceAdminController extends attendance
 				$oDocumentController->deleteDocument($document_srl,true);
 			}
 
-			executeQuery("attendance.deleteAttendanceData", $args);
+			$output = executeQuery("attendance.deleteAttendanceData", $args);
+			if($output->toBool())
+			{
+				return $output;
+			}
 
 			$regdate =  sprintf("%s235959",$obj->check_day);
 			$continuity = new stdClass;
