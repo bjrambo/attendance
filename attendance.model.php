@@ -18,6 +18,10 @@ class attendanceModel extends attendance
 	{
 	}
 
+	/**
+	 * @brief Get the attendance module config.
+	 * @return Object
+	 */
 	function getConfig()
 	{
 		if(self::$config === NULL)
@@ -47,23 +51,27 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief Attendance 모듈의 존재를 나타내도록
+	 * @brief Get the attendance module instance info data.
+	 * @return mixed
 	 */
 	function getAttendanceInfo()
 	{
 		$output = executeQuery('attendance.getAttendance');
-		if(!$output->data->module_srl)
+		$module_srl = $output->data->module_srl;
+		if(!$module_srl)
 		{
 			return new stdClass();
 		}
 
-		$module_info = getModel('module')->getModuleInfoByModuleSrl($output->data->module_srl);
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($module_srl);
 
 		return $module_info;
 	}
 
 	/**
-	 * @brief 오늘 같은 ip에서 몇번 출석했는지 출력
+	 * @param $today
+	 * @param $ipaddress
+	 * @return int
 	 */
 	function getDuplicateIpCount($today, $ipaddress)
 	{
@@ -75,7 +83,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 오늘 출석한 사람중에 선물당첨된 사람 수.
+	 * @param $today
+	 * @return int
 	 */
 	function getTodayGiftCount($today)
 	{
@@ -87,7 +96,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 회원의 출석데이터 출력
+	 * @param $member_srl
+	 * @param $date
+	 * @return mixed
 	 */
 	function getUserAttendanceData($member_srl, $date)
 	{
@@ -99,7 +110,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief document_srl로 출석자료 찾기
+	 * @param $document_srl
+	 * @return mixed
 	 */
 	function getGreetingsData($document_srl)
 	{
@@ -110,7 +122,12 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 출석자료 업데이트
+	 * @param $attendance_srl
+	 * @param $regdate
+	 * @param null $today_point
+	 * @param null $member_srl
+	 * @param null $greetings
+	 * @return object
 	 */
 	function updateAttendance($attendance_srl, $regdate, $today_point=null, $member_srl=null, $greetings=null)
 	{
@@ -126,7 +143,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief attendance_srl로 출석자료 찾기
+	 * @param $attendance_srl
+	 * @return mixed
 	 */
 	function getAttendanceDataSrl($attendance_srl)
 	{
@@ -137,15 +155,16 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 출석 여부 출력
+	 * @param $member_srl
+	 * @param $selected_date
+	 * @return bool
 	 */
 	function getAttendanceData($member_srl, $selected_date)
 	{
-		$flag = false;
-		$arg = new stdClass();
-		$arg->member_srl = $member_srl;
-		$arg->selected_date = $selected_date;
-		$output = executeQuery('attendance.getAttendanceData',$arg);
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->selected_date = $selected_date;
+		$output = executeQuery('attendance.getAttendanceData',$args);
 		$count = (int)$output->data->count;
 		if($count==0)
 		{
@@ -159,7 +178,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 오늘자 출석부 출력(선착순)
+	 * @param $list_count
+	 * @param $today
+	 * @return mixed
 	 */
 	function getAttendanceList($list_count, $today)
 	{
@@ -173,7 +194,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 오늘자 출석부 출력(역순)
+	 * @param $list_count
+	 * @param $today
+	 * @return object
 	 */
 	function getInverseList($list_count, $today)
 	{
@@ -187,7 +210,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 월별 출석통계 출력
+	 * @param $monthly
+	 * @param $member_srl
+	 * @return false|int|mixed
 	 */
 	function getMonthlyData($monthly, $member_srl)
 	{
@@ -213,7 +238,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 연도별 출석 통계 출력
+	 * @param $yearly
+	 * @param $member_srl
+	 * @return false|int|mixed
 	 */
 	function getYearlyData($yearly, $member_srl)
 	{
@@ -239,7 +266,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 오늘 출석 했는지 확인
+	 * @param $member_srl
+	 * @return false|int|mixed
 	 */
 	function getIsChecked($member_srl)
 	{
@@ -247,7 +275,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 선택한 날짜에 출석 했는지 확인
+	 * @param $member_srl
+	 * @param $today
+	 * @return false|int|mixed
 	 */
 	function getIsCheckedA($member_srl, $today)
 	{
@@ -306,9 +336,11 @@ class attendanceModel extends attendance
 		return array_count_values($regdate_array);
 	}
 
-    /**
-     * @brief 오늘 내 등수 체크
-     */
+	/**
+	 * @param $today
+	 * @param null $greetings
+	 * @return mixed
+	 */
 	function getPositionData($today, $greetings=null)
 	{
 		$args = new stdClass();
@@ -325,8 +357,12 @@ class attendanceModel extends attendance
 
 		return $output->data->count;
 	}
+
 	/**
-	 * @brief 개근 여부 파악
+	 * @param $member_srl
+	 * @param $today
+	 * @param bool $real
+	 * @return stdClass
 	 */
 	function isPerfect($member_srl, $today, $real=true)
 	{
@@ -349,7 +385,6 @@ class attendanceModel extends attendance
 		$is_perfect_y = $this->getYearlyData($current_year,$member_srl);
 
 		$regularlyObject = new stdClass();
-		//TODO(BJRambo) : change the numbering to bool. e.g) $regularlyObject->monthly_perfect = true;
 		if($real == true)
 		{
 			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
@@ -392,12 +427,9 @@ class attendanceModel extends attendance
 		return $regularlyObject;
 	}
 
-
-	/*******************************************************
-	*   attendance_total 테이블 관련 함수                  *
-	********************************************************/
 	/**
-	 * @brief 총 출석 내용이 존재하는지 검사
+	 * @param $member_srl
+	 * @return int
 	 */
 	function isExistTotal($member_srl)
 	{
@@ -408,7 +440,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief  연속출석중인지 검사
+	 * @param $member_srl
+	 * @param $yesterday
+	 * @return int
 	 */
 	function isExistContinuity($member_srl, $yesterday)
 	{
@@ -424,7 +458,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 어제의 연속출석 데이터 받기
+	 * @param $member_srl
+	 * @param $yesterday
+	 * @return stdClass
 	 */
 	function getContinuityData($member_srl, $yesterday)
 	{
@@ -438,6 +474,10 @@ class attendanceModel extends attendance
 		return $continuity;
 	}
 
+	/**
+	 * @param $member_srl
+	 * @return Object
+	 */
 	function getContinuityDataByMemberSrl($member_srl)
 	{
 		$args = new stdClass();
@@ -452,9 +492,9 @@ class attendanceModel extends attendance
 	}
 
 
-
 	/**
-	 * @brief 총 출석횟수 계산
+	 * @param $member_srl
+	 * @return false|int|mixed
 	 */
 	function getTotalAttendance($member_srl)
 	{
@@ -479,7 +519,8 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 총 출석 포인트 추출
+	 * @param $member_srl
+	 * @return false|int|mixed
 	 */
 	function getTotalPoint($member_srl)
 	{
@@ -505,7 +546,8 @@ class attendanceModel extends attendance
 
 
 	/**
-	 * @brief 총 출석 테이블 데이터 전부 꺼내기
+	 * @param $member_srl
+	 * @return stdClass
 	 */
 	function getTotalData($member_srl)
 	{
@@ -534,11 +576,10 @@ class attendanceModel extends attendance
 		return $total_info;
 	}
 
-	/*******************************************************
-	*    attendance_yearly 테이블 관련 함수                *
-	********************************************************/
 	/**
-	 * @brief 연간 출석 데이터가 있는지 확인
+	 * @param $member_srl
+	 * @param $year
+	 * @return int
 	 */
 	function isExistYearly($member_srl, $year)
 	{
@@ -550,8 +591,10 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	* @brief 연간자료 꺼내기
-	*/
+	 * @param $member_srl
+	 * @param $year
+	 * @return stdClass
+	 */
 	function getYearlyAttendance($member_srl, $year)
 	{
 		$arg = new stdClass();
@@ -565,12 +608,10 @@ class attendanceModel extends attendance
 	}
 
 
-	/*******************************************************
-	*    attendance_monthly 테이블 관련 함수               *
-	********************************************************/
-
 	/**
-	 * @brief 월간 출석 데이터가 있는지 확인
+	 * @param $member_srl
+	 * @param $year_month
+	 * @return int
 	 */
 	function isExistMonthly($member_srl, $year_month)
 	{
@@ -582,7 +623,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 월간자료 꺼내기
+	 * @param $member_srl
+	 * @param $year_month
+	 * @return stdClass
 	 */
 	function getMonthlyAttendance($member_srl, $year_month)
 	{
@@ -596,19 +639,15 @@ class attendanceModel extends attendance
 		return $month_data;
 	}
 
-
-	/*******************************************************
-	*    attendance_weekly 테이블 관련 함수                *
-	********************************************************/
 	/**
-	 * @brief 선택된 날짜의 기간 찾기
+	 * @param $today
+	 * @return bool|object
 	 */
-	//today의 값이 xe설정시각으로 변형되어있을것이므로 여기에선 zDate()사용 안함.
 	function getWeek($today)
 	{
 		if(!$today)
 		{
-			return 0;
+			return false;
 		}
 		$week = new stdClass();
 		$week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today)))."235959";
@@ -618,7 +657,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 주간 통계기록이 있는지 확인
+	 * @param $member_srl
+	 * @param $week
+	 * @return int
 	 */
 	function isExistWeekly($member_srl, $week)
 	{
@@ -631,7 +672,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 일주일 출석 횟수 알아오기
+	 * @param $member_srl
+	 * @param $week
+	 * @return int
 	 */
 	function getWeeklyAttendance($member_srl, $week)
 	{
@@ -644,7 +687,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 주간 출석정보 빼오기
+	 * @param $member_srl
+	 * @param $week
+	 * @return false|mixed|stdClass
 	 */
 	function getWeeklyData($member_srl, $week)
 	{
@@ -675,9 +720,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 출석 가능시간대 인지 확인
+	 * @return bool
 	 */
-	function availableCheck($config)
+	function availableCheck()
 	{
 		// 모듈 설정값 가져오기
 		$config = $this->getConfig();
@@ -695,15 +740,18 @@ class attendanceModel extends attendance
 			$now->min = zDate(date('YmdHis'),"i");
 			if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) && mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0))
 			{
-				return 1;   //금지시간대일 경우
+				return true;   //금지시간대일 경우
 			}
-			return 0;
+			return false;
 		}
-		return 0;   //금지시간이 아닐 경우
+		return false;   //금지시간이 아닐 경우
 	}
 
 	/**
-	 * @brief 연간 정근 여부 확인
+	 * @param $member_srl
+	 * @param $diligence_yearly
+	 * @param $year
+	 * @return bool
 	 */
 	function checkYearlyDiligence($member_srl, $diligence_yearly, $year)
 	{
@@ -716,14 +764,17 @@ class attendanceModel extends attendance
 		{
 			if($year_data == $diligence_yearly)
 			{
-				return 1;
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
 
 	/**
-	 * @brief 월간 정근 여부 확인
+	 * @param $member_srl
+	 * @param $diligence_monthly
+	 * @param $year_month
+	 * @return bool
 	 */
 	function checkMonthlyDiligence($member_srl, $diligence_monthly, $year_month)
 	{
@@ -736,14 +787,17 @@ class attendanceModel extends attendance
 		{
 			if($month_data == $diligence_monthly)
 			{
-				return 1;
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
 
 	/**
-	 * @brief 주간 정근 여부 확인
+	 * @param $member_srl
+	 * @param $diligence_weekly
+	 * @param $today
+	 * @return bool
 	 */
 	function checkWeeklyDiligence($member_srl, $diligence_weekly, $today)
 	{
@@ -760,18 +814,19 @@ class attendanceModel extends attendance
 		{
 			if($week_data->weekly == $diligence_weekly)
 			{
-				return 1;
+				return true;
 			} 
 		}
 		else if($diligence_weekly == 0)
 		{
-			return 1;
+			return true;
 		}
-		return 0;
+		return false;
 	}
 
 	/**
-	 * @brief member_srl로 인사말만 모두 뽑기
+	 * @param $member_srl
+	 * @return object
 	 */
 	function getGreetingsList($member_srl)
 	{
@@ -783,9 +838,9 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 회원의 총 결석정보를 가져옵니다.
-	 * @param $sing_date
+	 * @param $sign_date
 	 * @param $total_attendance
+	 * @return Object
 	 */
 	function getTotalAbsent($sign_date, $total_attendance)
 	{
@@ -799,6 +854,10 @@ class attendanceModel extends attendance
 		return $total_absent;
 	}
 
+	/**
+	 * @param $member_srl
+	 * @return string
+	 */
 	function getWeeklyAttendanceByMemberSrl($member_srl)
 	{
 		$args = new stdClass();
@@ -809,12 +868,11 @@ class attendanceModel extends attendance
 		return $output->data->count;
 	}
 
-	/*******************************************************
-	*                    캐싱 관련 함수                    *
-	********************************************************/
-	
 	/**
-	 * @brief 주어진 회원의 출석 통계 캐시 삭제
+	 * Delete the member attendace data cache by member_srl.
+	 * @param $member_srl
+	 * @param string $type
+	 * @param object $condition
 	 */
 	function clearCacheByMemberSrl($member_srl, $type = 'all', $condition = null)
 	{
@@ -846,7 +904,7 @@ class attendanceModel extends attendance
 	}
 
 	/**
-	 * @brief 모든 회원의 출석 통계 캐시 삭제
+	 * @brief Delete the all members attendance data cache.
 	 */
 	function clearCache()
 	{
@@ -858,9 +916,10 @@ class attendanceModel extends attendance
 		
 		$oCacheHandler->invalidateGroupKey('attendance');
 	}
-	
+
 	/**
-	 * @brief 캐시 핸들러를 사용할 수 있는지 확인하고, 사용할 수 있다면 인스턴스를 반환
+	 * Get the XpressEngine cache handler.
+	 * @return bool|CacheHandler|null
 	 */
 	function getCacheHandler()
 	{

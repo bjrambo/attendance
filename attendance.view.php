@@ -86,7 +86,7 @@ class attendanceView extends attendance
 		$config = $oAttendanceModel->getConfig();
 
 		//출석가능 시간대인지 판단
-		$is_available = $oAttendanceModel->availableCheck($config);
+		$is_available = $oAttendanceModel->availableCheck();
 
 		if($config->greeting_list)
 		{

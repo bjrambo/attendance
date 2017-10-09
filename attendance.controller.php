@@ -98,7 +98,7 @@ class attendanceController extends attendance
 		{
 			return new Object(-1,'로그인 사용자만 출석 할 수 있습니다.');
 		}
-		if($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck($config) != 0)
+		if($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
 			return new Object(-1, '일시적인 오류로 출석 할 수 없습니다.');
 		}
