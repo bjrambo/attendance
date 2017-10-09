@@ -1,7 +1,7 @@
 <?PHP
 /**
  * @class Attendance Module Class
- * @author BJRambo (sosifam@070805.co.kr
+ * @author BJRambo (sosifam@070805.co.kr)
  *
  * This class is install and module update check. and attendacne default base code.
  **/
