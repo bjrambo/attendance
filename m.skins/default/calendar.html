@@ -2,9 +2,13 @@
 
     <tbody>
 
-		<tr>    
-    {@$_day=1}
-    {@$j=0}
+		<tr>
+		{@
+			$_day=1;
+			$j = 0;
+			$check_month = sprintf("%s%s",$admin_date_info->_year,$admin_date_info->_month);
+			$checkedM = $oAttendanceModel->getIsCheckedMonth($logged_info->member_srl, $check_month);
+		}
     <!--@while($_day <= $admin_date_info->day_max)-->
 
         <!--@while($j < $admin_date_info->week_start)-->
@@ -15,7 +19,7 @@
 			<td height="35px" class="stamp">
 				{@
 					$check_date = sprintf("%s%s%02d",$admin_date_info->_year,$admin_date_info->_month,$_day);
-					if($check_date <= date('Ymd')) $checked = $oAttendanceModel->getIsCheckedA($logged_info->member_srl, $check_date);
+					if($check_date <= date('Ymd')) $checked = $checkedM[$check_date];
 					else $checked = 0;
 				}
                 

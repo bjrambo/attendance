@@ -66,6 +66,7 @@ class attendanceView extends attendance
 		$oAttendanceModel = getModel('attendance');
 
 		$module_info = $oAttendanceModel->getAttendanceInfo();
+		getModel('module')->syncSkinInfoToModuleInfo($module_info);
 		$oAttendanceAdminModel = getAdminModel('attendance');
 
 		$document_srl = Context::get('document_srl');
