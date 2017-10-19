@@ -10,6 +10,7 @@
 class attendanceModel extends attendance
 {
 	private static $config = NULL;
+	private $oCacheHandler = NULL;
 
 	/**
 	 * @brief 초기화
@@ -26,6 +27,7 @@ class attendanceModel extends attendance
 	{
 		if(self::$config === NULL)
 		{
+			/** @var $oModuleModel moduleModel */
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
 
@@ -923,22 +925,21 @@ class attendanceModel extends attendance
 	 */
 	function getCacheHandler()
 	{
-		static $oCacheHandler = null;
-		if($oCacheHandler === null)
+		if($this->oCacheHandler === NULL)
 		{
 			if($this->getConfig()->use_cache !== 'yes')
 			{
-				$oCacheHandler = false;
+				$this->oCacheHandler = false;
 			}
 			else
 			{
-				$oCacheHandler = CacheHandler::getInstance('object');
-				if(!$oCacheHandler->isSupport())
+				$this->oCacheHandler = CacheHandler::getInstance('object');
+				if(!$this->oCacheHandler->isSupport())
 				{
-					$oCacheHandler = false;
+					$this->oCacheHandler = false;
 				}
 			}
 		}
-		return $oCacheHandler;
+		return $this->oCacheHandler;
 	}
 }
