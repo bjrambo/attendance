@@ -17,6 +17,9 @@ class attendanceController extends attendance
 	{
 	}
 
+	/**
+	 * @return Object
+	 */
 	function procAttendanceModifyContinuous()
 	{
 		$logged_info = Context::get('logged_info');

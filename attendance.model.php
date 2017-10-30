@@ -894,7 +894,7 @@ class attendanceModel extends attendance
 		$weekly = ($type === 'weekly' && $condition) ? $condition->sunday : $this->getWeek(date('YmdHis'))->sunday;
 		$monthly = ($type === 'monthly' && $condition) ? $condition : zDate(date('YmdHis'), "Ym");
 		$yearly = ($type === 'yearly' && $condition) ? $condition : zDate(date('YmdHis'), "Y");
-		
+
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "todaytotal:$daily"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$daily"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$weekly"));
@@ -903,6 +903,12 @@ class attendanceModel extends attendance
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"));
+
+		// For pr_take_roll widgets
+		if(FileHandler::isDir(_XE_PATH_ . '/widgets/pr_take_roll'))
+		{
+			$oCacheHandler->invalidateGroupKey('widget_pr_take_roll');
+		}
 	}
 
 	/**
@@ -917,6 +923,7 @@ class attendanceModel extends attendance
 		}
 		
 		$oCacheHandler->invalidateGroupKey('attendance');
+		$oCacheHandler->invalidateGroupKey('widget_pr_take_roll');
 	}
 
 	/**
