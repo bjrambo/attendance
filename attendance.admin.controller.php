@@ -510,7 +510,7 @@ class attendanceAdminController extends attendance
 			}
 
 			$output = executeQuery("attendance.deleteAttendanceData", $args);
-			if($output->toBool())
+			if(!$output->toBool())
 			{
 				return $output;
 			}
