@@ -101,7 +101,7 @@ class attendanceAdminModel extends attendance
 			}
 		}
 
-		if($type=='day' || $type=='speed_search')
+		if($type=='day' || $type=='speedsearch')
 		{
 			// selected_group_srl이 있으면 query id를 변경 (table join때문에)
 			if($args->selected_group_srl)
@@ -117,7 +117,7 @@ class attendanceAdminModel extends attendance
 				$args->sort_order = "desc";
 			}
 		}
-		else if($type=='rank_total')
+		else if($type=='ranktotal')
 		{
 			// selected_group_srl이 있으면 query id를 변경 (table join때문에)
 			if($args->selected_group_srl)
@@ -138,7 +138,7 @@ class attendanceAdminModel extends attendance
 				$args->sort_index = 'attendance_total.total';
 			}
 		}
-		else if($type=='rank_yearly')
+		else if($type=='rankyearly')
 		{
 			// selected_group_srl이 있으면 query id를 변경 (table join때문에)
 			if($args->selected_group_srl)
@@ -158,7 +158,7 @@ class attendanceAdminModel extends attendance
 				$args->sort_index = 'attendance_yearly.yearly';
 			}
 		}
-		else if($type=='rank_monthly')
+		else if($type=='rankmonthly')
 		{
 			// selected_group_srl이 있으면 query id를 변경 (table join때문에)
 			if($args->selected_group_srl)
@@ -178,7 +178,7 @@ class attendanceAdminModel extends attendance
 				$args->sort_index = 'attendance_monthly.monthly';
 			}
 		}
-		else if($type=='rank_weekly')
+		else if($type=='rankweekly')
 		{
 			// selected_group_srl이 있으면 query id를 변경 (table join때문에)
 			if($args->selected_group_srl)
@@ -261,6 +261,28 @@ class attendanceAdminModel extends attendance
 		$arg->today_time = $today_time;
 		$output = executeQuery("attendance.getTodayTimeCount",$arg);
 		return $cache[$today_time] = (int)$output->data->count;
+	}
+
+	function getTodayTimeCountList($today)
+	{
+		$args = new stdClass();
+		$args->today = $today;
+		$output = executeQueryArray('attendance.getTodayTimeList', $args);
+
+		$time_array = array();
+		if($output->data)
+		{
+			foreach($output->data as $val)
+			{
+				$time_array[] = substr($val->regdate, 8, 2);
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		return array_count_values($time_array);
 	}
 
 	/**
