@@ -1,14 +1,14 @@
 <query id="getMemberListWeekly" action="select">
     <tables>
-        <table name="attendance_weekly" />
-        <table name="member" type="left join" >
+        <table name="attendance_weekly" alias="attendance_weekly" />
+        <table name="member" alias="member" >
         <conditions>
             <condition operation="equal" column="attendance_weekly.member_srl" default="member.member_srl" />
         </conditions>
         </table>
     </tables>
     <columns>
-        <column name="attendance_weekly.*"/>
+	    <column name="*" />
     </columns>
     <conditions>
         <condition operation="equal" column="member.member_srl" default="attendance_weekly.member_srl" />

@@ -7,7 +7,7 @@
         </conditions>
     </tables>
     <columns>
-        <column name="attendance_monthly.*"/>
+        <column name="*"/>
     </columns>
     <conditions>
         <condition operation="equal" column="member.member_srl" default="attendance_monthly.member_srl" />

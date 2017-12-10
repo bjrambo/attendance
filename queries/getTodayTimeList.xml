@@ -1,0 +1,11 @@
+<query id="getTodayTimeList" action="select">
+	<tables>
+		<table name="attendance" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="like_prefix" column="regdate" var="today" />
+	</conditions>
+</query>

@@ -1,24 +1,20 @@
-{@$total_count = $oAttendanceAdminModel->getTodayTotalCount($selected_date)}
+<include target="./_header.html" />
 <table cellspacing="0" class="rowTable">
-    <!--@for($time=0;$time<24;$time++)-->
-    {@$today_time = $selected_date.sprintf("%02d",$time)}
-    {@$count = $oAttendanceAdminModel->getTodayTimeCount($today_time)}
-    <tr>
-        <th width="40px">{$time}{$lang->attendance_time}</th>
-        <td style="min-width:300px;">
-            <div class="admin_graph">
+	<tr loop="$timeCountData => $val">
+		<th width="40px">{$val->time}{$lang->attendance_time}</th>
+		<td style="min-width:300px;">
+			<div class="admin_graph">
 				<block cond="$total_count">
-                {@$percent=(int)($count/$total_count*100)}
+					{@$percent=(int)($val->count/$total_count*100)}
 				</block>
-                <div class="progress" style="width:230px;">
-                    <div class="bar bar-success" style="width:{$percent}%;"></div><!--@if($percent>=50)-->{$percent}%<!--@else-->&nbsp;<!--@end-->
-                </div>
-                <div class="num" style="left:230px;width:70px;">
-                <strong>{$count}</strong>/{$total_count}({$percent}%)
-			    </div>
-            </div>
-        </td>
-    </tr>
-    <!--@end-->
+				<div class="progress" style="width:230px;">
+					<div class="bar bar-success" style="width:{$val->percent}%;"></div><!--@if($val->percent>=50)-->{$val->percent}%<!--@else-->&nbsp;<!--@end-->
+				</div>
+				<div class="num" style="left:230px;width:70px;">
+					<strong>{$val->count}</strong>/{$total_count}({$val->percent}%)
+				</div>
+			</div>
+		</td>
+	</tr>
 </table>
 

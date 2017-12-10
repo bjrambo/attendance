@@ -77,6 +77,11 @@ class attendanceModel extends attendance
 	 */
 	function getDuplicateIpCount($today, $ipaddress)
 	{
+		//TODO(BJRambo): Only use to test. will be delete it.
+		if(Context::get('logged_info')->is_admin == 'Y')
+		{
+			return 0;
+		}
 		$obj = new stdClass();
 		$obj->today = $today;
 		$obj->ipaddress = $ipaddress;

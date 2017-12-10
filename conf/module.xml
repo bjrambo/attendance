@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<permissions>
-		<permission action="dispAttendanceAdminList" target="manager" />
+		<permission action="dispAttendanceAdminConfig" target="manager" />
 		<permission action="dispAttendanceAdminGift" target="manager" />
 		
 		<permission action="procAttendanceAdminInsertGift" target="manager"/>
@@ -21,7 +21,11 @@
 	</permissions>
 	<actions>
 		<!-- admin view -->
-		<action name="dispAttendanceAdminList" type="view" standalone="true" admin_index="true"/>
+		<action name="dispAttendanceAdminConfig" type="view" standalone="true" admin_index="true"/>
+		<action name="dispAttendanceAdminTime" type="view" standalone="true" />
+		<action name="dispAttendanceAdminDay" type="view" standalone="true" />
+		<action name="dispAttendanceAdminRankweekly" type="view" standalone="true" />
+		<action name="dispAttendanceAdminRankmonthly" type="view" standalone="true" />
 		<action name="dispAttendanceAdminGift" type="view" standalone="true" />
 		<action name="dispAttendanceModifyContinuous" type="view" standalone="true" />
 		<action name="dispAttendanceAdminGrantList" type="view" standalone="true"/>
