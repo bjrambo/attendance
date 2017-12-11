@@ -343,7 +343,7 @@ class attendanceAdminController extends attendance
 			}
 			$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
 			$attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-			$oAttendanceModel->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date.'000000');
+			getController('attendance')->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date.'000000');
 
 			//포인트 지급            
 			$oPointController->setPoint($obj->member_srl, $sum, 'add');

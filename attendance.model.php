@@ -236,7 +236,7 @@ class attendanceModel extends attendance
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getMonthlyData', $args);
 		$result = (int)$output->data->monthly_count;
-		
+
 		if($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), $result, 86400);

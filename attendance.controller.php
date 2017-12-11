@@ -462,31 +462,48 @@ class attendanceController extends attendance
 		{
 			$oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
 		}
-		self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
+		$selfOutput = self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
+		if($selfOutput !== true)
+		{
+			return $selfOutput;
+		}
 		return $output;
 	}
 
 	function addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity)
 	{
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 		if($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
-			$this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $today);
+			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $today);
+			if(!$totalOutput->toBool())
+			{
+				return $totalOutput;
+			}
 		}
 		else
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl);
 			$total_point += $obj->today_point;
-			$this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $today);
+			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $today);
+			if(!$totalOutput->toBool())
+			{
+				return $totalOutput;
+			}
 		}
 
 		if($oAttendanceModel->isExistYearly($member_info->member_srl, $year) == 0)
 		{
 			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			$yearly_point = $obj->today_point;
-			$this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $today);
+			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $today);
+			if(!$yearlyOutput->toBool())
+			{
+				return $yearlyOutput;
+			}
 		}
 		else
 		{
@@ -494,22 +511,34 @@ class attendanceController extends attendance
 			$year_info = $oAttendanceModel->getYearlyAttendance($member_info->member_srl, $year);
 			$yearly_point = $year_info->yearly_point;
 			$yearly_point += $obj->today_point;
-			$this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,$today);
+			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,$today);
+			if(!$yearlyOutput->toBool())
+			{
+				return $yearlyOutput;
+			}
 		}
 
 		if($oAttendanceModel->isExistMonthly($member_info->member_srl, $year_month) == 0)
 		{
-			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
+			$monthlyCount = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			$monthly_point = $obj->today_point;
-			$this->insertMonthly($member_info->member_srl, $monthly_data, $monthly_point, $today);
+			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $today);
+			if(!$monthlyOutput->toBool())
+			{
+				return $monthlyOutput;
+			}
 		}
 		else
 		{
-			$monthly_data = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
+			$monthlyCount = count($oAttendanceModel->getIsCheckedMonth($member_info->member_srl, $year_month));
 			$month_info = $oAttendanceModel->getMonthlyAttendance($member_info->member_srl, $year_month);
 			$monthly_point = $month_info->monthly_point;
 			$monthly_point += $obj->today_point;
-			$this->updateMonthly($member_info->member_srl, $year_month, $monthly_data, $monthly_point, $today);
+			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $today);
+			if(!$monthlyOutput->toBool())
+			{
+				return $monthlyOutput;
+			}
 		}
 
 		$week = $oAttendanceModel->getWeek($today);
@@ -517,7 +546,11 @@ class attendanceController extends attendance
 		{
 			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			$weekly_point = $obj->today_point;
-			$this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $today);
+			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $today);
+			if(!$weekOutput->toBool())
+			{
+				return $weekOutput;
+			}
 		}
 		else
 		{
@@ -525,13 +558,17 @@ class attendanceController extends attendance
 			$week_info = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
 			$weekly_point = $week_info->weekly_point;
 			$weekly_point += $obj->today_point;
-			$this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $today);
+			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $today);
+			if(!$weekOutput->toBool())
+			{
+				return $weekOutput;
+			}
 		}
 
 		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
+
+		return true;
 	}
-
-
 
 	/**
 	 * @brief 출석내용 수정
@@ -733,10 +770,8 @@ class attendanceController extends attendance
 		$arg->total_point = $total_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.insertTotal", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -752,10 +787,8 @@ class attendanceController extends attendance
 		$arg->total_point = $total_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.updateTotal", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -769,10 +802,8 @@ class attendanceController extends attendance
 		$arg->yearly_point = $yearly_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.insertYearly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -787,10 +818,8 @@ class attendanceController extends attendance
 		$arg->year = $year;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.updateYearly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -804,10 +833,8 @@ class attendanceController extends attendance
 		$arg->monthly_point = $monthly_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.insertMonthly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -822,10 +849,8 @@ class attendanceController extends attendance
 		$arg->month = $year_month;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.updateMonthly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -839,10 +864,8 @@ class attendanceController extends attendance
 		$arg->weekly_point = $weekly_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.insertWeekly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 
 	/**
@@ -858,9 +881,7 @@ class attendanceController extends attendance
 		$arg->weekly_point = $weekly_point;
 		if($regdate){$arg->regdate = $regdate;}
 		$output = executeQuery("attendance.updateWeekly", $arg);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
+
+		return $output;
 	}
 }
