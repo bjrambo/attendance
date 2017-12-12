@@ -493,7 +493,7 @@ class attendanceModel extends attendance
 		$output = executeQuery('attendance.getContinuityData', $args);
 		if(count($output->data) != '1')
 		{
-			return new Object(-1, '한명의 회원의 정보만 입력이 가능합니다.');
+			return $this->makeObject(-1, '한명의 회원의 정보만 입력이 가능합니다.');
 		}
 		return $output->data;
 	}

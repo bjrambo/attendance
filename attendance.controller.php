@@ -26,14 +26,14 @@ class attendanceController extends attendance
 
 		if($logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, '관리자만 설정이 가능합니다.');
+			return $this->makeObject(-1, '관리자만 설정이 가능합니다.');
 		}
 
 		$obj = Context::getRequestVars();
 		$member_srl = $obj->member_srl;
 		if(!$member_srl)
 		{
-			return new Object(-1, '회원번호는 필수 입니다.');
+			return $this->makeObject(-1, '회원번호는 필수 입니다.');
 		}
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -45,13 +45,12 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			// HACK: Change the lang name. Check again.
-			return new Object(-1, '에러발생');
+			return $this->makeObject(-1, 'msg_do_not_attendance');
 		}
-		
+
 		$oAttendanceModel = getModel('attendance');
 		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
-		
+
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance', 'act', 'dispAttendanceModifyContinuous', 'member_srl', $member_srl);
@@ -70,7 +69,7 @@ class attendanceController extends attendance
 
 		if($_SESSION['is_attended'] === $today)
 		{
-			return new Object(-1,'attend_already_checked');
+			return $this->makeObject(-1,'attend_already_checked');
 		}
 
 		$_SESSION['is_attended'] = $today;
@@ -86,24 +85,24 @@ class attendanceController extends attendance
 		if($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
 		{
 			$_SESSION['is_attended'] = 0;
-			return new Object(-1, '관리자는 출석할 수 없습니다.');
+			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
 		{
 			$_SESSION['is_attended'] = 0;
-			return new Object(-1, 'attend_already_checked');
+			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
 		$is_logged = Context::get('is_logged');
 		if(!$is_logged)
 		{
-			return new Object(-1,'로그인 사용자만 출석 할 수 있습니다.');
+			return $this->makeObject(-1,'로그인 사용자만 출석 할 수 있습니다.');
 		}
 		if($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
-			return new Object(-1, '일시적인 오류로 출석 할 수 없습니다.');
+			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
 		}
 
 		//ip중복 횟수 확인
@@ -111,13 +110,13 @@ class attendanceController extends attendance
 		if($ip_count >= $config->allow_duplicaton_ip_count)
 		{
 			$_SESSION['is_attended'] = 0;
-			return new Object(-1, 'attend_allow_duplicaton_ip_count');
+			return $this->makeObject(-1, 'attend_allow_duplicaton_ip_count');
 		}
 
 		$g_obj = Context::getRequestVars();
 
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
-		if(preg_match("/^\#/",$g_obj->greetings)) return new Object(-1, 'attend_greetings_error');
+		if(preg_match("/^\#/",$g_obj->greetings)) return $this->makeObject(-1, 'attend_greetings_error');
 
 		$output = $this->insertAttendance($g_obj, $config);
 
@@ -127,7 +126,7 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			return new Object(-1, '출석을 하지 못했습니다.');
+			return $this->makeObject(-1, '출석을 하지 못했습니다.');
 		}
 
 		// TODO(BJRambo):Change the way to redirect url.
@@ -406,13 +405,13 @@ class attendanceController extends attendance
 
 		if(!$member_info->member_srl)
 		{
-			return new Object(-1, '로그인 사용자만 가능합니다.');
+			return $this->makeObject(-1, '로그인 사용자만 가능합니다.');
 		}
 
 		$module_info = $oAttendanceModel->getAttendanceInfo();
 		if(!$module_info->module_srl)
 		{
-			return new Object(-1, 'attend_no_board');
+			return $this->makeObject(-1, 'attend_no_board');
 		}
 
 		if($config->use_document == 'yes')
@@ -433,7 +432,7 @@ class attendanceController extends attendance
 				$output = $oDocumentController->insertDocument($d_obj, false);
 				if(!$output->get('document_srl'))
 				{
-					return new Object(-1, 'attend_error_no_greetings');
+					return $this->makeObject(-1, 'attend_error_no_greetings');
 				}
 				$obj->greetings = "#".$output->get('document_srl');
 			}
@@ -651,9 +650,9 @@ class attendanceController extends attendance
 		$oAttendanceAdminModel->deleteAllAttendanceWeeklyData($obj->member_srl);
 		$oAttendanceModel = getModel('attendance');
 		$oAttendanceModel->clearCacheByMemberSrl($obj->member_srl);
-		return new Object();
+		return $this->makeObject();
 	}
-    
+
 	/**
 	 * @brief Auto Attend trigger
 	 **/
@@ -667,7 +666,7 @@ class attendanceController extends attendance
 		if($output->data->count > 0 )
 		{
 			$_SESSION['is_attended'] = $today;
-			return new Object();
+			return $this->makeObject();
 		}
 
 		$oAttendanceModel = getModel('attendance');
@@ -698,7 +697,7 @@ class attendanceController extends attendance
 			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
 		}
 
-		return new Object();
+		return $this->makeObject();
 	}
 
 	/**
@@ -720,7 +719,7 @@ class attendanceController extends attendance
 		{
 			if($member_info->birthday!=$args->birthday)
 			{
-				return new Object(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
+				return $this->makeObject(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
 			}
 		}
 	}
@@ -734,7 +733,7 @@ class attendanceController extends attendance
 		$logged_info = Context::get('logged_info');
 		if(!Context::get('is_logged'))
 		{
-			return new Object();
+			return $this->makeObject();
 		}
 
 		$target_srl = Context::get('target_srl');

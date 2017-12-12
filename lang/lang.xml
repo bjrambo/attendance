@@ -641,4 +641,7 @@
 	<item name="msg_admin_to_use">
 		<value xml:lang="ko"><![CDATA[관리자페이지에서 접속해주세요.]]></value>
 	</item>
+	<item name="msg_do_not_attendance">
+		<value xml:lang="ko"><![CDATA[출석하는 과정에서 오류가 발생했습니다.]]></value>
+	</item>
 </lang>

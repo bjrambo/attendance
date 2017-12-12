@@ -42,7 +42,7 @@ class attendanceAdminView extends attendance
 
 		if ($module_info && $module_info->module != 'attendance')
 		{
-			return $this->stop("msg_invalid_request");
+			return $this->makeObject(-1, 'msg_invalid_request');
 		}
 
 		$module_category = $oModuleModel->getModuleCategories();

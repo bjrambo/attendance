@@ -145,7 +145,7 @@ class attendanceView extends attendance
 
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, '로그인 사용자만 이용 가능합니다.');
+			return $this->makeObject(-1, '로그인 사용자만 이용 가능합니다.');
 		}
 
 		$args = new stdClass();
@@ -170,13 +170,13 @@ class attendanceView extends attendance
 
 		if($logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, '관리자만 접속 할 수 있습니다.');
+			return $this->makeObject(-1, '관리자만 접속 할 수 있습니다.');
 		}
 
 		$member_srl = Context::get('member_srl');
 		if(!$member_srl)
 		{
-			return new Object(-1, '회원번호는 필수입니다.');
+			return $this->makeObject(-1, '회원번호는 필수입니다.');
 		}
 		$oAttendanceModel = getModel('attendance');
 		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl);
@@ -188,7 +188,7 @@ class attendanceView extends attendance
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, '로그인 사용자만 사용가능합니다.');
+			return $this->makeObject(-1, '로그인 사용자만 사용가능합니다.');
 		}
 
 		$oAttendanceModel = getModel('attendance');

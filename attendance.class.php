@@ -41,7 +41,7 @@ class attendance extends ModuleObject
 		{
 			if($module_info->module != 'attendance')
 			{
-				return new Object(1,'attend_error_mid');
+				return $this->makeObject(1,'attend_error_mid');
 			}
 		}
 		else
@@ -56,7 +56,7 @@ class attendance extends ModuleObject
 			$output = $oModuleController->insertModule($args);
 			if(!$output->toBool())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return $this->makeObject(-1, 'msg_invalid_request');
 			}
 		}
 	}
@@ -303,7 +303,7 @@ class attendance extends ModuleObject
 		{
 			if($module_info->module != 'attendance')
 			{
-				return new Object(1,'attend_error_mid');
+				return $this->makeObject(1,'attend_error_mid');
 			}
 		}
 
@@ -323,7 +323,7 @@ class attendance extends ModuleObject
 			}
 		}
 
-		return new Object(0,'success_updated');
+		return $this->makeObject(0,'success_updated');
 	}
 
 	/**
@@ -331,5 +331,16 @@ class attendance extends ModuleObject
 	 **/
 	function recompileCache()
 	{
+	}
+
+	/**
+	 * Create new Object for php7.2
+	 * @param int $code
+	 * @param string $msg
+	 * @return BaseObject|Object
+	 */
+	public function makeObject($code = 0, $msg = 'success')
+	{
+		return class_exists('BaseObject') ? new BaseObject($code, $msg) : new Object($code, $msg);
 	}
 }
