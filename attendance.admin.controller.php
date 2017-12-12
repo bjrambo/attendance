@@ -172,7 +172,7 @@ class attendanceAdminController extends attendance
 		else
 		{
 			//총 출석포인트 기록
-			$oAttendanceModel->updateTotal($member_srl, $continuity=null, $total_attendance=null, $total_point, $regdate=null);
+			getController('attendance')->updateTotal($member_srl, $continuity=null, $total_attendance=null, $total_point, $regdate=null);
 			//개인포인트 기록
 			$oPointController->setPoint($member_srl,$personal_point,'update');
 			if($action=='update') $this->setMessage('attend_updated_points');

@@ -48,6 +48,9 @@
 	<item name="confirm_attend">
 		<value xml:lang="ko"><![CDATA[출석하시겠습니까?]]></value>
 	</item>
+	<item name="admin_graph">
+		<value xml:lang="ko"><![CDATA[출석그래프]]></value>
+	</item>
 	<item name="view_type" type="array">
 		<item name="Config">
 			<value xml:lang="ko"><![CDATA[설정]]></value>

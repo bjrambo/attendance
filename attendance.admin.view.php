@@ -2,7 +2,7 @@
 /**
  * @class attendance module's attendanceAdminView
  * @author BJRambo (sosifam@070805.co.kr)
-*/
+ */
 
 class attendanceAdminView extends attendance
 {
@@ -53,7 +53,7 @@ class attendanceAdminView extends attendance
 
 		Context::set('viewType', $viewType);
 
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile($templeatFileName);
 	}
 
@@ -151,12 +151,12 @@ class attendanceAdminView extends attendance
 
 		$timeCountData = array();
 		$countList = $oAttendanceAdminModel->getTodayTimeCountList($selected_date);
-		for($time=0;$time<24;$time++)
+		for ($time = 0; $time < 24; $time++)
 		{
 			$timeCountData[$time] = new stdClass();
 			$timeCountData[$time]->time = $time;
 			$timeCountData[$time]->count = $countList[$time];
-			$timeCountData[$time]->percent = (int)($countList[$time]/$total_count*100);
+			$timeCountData[$time]->percent = (int)($countList[$time] / $total_count * 100);
 		}
 
 		Context::set('timeCountData', $timeCountData);
@@ -181,7 +181,7 @@ class attendanceAdminView extends attendance
 		$month = substr($selected_date, 4, 2);
 		$day = substr($selected_date, 6, 2);
 		$end_day = date('t', mktime(0, 0, 0, $month, 1, $year));
-		$check_month = sprintf("%s%s",$year,$month);
+		$check_month = sprintf("%s%s", $year, $month);
 
 		$arrayUserData = array();
 		foreach ($user_data->data as $data)
@@ -246,6 +246,84 @@ class attendanceAdminView extends attendance
 		Context::set('position', $position);
 		Context::set('eom', $eom);
 		Context::set('year_month', $year_month);
+		Context::set('user_data', $user_data);
+	}
+
+	function dispAttendanceAdminRankyearly()
+	{
+		/** @var attendanceAdminModel $oAttendanceAdminModel */
+		$oAttendanceAdminModel = getAdminModel('attendance');
+
+		if (!Context::get('selected_date'))
+		{
+			$selected_date = zDate(date('YmdHis'), "Ymd");
+		}
+		else
+		{
+			$selected_date = Context::get('selected_date');
+		}
+
+		$year = substr($selected_date, 0, 4);
+		$pad = date('t', mktime(0, 0, 0, 02, 1, $year));
+		if ($pad == 29)
+		{
+			$eoy = 366;
+		}
+		else
+		{
+			$eoy = 365;
+		}
+
+		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'rankyearly');
+		$position = 1 + ($user_data->page - 1) * 20;
+
+		Context::set('position', $position);
+		Context::set('eoy', $eoy);
+		Context::set('year', $year);
+		Context::set('pad', $pad);
+		Context::set('user_data', $user_data);
+	}
+
+	function dispAttendanceAdminRanktotal()
+	{
+		/** @var attendanceAdminModel $oAttendanceAdminModel */
+		$oAttendanceAdminModel = getAdminModel('attendance');
+
+		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'ranktotal');
+		$position=1+($user_data->page-1)*20;
+
+		Context::set('position', $position);
+		Context::set('user_data', $user_data);
+	}
+
+	function dispAttendanceAdminSpeedsearch()
+	{
+		/** @var attendanceAdminModel $oAttendanceAdminModel */
+		$oAttendanceAdminModel = getAdminModel('attendance');
+		/** @var attendanceModel $oAttendanceModel */
+		$oAttendanceModel = getModel('attendance');
+
+		if (!Context::get('selected_date'))
+		{
+			$selected_date = zDate(date('YmdHis'), "Ymd");
+		}
+		else
+		{
+			$selected_date = Context::get('selected_date');
+		}
+
+		$year = substr($selected_date,0,4);
+		$year_month = substr($selected_date,0,6);
+		$month = substr($selected_date,4,2);
+		$week = $oAttendanceModel->getWeek($selected_date);
+		$eom = date('t', mktime(0,0,0,$month,1,$year));
+
+		Context::set('eom', $eom);
+		Context::set('year_month', $year_month);
+		Context::set('week', $week);
+		Context::set('year', $year);
+
+		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'speedsearch');
 		Context::set('user_data', $user_data);
 	}
 
