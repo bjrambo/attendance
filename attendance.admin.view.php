@@ -59,73 +59,23 @@ class attendanceAdminView extends attendance
 
 	function dispAttendanceAdminConfig()
 	{
-		$document_srl = Context::get('document_srl');
-		if ($document_srl)
-		{
-			return $this->stop('msg_admin_to_use');
-		}
-		$mid = Context::get('mid');
-		if ($mid)
-		{
-			return $this->stop('msg_admin_to_use');
-		}
-
 		$oAttendanceModel = getModel('attendance');
-		Context::set('Model', $oAttendanceModel);
-
-		$type = Context::get('type');
-
-		$oAttendanceAdminModel = getAdminModel('attendance');
-		Context::set('oAttendanceAdminModel', $oAttendanceAdminModel);
-		if ($type != 'config' && $type != 'time')
-		{
-			$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, $type);
-			Context::set('user_data', $user_data);
-		}
-
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups();
-		Context::set('group_list', $group_list);
-
-		$oMemberModel = getModel('member');
-
-		Context::set('ipaddress', $_SERVER['REMOTE_ADDR']);
-		Context::set('oMemberModel', $oMemberModel);
 
 		$config = $oAttendanceModel->getConfig();
-
-		$oModuleAdminModel = getAdminModel('module');
 		Context::set('config', $config);
 
-		$start_time = new stdClass;
+		$start_time = new stdClass();
 		$start_time->hour = substr($config->start_time, 0, 2);
 		$start_time->min = substr($config->start_time, 2, 2);
-		$end_time = new stdClass;
+		$end_time = new stdClass();
 		$end_time->hour = substr($config->end_time, 0, 2);
 		$end_time->min = substr($config->end_time, 2, 2);
+
 		Context::set('start_time', $start_time);
 		Context::set('end_time', $end_time);
 
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-		$skin_list = $oModuleModel->getSkins($this->module_path);
-		Context::set('skin_list', $skin_list);
-
-		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
-		Context::set('mskin_list', $mskin_list);
-
-		$oLayoutModel = getModel('layout');
-		$layout_list = $oLayoutModel->getLayoutList();
-		Context::set('layout_list', $layout_list);
-
-		$mobile_layout_list = $oLayoutModel->getLayoutList(0, "M");
-		Context::set('mlayout_list', $mobile_layout_list);
-
-		$module_category = $oModuleModel->getModuleCategories();
-		Context::set('module_category', $module_category);
-
-		$skin_content = $oModuleAdminModel->getModuleSkinHTML($module_info->module_srl);
-		Context::set('skin_content', $skin_content);
 
 		Context::set('module_info', $module_info);
 		Context::set('module_srl', $module_info->module_srl);
@@ -190,6 +140,10 @@ class attendanceAdminView extends attendance
 			$arrayUserData[$data->member_srl]->doChecked = getModel('attendance')->getIsCheckedMonth($data->member_srl, $check_month);
 		}
 
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('end_day', $end_day);
 		Context::set('year', $year);
 		Context::set('selected', $selected_date);
@@ -217,6 +171,11 @@ class attendanceAdminView extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$week = $oAttendanceModel->getWeek($selected_date);
 		$position = 1 + ($user_data->page - 1) * 20;
+
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('week', $week);
 		Context::set('position', $position);
 		Context::set('user_data', $user_data);
@@ -243,6 +202,10 @@ class attendanceAdminView extends attendance
 		$eom = date('t', mktime(0, 0, 0, $month, 1, $year));
 		$position = 1 + ($user_data->page - 1) * 20;
 
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('position', $position);
 		Context::set('eom', $eom);
 		Context::set('year_month', $year_month);
@@ -277,6 +240,10 @@ class attendanceAdminView extends attendance
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'rankyearly');
 		$position = 1 + ($user_data->page - 1) * 20;
 
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('position', $position);
 		Context::set('eoy', $eoy);
 		Context::set('year', $year);
@@ -292,6 +259,10 @@ class attendanceAdminView extends attendance
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'ranktotal');
 		$position=1+($user_data->page-1)*20;
 
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('position', $position);
 		Context::set('user_data', $user_data);
 	}
@@ -318,6 +289,10 @@ class attendanceAdminView extends attendance
 		$week = $oAttendanceModel->getWeek($selected_date);
 		$eom = date('t', mktime(0,0,0,$month,1,$year));
 
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+
+		Context::set('group_list', $group_list);
 		Context::set('eom', $eom);
 		Context::set('year_month', $year_month);
 		Context::set('week', $week);
