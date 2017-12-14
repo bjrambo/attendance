@@ -8,9 +8,16 @@
 class attendance extends ModuleObject
 {
 
-	private $triggers = array(array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'), array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'), array('display', 'attendance', 'controller', 'triggerBeforeDisplay', 'before'), array('member.updateMember', 'attendance', 'controller', 'triggerUpdateMemberBefore', 'before'),);
+	private $triggers = array(
+		array('member.deleteMember', 'attendance', 'controller', 'triggerDeleteMember', 'after'),
+		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
+		array('display', 'attendance', 'controller', 'triggerBeforeDisplay', 'before'),
+		array('member.updateMember', 'attendance', 'controller', 'triggerUpdateMemberBefore', 'before'),
+	);
 
-	private $delete_triggers = array(array('display', 'attendance', 'controller', 'triggerSou', 'before'),);
+	private $delete_triggers = array(
+		array('display', 'attendance', 'controller', 'triggerSou', 'before'),
+	);
 
 	/**
 	 * @brief Install module in xpressengine.
