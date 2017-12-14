@@ -11,7 +11,7 @@
 					<div class="bar bar-success" style="width:{$val->percent}%;"></div><!--@if($val->percent>=50)-->{$val->percent}%<!--@else-->&nbsp;<!--@end-->
 				</div>
 				<div class="num" style="left:230px;width:70px;">
-					<strong>{$val->count}</strong>/{$total_count}({$val->percent}%)
+					<strong cond="$val->count">{$val->count}</strong><span cond="!$val->count">0</span>/{$total_count}({$val->percent}%)
 				</div>
 			</div>
 		</td>
