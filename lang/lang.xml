@@ -609,7 +609,7 @@
 		<value xml:lang="ko"><![CDATA[선물이름 설정]]></value>
 	</item>
 	<item name="giftnames_h">
-		<value xml:lang="ko"><![CDATA[선물이름 설정할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[선물이름 설정할 수 있습니다. <br> <strong>지정일 출석 여부에서 gift 옵션일 경우에만 사용 가능합니다.</strong>]]></value>
 	</item>
 	<item name="manygiftlist">
 		<value xml:lang="ko"><![CDATA[지급 인원 설정]]></value>
@@ -618,13 +618,13 @@
 		<value xml:lang="ko"><![CDATA[지정일 포인트 여부와 함께 지정일 포인트 선물 기능을 여기서 설정 가능합니다.]]></value>
 	</item>
 	<item name="manygiftlists">
-		<value xml:lang="ko"><![CDATA[지정일날 최대 몇명에게 이벤트 당첨권한을 줄 것 인지를 설정 가능합니다. 설정한 인원이 넘어가게 된다면, 더 이상 선물을 지급하지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[지정일날 최대 몇명에게 이벤트 당첨권한을 줄 것 인지를 설정 가능합니다. 설정한 인원이 넘어가게 된다면, 더 이상 선물을 지급하지 않습니다. <br> <strong>지정일 출석 여부에서 gift 옵션일 경우에만 사용 가능합니다.</strong>]]></value>
 	</item>
 	<item name="gift_random">
 		<value xml:lang="ko"><![CDATA[선물 당첨 확률]]></value>
 	</item>
 	<item name="gift_random_h">
-		<value xml:lang="ko"><![CDATA[지정일날 선물 당첨 확률을 여기서 설정 가능합니다. 최대 100퍼까지 가능합니다. 100퍼 설정시 선착순으로 진행됩니다. 설정값은 숫자만 입력하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[지정일날 선물 당첨 확률을 여기서 설정 가능합니다. 최대 100퍼까지 가능합니다. 100퍼 설정시 선착순으로 진행됩니다. 설정값은 숫자만 입력하세요. <br> <strong>지정일 출석 여부에서 gift 옵션일 경우에만 사용 가능합니다.</strong>]]></value>
 	</item>
 	<item name="dispAttgiftList">
 		<value xml:lang="ko"><![CDATA[선물관리]]></value>
