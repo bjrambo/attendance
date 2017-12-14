@@ -1,11 +1,9 @@
 <?php
 /**
-* @class 출석부 모듈의 attendanceAdminModel 클래스
-* @author BJRambo (sosifam@070805.co.kr)
-* @관리자가 건드리는 함수 기록
-*
-*
-**/
+ * @class attendanceAdminModel
+ * @author BJRambo (sosifam@070805.co.kr)
+ * @brief attendance module admin model class
+ **/
 
 class attendanceAdminModel extends attendance
 {

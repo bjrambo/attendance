@@ -1,11 +1,9 @@
 <?PHP
 /**
-* @class 출석부 모듈의 attendanceController 클래스
-* @author BJRambo (sosifam@070805.co.kr)
-* @JS필터를 통해 요청된 작업 수행
-*
-* 출석부 기록, 관리자의 임의 출석내용 변경 시 호출되는 함수들이 있습니다.
-**/
+ * @class attendanceController
+ * @author BJRambo (sosifam@070805.co.kr)
+ * @brief attendance module controller class
+ **/
 
 class attendanceController extends attendance
 {
@@ -24,14 +22,14 @@ class attendanceController extends attendance
 	{
 		$logged_info = Context::get('logged_info');
 
-		if($logged_info->is_admin != 'Y')
+		if ($logged_info->is_admin != 'Y')
 		{
 			return $this->makeObject(-1, '관리자만 설정이 가능합니다.');
 		}
 
 		$obj = Context::getRequestVars();
 		$member_srl = $obj->member_srl;
-		if(!$member_srl)
+		if (!$member_srl)
 		{
 			return $this->makeObject(-1, '회원번호는 필수 입니다.');
 		}
@@ -39,7 +37,7 @@ class attendanceController extends attendance
 		$args->member_srl = $member_srl;
 		$args->continuity = $obj->continuity;
 		$output = executeQuery('attendance.updateTotal', $args);
-		if($output->toBool())
+		if ($output->toBool())
 		{
 			$this->setMessage('수정완료');
 		}
@@ -51,7 +49,7 @@ class attendanceController extends attendance
 		$oAttendanceModel = getModel('attendance');
 		$oAttendanceModel->clearCacheByMemberSrl($member_srl);
 
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance', 'act', 'dispAttendanceModifyContinuous', 'member_srl', $member_srl);
 			header('location: ' . $returnUrl);
@@ -65,11 +63,11 @@ class attendanceController extends attendance
 	 **/
 	function procAttendanceInsertAttendance()
 	{
-		$today = zDate(date('YmdHis'),"Ymd");
+		$today = zDate(date('YmdHis'), "Ymd");
 
-		if($_SESSION['is_attended'] === $today)
+		if ($_SESSION['is_attended'] === $today)
 		{
-			return $this->makeObject(-1,'attend_already_checked');
+			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
 		$_SESSION['is_attended'] = $today;
@@ -82,32 +80,32 @@ class attendanceController extends attendance
 		$config = $oAttendanceModel->getConfig();
 
 		//관리자 출석이 허가가 나지 않았다면,
-		if($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
+		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
 		{
 			$_SESSION['is_attended'] = 0;
 			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
-		if($oAttendanceModel->getIsChecked($logged_info->member_srl)>0)
+		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0)
 		{
 			$_SESSION['is_attended'] = 0;
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
 		$is_logged = Context::get('is_logged');
-		if(!$is_logged)
+		if (!$is_logged)
 		{
-			return $this->makeObject(-1,'로그인 사용자만 출석 할 수 있습니다.');
+			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
 		}
-		if($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
+		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
 			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
 		}
 
 		//ip중복 횟수 확인
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
-		if($ip_count >= $config->allow_duplicaton_ip_count)
+		if ($ip_count >= $config->allow_duplicaton_ip_count)
 		{
 			$_SESSION['is_attended'] = 0;
 			return $this->makeObject(-1, 'attend_allow_duplicaton_ip_count');
@@ -116,11 +114,14 @@ class attendanceController extends attendance
 		$g_obj = Context::getRequestVars();
 
 		//인사말 필터링('#'시작문자 '^'시작문자 필터링)
-		if(preg_match("/^\#/",$g_obj->greetings)) return $this->makeObject(-1, 'attend_greetings_error');
+		if (preg_match("/^\#/", $g_obj->greetings))
+		{
+			return $this->makeObject(-1, 'attend_greetings_error');
+		}
 
 		$output = $this->insertAttendance($g_obj, $config);
 
-		if($output->toBool())
+		if ($output->toBool())
 		{
 			$this->setMessage('att_success');
 		}
@@ -130,7 +131,7 @@ class attendanceController extends attendance
 		}
 
 		// TODO(BJRambo):Change the way to redirect url.
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', 'attendance');
 			header('location: ' . $returnUrl);
@@ -156,7 +157,7 @@ class attendanceController extends attendance
 	{
 		$oMemberModel = getModel('member');
 		$oAttendanceModel = getModel('attendance');
-		if($member_srl)
+		if ($member_srl)
 		{
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 		}
@@ -165,7 +166,7 @@ class attendanceController extends attendance
 			$member_info = Context::get('logged_info');
 		}
 
-		if($r_args !== null)
+		if ($r_args !== null)
 		{
 			$today = $r_args->regdate;
 			$year = $r_args->year;
@@ -175,9 +176,9 @@ class attendanceController extends attendance
 		else
 		{
 			$today = date('YmdHis');
-			$year = zDate(date('YmdHis'),"Y");
-			$year_month = zDate(date('YmdHis'),"Ym");
-			$yesterday = zDate(date("YmdHis",strtotime("-1 day")),"Ymd");
+			$year = zDate(date('YmdHis'), "Y");
+			$year_month = zDate(date('YmdHis'), "Ym");
+			$yesterday = zDate(date("YmdHis", strtotime("-1 day")), "Ymd");
 		}
 
 		$oPointController = getController('point');
@@ -191,22 +192,22 @@ class attendanceController extends attendance
 		$today_position = zDate($today, 'Ymd');
 		$position = $oAttendanceModel->getPositionData($today_position);
 
-		if($position == 0)
+		if ($position == 0)
 		{
 			$obj->today_point += $config->first_point;
 		}
-		else if($position == 1)
+		else if ($position == 1)
 		{
 			$obj->today_point += $config->second_point;
 		}
-		else if($position == 2)
+		else if ($position == 2)
 		{
 			$obj->today_point += $config->third_point;
 		}
 
 		$yesterday_continuity_data = $oAttendanceModel->isExistContinuity($member_info->member_srl, $yesterday);
 
-		if($yesterday_continuity_data > 0)
+		if ($yesterday_continuity_data > 0)
 		{
 			$continuity = $oAttendanceModel->getContinuityData($member_info->member_srl, $yesterday);
 			if ($continuity->data + 1 >= $obj->continuity_day && $obj->continuity_day != 0 && $config->about_continuity == 'yes')
@@ -216,7 +217,7 @@ class attendanceController extends attendance
 			}
 
 			// If insert attendance member in admin page, Initialize the continuity days.
-			if($r_args)
+			if ($r_args)
 			{
 				$continuity->data = 1;
 			}
@@ -233,21 +234,21 @@ class attendanceController extends attendance
 		}
 		$obj->a_continuity = $continuity->data;
 
-		if($config->about_target == 'yes')
+		if ($config->about_target == 'yes')
 		{
-			if($today == $config->target_day)
+			if ($today == $config->target_day)
 			{
 				$obj->today_point += $config->target_point;
 				$obj->present_y = 'N';
 			}
 		}
-		elseif($config->about_target == 'gift')
+		elseif ($config->about_target == 'gift')
 		{
 			$todayGiftCount = $oAttendanceModel->getTodayGiftCount($today);
-			if($todayGiftCount <= $config->manygiftlist && $today == $config->target_day)
+			if ($todayGiftCount <= $config->manygiftlist && $today == $config->target_day)
 			{
-				$intrand = rand(1,100);
-				if($intrand <= $config->gift_random)
+				$intrand = rand(1, 100);
+				if ($intrand <= $config->gift_random)
 				{
 					$gift_args = new stdClass();
 					$gift_args->present_srl = getNextSequence();
@@ -255,7 +256,7 @@ class attendanceController extends attendance
 					$gift_args->present = $config->giftname;
 					$gift_args->sender = 'N';
 					$output_gift = executeQuery("attendance.insertPresent", $gift_args);
-					if($output_gift->toBool())
+					if ($output_gift->toBool())
 					{
 						$obj->present_y = 'Y';
 					}
@@ -276,51 +277,51 @@ class attendanceController extends attendance
 		}
 
 		$attendRegularly = $oAttendanceModel->isPerfect($member_info->member_srl, $today, false);
-		if($attendRegularly->yearly_perfect == true)
+		if ($attendRegularly->yearly_perfect == true)
 		{
 			$obj->today_point += $config->yearly_point;
 		}
-		if($attendRegularly->monthly_perfect == true)
+		if ($attendRegularly->monthly_perfect == true)
 		{
 			$obj->today_point += $config->monthly_point;
 		}
 
 		$week = $oAttendanceModel->getWeek($today);
 		$weekly_data = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
-		if($weekly_data->weekly == 6)
+		if ($weekly_data->weekly == 6)
 		{
 			$obj->today_point += $config->weekly_point;
 		}
 
-		if($config->about_diligence_yearly == 'yes')
+		if ($config->about_diligence_yearly == 'yes')
 		{
-			if($oAttendanceModel->checkYearlyDiligence($member_info->member_srl, $config->diligence_yearly-1, null) === 1)
+			if ($oAttendanceModel->checkYearlyDiligence($member_info->member_srl, $config->diligence_yearly - 1, null) === 1)
 			{
 				$obj->today_point += $config->diligence_yearly_point;
 			}
 		}
-		if($config->about_diligence_monthly == 'yes')
+		if ($config->about_diligence_monthly == 'yes')
 		{
-			if($oAttendanceModel->checkMonthlyDiligence($member_info->member_srl, $config->diligence_monthly-1, null) === 1)
+			if ($oAttendanceModel->checkMonthlyDiligence($member_info->member_srl, $config->diligence_monthly - 1, null) === 1)
 			{
 				$obj->today_point += $config->diligence_monthly_point;
 			}
 		}
-		if($config->about_diligence_weekly == 'yes')
+		if ($config->about_diligence_weekly == 'yes')
 		{
-			if($oAttendanceModel->checkWeeklyDiligence($member_info->member_srl, $config->diligence_weekly-1, null) === 1)
+			if ($oAttendanceModel->checkWeeklyDiligence($member_info->member_srl, $config->diligence_weekly - 1, null) === 1)
 			{
 				$obj->today_point += $config->diligence_weekly_point;
 			}
 		}
 
-		if($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
+		if ($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
 		{
-			$randNumber = mt_rand($config->minimum,$config->maximum);
-			if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
+			$randNumber = mt_rand($config->minimum, $config->maximum);
+			if ($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
 			{
-				$win = mt_rand(1,100);
-				if($win<=$config->lottery)
+				$win = mt_rand(1, 100);
+				if ($win <= $config->lottery)
 				{
 					$obj->today_point += $randNumber;
 					$obj->today_random = $randNumber;
@@ -340,23 +341,23 @@ class attendanceController extends attendance
 				$obj->att_random_set = 0;
 			}
 		}
-		elseif($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
+		elseif ($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
 		{
-			if($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
+			if ($config->about_lottery == 'yes' && $config->lottery > 0 && $config->lottery <= 100)
 			{
-				$win = mt_rand(1,100);
-				if($win<=$config->lottery)
+				$win = mt_rand(1, 100);
+				if ($win <= $config->lottery)
 				{
-					if($win<=$config->lottery && $win>=$config->random_small_win)
+					if ($win <= $config->lottery && $win >= $config->random_small_win)
 					{
-						$randNumber = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+						$randNumber = mt_rand($config->random_small_point_f, $config->random_small_point_s);
 						$obj->today_point += $randNumber;
 						$obj->today_random = $randNumber;
 						$obj->att_random_set = 0;
 					}
-					elseif($win<$config->random_small_win)
+					elseif ($win < $config->random_small_win)
 					{
-						$randNumber = mt_rand($config->random_big_point_f,$config->random_big_point_s);
+						$randNumber = mt_rand($config->random_big_point_f, $config->random_big_point_s);
 						$obj->today_point += $randNumber;
 						$obj->today_random = $randNumber;
 						$obj->att_random_set = 1;
@@ -371,7 +372,7 @@ class attendanceController extends attendance
 			}
 			else
 			{
-				$randNumber = mt_rand($config->random_small_point_f,$config->random_small_point_s);
+				$randNumber = mt_rand($config->random_small_point_f, $config->random_small_point_s);
 				$obj->today_point += $randNumber;
 				$obj->today_random = $randNumber;
 				$obj->att_random_set = 0;
@@ -384,12 +385,12 @@ class attendanceController extends attendance
 		}
 
 
-		if($config->about_birth_day == 'yes')
+		if ($config->about_birth_day == 'yes')
 		{
-			$birthdays = substr($member_info->birthday,4,4);
-			$todays = substr($today,4,4);
+			$birthdays = substr($member_info->birthday, 4, 4);
+			$todays = substr($today, 4, 4);
 
-			if($todays==$birthdays)
+			if ($todays == $birthdays)
 			{
 				$obj->today_point += $config->brithday_point;
 			}
@@ -403,23 +404,23 @@ class attendanceController extends attendance
 			$obj->today_point;
 		}
 
-		if(!$member_info->member_srl)
+		if (!$member_info->member_srl)
 		{
 			return $this->makeObject(-1, '로그인 사용자만 가능합니다.');
 		}
 
 		$module_info = $oAttendanceModel->getAttendanceInfo();
-		if(!$module_info->module_srl)
+		if (!$module_info->module_srl)
 		{
 			return $this->makeObject(-1, 'attend_no_board');
 		}
 
-		if($config->use_document == 'yes')
+		if ($config->use_document == 'yes')
 		{
 			/** @var $oDocumentController documentController */
 			$oDocumentController = getController('document');
 
-			if(strlen($obj->greetings) > 0 && $obj->greetings!='^auto^')
+			if (strlen($obj->greetings) > 0 && $obj->greetings != '^auto^')
 			{
 				$d_obj = new stdClass;
 				$d_obj->content = $obj->greetings;
@@ -430,11 +431,11 @@ class attendanceController extends attendance
 				$d_obj->module_srl = $module_info->module_srl;
 				$d_obj->allow_comment = 'Y';
 				$output = $oDocumentController->insertDocument($d_obj, false);
-				if(!$output->get('document_srl'))
+				if (!$output->get('document_srl'))
 				{
 					return $this->makeObject(-1, 'attend_error_no_greetings');
 				}
-				$obj->greetings = "#".$output->get('document_srl');
+				$obj->greetings = "#" . $output->get('document_srl');
 			}
 		}
 
@@ -443,7 +444,7 @@ class attendanceController extends attendance
 		$obj->regdate = $today;
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
-		if(!$output->toBool())
+		if (!$output->toBool())
 		{
 			return $output;
 		}
@@ -457,12 +458,12 @@ class attendanceController extends attendance
 
 		ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $trigger_obj);
 
-		if($obj->today_point != 0 && $member_info->member_srl)
+		if ($obj->today_point != 0 && $member_info->member_srl)
 		{
 			$oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
 		}
 		$selfOutput = self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
-		if($selfOutput !== true)
+		if ($selfOutput !== true)
 		{
 			return $selfOutput;
 		}
@@ -473,11 +474,11 @@ class attendanceController extends attendance
 	{
 		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
-		if($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
+		if ($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $today);
-			if(!$totalOutput->toBool())
+			if (!$totalOutput->toBool())
 			{
 				return $totalOutput;
 			}
@@ -488,18 +489,18 @@ class attendanceController extends attendance
 			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl);
 			$total_point += $obj->today_point;
 			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $today);
-			if(!$totalOutput->toBool())
+			if (!$totalOutput->toBool())
 			{
 				return $totalOutput;
 			}
 		}
 
-		if($oAttendanceModel->isExistYearly($member_info->member_srl, $year) == 0)
+		if ($oAttendanceModel->isExistYearly($member_info->member_srl, $year) == 0)
 		{
 			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			$yearly_point = $obj->today_point;
 			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $today);
-			if(!$yearlyOutput->toBool())
+			if (!$yearlyOutput->toBool())
 			{
 				return $yearlyOutput;
 			}
@@ -510,19 +511,19 @@ class attendanceController extends attendance
 			$year_info = $oAttendanceModel->getYearlyAttendance($member_info->member_srl, $year);
 			$yearly_point = $year_info->yearly_point;
 			$yearly_point += $obj->today_point;
-			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point,$today);
-			if(!$yearlyOutput->toBool())
+			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point, $today);
+			if (!$yearlyOutput->toBool())
 			{
 				return $yearlyOutput;
 			}
 		}
 
-		if($oAttendanceModel->isExistMonthly($member_info->member_srl, $year_month) == 0)
+		if ($oAttendanceModel->isExistMonthly($member_info->member_srl, $year_month) == 0)
 		{
 			$monthlyCount = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			$monthly_point = $obj->today_point;
 			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $today);
-			if(!$monthlyOutput->toBool())
+			if (!$monthlyOutput->toBool())
 			{
 				return $monthlyOutput;
 			}
@@ -534,19 +535,19 @@ class attendanceController extends attendance
 			$monthly_point = $month_info->monthly_point;
 			$monthly_point += $obj->today_point;
 			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $today);
-			if(!$monthlyOutput->toBool())
+			if (!$monthlyOutput->toBool())
 			{
 				return $monthlyOutput;
 			}
 		}
 
 		$week = $oAttendanceModel->getWeek($today);
-		if($oAttendanceModel->isExistWeekly($member_info->member_srl, $week) == 0 )
+		if ($oAttendanceModel->isExistWeekly($member_info->member_srl, $week) == 0)
 		{
 			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			$weekly_point = $obj->today_point;
 			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $today);
-			if(!$weekOutput->toBool())
+			if (!$weekOutput->toBool())
 			{
 				return $weekOutput;
 			}
@@ -558,7 +559,7 @@ class attendanceController extends attendance
 			$weekly_point = $week_info->weekly_point;
 			$weekly_point += $obj->today_point;
 			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $today);
-			if(!$weekOutput->toBool())
+			if (!$weekOutput->toBool())
 			{
 				return $weekOutput;
 			}
@@ -572,7 +573,7 @@ class attendanceController extends attendance
 	/**
 	 * @brief 출석내용 수정
 	 **/
-    function procAttendanceModifyData()
+	function procAttendanceModifyData()
 	{
 		$oPointController = getController('point');
 		$oAttendanceModel = getModel('attendance');
@@ -580,16 +581,28 @@ class attendanceController extends attendance
 
 		$obj = Context::getRequestVars();
 
-		if(strlen($obj->regdate) != 6) return ;
-		$hour = substr($obj->regdate,0,2);
-		$min = substr($obj->regdate,2,2);
-		$sec = substr($obj->regdate,4,2);
-		if(!$hour || $hour < 0 || $hour > 23) return;
-		if(!$min || $min < 0 || $min > 59) return;
-		if(!$sec || $sec < 0 || $sec > 59) return;
+		if (strlen($obj->regdate) != 6)
+		{
+			return;
+		}
+		$hour = substr($obj->regdate, 0, 2);
+		$min = substr($obj->regdate, 2, 2);
+		$sec = substr($obj->regdate, 4, 2);
+		if (!$hour || $hour < 0 || $hour > 23)
+		{
+			return;
+		}
+		if (!$min || $min < 0 || $min > 59)
+		{
+			return;
+		}
+		if (!$sec || $sec < 0 || $sec > 59)
+		{
+			return;
+		}
 
-		$year = substr($obj->selected_date,0,4);
-		$year_month = substr($obj->selected_date,0,6);
+		$year = substr($obj->selected_date, 0, 4);
+		$year_month = substr($obj->selected_date, 0, 6);
 		$week = $oAttendanceModel->getWeek($obj->selected_date);
 
 		$weekly_info = $oAttendanceModel->getWeeklyData($oAttendance->member_srl, $week);
@@ -599,22 +612,25 @@ class attendanceController extends attendance
 		$continuity = new stdClass;
 		$continuity->data = $total_info->continuity;
 		$continuity->point = $total_info->continuity_point;
-		$regdate = sprintf("%s%s",$obj->selected_date,$obj->regdate);
+		$regdate = sprintf("%s%s", $obj->selected_date, $obj->regdate);
 
-		if(!$obj->today_point) return;
-		if($obj->today_point < $oAttendance->today_point)
+		if (!$obj->today_point)
+		{
+			return;
+		}
+		if ($obj->today_point < $oAttendance->today_point)
 		{
 			$value = $oAttendance->today_point - $obj->today_point;
-			$oPointController->setPoint($oAttendance->member_srl,$value,'minus');
-			$this->updateWeekly($oAttendance->member_srl, $week, null, $weekly_info->weekly_point -$value, $regdate);
-			$this->updateMonthly($oAttendance->member_srl, $year_month, null, $monthly_info->monthly_point-$value, $regdate);
-			$this->updateYearly($oAttendance->member_srl, $year, null, $yearly_info->yearly_point-$value, $regdate);
-			$this->updateTotal($oAttendance->member_srl, $continuity, null, $total_info->total_point-$value, $regdate);
+			$oPointController->setPoint($oAttendance->member_srl, $value, 'minus');
+			$this->updateWeekly($oAttendance->member_srl, $week, null, $weekly_info->weekly_point - $value, $regdate);
+			$this->updateMonthly($oAttendance->member_srl, $year_month, null, $monthly_info->monthly_point - $value, $regdate);
+			$this->updateYearly($oAttendance->member_srl, $year, null, $yearly_info->yearly_point - $value, $regdate);
+			$this->updateTotal($oAttendance->member_srl, $continuity, null, $total_info->total_point - $value, $regdate);
 		}
-		else if($obj->today_point > $oAttendance->today_point)
+		else if ($obj->today_point > $oAttendance->today_point)
 		{
 			$value = $obj->today_point - $oAttendance->today_point;
-			$oPointController->setPoint($oAttendance->member_srl,$value,'add');
+			$oPointController->setPoint($oAttendance->member_srl, $value, 'add');
 			$this->updateWeekly($oAttendance->member_srl, $week, null, $weekly_info->weekly_point + $value, $regdate);
 			$this->updateMonthly($oAttendance->member_srl, $year_month, null, $monthly_info->monthly_point + $value, $regdate);
 			$this->updateYearly($oAttendance->member_srl, $year, null, $yearly_info->yearly_point + $value, $regdate);
@@ -635,11 +651,11 @@ class attendanceController extends attendance
 		}
 	}
 
-    /**
-     * @brief If leave member, delete the member attendance data.
-     * @param object $obj
-     * @return Object
-     **/
+	/**
+	 * @brief If leave member, delete the member attendance data.
+	 * @param object $obj
+	 * @return Object
+	 **/
 	function triggerDeleteMember($obj)
 	{
 		$oAttendanceAdminModel = getAdminModel('attendance');
@@ -658,12 +674,12 @@ class attendanceController extends attendance
 	 **/
 	function triggerAutoAttend($obj)
 	{
-		$today = zDate(date('YmdHis'),"Ymd");
+		$today = zDate(date('YmdHis'), "Ymd");
 		$arg = new stdClass;
 		$arg->day = $today;
 		$arg->member_srl = $obj->member_srl;
-		$output = executeQuery('attendance.getIsChecked',$arg);
-		if($output->data->count > 0 )
+		$output = executeQuery('attendance.getIsChecked', $arg);
+		if ($output->data->count > 0)
 		{
 			$_SESSION['is_attended'] = $today;
 			return $this->makeObject();
@@ -674,7 +690,7 @@ class attendanceController extends attendance
 
 		$args = new stdClass();
 		$args->greetings = '^auto^';
-		if($config->about_auto_attend == 'yes')
+		if ($config->about_auto_attend == 'yes')
 		{
 			$this->insertAttendance($args, $config, $obj->member_srl);
 		}
@@ -691,10 +707,10 @@ class attendanceController extends attendance
 		$config = $oAttendanceModel->getConfig();
 		$act = Context::get('act');
 
-		if($act == 'dispMemberModifyInfo' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
+		if ($act == 'dispMemberModifyInfo' && $config->about_birth_day == 'yes' && $config->about_birth_day_y == 'yes')
 		{
-			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"',Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.').'<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
-			$content = str_replace('<input type="button" value="삭제"','<input type="button" value="삭제" disabled="disabled"', $content);
+			$content = str_replace('<input type="text" placeholder="YYYY-MM-DD" name="birthday_ui"', Context::getLang('출석부모듈에 의해 생일 변경이 금지되었습니다.') . '<br><input type="text" name="birthday" placeholder="YYYY-MM-DD" disabled="disabled"', $content);
+			$content = str_replace('<input type="button" value="삭제"', '<input type="button" value="삭제" disabled="disabled"', $content);
 		}
 
 		return $this->makeObject();
@@ -715,9 +731,9 @@ class attendanceController extends attendance
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('attendance');
 
-		if($logged_info->is_admin=='N' && $config->about_birth_day=='yes' && $config->about_birth_day_y=='yes')
+		if ($logged_info->is_admin == 'N' && $config->about_birth_day == 'yes' && $config->about_birth_day_y == 'yes')
 		{
-			if($member_info->birthday!=$args->birthday)
+			if ($member_info->birthday != $args->birthday)
 			{
 				return $this->makeObject(-1, '출석부모듈에 의해 생일을 수정 할 수 없도록 되어있습니다.');
 			}
@@ -731,7 +747,7 @@ class attendanceController extends attendance
 	function triggerAddMemberMenu()
 	{
 		$logged_info = Context::get('logged_info');
-		if(!Context::get('is_logged'))
+		if (!Context::get('is_logged'))
 		{
 			return $this->makeObject();
 		}
@@ -742,7 +758,7 @@ class attendanceController extends attendance
 		// Can i use the the Context::getLang in str (string)?
 		$oMemberController->addMemberMenu('dispAttendanceMemberInfo', '출석사항');
 
-		if($logged_info->is_admin == 'Y')
+		if ($logged_info->is_admin == 'Y')
 		{
 			$url = getUrl('', 'mid', 'attendance', 'act', 'dispAttendanceMemberInfo', 'member_srl', $target_srl);
 			$str = '회원출석사항';
@@ -767,7 +783,10 @@ class attendanceController extends attendance
 		$arg->continuity_point = $continuity->point;
 		$arg->total = $total_attendance;
 		$arg->total_point = $total_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.insertTotal", $arg);
 
 		return $output;
@@ -784,7 +803,10 @@ class attendanceController extends attendance
 		$arg->continuity_point = $continuity->point;
 		$arg->total = $total_attendance;
 		$arg->total_point = $total_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.updateTotal", $arg);
 
 		return $output;
@@ -799,7 +821,10 @@ class attendanceController extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->yearly = $yearly;
 		$arg->yearly_point = $yearly_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.insertYearly", $arg);
 
 		return $output;
@@ -815,7 +840,10 @@ class attendanceController extends attendance
 		$arg->yearly = $yearly;
 		$arg->yearly_point = $yearly_point;
 		$arg->year = $year;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.updateYearly", $arg);
 
 		return $output;
@@ -830,7 +858,10 @@ class attendanceController extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->monthly = $monthly;
 		$arg->monthly_point = $monthly_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.insertMonthly", $arg);
 
 		return $output;
@@ -846,7 +877,10 @@ class attendanceController extends attendance
 		$arg->monthly = $monthly;
 		$arg->monthly_point = $monthly_point;
 		$arg->month = $year_month;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.updateMonthly", $arg);
 
 		return $output;
@@ -861,7 +895,10 @@ class attendanceController extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->weekly = $weekly;
 		$arg->weekly_point = $weekly_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.insertWeekly", $arg);
 
 		return $output;
@@ -878,7 +915,10 @@ class attendanceController extends attendance
 		$arg->sunday = $week->sunday;
 		$arg->monday = $week->monday;
 		$arg->weekly_point = $weekly_point;
-		if($regdate){$arg->regdate = $regdate;}
+		if ($regdate)
+		{
+			$arg->regdate = $regdate;
+		}
 		$output = executeQuery("attendance.updateWeekly", $arg);
 
 		return $output;

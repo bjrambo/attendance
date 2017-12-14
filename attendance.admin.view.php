@@ -1,15 +1,14 @@
 <?PHP
 /**
- * @class attendance module's attendanceAdminView
+ * @class attendanceAdminView
  * @author BJRambo (sosifam@070805.co.kr)
- */
+ * @brief attendance module admin view class
+ **/
 
 class attendanceAdminView extends attendance
 {
-
 	/**
-	 * Module initialize
-	 * @return ModuleObject
+	 * @return BaseObject|Object
 	 */
 	function init()
 	{

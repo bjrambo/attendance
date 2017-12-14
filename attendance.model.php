@@ -1,11 +1,9 @@
 <?PHP
 /**
-* @class 출석부 모듈의 attendanceModel 클래스
-* @author BJRambo (sosifam@070805.co.kr)
-* @출석부 프로그램이 참조하는 일종의 라이브러리
-*
-* 각종 쿼리 처리 및 주요 계산을 담당하는 함수들이 모여있는 파일입니다.
-**/
+ * @class attendanceModel
+ * @author BJRambo (sosifam@070805.co.kr)
+ * @brief attendance module model class
+ **/
 
 class attendanceModel extends attendance
 {
@@ -25,26 +23,68 @@ class attendanceModel extends attendance
 	 */
 	function getConfig()
 	{
-		if(self::$config === NULL)
+		if (self::$config === NULL)
 		{
 			/** @var $oModuleModel moduleModel */
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
 
-			if(!$config->add_point) $config->add_point = '5';
-			if(!$config->first_point) $config->first_point = '30';
-			if(!$config->second_point) $config->second_point = '15';
-			if(!$config->third_point) $config->third_point = '5';
-			if(!$config->yearly_point) $config->yearly_point = '500';
-			if(!$config->monthly_point) $config->monthly_point = '50';
-			if(!$config->weekly_point) $config->weekly_point = '5';
-			if(!$config->about_target) $config->about_target = 'no';
-			if(!$config->about_continuity) $config->about_continuity = 'no';
-			if(!$config->about_time_control) $config->about_time_control = 'no';
-			if(!$config->about_diligence_yearly) $config->about_diligence_yearly = 'no';
-			if(!$config->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = '3';
-			if(!$config->about_admin_check) $config->about_admin_check = 'yes';
-			if(!$config->use_cache) $config->use_cache = 'yes';
+			if (!$config->add_point)
+			{
+				$config->add_point = '5';
+			}
+			if (!$config->first_point)
+			{
+				$config->first_point = '30';
+			}
+			if (!$config->second_point)
+			{
+				$config->second_point = '15';
+			}
+			if (!$config->third_point)
+			{
+				$config->third_point = '5';
+			}
+			if (!$config->yearly_point)
+			{
+				$config->yearly_point = '500';
+			}
+			if (!$config->monthly_point)
+			{
+				$config->monthly_point = '50';
+			}
+			if (!$config->weekly_point)
+			{
+				$config->weekly_point = '5';
+			}
+			if (!$config->about_target)
+			{
+				$config->about_target = 'no';
+			}
+			if (!$config->about_continuity)
+			{
+				$config->about_continuity = 'no';
+			}
+			if (!$config->about_time_control)
+			{
+				$config->about_time_control = 'no';
+			}
+			if (!$config->about_diligence_yearly)
+			{
+				$config->about_diligence_yearly = 'no';
+			}
+			if (!$config->allow_duplicaton_ip_count)
+			{
+				$config->allow_duplicaton_ip_count = '3';
+			}
+			if (!$config->about_admin_check)
+			{
+				$config->about_admin_check = 'yes';
+			}
+			if (!$config->use_cache)
+			{
+				$config->use_cache = 'yes';
+			}
 
 			self::$config = $config;
 		}
@@ -60,7 +100,7 @@ class attendanceModel extends attendance
 	{
 		$output = executeQuery('attendance.getAttendance');
 		$module_srl = $output->data->module_srl;
-		if(!$module_srl)
+		if (!$module_srl)
 		{
 			return new stdClass();
 		}
@@ -78,7 +118,7 @@ class attendanceModel extends attendance
 	function getDuplicateIpCount($today, $ipaddress)
 	{
 		//TODO(BJRambo): Only use to test. will be delete it.
-		if(Context::get('logged_info')->is_admin == 'Y')
+		if (Context::get('logged_info')->is_admin == 'Y')
 		{
 			return 0;
 		}
@@ -112,7 +152,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->date = $date;
-		$output = executeQuery('attendance.getUserAttendanceData',$arg);
+		$output = executeQuery('attendance.getUserAttendanceData', $arg);
 		return $output->data;
 	}
 
@@ -124,7 +164,7 @@ class attendanceModel extends attendance
 	{
 		$arg = new stdClass();
 		$arg->greetings = $document_srl;
-		$output = executeQuery('attendance.getGreetingsData',$arg);
+		$output = executeQuery('attendance.getGreetingsData', $arg);
 		return $output->data;
 	}
 
@@ -136,7 +176,7 @@ class attendanceModel extends attendance
 	 * @param null $greetings
 	 * @return object
 	 */
-	function updateAttendance($attendance_srl, $regdate, $today_point=null, $member_srl=null, $greetings=null)
+	function updateAttendance($attendance_srl, $regdate, $today_point = null, $member_srl = null, $greetings = null)
 	{
 		$arg = new stdClass();
 		$arg->attendance_srl = $attendance_srl;
@@ -157,7 +197,7 @@ class attendanceModel extends attendance
 	{
 		$arg = new stdClass();
 		$arg->attendance_srl = $attendance_srl;
-		$output = executeQuery('attendance.getAttendanceDataSrl',$arg);
+		$output = executeQuery('attendance.getAttendanceDataSrl', $arg);
 		return $output->data;
 	}
 
@@ -171,9 +211,9 @@ class attendanceModel extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->selected_date = $selected_date;
-		$output = executeQuery('attendance.getAttendanceData',$args);
+		$output = executeQuery('attendance.getAttendanceData', $args);
 		$count = (int)$output->data->count;
-		if($count==0)
+		if ($count == 0)
 		{
 			$flag = false;
 		}
@@ -196,7 +236,10 @@ class attendanceModel extends attendance
 		$args->now = $today;
 		$args->list_count = $list_count;
 		$output = executeQueryArray('attendance.getAdminAttendanceList', $args);
-		if(!$output->data) $output->data = array();
+		if (!$output->data)
+		{
+			$output->data = array();
+		}
 		return $output;
 	}
 
@@ -212,7 +255,10 @@ class attendanceModel extends attendance
 		$args->now = $today;
 		$args->list_count = $list_count;
 		$output = executeQueryArray('attendance.getAdminInverseList', $args);
-		if(!$output->data) $output->data = array();
+		if (!$output->data)
+		{
+			$output->data = array();
+		}
 		return $output;
 	}
 
@@ -223,21 +269,21 @@ class attendanceModel extends attendance
 	 */
 	function getMonthlyData($monthly, $member_srl)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), time() - 86400)) !== false)
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), time() - 86400)) !== false)
 			{
 				return $result;
 			}
 		}
-		
+
 		$args = new stdClass();
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getMonthlyData', $args);
 		$result = (int)$output->data->monthly_count;
 
-		if($oCacheHandler)
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"), $result, 86400);
 		}
@@ -251,21 +297,21 @@ class attendanceModel extends attendance
 	 */
 	function getYearlyData($yearly, $member_srl)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"), time() - 86400)) !== false)
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"), time() - 86400)) !== false)
 			{
 				return $result;
 			}
 		}
-		
+
 		$args = new stdClass();
 		$args->yearly = $yearly;
-		$args->member_srl=$member_srl;
+		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getYearlyData', $args);
 		$result = (int)$output->data->yearly_count;
-		
-		if($oCacheHandler)
+
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"), $result, 86400);
 		}
@@ -278,7 +324,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsChecked($member_srl)
 	{
-		return $this->getIsCheckedA($member_srl, zDate(date('YmdHis'),"Ymd"));
+		return $this->getIsCheckedA($member_srl, zDate(date('YmdHis'), "Ymd"));
 	}
 
 	/**
@@ -288,21 +334,21 @@ class attendanceModel extends attendance
 	 */
 	function getIsCheckedA($member_srl, $today)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$today"), time() - 86400)) !== false)
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$today"), time() - 86400)) !== false)
 			{
 				return $result;
 			}
 		}
-		
+
 		$arg = new stdClass();
 		$arg->day = $today;
 		$arg->member_srl = $member_srl;
-		$output = executeQuery('attendance.getIsChecked',$arg);
+		$output = executeQuery('attendance.getIsChecked', $arg);
 		$result = (int)$output->data->count;
-		
-		if($oCacheHandler)
+
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$today"), $result, 86400);
 		}
@@ -317,7 +363,7 @@ class attendanceModel extends attendance
 	 */
 	function getIsCheckedMonth($member_srl, $today)
 	{
-		if(!$member_srl)
+		if (!$member_srl)
 		{
 			return false;
 		}
@@ -328,9 +374,9 @@ class attendanceModel extends attendance
 		$output = executeQueryArray('attendance.getIsCheckedMonth', $args);
 
 		$regdate_array = array();
-		if($output->data)
+		if ($output->data)
 		{
-			foreach($output->data as $val)
+			foreach ($output->data as $val)
 			{
 				$regdate_array[] = substr($val->regdate, 0, 8);
 			}
@@ -348,11 +394,11 @@ class attendanceModel extends attendance
 	 * @param null $greetings
 	 * @return mixed
 	 */
-	function getPositionData($today, $greetings=null)
+	function getPositionData($today, $greetings = null)
 	{
 		$args = new stdClass();
 		$args->today = $today;
-		if($greetings)
+		if ($greetings)
 		{
 			$args->greetings = $greetings;
 		}
@@ -371,14 +417,14 @@ class attendanceModel extends attendance
 	 * @param bool $real
 	 * @return stdClass
 	 */
-	function isPerfect($member_srl, $today, $real=true)
+	function isPerfect($member_srl, $today, $real = true)
 	{
-		$current_month = substr($today,4,2);
-		$current_year = substr($today,0,4);
-		$current_day = substr($today,6,2);
-		$end_of_month = date('t', mktime(0,0,0,$current_month,1,$current_year));
-		$end_of_sosi = date('z', mktime(0,0,0,$current_month,$current_day,$current_year))+1;
-		if(date('t', mktime(0,0,0,02,1,$current_year))==29)
+		$current_month = substr($today, 4, 2);
+		$current_year = substr($today, 0, 4);
+		$current_day = substr($today, 6, 2);
+		$end_of_month = date('t', mktime(0, 0, 0, $current_month, 1, $current_year));
+		$end_of_sosi = date('z', mktime(0, 0, 0, $current_month, $current_day, $current_year)) + 1;
+		if (date('t', mktime(0, 0, 0, 02, 1, $current_year)) == 29)
 		{
 			$end_of_year = 366;
 		}
@@ -387,14 +433,14 @@ class attendanceModel extends attendance
 			$end_of_year = 365;
 		}
 
-		$ym = sprintf("%s%s",$current_year,$current_month);
-		$is_perfect_m = $this->getMonthlyData($ym,$member_srl);
-		$is_perfect_y = $this->getYearlyData($current_year,$member_srl);
+		$ym = sprintf("%s%s", $current_year, $current_month);
+		$is_perfect_m = $this->getMonthlyData($ym, $member_srl);
+		$is_perfect_y = $this->getYearlyData($current_year, $member_srl);
 
 		$regularlyObject = new stdClass();
-		if($real == true)
+		if ($real == true)
 		{
-			if($is_perfect_m >= $end_of_month && $current_day==$end_of_month)
+			if ($is_perfect_m >= $end_of_month && $current_day == $end_of_month)
 			{
 				$regularlyObject->monthly_perfect = true;
 			}
@@ -402,7 +448,7 @@ class attendanceModel extends attendance
 			{
 				$regularlyObject->monthly_perfect = false;
 			}
-			if($is_perfect_y >= $end_of_year && $current_day==$end_of_month)
+			if ($is_perfect_y >= $end_of_year && $current_day == $end_of_month)
 			{
 				$regularlyObject->yearly_perfect = true;
 			}
@@ -413,7 +459,7 @@ class attendanceModel extends attendance
 		}
 		else
 		{
-			if($is_perfect_m >= $end_of_month-1 && $current_day==$end_of_month)
+			if ($is_perfect_m >= $end_of_month - 1 && $current_day == $end_of_month)
 			{
 				$regularlyObject->monthly_perfect = true;
 			}
@@ -421,7 +467,7 @@ class attendanceModel extends attendance
 			{
 				$regularlyObject->monthly_perfect = false;
 			}
-			if($is_perfect_y >= $end_of_year-1 && $end_of_sosi==$end_of_year)
+			if ($is_perfect_y >= $end_of_year - 1 && $end_of_sosi == $end_of_year)
 			{
 				$regularlyObject->yearly_perfect = true;
 			}
@@ -442,7 +488,7 @@ class attendanceModel extends attendance
 	{
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
-		$output = executeQuery('attendance.isExistTotal',$arg);
+		$output = executeQuery('attendance.isExistTotal', $arg);
 		return (int)$output->data->count;
 	}
 
@@ -453,14 +499,14 @@ class attendanceModel extends attendance
 	 */
 	function isExistContinuity($member_srl, $yesterday)
 	{
-		if($yesterday == null)
+		if ($yesterday == null)
 		{
 			return 0;
 		}
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
-		$output = executeQuery('attendance.isExistContinuity',$arg);
+		$output = executeQuery('attendance.isExistContinuity', $arg);
 		return (int)$output->data->count;
 	}
 
@@ -474,7 +520,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->yesterday = $yesterday;
-		$output = executeQuery('attendance.getContinuityData',$arg);
+		$output = executeQuery('attendance.getContinuityData', $arg);
 		$continuity = new stdClass();
 		$continuity->data = (int)$output->data->continuity;
 		$continuity->point = (int)$output->data->continuity_point;
@@ -491,7 +537,7 @@ class attendanceModel extends attendance
 		$args->member_srl = $member_srl;
 
 		$output = executeQuery('attendance.getContinuityData', $args);
-		if(count($output->data) != '1')
+		if (count($output->data) != '1')
 		{
 			return $this->makeObject(-1, '한명의 회원의 정보만 입력이 가능합니다.');
 		}
@@ -505,20 +551,20 @@ class attendanceModel extends attendance
 	 */
 	function getTotalAttendance($member_srl)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"), time() - 86400)) !== false)
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"), time() - 86400)) !== false)
 			{
 				return $result;
 			}
 		}
-		
+
 		$args = new stdClass();
-		$args->member_srl=$member_srl;
+		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalAttendance', $args);
 		$result = (int)$output->data->total_count;
-		
-		if($oCacheHandler)
+
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalcount"), $result, 86400);
 		}
@@ -531,20 +577,20 @@ class attendanceModel extends attendance
 	 */
 	function getTotalPoint($member_srl)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"), time() - 86400)) !== false)
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"), time() - 86400)) !== false)
 			{
 				return $result;
 			}
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('attendance.getTotalPoint', $args);
 		$result = (int)$output->data->total_point;
-		
-		if($oCacheHandler)
+
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totalpoint"), $result, 86400);
 		}
@@ -558,25 +604,25 @@ class attendanceModel extends attendance
 	 */
 	function getTotalData($member_srl)
 	{
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($total_info = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"), time() - 86400)) !== false)
+			if (($total_info = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"), time() - 86400)) !== false)
 			{
 				return $total_info;
 			}
 		}
-		
+
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
-		$output = executeQuery('attendance.getTotalData',$arg);
+		$output = executeQuery('attendance.getTotalData', $arg);
 		$total_info = new stdClass();
 		$total_info->total = (int)$output->data->total;
 		$total_info->total_point = (int)$output->data->total_point;
 		$total_info->continuity_point = (int)$output->data->continuity_point;
 		$total_info->continuity = (int)$output->data->continuity;
 		$total_info->regdate = $output->data->regdate;
-		
-		if($oCacheHandler)
+
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"), $total_info, 86400);
 		}
@@ -593,7 +639,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->year = $year;
-		$output = executeQuery('attendance.isExistYearly',$arg);
+		$output = executeQuery('attendance.isExistYearly', $arg);
 		return (int)$output->data->count;
 	}
 
@@ -607,7 +653,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->year = $year;
-		$output = executeQuery('attendance.getYearlyAttendance',$arg);
+		$output = executeQuery('attendance.getYearlyAttendance', $arg);
 		$year_data = new stdClass();
 		$year_data->yearly = (int)$output->data->yearly;
 		$year_data->yearly_point = (int)$output->data->yearly_point;
@@ -625,7 +671,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->month = $year_month;
-		$output = executeQuery('attendance.isExistMonthly',$arg);
+		$output = executeQuery('attendance.isExistMonthly', $arg);
 		return (int)$output->data->count;
 	}
 
@@ -639,7 +685,7 @@ class attendanceModel extends attendance
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
 		$arg->month = $year_month;
-		$output = executeQuery('attendance.getMonthlyAttendance',$arg);
+		$output = executeQuery('attendance.getMonthlyAttendance', $arg);
 		$month_data = new stdClass();
 		$month_data->monthly = (int)$output->data->monthly;
 		$month_data->monthly_point = (int)$output->data->monthly_point;
@@ -652,14 +698,14 @@ class attendanceModel extends attendance
 	 */
 	function getWeek($today)
 	{
-		if(!$today)
+		if (!$today)
 		{
 			return false;
 		}
 		$week = new stdClass();
-		$week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today)))."235959";
+		$week->sunday = date('Ymd', strtotime('SUNDAY', strtotime($today))) . "235959";
 		$week->sunday1 = date('Ymd', strtotime('SUNDAY', strtotime($today)));
-		$week->monday = date('Ymd', strtotime('last MONDAY', strtotime($week->sunday)))."000000";
+		$week->monday = date('Ymd', strtotime('last MONDAY', strtotime($week->sunday))) . "000000";
 		return $week;
 	}
 
@@ -674,7 +720,7 @@ class attendanceModel extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->monday = $week->monday;
 		$arg->sunday = $week->sunday;
-		$output = executeQuery('attendance.isExistWeekly',$arg);
+		$output = executeQuery('attendance.isExistWeekly', $arg);
 		return (int)$output->data->count;
 	}
 
@@ -689,7 +735,7 @@ class attendanceModel extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
 		$arg->monday = $week->monday;
-		$output = executeQuery('attendance.getWeeklyAttendance',$arg);
+		$output = executeQuery('attendance.getWeeklyAttendance', $arg);
 		return (int)$output->data->weekly_count;
 	}
 
@@ -701,9 +747,9 @@ class attendanceModel extends attendance
 	function getWeeklyData($member_srl, $week)
 	{
 		$week_cache_key = $week->sunday;
-		if($oCacheHandler = $this->getCacheHandler())
+		if ($oCacheHandler = $this->getCacheHandler())
 		{
-			if(($week_data = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), time() - 86400)) !== false)
+			if (($week_data = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), time() - 86400)) !== false)
 			{
 				return $week_data;
 			}
@@ -713,12 +759,12 @@ class attendanceModel extends attendance
 		$arg->member_srl = $member_srl;
 		$arg->sunday = $week->sunday;
 		$arg->monday = $week->monday;
-		$output = executeQuery('attendance.getWeeklyData',$arg);
+		$output = executeQuery('attendance.getWeeklyData', $arg);
 		$week_data = new stdClass();
 		$week_data->weekly = (int)$output->data->weekly;
 		$week_data->weekly_point = (int)$output->data->weekly_point;
 
-		if($oCacheHandler)
+		if ($oCacheHandler)
 		{
 			$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$week_cache_key"), $week_data, 86400);
 		}
@@ -734,18 +780,18 @@ class attendanceModel extends attendance
 		// 모듈 설정값 가져오기
 		$config = $this->getConfig();
 
-		if($config->about_time_control == 'yes')
+		if ($config->about_time_control == 'yes')
 		{
 			$start = new stdClass();
 			$end = new stdClass();
 			$now = new stdClass();
-			$start->hour = substr($config->start_time,0,2);
-			$start->min = substr($config->start_time,2,2);
-			$end->hour = substr($config->end_time,0,2);
-			$end->min = substr($config->end_time,2,2);
-			$now->hour = zDate(date('YmdHis'),"H");
-			$now->min = zDate(date('YmdHis'),"i");
-			if(mktime($now->hour,$now->min,0,0,0) >= mktime($start->hour,$start->min,0,0,0) && mktime($now->hour,$now->min,0,0,0) < mktime($end->hour,$end->min,0,0,0))
+			$start->hour = substr($config->start_time, 0, 2);
+			$start->min = substr($config->start_time, 2, 2);
+			$end->hour = substr($config->end_time, 0, 2);
+			$end->min = substr($config->end_time, 2, 2);
+			$now->hour = zDate(date('YmdHis'), "H");
+			$now->min = zDate(date('YmdHis'), "i");
+			if (mktime($now->hour, $now->min, 0, 0, 0) >= mktime($start->hour, $start->min, 0, 0, 0) && mktime($now->hour, $now->min, 0, 0, 0) < mktime($end->hour, $end->min, 0, 0, 0))
 			{
 				return true;   //금지시간대일 경우
 			}
@@ -762,14 +808,14 @@ class attendanceModel extends attendance
 	 */
 	function checkYearlyDiligence($member_srl, $diligence_yearly, $year)
 	{
-		if(!$year)
+		if (!$year)
 		{
-			$year = zDate(date('YmdHis'),"Y");
+			$year = zDate(date('YmdHis'), "Y");
 		}
 		$year_data = $this->getYearlyData($year, $member_srl);
-		if($year_data)
+		if ($year_data)
 		{
-			if($year_data == $diligence_yearly)
+			if ($year_data == $diligence_yearly)
 			{
 				return true;
 			}
@@ -785,14 +831,14 @@ class attendanceModel extends attendance
 	 */
 	function checkMonthlyDiligence($member_srl, $diligence_monthly, $year_month)
 	{
-		if(!$year_month)
+		if (!$year_month)
 		{
-			$year_month = zDate(date('YmdHis'),"Ym");
+			$year_month = zDate(date('YmdHis'), "Ym");
 		}
-		$month_data  = $this->getMonthlyData($year_month, $member_srl);
-		if($month_data)
+		$month_data = $this->getMonthlyData($year_month, $member_srl);
+		if ($month_data)
 		{
-			if($month_data == $diligence_monthly)
+			if ($month_data == $diligence_monthly)
 			{
 				return true;
 			}
@@ -808,23 +854,23 @@ class attendanceModel extends attendance
 	 */
 	function checkWeeklyDiligence($member_srl, $diligence_weekly, $today)
 	{
-		if(!$today)
+		if (!$today)
 		{
-			$week = $this->getWeek(zDate(date('YmdHis'),"Ymd")); 
+			$week = $this->getWeek(zDate(date('YmdHis'), "Ymd"));
 		}
 		else
 		{
 			$week = $this->getWeek($today);
 		}
 		$week_data = $this->getWeeklyData($member_srl, $week);
-		if($week_data->weekly)
+		if ($week_data->weekly)
 		{
-			if($week_data->weekly == $diligence_weekly)
+			if ($week_data->weekly == $diligence_weekly)
 			{
 				return true;
-			} 
+			}
 		}
-		else if($diligence_weekly == 0)
+		else if ($diligence_weekly == 0)
 		{
 			return true;
 		}
@@ -839,8 +885,11 @@ class attendanceModel extends attendance
 	{
 		$arg = new stdClass();
 		$arg->member_srl = $member_srl;
-		$output = executeQueryArray('attendance.getGreetingsList',$arg);
-		if(!$output->data) $output->data = array();
+		$output = executeQueryArray('attendance.getGreetingsList', $arg);
+		if (!$output->data)
+		{
+			$output->data = array();
+		}
 		return $output;
 	}
 
@@ -853,7 +902,7 @@ class attendanceModel extends attendance
 	{
 		$today = date('Y-m-d');
 		$end_date = date(zdate($sign_date, 'Y-m-d'));
-		$d_day = floor(( strtotime(substr($end_date,0,10)) - strtotime($today) )/86400);
+		$d_day = floor((strtotime(substr($end_date, 0, 10)) - strtotime($today)) / 86400);
 
 		$total_absent_number = abs($d_day) - $total_attendance;
 
@@ -884,17 +933,17 @@ class attendanceModel extends attendance
 	function clearCacheByMemberSrl($member_srl, $type = 'all', $condition = null)
 	{
 		$member_srl = (int)$member_srl;
-		if(!$member_srl)
+		if (!$member_srl)
 		{
 			return;
 		}
-		
+
 		$oCacheHandler = $this->getCacheHandler();
-		if(!$oCacheHandler)
+		if (!$oCacheHandler)
 		{
 			return;
 		}
-		
+
 		$daily = ($type === 'daily' && $condition) ? $condition : zDate(date('YmdHis'), "Ymd");
 		$weekly = ($type === 'weekly' && $condition) ? $condition->sunday : $this->getWeek(date('YmdHis'))->sunday;
 		$monthly = ($type === 'monthly' && $condition) ? $condition : zDate(date('YmdHis'), "Ym");
@@ -910,7 +959,7 @@ class attendanceModel extends attendance
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:totaldata"));
 
 		// For pr_take_roll widgets
-		if(FileHandler::isDir(_XE_PATH_ . '/widgets/pr_take_roll'))
+		if (FileHandler::isDir(_XE_PATH_ . '/widgets/pr_take_roll'))
 		{
 			$oCacheHandler->invalidateGroupKey('widget_pr_take_roll');
 		}
@@ -922,11 +971,11 @@ class attendanceModel extends attendance
 	function clearCache()
 	{
 		$oCacheHandler = $this->getCacheHandler();
-		if(!$oCacheHandler)
+		if (!$oCacheHandler)
 		{
 			return;
 		}
-		
+
 		$oCacheHandler->invalidateGroupKey('attendance');
 		$oCacheHandler->invalidateGroupKey('widget_pr_take_roll');
 	}
@@ -937,16 +986,16 @@ class attendanceModel extends attendance
 	 */
 	function getCacheHandler()
 	{
-		if($this->oCacheHandler === NULL)
+		if ($this->oCacheHandler === NULL)
 		{
-			if($this->getConfig()->use_cache !== 'yes')
+			if ($this->getConfig()->use_cache !== 'yes')
 			{
 				$this->oCacheHandler = false;
 			}
 			else
 			{
 				$this->oCacheHandler = CacheHandler::getInstance('object');
-				if(!$this->oCacheHandler->isSupport())
+				if (!$this->oCacheHandler->isSupport())
 				{
 					$this->oCacheHandler = false;
 				}
