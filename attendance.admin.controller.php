@@ -121,7 +121,7 @@ class attendanceAdminController extends attendance
 
 		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminList');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminConfig');
 			header('location: ' . $returnUrl);
 			return;
 		}
@@ -422,24 +422,6 @@ class attendanceAdminController extends attendance
 		$this->setMessage($msg_code);
 	}
 
-	function procAttendanceAdminEnviromentGatheringAgreement()
-	{
-		$vars = Context::getRequestVars();
-		$oModuleModel = getModel('module');
-		$attendance_module_info = $oModuleModel->getModuleInfoXml('attendance');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/attendance/attendance-', $attendance_module_info->version));
-
-		FileHandler::writeFile($agreement_file, $vars->is_agree);
-
-		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminList');
-			header('location: ' . $returnUrl);
-			return;
-		}
-	}
-
-
 	/**
 	 * @brief 출석부 게시판 삭제
 	 **/
@@ -452,7 +434,7 @@ class attendanceAdminController extends attendance
 
 		// 캐시 비우기
 		// TODO(BJRambo): Do not load the attendanceModel class.
-		$oAttendanceModel->clearCache();
+		getModel('attendance')->clearCache();
 	}
 
 	function procAttendanceAdminInsertGift()
