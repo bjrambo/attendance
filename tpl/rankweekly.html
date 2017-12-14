@@ -2,8 +2,6 @@
 <div class="center">{$monday = zDate(date("YmdHis",strtotime($week->monday)),"Y-m-d")} ~ {$sunday = zDate(date("YmdHis",strtotime($week->sunday)),"Y-m-d")}</div>
 <br />
 
-<div>{$lang->attendance_search_help}</div>
-
 <!--//검색상자-->
 <form action="{getUrl('')}" method="get" class="adminSearch">
 	<input type="hidden" name="mid" value="" />
@@ -13,10 +11,6 @@
 	<input type="hidden" name="selected_date" value="{$selected_date}" />
 
 	<fieldset>
-		<select name="unjoined_members">
-			<option value="" <!--@if(!$unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_about_unjoined_member}</option>
-			<option value="Y" <!--@if($unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_unjoined_member}</option>
-		</select>
 		<select name="selected_group_srl">
 			<option value="0">{$lang->group}</option>
 			<!--@foreach($group_list as $key => $val)-->

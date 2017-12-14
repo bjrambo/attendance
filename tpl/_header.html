@@ -62,8 +62,8 @@
 
 	<ul class="x_nav x_nav-tabs">
 		<!--@foreach($lang->view_type as $key => $val)-->
-		<li class="x_active"|cond="$viewType==$key"><a href="{getUrl('act', 'dispAttendanceAdmin'.$key, 'page', 1)}">{$val}</a></li>
+		<li class="x_active"|cond="$viewType==$key"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAttendanceAdmin'.$key)}">{$val}</a></li>
 		<!--@end-->
-		<li class="x_active"|cond="$act=='dispAttendanceAdminGift'"><a href="./index.php?module=admin&act=dispAttendanceAdminGift">{$lang->dispAttgiftList}</a></li>
+		<li class="x_active"|cond="$act=='dispAttendanceAdminGift'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminGift')}">{$lang->dispAttgiftList}</a></li>
 	</ul>
 </div>

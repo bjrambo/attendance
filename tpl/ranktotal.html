@@ -4,7 +4,7 @@
 <!--%import("filter/update_point.xml")-->
 <!--%import("filter/fix_total_data.xml")-->
 
-{$lang->attendance_search_help}<br />{$lang->attendance_total_help}<br />
+{$lang->attendance_total_help}<br />
 <!--//선택한 회원의 출석정보 재계산-->
 <form action="{getUrl('')}" method="POST" onsubmit="return procFilter(this, fix_total_data);" id="fixTotalData">
 	<input type="hidden" name="module" value="{$module}" />
@@ -25,10 +25,6 @@
 	<input type="hidden" name="selected_date" value="{$selected_date}" />
 
 	<fieldset>
-		<select name="unjoined_members">
-			<option value="" <!--@if(!$unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_about_unjoined_member}</option>
-			<option value="Y" <!--@if($unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_unjoined_member}</option>
-		</select>
 		<select name="selected_group_srl">
 			<option value="0">{$lang->group}</option>
 			<!--@foreach($group_list as $key => $val)-->

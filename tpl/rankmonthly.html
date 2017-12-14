@@ -1,5 +1,4 @@
 <include target="./_header.html" />
-<div>{$lang->attendance_search_help}</div>
 <!--//검색상자-->
 <form action="{getUrl('')}" method="get" class="adminSearch">
 	<input type="hidden" name="mid" value="" />
@@ -9,10 +8,6 @@
 	<input type="hidden" name="selected_date" value="{$selected_date}" />
 
 	<fieldset>
-		<select name="unjoined_members">
-			<option value="N" <!--@if(!$unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_about_unjoined_member}</option>
-			<option value="Y" <!--@if($unjoined_members)-->selected="selected"<!--@end--> >{$lang->attendance_unjoined_member}</option>
-		</select>
 		<select name="selected_group_srl">
 			<option value="0">{$lang->group}</option>
 			<!--@foreach($group_list as $key => $val)-->
@@ -52,9 +47,6 @@
 			{$lang->view_monthly_point}
 		</td>
 	</tr>
-	{@
-		debugPRint($user_data);
-	}
 	<!--@foreach($user_data->data as $ranking)-->
 	<tr>
 		<th class="center">

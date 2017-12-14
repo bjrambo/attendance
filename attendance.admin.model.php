@@ -128,13 +128,6 @@ class attendanceAdminModel extends attendance
 				$query_id = 'attendance.getMemberList';
 				$args->sort_index = "attendance_total.total";
 			}
-
-			//탈퇴한 회원 정보 찾기 위한 쿼리 수정
-			if($args->unjoined_members)
-			{
-				$query_id = 'attendance.getUnJoinedMemberList';
-				$args->sort_index = 'attendance_total.total';
-			}
 		}
 		else if($type=='rankyearly')
 		{
@@ -148,12 +141,6 @@ class attendanceAdminModel extends attendance
 			{
 				$query_id = 'attendance.getMemberListYearly';
 				$args->sort_index = "attendance_yearly.yearly";
-			}
-			//탈퇴한 회원 정보 찾기 위한 쿼리 수정
-			if($args->unjoined_members)
-			{
-				$query_id = 'attendance.getUnJoinedMemberListYearly';
-				$args->sort_index = 'attendance_yearly.yearly';
 			}
 		}
 		else if($type=='rankmonthly')
@@ -169,12 +156,6 @@ class attendanceAdminModel extends attendance
 				$query_id = 'attendance.getMemberListMonthly';
 				$args->sort_index = "attendance_monthly.monthly";
 			}
-			//탈퇴한 회원 정보 찾기 위한 쿼리 수정
-			if($args->unjoined_members)
-			{
-				$query_id = 'attendance.getUnJoinedMemberListMonthly';
-				$args->sort_index = 'attendance_monthly.monthly';
-			}
 		}
 		else if($type=='rankweekly')
 		{
@@ -188,12 +169,6 @@ class attendanceAdminModel extends attendance
 			{
 				$query_id = 'attendance.getMemberListWeekly';
 				$args->sort_index = "attendance_weekly.weekly";
-			}
-			//탈퇴한 회원 정보 찾기 위한 쿼리 수정
-			if($args->unjoined_members)
-			{
-				$query_id = 'attendance.getUnJoinedMemberListWeekly';
-				$args->sort_index = 'attendance_weekly.weekly';
 			}
 		}
 

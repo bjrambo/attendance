@@ -257,15 +257,6 @@
 	<item name="attendance_admin_checked">
 		<value xml:lang="ko"><![CDATA[<b>관리자출석</b>]]></value>
 	</item>
-	<item name="attendance_about_unjoined_member">
-		<value xml:lang="ko"><![CDATA[탈퇴회원 미출력]]></value>
-	</item>
-	<item name="attendance_unjoined_member">
-		<value xml:lang="ko"><![CDATA[탈퇴회원 포함 출력]]></value>
-	</item>
-	<item name="attendance_search_help">
-		<value xml:lang="ko"><![CDATA[탈퇴회원 포함 선택 시, 그룹검색이 되지 않습니다. 또한, 그룹을 선택하여 검색할 때는, 탈퇴회원 검색이 불가능합니다. ]]></value>
-	</item>
 	<item name="attendance_perfectly_delete">
 		<value xml:lang="ko"><![CDATA[삭제]]></value>
 	</item>
