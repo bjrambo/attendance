@@ -175,7 +175,7 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			$today = date('YmdHis');
+			$today = zDate(date('YmdHis'),"Ymd");
 			$year = zDate(date('YmdHis'), "Y");
 			$year_month = zDate(date('YmdHis'), "Ym");
 			$yesterday = zDate(date("YmdHis", strtotime("-1 day")), "Ymd");
@@ -188,9 +188,7 @@ class attendanceController extends attendance
 		$obj->today_point = $config->add_point;
 		$obj->greetings = $g_obj->greetings;
 		$obj->member_srl = $member_info->member_srl;
-
-		$today_position = zDate($today, 'Ymd');
-		$position = $oAttendanceModel->getPositionData($today_position);
+		$position = $oAttendanceModel->getPositionData($today);
 
 		if ($position == 0)
 		{
@@ -442,7 +440,7 @@ class attendanceController extends attendance
 
 		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$obj->attendance_srl = getNextSequence();
-		$obj->regdate = $today;
+		$obj->regdate = zDate(date("YmdHis"),"YmdHis");
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
 		if (!$output->toBool())
