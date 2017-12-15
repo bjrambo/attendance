@@ -75,15 +75,14 @@ function server_time()
 			<a class="att-btn att-btn-primary" href="{getUrl('module','','mid','attendance','document','','act','dispAttendanceAdminBoardConfig')}">
 				<i class="fa fa-cog"></i> {$lang->cmd_setup}
 			</a>
-			<a class="att-btn att-btn-primary" href="{getUrl('act','dispAttendanceAdminBoardSkinConfig','mid','attendance')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >
+			<a class="att-btn att-btn-primary" href="{getUrl('act','dispAttendanceAdminBoardSkinConfig','mid','attendance')}" target="_blank" title="{$lang->attendance_module}{$lang->cmd_management}" >
 				<i class="fa fa-cog"></i> 스킨 {$lang->cmd_management}
 			</a>
 			<!--@end-->
             <!--@if($logged_info->is_admin=='Y')-->
-			<a class="att-btn att-btn-primary" href="{getUrl('module','admin','act','dispAttendanceAdminList','mid','')}" onclick="window.open(this.href);return false;" alt="{$lang->attendance_module}{$lang->cmd_management}" >
+			<a class="att-btn att-btn-primary" href="{getUrl('module','admin','act','dispAttendanceAdminConfig','mid','')}" target="_blank" title="{$lang->attendance_module}{$lang->cmd_management}" >
 				<i class="fa fa-cogs"></i> {$lang->cmd_management}
 			</a>
-
             <!--@end-->
 		</span>
     <!--@end-->
