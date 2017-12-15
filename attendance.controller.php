@@ -244,9 +244,8 @@ class attendanceController extends attendance
 		}
 		elseif ($config->about_target == 'gift')
 		{
-			$todayDate = date('Ymd');
-			$todayGiftCount = $oAttendanceModel->getTodayGiftCount($todayDate);
-			if ($todayGiftCount <= $config->manygiftlist && $todayDate == $config->target_day)
+			$todayGiftCount = $oAttendanceModel->getTodayGiftCount($today);
+			if ($todayGiftCount <= $config->manygiftlist && $today == $config->target_day)
 			{
 				$intrand = rand(1, 100);
 				if ($intrand <= $config->gift_random)
@@ -463,7 +462,7 @@ class attendanceController extends attendance
 		{
 			$oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
 		}
-		$selfOutput = self::addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity);
+		$selfOutput = self::addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity);
 		if ($selfOutput !== true)
 		{
 			return $selfOutput;
@@ -471,14 +470,15 @@ class attendanceController extends attendance
 		return $output;
 	}
 
-	function addTotalDataUpdate($member_info, $today, $year, $year_month, $obj, $continuity)
+	function addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity)
 	{
 		/** @var attendanceModel $oAttendanceModel */
+		$regdate = $obj->regdate;
 		$oAttendanceModel = getModel('attendance');
 		if ($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
-			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $today);
+			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
 				return $totalOutput;
@@ -489,7 +489,7 @@ class attendanceController extends attendance
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl);
 			$total_point += $obj->today_point;
-			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $today);
+			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
 				return $totalOutput;
@@ -500,7 +500,7 @@ class attendanceController extends attendance
 		{
 			$yearly_data = $oAttendanceModel->getYearlyData($year, $member_info->member_srl);
 			$yearly_point = $obj->today_point;
-			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $today);
+			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
 				return $yearlyOutput;
@@ -512,7 +512,7 @@ class attendanceController extends attendance
 			$year_info = $oAttendanceModel->getYearlyAttendance($member_info->member_srl, $year);
 			$yearly_point = $year_info->yearly_point;
 			$yearly_point += $obj->today_point;
-			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point, $today);
+			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
 				return $yearlyOutput;
@@ -523,7 +523,7 @@ class attendanceController extends attendance
 		{
 			$monthlyCount = $oAttendanceModel->getMonthlyData($year_month, $member_info->member_srl);
 			$monthly_point = $obj->today_point;
-			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $today);
+			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
 				return $monthlyOutput;
@@ -535,19 +535,19 @@ class attendanceController extends attendance
 			$month_info = $oAttendanceModel->getMonthlyAttendance($member_info->member_srl, $year_month);
 			$monthly_point = $month_info->monthly_point;
 			$monthly_point += $obj->today_point;
-			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $today);
+			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
 				return $monthlyOutput;
 			}
 		}
 
-		$week = $oAttendanceModel->getWeek($today);
+		$week = $oAttendanceModel->getWeek($regdate);
 		if ($oAttendanceModel->isExistWeekly($member_info->member_srl, $week) == 0)
 		{
 			$weekly_data = $oAttendanceModel->getWeeklyAttendance($member_info->member_srl, $week);
 			$weekly_point = $obj->today_point;
-			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $today);
+			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
 				return $weekOutput;
@@ -559,7 +559,7 @@ class attendanceController extends attendance
 			$week_info = $oAttendanceModel->getWeeklyData($member_info->member_srl, $week);
 			$weekly_point = $week_info->weekly_point;
 			$weekly_point += $obj->today_point;
-			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $today);
+			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
 				return $weekOutput;
