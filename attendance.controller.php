@@ -168,16 +168,18 @@ class attendanceController extends attendance
 
 		if ($r_args !== null)
 		{
-			$today = $r_args->regdate;
+			$todayDateTime = $r_args->regdate;
+			$today = zDate($todayDateTime, "Ymd");
 			$year = $r_args->year;
 			$year_month = $r_args->year_month;
 			$yesterday = null;
 		}
 		else
 		{
-			$today = zDate(date('YmdHis'),"Ymd");
-			$year = zDate(date('YmdHis'), "Y");
-			$year_month = zDate(date('YmdHis'), "Ym");
+			$todayDateTime = date('YmdHis');
+			$today = zDate($todayDateTime,"Ymd");
+			$year = zDate($todayDateTime, "Y");
+			$year_month = zDate($todayDateTime, "Ym");
 			$yesterday = zDate(date("YmdHis", strtotime("-1 day")), "Ymd");
 		}
 
@@ -440,7 +442,7 @@ class attendanceController extends attendance
 
 		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$obj->attendance_srl = getNextSequence();
-		$obj->regdate = zDate(date("YmdHis"),"YmdHis");
+		$obj->regdate = zDate($todayDateTime,"YmdHis");
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
 		if (!$output->toBool())
