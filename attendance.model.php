@@ -965,6 +965,7 @@ class attendanceModel extends attendance
 
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "todaytotal:$daily"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:daily:$daily"));
+		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:isCheckMonth:$monthly"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:weekly:$weekly"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:monthly:$monthly"));
 		$oCacheHandler->delete($oCacheHandler->getGroupKey('attendance', "member:$member_srl:yearly:$yearly"));
