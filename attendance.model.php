@@ -368,6 +368,14 @@ class attendanceModel extends attendance
 			return false;
 		}
 
+		if ($oCacheHandler = $this->getCacheHandler())
+		{
+			if (($result = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:$member_srl:isCheckMonth:$today"), time() - 86400)) !== false)
+			{
+				return $result;
+			}
+		}
+
 		$args = new stdClass();
 		$args->regdate = $today;
 		$args->member_srl = $member_srl;
@@ -380,13 +388,19 @@ class attendanceModel extends attendance
 			{
 				$regdate_array[] = substr($val->regdate, 0, 8);
 			}
+			$result = array_count_values($regdate_array);
+
+			if ($oCacheHandler)
+			{
+				$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:$member_srl:isCheckMonth:$today"), $result, 86400);
+			}
 		}
 		else
 		{
 			return false;
 		}
 
-		return array_count_values($regdate_array);
+		return $result;
 	}
 
 	/**
