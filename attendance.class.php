@@ -147,6 +147,16 @@ class attendance extends ModuleObject
 			return true;
 		}
 
+		if (!$oDB->isIndexExists('attendance', 'idx_regdate'))
+		{
+			return true;
+		}
+
+		if (!$oDB->isIndexExists('attendance', 'idx_member_srl'))
+		{
+			return true;
+		}
+
 		$module_info = getModel('attendance')->getAttendanceInfo('attendance');
 		if (!$module_info->module_srl)
 		{
@@ -353,6 +363,15 @@ class attendance extends ModuleObject
 			$oDB->addColumn("attendance", "present_y", "char", 1);
 		}
 
+		if (!$oDB->isIndexExists('attendance', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance', 'idx_regdate', array('regdate'));
+		}
+
+		if (!$oDB->isIndexExists('attendance', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance', 'idx_member_srl', array('member_srl'));
+		}
 
 		if (!$oModuleModel->getActionForward('procAttendanceInsertConfig')->module)
 		{
