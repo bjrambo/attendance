@@ -123,6 +123,11 @@ class attendanceController extends attendance
 		}
 
 		$output = $this->insertAttendance($g_obj, $config);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		if ($output->toBool())
 		{
@@ -160,8 +165,6 @@ class attendanceController extends attendance
 	 */
 	function insertAttendance($g_obj, $config, $member_srl = null, $r_args = null)
 	{
-		$oDB = DB::getInstance();
-
 		$oMemberModel = getModel('member');
 		$oAttendanceModel = getModel('attendance');
 		if ($member_srl)
@@ -269,8 +272,7 @@ class attendanceController extends attendance
 					}
 					else
 					{
-						$oDB->rollback();
-						$obj->present_y = 'N';
+						return $output_gift;
 					}
 				}
 			}
@@ -414,7 +416,6 @@ class attendanceController extends attendance
 
 		if (!$member_info->member_srl)
 		{
-			$oDB->rollback();
 			return $this->makeObject(-1, '로그인 사용자만 가능합니다.');
 		}
 
@@ -442,7 +443,6 @@ class attendanceController extends attendance
 				$output = $oDocumentController->insertDocument($d_obj, false);
 				if (!$output->get('document_srl'))
 				{
-					$oDB->rollback();
 					return $this->makeObject(-1, 'attend_error_no_greetings');
 				}
 				$obj->greetings = "#" . $output->get('document_srl');
@@ -454,11 +454,6 @@ class attendanceController extends attendance
 		$obj->regdate = zDate($todayDateTime,"YmdHis");
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
-		if (!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
 
 		$trigger_obj = new stdClass();
 		$trigger_obj->regdate = $obj->regdate;
@@ -476,7 +471,6 @@ class attendanceController extends attendance
 		$selfOutput = self::addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity);
 		if ($selfOutput !== true)
 		{
-			$oDB->rollback();
 			return $selfOutput;
 		}
 		return $output;
@@ -484,8 +478,6 @@ class attendanceController extends attendance
 
 	function addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity)
 	{
-		$oDB = DB::getInstance();
-
 		/** @var attendanceModel $oAttendanceModel */
 		$regdate = $obj->regdate;
 		$oAttendanceModel = getModel('attendance');
@@ -495,7 +487,6 @@ class attendanceController extends attendance
 			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
-				$oDB->rollback();
 				return $totalOutput;
 			}
 		}
@@ -507,7 +498,6 @@ class attendanceController extends attendance
 			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
-				$oDB->rollback();
 				return $totalOutput;
 			}
 		}
@@ -519,7 +509,6 @@ class attendanceController extends attendance
 			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
-				$oDB->rollback();
 				return $yearlyOutput;
 			}
 		}
@@ -532,7 +521,6 @@ class attendanceController extends attendance
 			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
-				$oDB->rollback();
 				return $yearlyOutput;
 			}
 		}
@@ -544,7 +532,6 @@ class attendanceController extends attendance
 			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
-				$oDB->rollback();
 				return $monthlyOutput;
 			}
 		}
@@ -557,7 +544,6 @@ class attendanceController extends attendance
 			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
-				$oDB->rollback();
 				return $monthlyOutput;
 			}
 		}
@@ -570,7 +556,6 @@ class attendanceController extends attendance
 			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
-				$oDB->rollback();
 				return $weekOutput;
 			}
 		}
@@ -583,7 +568,6 @@ class attendanceController extends attendance
 			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
-				$oDB->rollback();
 				return $weekOutput;
 			}
 		}
