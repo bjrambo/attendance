@@ -1,6 +1,6 @@
 <table name="attendance_total">
-    <column name="regdate" type="varchar" size="14" notnull="notnull"  />
-    <column name="member_srl" type="number" size="11" notnull="notnull"  />
+    <column name="regdate" type="varchar" size="14" notnull="notnull" index="idx_regdate" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
     <column name="total" type="number" size="11" notnull="notnull" />
     <column name="total_point" type="number" size="20" notnull="notnull" />
     <column name="continuity" type="number" size="11" notnull="notnull" />
