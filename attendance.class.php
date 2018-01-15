@@ -147,12 +147,44 @@ class attendance extends ModuleObject
 			return true;
 		}
 
+		// Index check.
 		if (!$oDB->isIndexExists('attendance', 'idx_regdate'))
 		{
 			return true;
 		}
-
 		if (!$oDB->isIndexExists('attendance', 'idx_member_srl'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_weekly', 'idx_regdate'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_weekly', 'idx_member_srl'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_monthly', 'idx_regdate'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_monthly', 'idx_member_srl'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_yearly', 'idx_regdate'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_yearly', 'idx_member_srl'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_total', 'idx_regdate'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('attendance_total', 'idx_member_srl'))
 		{
 			return true;
 		}
@@ -363,14 +395,46 @@ class attendance extends ModuleObject
 			$oDB->addColumn("attendance", "present_y", "char", 1);
 		}
 
+		// Index check.
 		if (!$oDB->isIndexExists('attendance', 'idx_regdate'))
 		{
 			$oDB->addIndex('attendance', 'idx_regdate', array('regdate'));
 		}
-
 		if (!$oDB->isIndexExists('attendance', 'idx_member_srl'))
 		{
 			$oDB->addIndex('attendance', 'idx_member_srl', array('member_srl'));
+		}
+		if (!$oDB->isIndexExists('attendance_weekly', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance_weekly', 'idx_regdate', array('regdate'));
+		}
+		if (!$oDB->isIndexExists('attendance_weekly', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance_weekly', 'idx_member_srl', array('member_srl'));
+		}
+		if (!$oDB->isIndexExists('attendance_monthly', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance_monthly', 'idx_regdate', array('regdate'));
+		}
+		if (!$oDB->isIndexExists('attendance_monthly', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance_monthly', 'idx_member_srl', array('member_srl'));
+		}
+		if (!$oDB->isIndexExists('attendance_yearly', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance_yearly', 'idx_regdate', array('regdate'));
+		}
+		if (!$oDB->isIndexExists('attendance_yearly', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance_yearly', 'idx_member_srl', array('member_srl'));
+		}
+		if (!$oDB->isIndexExists('attendance_total', 'idx_regdate'))
+		{
+			$oDB->addIndex('attendance_total', 'idx_regdate', array('regdate'));
+		}
+		if (!$oDB->isIndexExists('attendance_total', 'idx_member_srl'))
+		{
+			$oDB->addIndex('attendance_total', 'idx_member_srl', array('member_srl'));
 		}
 
 		if (!$oModuleModel->getActionForward('procAttendanceInsertConfig')->module)
