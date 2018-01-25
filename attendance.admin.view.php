@@ -105,7 +105,14 @@ class attendanceAdminView extends attendance
 			$timeCountData[$time] = new stdClass();
 			$timeCountData[$time]->time = $time;
 			$timeCountData[$time]->count = $countList[$time];
-			$timeCountData[$time]->percent = (int)($countList[$time] / $total_count * 100);
+			if($countList[$time] > 0)
+			{
+				$timeCountData[$time]->percent = (int)($countList[$time] / $total_count * 100);
+			}
+			else
+			{
+				$timeCountData[$time]->percent = 0;
+			}
 		}
 
 		Context::set('timeCountData', $timeCountData);
