@@ -102,16 +102,26 @@ class attendanceAdminView extends attendance
 		$countList = $oAttendanceAdminModel->getTodayTimeCountList($selected_date);
 		for ($time = 0; $time < 24; $time++)
 		{
-			$timeCountData[$time] = new stdClass();
-			$timeCountData[$time]->time = $time;
-			$timeCountData[$time]->count = $countList[$time];
-			if($countList[$time] > 0)
+			if ($time < 10)
 			{
-				$timeCountData[$time]->percent = (int)($countList[$time] / $total_count * 100);
+				$timeOclock = '0' . $time;
 			}
 			else
 			{
-				$timeCountData[$time]->percent = 0;
+				$timeOclock = strval($time);
+			}
+
+			$timeCountData[$timeOclock] = new stdClass();
+			$timeCountData[$timeOclock]->time = $time;
+			$timeCountData[$timeOclock]->count = $countList[$timeOclock];
+
+			if ($countList[$timeOclock] > 0)
+			{
+				$timeCountData[$timeOclock]->percent = (int)($countList[$timeOclock] / $total_count * 100);
+			}
+			else
+			{
+				$timeCountData[$timeOclock]->percent = 0;
 			}
 		}
 
