@@ -273,7 +273,7 @@ class attendanceAdminView extends attendance
 		$oAttendanceAdminModel = getAdminModel('attendance');
 
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'ranktotal');
-		$position=1+($user_data->page-1)*20;
+		$position = 1 + ($user_data->page - 1) * 20;
 
 		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
@@ -299,11 +299,11 @@ class attendanceAdminView extends attendance
 			$selected_date = Context::get('selected_date');
 		}
 
-		$year = substr($selected_date,0,4);
-		$year_month = substr($selected_date,0,6);
-		$month = substr($selected_date,4,2);
+		$year = substr($selected_date, 0, 4);
+		$year_month = substr($selected_date, 0, 6);
+		$month = substr($selected_date, 4, 2);
 		$week = $oAttendanceModel->getWeek($selected_date);
-		$eom = date('t', mktime(0,0,0,$month,1,$year));
+		$eom = date('t', mktime(0, 0, 0, $month, 1, $year));
 
 		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
