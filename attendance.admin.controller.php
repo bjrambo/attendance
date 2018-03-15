@@ -255,6 +255,7 @@ class attendanceAdminController extends attendance
 			$sum_of_point += $val->today_point;
 			$j++;
 		}
+		//TODO : check again
 		$sum_of_point -= $today_point;
 		//중복된 출석내용 제거
 		$oAttendanceAdminModel->deleteDuplicatedData($obj->member_srl, $obj->selected_date);
