@@ -194,6 +194,8 @@ class attendanceAdminController extends attendance
 	{
 		$oAttendanceModel = getModel('attendance');
 		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceController = getController('attendance');
+
 		$obj = Context::getRequestVars();
 		$continuity = new stdClass;
 		$continuity->point = 0;
@@ -220,7 +222,7 @@ class attendanceAdminController extends attendance
 			$sum += $val->today_point;
 		}
 		$attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-		$oAttendanceModel->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date . '000000');
+		$oAttendanceController->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date . '000000');
 
 		$oAttendanceAdminModel->fixYearMonthWeek($obj);
 
