@@ -70,12 +70,12 @@ class attendance extends ModuleObject
 		$oModuleModel = getModel('module');
 
 		/** @var $oDB DBMysql */
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		
 		if (method_exists($oDB, 'getColumnInfo'))
 		{
 			$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
-			if($columnInfo->size <= 23)
+			if($columnInfo->size < 128)
 			{
 				return true;
 			}
@@ -236,9 +236,9 @@ class attendance extends ModuleObject
 		if (method_exists($oDB, 'getColumnInfo'))
 		{
 			$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
-			if($columnInfo->size <= 23)
+			if($columnInfo->size < 128)
 			{
-				$oDB->modifyColumn('attendance', 'ipaddress', 'varchar', '128', '', true);
+				$oDB->modifyColumn('attendance', 'ipaddress', 'varchar', 128, '', true);
 			}
 		}
 		if (!$oDB->isColumnExists("attendance", "greetings"))
