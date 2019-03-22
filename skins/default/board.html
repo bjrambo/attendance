@@ -85,12 +85,12 @@
 					</span>
 				</td>
 				<td <!--@if($weekly->weekly != 7 && $selected_date != $week->sunday1 && !$is_perfect->monthly_perfect && !$is_perfect->yearly_perfect)-->style="text-align:right"<!--@else-->style="text-align:center" <!--@end-->>
-				<!--@if($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
-				<span class="label label-info">{$lang->attendance_perfect}</span>
+				<!--@eif($is_perfect->yearly_perfect)-->
+				<span class="label label-warning">{$lang->attendance_perfect}</span>
 				<!--@elseif($is_perfect->monthly_perfect)-->
 				<span class="label label-success">{$lang->attendance_perfect}</span>
-				<!--@elseif($is_perfect->yearly_perfect)-->
-				<span class="label label-warning">{$lang->attendance_perfect}</span>
+				<!--@elseif($weekly->weekly == 7 && $selected_date == $week->sunday1)-->
+				<span class="label label-info">{$lang->attendance_perfect}</span>
 				<!--@else-->
 				{@ 
 					$oAttendanceModel = &getModel('attendance');
