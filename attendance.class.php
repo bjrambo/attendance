@@ -70,12 +70,15 @@ class attendance extends ModuleObject
 		$oModuleModel = getModel('module');
 
 		/** @var $oDB DBMysql */
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		
-		$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
-		if($columnInfo->size <= 23)
+		if (method_exists($oDB, 'getColumnInfo'))
 		{
-			return true;
+			$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
+			if($columnInfo->size < 128)
+			{
+				return true;
+			}
 		}
 		// This line start to add to database column list check.
 		if (!$oDB->isColumnExists("attendance", "greetings"))
@@ -230,12 +233,14 @@ class attendance extends ModuleObject
 
 		/** @var $oDB DBMysql */
 		$oDB = DB::getInstance();
-		$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
-		if($columnInfo->size <= 23)
+		if (method_exists($oDB, 'getColumnInfo'))
 		{
-			$oDB->modifyColumn('attendance', 'ipaddress', 'varchar', '128', '', true);
+			$columnInfo = $oDB->getColumnInfo('attendance', 'ipaddress');
+			if($columnInfo->size < 128)
+			{
+				$oDB->modifyColumn('attendance', 'ipaddress', 'varchar', 128, '', true);
+			}
 		}
-		
 		if (!$oDB->isColumnExists("attendance", "greetings"))
 		{
 			$oDB->addColumn("attendance", "greetings", "varchar", 20);
