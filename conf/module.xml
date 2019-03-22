@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-	<grants />
+	<grants>
+		<grant name="attendance" default="user">
+			<title xml:lang="ko">출석권한</title>
+		</grant>
+	</grants>
 	<permissions>
 		<permission action="dispAttendanceAdminConfig" target="manager" />
 		<permission action="dispAttendanceAdminGift" target="manager" />

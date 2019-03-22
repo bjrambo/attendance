@@ -63,6 +63,11 @@ class attendanceController extends attendance
 	 **/
 	function procAttendanceInsertAttendance()
 	{
+		if(!$this->grant->attendance)
+		{
+			return $this->makeObject(-1, '권한이 없습니다.');
+		}
+		
 		$today = zDate(date('YmdHis'), "Ymd");
 
 		$oDB = DB::getInstance();
