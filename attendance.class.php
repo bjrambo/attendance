@@ -371,7 +371,11 @@ class attendance extends ModuleObject
 					$args = new stdClass;
 					$args->member_srl = $member->member_srl;
 					$args->user_id = $member->user_id;
-					executeQuery("attendance.migrationInsertMemberSrlAttendanceYearly", $args);
+					$output = executeQuery("attendance.migrationInsertMemberSrlAttendanceYearly", $args);
+					if(!$output->toBool())
+					{
+						return $output;
+					}
 				}
 			}
 		}
@@ -470,7 +474,7 @@ class attendance extends ModuleObject
 			$args->skin = 'default';
 			$args->order_type = 'desc';
 			$output = $oModuleController->insertModule($args);
-			if ($output->toBool())
+			if (!$output->toBool())
 			{
 				return $output;
 			}

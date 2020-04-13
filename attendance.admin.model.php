@@ -20,16 +20,23 @@ class attendanceAdminModel extends attendance
 	 **/
 	function getAttendanceMemberList($list, $new_type)
 	{
-		/*attendance model 객체 생성*/
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 		// 검색 옵션 정리
 		$args = new stdClass();
+		// 유저 검색 기능을 사용할 경우 URI request parameter 으로 넘어오는 값들임 따로 Context::set을 통해서 실행한 코드가 아님
 		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
 		$args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
 		$args->selected_group_srl = Context::get('selected_group_srl');
 		$args->unjoined_members = Context::get('unjoined_members')=='Y'?'Y':'';
+		
 		$type = $new_type;
-		if(!$type) $type=Context::get('type');
+		
+		if(!$type)
+		{
+			$type = Context::get('type');
+		}
+		
 		$args->year = substr(Context::get('selected_date'),0,4);
 		$args->year_month = substr(Context::get('selected_date'),0,6);
 		$week = $oAttendanceModel->getWeek(Context::get('selected_date'));
@@ -39,11 +46,11 @@ class attendanceAdminModel extends attendance
         //날짜정보가 없으면 오늘로 초기화
 		if(!$args->year)
 		{
-			$args->year=zDate(date('YmdHis'),"Y");
+			$args->year = zDate(date('YmdHis'),"Y");
 		}
 		if(!$args->year_month)
 		{
-			$args->year_month=zDate(date('YmdHis'),"Ym");
+			$args->year_month = zDate(date('YmdHis'),"Ym");
 		}
 		if(!$week->monday || !$week->sunday)
 		{
@@ -193,7 +200,9 @@ class attendanceAdminModel extends attendance
 		// 이틀 이상 지난 데이터는 캐시 사용
 		if(strtotime($today) < time() - (86400 * 2))
 		{
-			if($oCacheHandler = getModel('attendance')->getCacheHandler())
+			/** @var attendanceModel $oAttendanceModel */
+			$oAttendanceModel = getModel('attendance');
+			if($oCacheHandler = $oAttendanceModel->getCacheHandler())
 			{
 				if(($cache[$today] = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "todaytotal:$today"))) !== false)
 				{

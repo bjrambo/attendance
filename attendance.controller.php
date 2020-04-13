@@ -20,9 +20,7 @@ class attendanceController extends attendance
 	 */
 	function procAttendanceModifyContinuous()
 	{
-		$logged_info = Context::get('logged_info');
-
-		if ($logged_info->is_admin != 'Y')
+		if ($this->user->is_admin != 'Y')
 		{
 			return $this->makeObject(-1, '관리자만 설정이 가능합니다.');
 		}
@@ -83,30 +81,27 @@ class attendanceController extends attendance
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
 
-		$logged_info = Context::get('logged_info');
-
 		$config = $oAttendanceModel->getConfig();
 
 		//관리자 출석이 허가가 나지 않았다면,
-		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
+		if ($config->about_admin_check != 'yes' && $this->user->is_admin == 'Y')
 		{
 			$_SESSION['is_attended'] = 0;
 			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
-		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0)
+		if ($oAttendanceModel->getIsChecked($this->user->member_srl) > 0)
 		{
 			$_SESSION['is_attended'] = 0;
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
-		$is_logged = Context::get('is_logged');
-		if (!$is_logged)
+		if (!Rhymix\Framework\Session::getMemberSrl())
 		{
 			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
 		}
-		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
+		if ($oAttendanceModel->getIsChecked($this->user->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
 			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
 		}
@@ -178,7 +173,7 @@ class attendanceController extends attendance
 		}
 		else
 		{
-			$member_info = Context::get('logged_info');
+			$member_info = \Rhymix\Framework\Session::getMemberInfo();
 		}
 
 		if ($r_args !== null)
