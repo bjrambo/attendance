@@ -205,6 +205,9 @@ class attendanceController extends attendance
 		$obj->today_point = $config->add_point;
 		$obj->greetings = $g_obj->greetings;
 		$obj->member_srl = $member_info->member_srl;
+
+		ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+		
 		$position = $oAttendanceModel->getPositionData($today);
 
 		if ($position == 0)
