@@ -25,7 +25,7 @@
 	</conditions>
 
 	<navigation>
-		<index var="sort_index" default="attendance.regdate" order="asc" />
+		<index var="sort_index" default="attendance.attendance_srl" order="asc" />
 		<list_count var="list_count" default="5" />
 		<page_count var="page_count" default="5" />
 		<page var="page" default="1" />
