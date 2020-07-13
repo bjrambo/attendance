@@ -29,13 +29,6 @@ class attendance extends ModuleObject
 
 		/** @var $oModuleModel moduleModel */
 		$oModuleModel = getModel('module');
-		$oModuleController->insertActionForward('attendance', 'view', 'dispAttendanceAdminList');
-		$oModuleController->insertActionForward('attendance', 'view', 'dispAttendanceAdminBoardConfig');
-		$oModuleController->insertActionForward('attendance', 'view', 'dispAttendancePersonalInfo');
-		$oModuleController->insertActionForward('attendance', 'controller', 'procAttendanceInsertConfig');
-		$oModuleController->insertActionForward('attendance', 'controller', 'procAttendanceDeleteData');
-		$oModuleController->insertActionForward('attendance', 'controller', 'procAttendanceCheckData');
-
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		if ($module_info->module_srl)
 		{

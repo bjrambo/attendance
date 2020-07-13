@@ -42,6 +42,8 @@
 		<action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" setup_index="true" />
 		<action name="dispAttendanceAdminBoardSkinConfig" type="view" standalone="true" />
 		<action name="dispAttendanceAdminMobileBoardSkinConfig" type="view" standalone="true" />
+		<action name="dispAttendanceAdminList" type="view" standalone="true" />
+		<action name="dispAttendanceAdminBoardConfig" type="view" standalone="true" />
 
 		<!-- admin controller -->
 		<action name="procAttendanceModifyContinuous" type="controller" standalone="true" />
@@ -64,10 +66,12 @@
 		<action name="dispAttendanceMemberInfo" type="view" standalone="true" />
 		<action name="dispAttendanceBoardGiftList" type="view" standalone="true" />
 		<action name="dispAttendanceMobileModifyAttendance" type="mobile" />
+		<action name="dispAttendancePersonalInfo" type="view" standalone="true" />
 
 		<!-- user controller -->
 		<action name="procAttendanceCheckData" type="controller" standalone="true" />
 		<action name="procAttendanceModifyData" type="controller" standalone="true" />
 		<action name="procAttendanceInsertConfig" type="controller" standalone="true" />
+		<action name="procAttendanceDeleteData" type="controller" standalone="true" />
 	</actions>
 </module>
