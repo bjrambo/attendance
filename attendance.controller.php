@@ -707,6 +707,7 @@ class attendanceController extends attendance
 		}
 
 		$today = date('Ymd');
+		
 		if($_SESSION['is_attended'] == $today)
 		{
 			return;
@@ -716,7 +717,6 @@ class attendanceController extends attendance
 		{
 			if (($dayData = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), time() - 86400)) !== false)
 			{
-				debugPrint($dayData);
 				if($dayData->data->count > 0)
 				{
 					return;
@@ -742,12 +742,19 @@ class attendanceController extends attendance
 			}
 		}
 
-
 		$args = new stdClass();
 		$args->greetings = '^auto^';
-		$this->insertAttendance($args, $config, $logged_info->member_srl);
-		$_SESSION['is_attended'] = $today;
-
+		
+		$output = $this->insertAttendance($args, $config, $logged_info->member_srl);
+		if($output->toBool())
+		{
+			$_SESSION['is_attended'] = $today;
+		}
+		else
+		{
+			return;
+		}
+		
 		$arg = new stdClass;
 		$arg->day = $today;
 		$arg->member_srl = $logged_info->member_srl;
@@ -759,9 +766,7 @@ class attendanceController extends attendance
 				$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), $output, 86400);
 			}
 			$_SESSION['is_attended'] = $today;
-			return $this->makeObject();
 		}
-		
 	}
 
 	/**
