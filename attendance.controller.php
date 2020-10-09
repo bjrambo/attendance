@@ -685,30 +685,83 @@ class attendanceController extends attendance
 	}
 
 	/**
-	 * @brief Auto Attend trigger
-	 **/
-	function triggerAutoAttend($obj)
+	 * Auto attend always.
+	 * @param $oModule
+	 * @return BaseObject|Object|void
+	 */
+	function triggerAutoAttendToEvery($oModule)
 	{
-		$today = zDate(date('YmdHis'), "Ymd");
-		$arg = new stdClass;
-		$arg->day = $today;
-		$arg->member_srl = $obj->member_srl;
-		$output = executeQuery('attendance.getIsChecked', $arg);
-		if ($output->data->count > 0)
-		{
-			$_SESSION['is_attended'] = $today;
-			return $this->makeObject();
-		}
-
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 		$config = $oAttendanceModel->getConfig();
+		if ($config->about_auto_attend !== 'yes')
+		{
+			return;
+		}
+
+		$logged_info = Context::get('logged_info');
+
+		if(!Context::get('is_logged'))
+		{
+			return;
+		}
+
+		$today = date('Ymd');
+		if($_SESSION['is_attended'] == $today)
+		{
+			return;
+		}
+
+		if ($oCacheHandler = $oAttendanceModel->getCacheHandler())
+		{
+			if (($dayData = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), time() - 86400)) !== false)
+			{
+				debugPrint($dayData);
+				if($dayData->data->count > 0)
+				{
+					return;
+				}
+			}
+		}
+
+		if(!$dayData->data)
+		{
+			$arg = new stdClass;
+			$arg->day = $today;
+			$arg->member_srl = $logged_info->member_srl;
+			$output = executeQuery('attendance.getIsChecked', $arg);
+			if ($output->data->count > 0)
+			{
+				$_SESSION['is_attended'] = $today;
+				return $this->makeObject();
+			}
+
+			if ($oCacheHandler)
+			{
+				$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), $output, 86400);
+			}
+		}
+
 
 		$args = new stdClass();
 		$args->greetings = '^auto^';
-		if ($config->about_auto_attend == 'yes')
+		$this->insertAttendance($args, $config, $logged_info->member_srl);
+		$_SESSION['is_attended'] = $today;
+
+		$arg = new stdClass;
+		$arg->day = $today;
+		$arg->member_srl = $logged_info->member_srl;
+		$output = executeQuery('attendance.getIsChecked', $arg);
+		if ($output->data->count > 0)
 		{
-			$this->insertAttendance($args, $config, $obj->member_srl);
+			if ($oCacheHandler)
+			{
+				$oCacheHandler->put($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), $output, 86400);
+			}
+			$_SESSION['is_attended'] = $today;
+			return $this->makeObject();
 		}
+		
 	}
 
 	/**

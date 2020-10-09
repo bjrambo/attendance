@@ -13,6 +13,7 @@ class attendance extends ModuleObject
 		array('member.doLogin', 'attendance', 'controller', 'triggerAutoAttend', 'after'),
 		array('display', 'attendance', 'controller', 'triggerBeforeDisplay', 'before'),
 		array('member.updateMember', 'attendance', 'controller', 'triggerUpdateMemberBefore', 'before'),
+		array('moduleHandler.init', 'attendance', 'controller', 'triggerAutoAttendToEvery', 'after'),
 	);
 
 	private $delete_triggers = array(
