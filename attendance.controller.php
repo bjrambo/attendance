@@ -70,15 +70,10 @@ class attendanceController extends attendance
 		
 		$today = zDate(date('YmdHis'), "Ymd");
 
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
 		if ($_SESSION['is_attended'] === $today)
 		{
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
-
-		$_SESSION['is_attended'] = $today;
 
 		/*attendance model 객체 생성*/
 		$oAttendanceModel = getModel('attendance');
@@ -127,6 +122,9 @@ class attendanceController extends attendance
 			return $this->makeObject(-1, 'attend_greetings_error');
 		}
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
 		$output = $this->insertAttendance($g_obj, $config);
 		if(!$output->toBool())
 		{
@@ -134,6 +132,8 @@ class attendanceController extends attendance
 			return $output;
 		}
 
+		$oDB->commit();
+		
 		if ($output->toBool())
 		{
 			$this->setMessage('att_success');
@@ -142,8 +142,6 @@ class attendanceController extends attendance
 		{
 			return $this->makeObject(-1, '출석을 하지 못했습니다.');
 		}
-
-		$oDB->commit();
 
 		// TODO(BJRambo):Change the way to redirect url.
 		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
@@ -462,6 +460,10 @@ class attendanceController extends attendance
 		$obj->regdate = zDate($todayDateTime,"YmdHis");
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
+		if($output->toBool())
+		{
+			$_SESSION['is_attended'] = $today;
+		}
 
 		$trigger_obj = new stdClass();
 		$trigger_obj->regdate = $obj->regdate;
