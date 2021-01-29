@@ -36,6 +36,7 @@ class attendanceController extends attendance
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->continuity = $obj->continuity;
+		$args->regdate = $obj->regdate.'235959';
 		$output = executeQuery('attendance.updateTotal', $args);
 		if ($output->toBool())
 		{
@@ -169,6 +170,7 @@ class attendanceController extends attendance
 	function insertAttendance($g_obj, $config, $member_srl = null, $r_args = null)
 	{
 		$oMemberModel = getModel('member');
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 		if ($member_srl)
 		{
@@ -491,7 +493,8 @@ class attendanceController extends attendance
 		/** @var attendanceModel $oAttendanceModel */
 		$regdate = $obj->regdate;
 		$oAttendanceModel = getModel('attendance');
-		if ($oAttendanceModel->isExistTotal($member_info->member_srl) == 0)
+		$totalData = $oAttendanceModel->isExistTotal($member_info->member_srl);
+		if ($totalData == 0)
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $regdate);

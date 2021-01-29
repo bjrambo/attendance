@@ -543,18 +543,22 @@ class attendanceModel extends attendance
 
 	/**
 	 * @param $member_srl
-	 * @return Object
+	 * @return BaseObject|Object
 	 */
-	function getContinuityDataByMemberSrl($member_srl)
+	function getContinuityDataByMemberSrl($member_srl, $regdate = null)
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-
+		if($regdate)
+		{
+			$args->yesterday = $regdate;
+		}
 		$output = executeQuery('attendance.getContinuityData', $args);
-		if (count($output->data) != '1')
+		if(is_array($output->data) && count($output->data) !== 1)
 		{
 			return $this->makeObject(-1, '한명의 회원의 정보만 입력이 가능합니다.');
 		}
+		
 		return $output->data;
 	}
 

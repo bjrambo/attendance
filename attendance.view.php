@@ -176,8 +176,9 @@ class attendanceView extends attendance
 		{
 			return $this->makeObject(-1, '회원번호는 필수입니다.');
 		}
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
-		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl);
+		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl, Context::get('regdate'));
 		Context::set('data', $data);
 		$this->setTemplateFile('continuous');
 	}
