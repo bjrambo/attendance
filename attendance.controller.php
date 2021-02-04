@@ -40,15 +40,10 @@ class attendanceController extends attendance
 		$output = executeQuery('attendance.updateTotal', $args);
 		if ($output->toBool())
 		{
-			if($output->toBool())
-			{
-				$_SESSION['is_attended'] = $today;
-			}
 			$this->setMessage('수정완료');
 		}
 		else
 		{
-			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'msg_do_not_attendance');
 		}
 
@@ -142,10 +137,15 @@ class attendanceController extends attendance
 		
 		if ($output->toBool())
 		{
+			if($output->toBool())
+			{
+				$_SESSION['is_attended'] = $today;
+			}
 			$this->setMessage('att_success');
 		}
 		else
 		{
+			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, '출석을 하지 못했습니다.');
 		}
 
