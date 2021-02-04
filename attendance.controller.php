@@ -40,10 +40,15 @@ class attendanceController extends attendance
 		$output = executeQuery('attendance.updateTotal', $args);
 		if ($output->toBool())
 		{
+			if($output->toBool())
+			{
+				$_SESSION['is_attended'] = $today;
+			}
 			$this->setMessage('수정완료');
 		}
 		else
 		{
+			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'msg_do_not_attendance');
 		}
 
@@ -462,10 +467,6 @@ class attendanceController extends attendance
 		$obj->regdate = zDate($todayDateTime,"YmdHis");
 
 		$output = executeQuery("attendance.insertAttendance", $obj);
-		if($output->toBool())
-		{
-			$_SESSION['is_attended'] = $today;
-		}
 
 		$trigger_obj = new stdClass();
 		$trigger_obj->regdate = $obj->regdate;
@@ -478,10 +479,21 @@ class attendanceController extends attendance
 
 		if ($obj->today_point != 0 && $member_info->member_srl)
 		{
-			$oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
+			/** @var pointModel $oPointModel */
+			$oPointModel = getModel('point');
+			if($oPointModel->getConfig()->able_module == 'Y')
+			{
+				$output = $oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
 		}
+
+		// TODO REturn to BaseOBject
 		$selfOutput = self::addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity);
-		if ($selfOutput !== true)
+		if (!$selfOutput->toBool())
 		{
 			return $selfOutput;
 		}
@@ -586,8 +598,8 @@ class attendanceController extends attendance
 		}
 
 		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
-
-		return true;
+		
+		return $this->makeObject();
 	}
 
 	/**
