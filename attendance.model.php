@@ -28,7 +28,10 @@ class attendanceModel extends attendance
 			/** @var $oModuleModel moduleModel */
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
-
+			if(!$config)
+			{
+				$config = new stdClass();
+			}
 			if (!$config->add_point)
 			{
 				$config->add_point = '5';
