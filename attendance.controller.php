@@ -727,7 +727,6 @@ class attendanceController extends attendance
 			return;
 		}
 		
-
 		$logged_info = Context::get('logged_info');
 		$oModuleModel = getModel('module');
 
