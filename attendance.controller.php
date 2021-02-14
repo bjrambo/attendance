@@ -211,7 +211,7 @@ class attendanceController extends attendance
 		$obj->greetings = $g_obj->greetings;
 		$obj->member_srl = $member_info->member_srl;
 
-		ModuleHandler::triggerCall('attendance.insertAttendance', 'after', $obj);
+		ModuleHandler::triggerCall('attendance.insertAttendance', 'before', $obj);
 		
 		$position = $oAttendanceModel->getPositionData($today);
 
