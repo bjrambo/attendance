@@ -708,28 +708,36 @@ class attendanceController extends attendance
 	 */
 	function triggerAutoAttendToEvery($oModule)
 	{
-		/** @var attendanceModel $oAttendanceModel */
-		$oAttendanceModel = getModel('attendance');
-		$config = $oAttendanceModel->getConfig();
-		if ($config->about_auto_attend !== 'yes')
-		{
-			return;
-		}
-
-		$logged_info = Context::get('logged_info');
-
-		if(!Context::get('is_logged'))
-		{
-			return;
-		}
-
 		$today = date('Ymd');
-		
 		if($_SESSION['is_attended'] == $today)
 		{
 			return;
 		}
 
+		if(!Context::get('is_logged'))
+		{
+			return;
+		}
+		
+		/** @var attendanceModel $oAttendanceModel */
+		$oAttendanceModel = getModel('attendance');
+		$config = $oAttendanceModel->getConfig();
+		if ($config->about_auto_attend != 'yes')
+		{
+			return;
+		}
+		
+
+		$logged_info = Context::get('logged_info');
+		$oModuleModel = getModel('module');
+
+		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
+		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		if(!$grant->attendance)
+		{
+			return;
+		}
+		
 		if ($oCacheHandler = $oAttendanceModel->getCacheHandler())
 		{
 			if (($dayData = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), time() - 86400)) !== false)
