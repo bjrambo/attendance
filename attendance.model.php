@@ -38,27 +38,27 @@ class attendanceModel extends attendance
 			}
 			if (!$config->first_point)
 			{
-				$config->first_point = '30';
+				$config->first_point = '0';
 			}
 			if (!$config->second_point)
 			{
-				$config->second_point = '15';
+				$config->second_point = '0';
 			}
 			if (!$config->third_point)
 			{
-				$config->third_point = '5';
+				$config->third_point = '0';
 			}
 			if (!$config->yearly_point)
 			{
-				$config->yearly_point = '500';
+				$config->yearly_point = '0';
 			}
 			if (!$config->monthly_point)
 			{
-				$config->monthly_point = '50';
+				$config->monthly_point = '0';
 			}
 			if (!$config->weekly_point)
 			{
-				$config->weekly_point = '5';
+				$config->weekly_point = '0';
 			}
 			if (!$config->about_target)
 			{
