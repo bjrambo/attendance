@@ -86,14 +86,14 @@ class attendanceController extends attendance
 		//관리자 출석이 허가가 나지 않았다면,
 		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
 		{
-			$_SESSION['is_attended'] = 0;
+			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0)
 		{
-			$_SESSION['is_attended'] = 0;
+			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
@@ -102,6 +102,7 @@ class attendanceController extends attendance
 		{
 			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
 		}
+		
 		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
 			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
@@ -111,7 +112,7 @@ class attendanceController extends attendance
 		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
 		if ($ip_count >= $config->allow_duplicaton_ip_count)
 		{
-			$_SESSION['is_attended'] = 0;
+			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'attend_allow_duplicaton_ip_count');
 		}
 
@@ -129,6 +130,8 @@ class attendanceController extends attendance
 		$output = $this->insertAttendance($g_obj, $config);
 		if(!$output->toBool())
 		{
+			unset($_SESSION['is_attended']);
+
 			$oDB->rollback();
 			return $output;
 		}
@@ -137,16 +140,8 @@ class attendanceController extends attendance
 		
 		if ($output->toBool())
 		{
-			if($output->toBool())
-			{
-				$_SESSION['is_attended'] = $today;
-			}
+			$_SESSION['is_attended'] = $today;
 			$this->setMessage('att_success');
-		}
-		else
-		{
-			unset($_SESSION['is_attended']);
-			return $this->makeObject(-1, '출석을 하지 못했습니다.');
 		}
 
 		// TODO(BJRambo):Change the way to redirect url.
@@ -709,7 +704,7 @@ class attendanceController extends attendance
 	function triggerAutoAttendToEvery($oModule)
 	{
 		$today = date('Ymd');
-		if($_SESSION['is_attended'] == $today)
+		if($_SESSION['is_attended'] === $today)
 		{
 			return;
 		}
@@ -726,17 +721,7 @@ class attendanceController extends attendance
 		{
 			return;
 		}
-		
-		$logged_info = Context::get('logged_info');
-		$oModuleModel = getModel('module');
 
-		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-		$grant = $oModuleModel->getGrant($module_info, $logged_info);
-		if(!$grant->attendance)
-		{
-			return;
-		}
-		
 		if ($oCacheHandler = $oAttendanceModel->getCacheHandler())
 		{
 			if (($dayData = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "member:{$logged_info->member_srl}:day:{$today}"), time() - 86400)) !== false)
@@ -746,6 +731,16 @@ class attendanceController extends attendance
 					return;
 				}
 			}
+		}
+		
+		$logged_info = Context::get('logged_info');
+		$oModuleModel = getModel('module');
+
+		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
+		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		if(!$grant->attendance)
+		{
+			return;
 		}
 
 		if(!$dayData->data)

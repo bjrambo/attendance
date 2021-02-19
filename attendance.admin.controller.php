@@ -30,8 +30,6 @@ class attendanceAdminController extends attendance
 
 	function procAttendanceAdminInsertAttendance()
 	{
-		$oModuleController = getController('module');
-
 		$obj = Context::getRequestVars();
 
 		$config = new stdClass;
@@ -115,9 +113,15 @@ class attendanceAdminController extends attendance
 			$config->allow_duplicaton_ip_count = 3;
 		}
 
+		/** @var moduleController $oModuleController */
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('attendance', $config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		
 		$this->setMessage('success_updated');
-
-		$oModuleController->updateModuleConfig('attendance', $config);
 
 		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
@@ -512,7 +516,7 @@ class attendanceAdminController extends attendance
 		$daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
 
 		//If delete Attendace, should the is_attended session initialize.
-		$_SESSION['is_attended'] = '0';
+		unset($_SESSION['is_attended']);
 
 		$week = $oAttendanceModel->getWeek($obj->check_day);
 		if ($oAttendanceModel->getIsCheckedA($obj->member_srl, $obj->check_day) != 0)
