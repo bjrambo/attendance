@@ -34,7 +34,7 @@ class attendanceModel extends attendance
 			}
 			if (!$config->add_point)
 			{
-				$config->add_point = '5';
+				$config->add_point = '0';
 			}
 			if (!$config->first_point)
 			{
