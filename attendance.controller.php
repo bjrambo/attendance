@@ -69,7 +69,7 @@ class attendanceController extends attendance
 			return $this->makeObject(-1, '권한이 없습니다.');
 		}
 		
-		$today = zDate(date('YmdHis'), "Ymd");
+		$today = date('Ymd');
 
 		if ($_SESSION['is_attended'] === $today)
 		{
@@ -97,8 +97,7 @@ class attendanceController extends attendance
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
-		$is_logged = Context::get('is_logged');
-		if (!$is_logged)
+		if (!Context::get('is_logged'))
 		{
 			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
 		}
@@ -153,12 +152,6 @@ class attendanceController extends attendance
 		}
 	}
 
-
-	/**
-	 * @brief 출석부 기록 함수
-	 */
-
-	// Why use the static function ?
 	/**
 	 * Insert of attendance
 	 * @param object $g_obj
@@ -181,7 +174,7 @@ class attendanceController extends attendance
 			$member_info = Context::get('logged_info');
 		}
 
-		if ($r_args !== null)
+		if (isset($r_args->regdate))
 		{
 			$todayDateTime = $r_args->regdate;
 			$today = zDate($todayDateTime, "Ymd");
@@ -195,7 +188,7 @@ class attendanceController extends attendance
 			$today = zDate($todayDateTime,"Ymd");
 			$year = zDate($todayDateTime, "Y");
 			$year_month = zDate($todayDateTime, "Ym");
-			$yesterday = zDate(date("YmdHis", strtotime("-1 day")), "Ymd");
+			$yesterday = date("Ymd", strtotime("-1 day"));
 		}
 
 		$oPointController = getController('point');
@@ -235,7 +228,7 @@ class attendanceController extends attendance
 			}
 
 			// If insert attendance member in admin page, Initialize the continuity days.
-			if ($r_args)
+			if (isset($r_args->regdate))
 			{
 				$continuity->data = 1;
 			}
@@ -880,6 +873,11 @@ class attendanceController extends attendance
 			$arg->regdate = $regdate;
 		}
 		$output = executeQuery("attendance.insertTotal", $arg);
+		
+		if(!$output->toBool())
+		{
+			return $this->makeObject(-1, '토탈 정보를 입력하는 과정에서 문제가 발생되었습니다.');
+		}
 
 		return $output;
 	}
@@ -899,7 +897,12 @@ class attendanceController extends attendance
 		{
 			$arg->regdate = $regdate;
 		}
+		
 		$output = executeQuery("attendance.updateTotal", $arg);
+		if(!$output->toBool())
+		{
+			return $this->makeObject(-1, '토탈 정보를 업데이트 하는 과정에서 문제가 발생되었습니다.');
+		}
 
 		return $output;
 	}
