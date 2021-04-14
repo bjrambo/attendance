@@ -64,6 +64,17 @@ class attendanceController extends attendance
 	 **/
 	function procAttendanceInsertAttendance()
 	{
+		// 로그인 채크 먼저 ㅡ,.ㅡ ;
+		if (!Context::get('is_logged'))
+		{
+			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
+		}
+		
+		if(!Context::get('logged_info')->member_srl)
+		{
+			return $this->makeObject(-1, '알 수 없는 로그인 정보로 출석 할 수 없습니다.');
+		}
+		
 		if(!$this->grant->attendance)
 		{
 			return $this->makeObject(-1, '권한이 없습니다.');
@@ -90,26 +101,22 @@ class attendanceController extends attendance
 			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
+		$isCheckCount = $oAttendanceModel->getIsChecked($logged_info->member_srl);
+		
 		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
-		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0)
+		if ($isCheckCount > 0)
 		{
 			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
-
-		if (!Context::get('is_logged'))
-		{
-			return $this->makeObject(-1, '로그인 사용자만 출석 할 수 있습니다.');
-		}
 		
-		if ($oAttendanceModel->getIsChecked($logged_info->member_srl) > 0 && $oAttendanceModel->availableCheck() != 0)
+		if ($isCheckCount > 0 && $oAttendanceModel->availableCheck() != 0)
 		{
 			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
 		}
 
 		//ip중복 횟수 확인
-		$ip_count = $oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']);
-		if ($ip_count >= $config->allow_duplicaton_ip_count)
+		if ($oAttendanceModel->getDuplicateIpCount($today, $_SERVER['REMOTE_ADDR']) >= $config->allow_duplicaton_ip_count)
 		{
 			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, 'attend_allow_duplicaton_ip_count');
