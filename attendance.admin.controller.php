@@ -32,7 +32,7 @@ class attendanceAdminController extends attendance
 	{
 		$obj = Context::getRequestVars();
 
-		$config = getModel('attendnace')->getConfig();
+		$config = getModel('attendance')->getConfig();
 		$config->about_admin_check = $obj->about_admin_check;
 		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
 		$config->about_auto_attend = $obj->about_auto_attend;
