@@ -76,12 +76,17 @@ class attendanceController extends attendance
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
-		/*attendance model 객체 생성*/
+		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 
 		$logged_info = Context::get('logged_info');
 
 		$config = $oAttendanceModel->getConfig();
+		
+		if(!$oAttendanceModel->availableCheck())
+		{
+			return $this->makeObject(-1, '출석 시간이 아닙니다');
+		}
 
 		//관리자 출석이 허가가 나지 않았다면,
 		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
@@ -1017,5 +1022,61 @@ class attendanceController extends attendance
 		$output = executeQuery("attendance.updateWeekly", $arg);
 
 		return $output;
+	}
+
+	/**
+	 * @brief 오픈 타임 설정
+	 */
+	function setOpenAttendanceTime()
+	{
+		/** @var attendanceModel $oAttendanceModel */
+		$oAttendanceModel = getModel('attendance');
+		$today = date('Ymd');
+		$config = $oAttendanceModel->getConfig();
+		
+		if($config->about_time_control != 'rand')
+		{
+			return false;
+		}
+		
+		if($config->rand_open_time && $config->rand_open_day == $today)
+		{
+			return false;
+		}
+		
+		$randMin = rand(0, 59);
+		
+		if(intval($config->start_rand_time) < 10)
+		{
+			$hour = "0{$config->start_rand_time}";
+		}
+		else
+		{
+			$hour = $config->start_rand_time;
+		}
+
+		if($randMin < 10)
+		{
+			$min = "0{$randMin}";
+		}
+		else
+		{
+			$min = $randMin;
+		}
+		
+		$randTime = $today . $hour . $min . '00';
+
+		$config->rand_open_time = $randTime;
+		$config->rand_open_day = $today;
+		
+		/** @var moduleController $oModuleController */
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('attendance', $config);
+		if(!$output->toBool())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

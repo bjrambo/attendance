@@ -153,8 +153,8 @@
 			<div class="x_controls">
 				<select name="about_time_control">
 					<option value="yes" selected="selected"|cond="$config->about_time_control=='yes'">{$lang->attendance_yes}</option>
-
 					<option value="no" selected="selected"|cond="$config->about_time_control=='no'">{$lang->attendance_no}</option>
+					<option value="rand" selected="selected"|cond="$config->about_time_control == 'rand'">랜덤</option>
 				</select>
 				<p>{$lang->attendance_description_ban_time}</p>
 			</div>
@@ -173,6 +173,17 @@
 				<input type="text" name="end_min" value="{$end_time->min}" style="width:30px;"/>
 			</div>
 		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">랜덤 오픈 시작 시간</label>
+			<div class="x_controls">
+				<input type="number" name="start_rand_time" value="{$config->start_rand_time}" />
+				<p>
+					랜덤 오픈 시작시작을 설정합니다. 반드시 1에서 23 시간으로 입력해주세요. 0분에서 59분 사이 랜덤으로 출석 시간이 결정됩니다.
+				</p>
+			</div>
+		</div>
+		
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->attendance_about_diligence_yearly}</label>
 			<div class="x_controls">

@@ -243,7 +243,7 @@
 		<value xml:lang="ko"><![CDATA[주간 정근포인트]]></value>
 	</item>
 	<item name="attendance_description_ban_time">
-		<value xml:lang="ko"><![CDATA[설정하신 시간대 사이에는 출석체크가 불가능하게 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[설정하신 시간대 사이에는 출석체크가 불가능하게 됩니다. 랜덤을 선택하게 된다면 아래 설정한 시간대에 0분에서 59분 사이 랜덤으로 출석이 허용되도록 변경됩니다.]]></value>
 	</item>
 	<item name="attendance_yes">
 		<value xml:lang="ko"><![CDATA[예]]></value>

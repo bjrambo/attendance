@@ -32,7 +32,7 @@ class attendanceAdminController extends attendance
 	{
 		$obj = Context::getRequestVars();
 
-		$config = new stdClass;
+		$config = getModel('attendnace')->getConfig();
 		$config->about_admin_check = $obj->about_admin_check;
 		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
 		$config->about_auto_attend = $obj->about_auto_attend;
@@ -81,7 +81,14 @@ class attendanceAdminController extends attendance
 		$config->gift_random = $obj->gift_random;
 		$config->use_cache = $obj->attendance_use_cache === 'yes' ? 'yes' : 'no';
 		$config->greeting_list = $obj->greeting_list;
-
+		$config->start_rand_time = $obj->start_rand_time;
+		
+		if($config->start_rand_time && (intval($config->start_rand_time) > 23 || intval($config->start_rand_time) <= 0))
+		{
+			unset($config->start_rand_time);
+			return $this->makeObject(-1, '랜덤 숫자는 1에서 23 사이의 숫자를 입력하셔야 합니다.');
+		}
+		
 		if (date('t', mktime(0, 0, 0, 02, 1, zDate(date('YmdHis'), "Y"))) == 29)
 		{
 			$end_of_year = 366;

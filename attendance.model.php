@@ -798,7 +798,6 @@ class attendanceModel extends attendance
 	 */
 	function availableCheck()
 	{
-		// 모듈 설정값 가져오기
 		$config = $this->getConfig();
 
 		if ($config->about_time_control == 'yes')
@@ -814,11 +813,36 @@ class attendanceModel extends attendance
 			$now->min = zDate(date('YmdHis'), "i");
 			if (mktime($now->hour, $now->min, 0, 0, 0) >= mktime($start->hour, $start->min, 0, 0, 0) && mktime($now->hour, $now->min, 0, 0, 0) < mktime($end->hour, $end->min, 0, 0, 0))
 			{
-				return true;   //금지시간대일 경우
+				return true;
 			}
-			return false;
 		}
-		return false;   //금지시간이 아닐 경우
+		else if($config->about_time_control == 'rand')
+		{
+			$isReloadConfig = false;
+			$today = date('Ymd');
+			if($today != $config->rand_open_day)
+			{
+				if(getController('attendance')->setOpenAttendanceTime())
+				{
+					debugPrint('true');
+					$isReloadConfig = true;
+				}
+			}
+			
+			if($isReloadConfig)
+			{
+				$config = $this->getConfig();
+			}
+			
+			$nowTime = time();
+			$randTime = strtotime($config->rand_open_time);
+			if($nowTime > $randTime)
+			{
+				return true;
+			}
+		}
+		// 결국 금지 시간
+		return false;
 	}
 
 	/**
