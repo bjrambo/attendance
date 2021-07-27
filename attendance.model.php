@@ -824,7 +824,6 @@ class attendanceModel extends attendance
 			{
 				if(getController('attendance')->setOpenAttendanceTime())
 				{
-					debugPrint('true');
 					$isReloadConfig = true;
 				}
 			}
@@ -836,12 +835,12 @@ class attendanceModel extends attendance
 			
 			$nowTime = time();
 			$randTime = strtotime($config->rand_open_time);
-			if($nowTime > $randTime)
+			if($nowTime < $randTime)
 			{
 				return true;
 			}
 		}
-		// 결국 금지 시간
+		
 		return false;
 	}
 

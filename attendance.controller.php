@@ -94,11 +94,6 @@ class attendanceController extends attendance
 
 		$config = $oAttendanceModel->getConfig();
 		
-		if(!$oAttendanceModel->availableCheck())
-		{
-			return $this->makeObject(-1, '출석 시간이 아닙니다');
-		}
-
 		//관리자 출석이 허가가 나지 않았다면,
 		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
 		{
