@@ -497,4 +497,22 @@ class attendance extends ModuleObject
 	{
 		return class_exists('BaseObject') ? new BaseObject($code, $msg) : new Object($code, $msg);
 	}
+
+	/**
+	 * Add to cache type.
+	 * Get the https://github.com/poesis/xe-supercache/blob/a2b5cf100c7768c29df541dd792c13428f78d6ac/supercache.class.php#L130
+	 * @return bool
+	 */
+	protected function _getCacheType()
+	{
+		if(defined('RX_BASEDIR'))
+		{
+			return config('cache.type') ? true : false;
+		}
+		else
+		{
+			$db_info = Context::getDbInfo();
+			return isset($db_info->use_object_cache) ?: false;
+		}
+	}
 }

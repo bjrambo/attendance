@@ -78,7 +78,7 @@ class attendanceAdminView extends attendance
 
 		Context::set('module_info', $module_info);
 		Context::set('module_srl', $module_info->module_srl);
-		Context::set('object_cache_available', preg_match('/^(apc|file|memcache|redis|wincache|xcache|sqlite)/', Context::getDBInfo()->use_object_cache));
+		Context::set('object_cache_available', $this->_getCacheType());
 	}
 
 	function dispAttendanceAdminTime()
