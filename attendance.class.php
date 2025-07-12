@@ -63,7 +63,6 @@ class attendance extends ModuleObject
 		/** @var  $oModuleModel moduleModel */
 		$oModuleModel = getModel('module');
 
-		/** @var $oDB DBMysql */
 		$oDB = DB::getInstance();
 		// This line start to add to database column list check.
 		if (!$oDB->isColumnExists("attendance", "greetings"))
@@ -183,6 +182,11 @@ class attendance extends ModuleObject
 			return true;
 		}
 
+		if($oDB->getColumnInfo('attendance', 'ipaddress')->size < 128)
+		{
+			return true;
+		}
+
 		$module_info = getModel('attendance')->getAttendanceInfo('attendance');
 		if (!$module_info->module_srl)
 		{
@@ -216,7 +220,6 @@ class attendance extends ModuleObject
 		$oModuleController = getController('module');
 		$oMemberModel = getModel('member');
 
-		/** @var $oDB DBMysql */
 		$oDB = DB::getInstance();
 
 		if (!$oDB->isColumnExists("attendance", "greetings"))
@@ -352,6 +355,11 @@ class attendance extends ModuleObject
 					executeQuery("attendance.migrationInsertMemberSrlAttendanceYearly", $args);
 				}
 			}
+		}
+
+		if($oDB->getColumnInfo('attendance', 'ipaddress')->size < 128)
+		{
+			$oDB->modifyColumn('attendance', 'ipaddress', 'varchar', 128, null, true);
 		}
 
 		if ($oDB->isColumnExists("attendance", "user_id"))

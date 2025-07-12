@@ -1,5 +1,5 @@
 <table name="attendance">
-	<column name="attendance_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+	<column name="attendance_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
 	<column name="regdate" type="varchar" size="14" notnull="notnull" primary_key="primary_key" />
 	<column name="member_srl" type="number" size="11" notnull="notnull"  primary_key="primary_key" />
 	<column name="greetings" type="varchar" size="250" notnull="notnull" />
@@ -7,7 +7,7 @@
 	<column name="today_random" type="number" size="20" notnull="notnull" />
 	<column name="perfect_m" type="char" size="1" index="idx_perfect_m" />
 	<column name="present_y" type="char" size="1" index="idx_present_y" />
-	<column name="ipaddress" type="varchar" size="23" notnull="notnull" />
+	<column name="ipaddress" type="varchar" size="128" notnull="notnull" />
 	<column name="att_random_set" type="number" size="20" notnull="notnull" />
 	<column name="a_continuity" type="number" size="20" notnull="notnull" />
 </table>
