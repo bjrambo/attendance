@@ -229,12 +229,16 @@ class attendance extends ModuleObject
 
 		if(FileHandler::exists('./modules/attendance/lang/lang.xml'))
 		{
-			// 언어 파일 변경
-			Rhymix\Framework\Parsers\LangParser::convertDirectory(RX_BASEDIR . 'modules/attendance/lang', ['ko']);
+			// 보통은 업데이트시 다운로드 받은 최신버전의 파일이 존재 하기에 실행할 필요 없지만, 파일이 없을 경우에 재 생성.
 			if(!FileHandler::exists('./modules/attendance/lang/ko.php'))
 			{
-				return new BaseObject(-1, '언어 변환에 문제가 있습니다.');
+				Rhymix\Framework\Parsers\LangParser::convertDirectory(RX_BASEDIR . 'modules/attendance/lang', ['ko']);
+				if(!FileHandler::exists('./modules/attendance/lang/ko.php'))
+				{
+					return new BaseObject(-1, '언어 변환에 문제가 있습니다.');
+				}
 			}
+
 			FileHandler::removeFile('./modules/attendance/lang/lang.xml');
 		}
 
