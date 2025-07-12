@@ -2,10 +2,10 @@
 <module version="0.2">
 	<title xml:lang="ko">출석부</title>
 	<description xml:lang="ko">출석부</description>
-	<version>7.2.8</version>
+	<version>7.2.9</version>
 	<date>2014-02-07</date>
 	<category>service</category>
-	<author email_address="sosifam@070805.co.kr" link="http://sosifam.com/">
-		<name xml:lang="ko">BJ람보</name>
+	<author email_address="qw5414@naver.com" link="https://bjrambo.com/">
+		<name xml:lang="ko">Rambo</name>
 	</author>
 </module>
