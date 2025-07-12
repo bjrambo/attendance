@@ -63,6 +63,11 @@ class attendance extends ModuleObject
 		/** @var  $oModuleModel moduleModel */
 		$oModuleModel = getModel('module');
 
+		if(FileHandler::exists('./modules/attendance/lang/lang.xml'))
+		{
+			return true;
+		}
+
 		$oDB = DB::getInstance();
 		// This line start to add to database column list check.
 		if (!$oDB->isColumnExists("attendance", "greetings"))
@@ -221,6 +226,17 @@ class attendance extends ModuleObject
 		$oMemberModel = getModel('member');
 
 		$oDB = DB::getInstance();
+
+		if(FileHandler::exists('./modules/attendance/lang/lang.xml'))
+		{
+			// 언어 파일 변경
+			Rhymix\Framework\Parsers\LangParser::convertDirectory(RX_BASEDIR . 'modules/attendance/lang', ['ko']);
+			if(!FileHandler::exists('./modules/attendance/lang/ko.php'))
+			{
+				return new BaseObject(-1, '언어 변환에 문제가 있습니다.');
+			}
+			FileHandler::removeFile('./modules/attendance/lang/lang.xml');
+		}
 
 		if (!$oDB->isColumnExists("attendance", "greetings"))
 		{
