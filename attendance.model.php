@@ -28,7 +28,7 @@ class attendanceModel extends attendance
 			/** @var $oModuleModel moduleModel */
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('attendance');
-			if(!$config)
+			if (!$config)
 			{
 				$config = new stdClass();
 			}
@@ -552,16 +552,16 @@ class attendanceModel extends attendance
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		if($regdate)
+		if ($regdate)
 		{
 			$args->yesterday = $regdate;
 		}
 		$output = executeQuery('attendance.getContinuityData', $args);
-		if(is_array($output->data) && count($output->data) !== 1)
+		if (is_array($output->data) && count($output->data) !== 1)
 		{
 			return $this->makeObject(-1, '한명의 회원의 정보만 입력이 가능합니다.');
 		}
-		
+
 		return $output->data;
 	}
 
@@ -816,31 +816,31 @@ class attendanceModel extends attendance
 				return true;
 			}
 		}
-		else if($config->about_time_control == 'rand')
+		else if ($config->about_time_control == 'rand')
 		{
 			$isReloadConfig = false;
 			$today = date('Ymd');
-			if($today != $config->rand_open_day)
+			if ($today != $config->rand_open_day)
 			{
-				if(getController('attendance')->setOpenAttendanceTime())
+				if (getController('attendance')->setOpenAttendanceTime())
 				{
 					$isReloadConfig = true;
 				}
 			}
-			
-			if($isReloadConfig)
+
+			if ($isReloadConfig)
 			{
 				$config = $this->getConfig();
 			}
-			
+
 			$nowTime = time();
 			$randTime = strtotime($config->rand_open_time);
-			if($nowTime < $randTime)
+			if ($nowTime < $randTime)
 			{
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
