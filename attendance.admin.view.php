@@ -10,6 +10,7 @@ class attendanceAdminView extends attendance
 	/**
 	 * @return BaseObject|Object
 	 */
+	public $att_module_info;
 	function init()
 	{
 		/** @var moduleModel $oModuleModel */
@@ -36,6 +37,19 @@ class attendanceAdminView extends attendance
 				ModuleModel::syncModuleToSite($module_info);
 				$this->module_info = $module_info;
 				Context::set('module_info', $module_info);
+				$this->att_module_info = $module_info;
+			}
+		}
+		else
+		{
+			/** @var ModuleModel $module_info */
+			$output = executeQuery('attendance.getAttendance');
+			if($output->data)
+			{
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($output->data->module_srl);
+
+				Context::set('module_info', $module_info);
+				$this->att_module_info = $module_info;
 			}
 		}
 
@@ -51,6 +65,8 @@ class attendanceAdminView extends attendance
 		$templeatFileName = strtolower($viewType);
 
 		Context::set('viewType', $viewType);
+
+
 
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile($templeatFileName);
@@ -347,7 +363,7 @@ class attendanceAdminView extends attendance
 	function dispAttendanceAdminBoardSkinConfig()
 	{
 		$oModuleAdminModel = getAdminModel('module');
-		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->att_module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 
 		$this->setTemplatePath($this->module_path . 'tpl');
@@ -357,7 +373,7 @@ class attendanceAdminView extends attendance
 	function dispAttendanceAdminMobileBoardSkinConfig()
 	{
 		$oModuleAdminModel = getAdminModel('module');
-		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->module_info->module_srl);
+		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->att_module_info->module_srl);
 		Context::set('skin_content', $skin_content);
 
 		$this->setTemplatePath($this->module_path . 'tpl');
@@ -405,6 +421,7 @@ class attendanceAdminView extends attendance
 	{
 		$content = '';
 
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
 		ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
 

@@ -18,6 +18,7 @@ $lang->default_greetings = '출석했어요';
 $lang->confirm_attend = '출석하시겠습니까?';
 $lang->admin_graph = '출석그래프';
 $lang->view_type['Config'] = '설정';
+$lang->view_type['BoardConfig'] = '출석부 게시판 설정';
 $lang->view_type['Time'] = '시간대별';
 $lang->view_type['Day'] = '일별';
 $lang->view_type['Rankweekly'] = '주간정보';

@@ -8,7 +8,7 @@
 	<permissions>
 		<permission action="dispAttendanceAdminConfig" target="manager" />
 		<permission action="dispAttendanceAdminGift" target="manager" />
-		
+
 		<permission action="procAttendanceAdminInsertGift" target="manager"/>
 		<permission action="procAttendanceAdminInsertAttendance" target="manager"/>
 		<permission action="procAttendanceAdminDeleteAllData" target="manager"/>
