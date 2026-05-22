@@ -82,37 +82,31 @@ class attendanceController extends attendance
 		
 		$today = date('Ymd');
 
-		if ($_SESSION['is_attended'] === $today)
-		{
-			return $this->makeObject(-1, 'attend_already_checked');
-		}
-
 		/** @var attendanceModel $oAttendanceModel */
 		$oAttendanceModel = getModel('attendance');
 
 		$logged_info = Context::get('logged_info');
 
 		$config = $oAttendanceModel->getConfig();
-		
+
 		//관리자 출석이 허가가 나지 않았다면,
 		if ($config->about_admin_check != 'yes' && $logged_info->is_admin == 'Y')
 		{
-			unset($_SESSION['is_attended']);
 			return $this->makeObject(-1, '관리자는 출석할 수 없습니다.');
 		}
 
+		// DB를 1순위로 확인 (세션은 우회 가능하므로 보조 수단)
 		$isCheckCount = $oAttendanceModel->getIsChecked($logged_info->member_srl);
-		
-		/*출석이 되어있는지 확인 : 오늘자 로그인 회원의 DB기록 확인*/
 		if ($isCheckCount > 0)
 		{
-			unset($_SESSION['is_attended']);
+			$_SESSION['is_attended'] = $today;
 			return $this->makeObject(-1, 'attend_already_checked');
 		}
-		
-		if ($isCheckCount > 0 && $oAttendanceModel->availableCheck() != 0)
+
+		// 세션 캐시로 추가 DB 쿼리 방지
+		if ($_SESSION['is_attended'] === $today)
 		{
-			return $this->makeObject(-1, '일시적인 오류로 출석 할 수 없습니다.');
+			return $this->makeObject(-1, 'attend_already_checked');
 		}
 
 		//ip중복 횟수 확인
@@ -234,15 +228,7 @@ class attendanceController extends attendance
 				$continuity->point = $obj->continuity_point;
 			}
 
-			// If insert attendance member in admin page, Initialize the continuity days.
-			if (isset($r_args->regdate))
-			{
-				$continuity->data = 1;
-			}
-			else
-			{
-				$continuity->data++;
-			}
+			$continuity->data++;
 		}
 		else
 		{
@@ -333,6 +319,9 @@ class attendanceController extends attendance
 			}
 		}
 
+		$obj->today_random = 0;
+		$obj->att_random_set = 0;
+
 		if ($config->about_random == 'yes' && $config->minimum <= $config->maximum && $config->minimum >= 0 && $config->maximum >= 0 && $config->use_random_sm == 'no')
 		{
 			$randNumber = mt_rand($config->minimum, $config->maximum);
@@ -343,20 +332,12 @@ class attendanceController extends attendance
 				{
 					$obj->today_point += $randNumber;
 					$obj->today_random = $randNumber;
-					$obj->att_random_set = 0;
-				}
-				else
-				{
-					$obj->today_point;
-					$obj->today_random = 0;
-					$obj->att_random_set = 0;
 				}
 			}
 			else
 			{
 				$obj->today_point += $randNumber;
 				$obj->today_random = $randNumber;
-				$obj->att_random_set = 0;
 			}
 		}
 		elseif ($config->about_random == 'yes' && $config->random_small_point_f <= $config->random_small_point_s && $config->random_small_point_f >= 0 && $config->random_small_point_s >= 0 && $config->use_random_sm == 'yes')
@@ -366,14 +347,13 @@ class attendanceController extends attendance
 				$win = mt_rand(1, 100);
 				if ($win <= $config->lottery)
 				{
-					if ($win <= $config->lottery && $win >= $config->random_small_win)
+					if ($win >= $config->random_small_win)
 					{
 						$randNumber = mt_rand($config->random_small_point_f, $config->random_small_point_s);
 						$obj->today_point += $randNumber;
 						$obj->today_random = $randNumber;
-						$obj->att_random_set = 0;
 					}
-					elseif ($win < $config->random_small_win)
+					else
 					{
 						$randNumber = mt_rand($config->random_big_point_f, $config->random_big_point_s);
 						$obj->today_point += $randNumber;
@@ -381,25 +361,13 @@ class attendanceController extends attendance
 						$obj->att_random_set = 1;
 					}
 				}
-				else
-				{
-					$obj->today_point;
-					$obj->today_random = 0;
-					$obj->att_random_set = 0;
-				}
 			}
 			else
 			{
 				$randNumber = mt_rand($config->random_small_point_f, $config->random_small_point_s);
 				$obj->today_point += $randNumber;
 				$obj->today_random = $randNumber;
-				$obj->att_random_set = 0;
 			}
-		}
-		else
-		{
-			$obj->today_point;
-			$obj->att_random_set = '0';
 		}
 
 
@@ -412,14 +380,6 @@ class attendanceController extends attendance
 			{
 				$obj->today_point += $config->brithday_point;
 			}
-			else
-			{
-				$obj->today_point;
-			}
-		}
-		else
-		{
-			$obj->today_point;
 		}
 
 		if (!$member_info->member_srl)
@@ -500,6 +460,9 @@ class attendanceController extends attendance
 		/** @var attendanceModel $oAttendanceModel */
 		$regdate = $obj->regdate;
 		$oAttendanceModel = getModel('attendance');
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$totalData = $oAttendanceModel->isExistTotal($member_info->member_srl);
 		if ($totalData == 0)
 		{
@@ -507,6 +470,7 @@ class attendanceController extends attendance
 			$totalOutput = $this->insertTotal($member_info->member_srl, $continuity, $total_attendance, $obj->today_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
+				$oDB->rollback();
 				return $totalOutput;
 			}
 		}
@@ -518,6 +482,7 @@ class attendanceController extends attendance
 			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $regdate);
 			if (!$totalOutput->toBool())
 			{
+				$oDB->rollback();
 				return $totalOutput;
 			}
 		}
@@ -529,6 +494,7 @@ class attendanceController extends attendance
 			$yearlyOutput = $this->insertYearly($member_info->member_srl, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
+				$oDB->rollback();
 				return $yearlyOutput;
 			}
 		}
@@ -541,6 +507,7 @@ class attendanceController extends attendance
 			$yearlyOutput = $this->updateYearly($member_info->member_srl, $year, $yearly_data, $yearly_point, $regdate);
 			if (!$yearlyOutput->toBool())
 			{
+				$oDB->rollback();
 				return $yearlyOutput;
 			}
 		}
@@ -552,6 +519,7 @@ class attendanceController extends attendance
 			$monthlyOutput = $this->insertMonthly($member_info->member_srl, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
+				$oDB->rollback();
 				return $monthlyOutput;
 			}
 		}
@@ -564,6 +532,7 @@ class attendanceController extends attendance
 			$monthlyOutput = $this->updateMonthly($member_info->member_srl, $year_month, $monthlyCount, $monthly_point, $regdate);
 			if (!$monthlyOutput->toBool())
 			{
+				$oDB->rollback();
 				return $monthlyOutput;
 			}
 		}
@@ -576,6 +545,7 @@ class attendanceController extends attendance
 			$weekOutput = $this->insertWeekly($member_info->member_srl, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
+				$oDB->rollback();
 				return $weekOutput;
 			}
 		}
@@ -588,12 +558,13 @@ class attendanceController extends attendance
 			$weekOutput = $this->updateWeekly($member_info->member_srl, $week, $weekly_data, $weekly_point, $regdate);
 			if (!$weekOutput->toBool())
 			{
+				$oDB->rollback();
 				return $weekOutput;
 			}
 		}
 
 		$oAttendanceModel->clearCacheByMemberSrl($member_info->member_srl);
-		
+		$oDB->commit();
 		return $this->makeObject();
 	}
 
