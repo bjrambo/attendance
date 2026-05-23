@@ -177,18 +177,18 @@ class View extends Base
 		$logged_info = \Context::get('logged_info');
 		$member_srl = \Context::get('member_srl');
 
-		if (!$member_srl)
+		if (!$member_srl || $member_srl == $logged_info->member_srl)
+		{
+			$member_srl = $logged_info->member_srl;
+			$member_info = $logged_info;
+		}
+		else
 		{
 			if ($logged_info->is_admin !== 'Y')
 			{
 				$this->makeObject(-1, 'msg_not_permitted');
 				return;
 			}
-			$member_srl = $logged_info->member_srl;
-			$member_info = $logged_info;
-		}
-		else
-		{
 			$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($member_srl);
 		}
 
