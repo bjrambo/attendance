@@ -11,7 +11,7 @@ class AdminView extends Base
 
 	public function init(): void
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 
 		$module_srl = \Context::get('module_srl');
 		if (!$module_srl && $this->module_srl)
@@ -66,7 +66,7 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminConfig(): void
 	{
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$config = $oAttendanceModel->getConfig();
 		\Context::set('config', $config);
 
@@ -80,7 +80,7 @@ class AdminView extends Base
 		\Context::set('start_time', $start_time);
 		\Context::set('end_time', $end_time);
 
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		\Context::set('module_info', $module_info);
 		\Context::set('module_srl', $module_info->module_srl);
@@ -89,7 +89,7 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminTime(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
 
@@ -113,7 +113,7 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminDay(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'day');
 
@@ -127,10 +127,10 @@ class AdminView extends Base
 		foreach ($user_data->data as $data)
 		{
 			$arrayUserData[$data->member_srl] = new \stdClass();
-			$arrayUserData[$data->member_srl]->doChecked = getModel('attendance')->getIsCheckedMonth($data->member_srl, $check_month);
+			$arrayUserData[$data->member_srl]->doChecked = (new \Rhymix\Modules\Attendance\Models\Attendance())->getIsCheckedMonth($data->member_srl, $check_month);
 		}
 
-		$group_list = getModel('member')->getGroups();
+		$group_list = \MemberModel::getInstance()->getGroups();
 		\Context::set('group_list', $group_list);
 		\Context::set('end_day', $end_day);
 		\Context::set('year', $year);
@@ -143,13 +143,13 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminRankweekly(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'rankweekly');
-		$week = getModel('attendance')->getWeek($selected_date);
+		$week = (new \Rhymix\Modules\Attendance\Models\Attendance())->getWeek($selected_date);
 		$position = 1 + ($user_data->page - 1) * 20;
 
-		\Context::set('group_list', getModel('member')->getGroups());
+		\Context::set('group_list', \MemberModel::getInstance()->getGroups());
 		\Context::set('week', $week);
 		\Context::set('position', $position);
 		\Context::set('user_data', $user_data);
@@ -158,7 +158,7 @@ class AdminView extends Base
 	public function dispAttendanceAdminRankmonthly(): void
 	{
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'rankmonthly');
 
 		$year_month = substr($selected_date, 0, 6);
@@ -167,7 +167,7 @@ class AdminView extends Base
 		$eom = date('t', mktime(0, 0, 0, $month, 1, $year));
 		$position = 1 + ($user_data->page - 1) * 20;
 
-		\Context::set('group_list', getModel('member')->getGroups());
+		\Context::set('group_list', \MemberModel::getInstance()->getGroups());
 		\Context::set('position', $position);
 		\Context::set('eom', $eom);
 		\Context::set('year_month', $year_month);
@@ -176,7 +176,7 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminRankyearly(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
 		$year = substr($selected_date, 0, 4);
 		$pad = date('t', mktime(0, 0, 0, 02, 1, $year));
@@ -185,7 +185,7 @@ class AdminView extends Base
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'rankyearly');
 		$position = 1 + ($user_data->page - 1) * 20;
 
-		\Context::set('group_list', getModel('member')->getGroups());
+		\Context::set('group_list', \MemberModel::getInstance()->getGroups());
 		\Context::set('position', $position);
 		\Context::set('eoy', $eoy);
 		\Context::set('year', $year);
@@ -195,19 +195,19 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminRanktotal(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$user_data = $oAttendanceAdminModel->getAttendanceMemberList(20, 'ranktotal');
 		$position = 1 + ($user_data->page - 1) * 20;
 
-		\Context::set('group_list', getModel('member')->getGroups());
+		\Context::set('group_list', \MemberModel::getInstance()->getGroups());
 		\Context::set('position', $position);
 		\Context::set('user_data', $user_data);
 	}
 
 	public function dispAttendanceAdminSpeedsearch(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$selected_date = \Context::get('selected_date') ?: zDate(date('YmdHis'), 'Ymd');
 
 		$year = substr($selected_date, 0, 4);
@@ -216,7 +216,7 @@ class AdminView extends Base
 		$week = $oAttendanceModel->getWeek($selected_date);
 		$eom = date('t', mktime(0, 0, 0, $month, 1, $year));
 
-		\Context::set('group_list', getModel('member')->getGroups());
+		\Context::set('group_list', \MemberModel::getInstance()->getGroups());
 		\Context::set('eom', $eom);
 		\Context::set('year_month', $year_month);
 		\Context::set('week', $week);
@@ -226,10 +226,10 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminBoardConfig(): void
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		$mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
-		$oLayoutModel = getModel('layout');
+		$oLayoutModel = \LayoutModel::getInstance();
 
 		\Context::set('skin_list', $skin_list);
 		\Context::set('mskin_list', $mskin_list);
@@ -244,39 +244,39 @@ class AdminView extends Base
 
 	public function dispAttendanceAdminBoardSkinConfig(): void
 	{
-		$oModuleAdminModel = getAdminModel('module');
+		$oModuleAdminModel = \ModuleAdminModel::getInstance();
 		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->att_module_info->module_srl);
 		\Context::set('skin_content', $skin_content);
 	}
 
 	public function dispAttendanceAdminMobileBoardSkinConfig(): void
 	{
-		$oModuleAdminModel = getAdminModel('module');
+		$oModuleAdminModel = \ModuleAdminModel::getInstance();
 		$skin_content = $oModuleAdminModel->getModuleMobileSkinHTML($this->att_module_info->module_srl);
 		\Context::set('skin_content', $skin_content);
 	}
 
 	public function dispAttendanceAdminGrantList(): void
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
-		$oModuleAdminModel = getAdminModel('module');
+		$oModuleAdminModel = \ModuleAdminModel::getInstance();
 		$grant_content = $oModuleAdminModel->getModuleGrantHTML($module_info->module_srl, $this->xml_info->grant);
 		\Context::set('grant_content', $grant_content);
 	}
 
 	public function dispAttendanceAdminModifyAttendance(): void
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$attendance_srl = \Context::get('attendance_srl');
 
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($attendance_srl);
 		\Context::set('oAttendance', $oAttendance);
 		\Context::set('oAttendanceModel', $oAttendanceModel);
-		\Context::set('oMemberModel', getModel('member'));
+		\Context::set('oMemberModel', \MemberModel::getInstance());
 
 		$template_path = sprintf('%sskins/%s/', $this->module_path, $module_info->skin);
 		if (!is_dir($template_path) || !$module_info->skin)

@@ -8,7 +8,7 @@ class AdminAttendance extends Base
 {
 	public function getAttendanceMemberList(int $list, string $new_type): object
 	{
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new Attendance();
 
 		$args = new \stdClass();
 		$args->is_admin = \Context::get('is_admin') === 'Y' ? 'Y' : '';
@@ -124,7 +124,7 @@ class AdminAttendance extends Base
 
 		if (strtotime($today) < time() - (86400 * 2))
 		{
-			if ($oCacheHandler = getModel('attendance')->getCacheHandler())
+			if ($oCacheHandler = (new Attendance())->getCacheHandler())
 			{
 				$cached = $oCacheHandler->get($oCacheHandler->getGroupKey('attendance', "todaytotal:$today"));
 				if ($cached !== false) return $cache[$today] = $cached;
@@ -176,8 +176,8 @@ class AdminAttendance extends Base
 
 	public function deleteAllAttendanceData(int $member_srl): void
 	{
-		$oAttendanceModel = getModel('attendance');
-		$oDocumentController = getController('document');
+		$oAttendanceModel = new Attendance();
+		$oDocumentController = \DocumentController::getInstance();
 		$memberAttendanceInfo = $oAttendanceModel->getGreetingsList($member_srl);
 
 		if (!$memberAttendanceInfo->data->greetings)
@@ -203,7 +203,7 @@ class AdminAttendance extends Base
 		$args = new \stdClass();
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAllAttendanceTotalData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl);
+		(new Attendance())->clearCacheByMemberSrl($member_srl);
 	}
 
 	public function deleteAllAttendanceYearlyData(int $member_srl): void
@@ -211,7 +211,7 @@ class AdminAttendance extends Base
 		$args = new \stdClass();
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAllAttendanceYearlyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl);
+		(new Attendance())->clearCacheByMemberSrl($member_srl);
 	}
 
 	public function deleteAllAttendanceMonthlyData(int $member_srl): void
@@ -219,7 +219,7 @@ class AdminAttendance extends Base
 		$args = new \stdClass();
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAllAttendanceMonthlyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl);
+		(new Attendance())->clearCacheByMemberSrl($member_srl);
 	}
 
 	public function deleteAllAttendanceWeeklyData(int $member_srl): void
@@ -227,7 +227,7 @@ class AdminAttendance extends Base
 		$args = new \stdClass();
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAllAttendanceWeeklyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl);
+		(new Attendance())->clearCacheByMemberSrl($member_srl);
 	}
 
 	public function deleteAttendanceWeeklyData(int $member_srl, object $week): void
@@ -237,7 +237,7 @@ class AdminAttendance extends Base
 		$args->sunday = $week->sunday;
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAttendanceWeeklyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl, 'weekly', $week);
+		(new Attendance())->clearCacheByMemberSrl($member_srl, 'weekly', $week);
 	}
 
 	public function deleteAttendanceMonthlyData(int $member_srl, string $monthly): void
@@ -246,7 +246,7 @@ class AdminAttendance extends Base
 		$args->monthly = $monthly;
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAttendanceMonthlyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl, 'monthly', $monthly);
+		(new Attendance())->clearCacheByMemberSrl($member_srl, 'monthly', $monthly);
 	}
 
 	public function deleteAttendanceYearlyData(int $member_srl, string $year): void
@@ -255,7 +255,7 @@ class AdminAttendance extends Base
 		$args->year = $year;
 		$args->member_srl = $member_srl;
 		executeQuery('attendance.deleteAttendanceYearlyData', $args);
-		getModel('attendance')->clearCacheByMemberSrl($member_srl, 'yearly', $year);
+		(new Attendance())->clearCacheByMemberSrl($member_srl, 'yearly', $year);
 	}
 
 	public function getWeeklyPoint(int $member_srl, $week): object
@@ -318,8 +318,8 @@ class AdminAttendance extends Base
 
 	public function fixYearMonthWeek(object $obj): void
 	{
-		$oAttendanceModel = getModel('attendance');
-		$oAttendanceController = getController('attendance');
+		$oAttendanceModel = new Attendance();
+		$oAttendanceController = new \Rhymix\Modules\Attendance\Controllers\Index();
 
 		$year = substr($obj->selected_date, 0, 4);
 		$this->deleteAttendanceYearlyData($obj->member_srl, $year);

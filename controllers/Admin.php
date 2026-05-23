@@ -10,7 +10,7 @@ class Admin extends Base
 
 	public function procAttendanceAdminDeleteAllData(): void
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$obj = \Context::getRequestVars();
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
@@ -24,7 +24,7 @@ class Admin extends Base
 	{
 		$obj = \Context::getRequestVars();
 
-		$config = getModel('attendance')->getConfig();
+		$config = (new \Rhymix\Modules\Attendance\Models\Attendance())->getConfig();
 		$config->about_admin_check = $obj->about_admin_check;
 		$config->allow_duplicaton_ip_count = $obj->allow_duplicaton_ip_count;
 		$config->about_auto_attend = $obj->about_auto_attend;
@@ -90,7 +90,7 @@ class Admin extends Base
 		if ($obj->diligence_weekly >= 7 || $obj->diligence_weekly < 1) $config->diligence_weekly = 6;
 		if (!$obj->allow_duplicaton_ip_count) $config->allow_duplicaton_ip_count = 3;
 
-		$oModuleController = getController('module');
+		$oModuleController = \ModuleController::getInstance();
 		$output = $oModuleController->updateModuleConfig('attendance', $config);
 		if (!$output->toBool())
 		{
@@ -113,9 +113,9 @@ class Admin extends Base
 		$member_srl = \Context::get('member_srl');
 		$point = \Context::get('point') ?: 0;
 
-		$oAttendanceModel = getModel('attendance');
-		$oPointController = getController('point');
-		$oPointModel = getModel('point');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
+		$oPointController = \PointController::getInstance();
+		$oPointModel = \PointModel::getInstance();
 
 		$personal_point = $oPointModel->getPoint($member_srl);
 		$total_point = $oAttendanceModel->getTotalPoint($member_srl);
@@ -142,7 +142,7 @@ class Admin extends Base
 		}
 		else
 		{
-			getController('attendance')->updateTotal($member_srl, null, null, $total_point, null);
+			(new \Rhymix\Modules\Attendance\Controllers\Index())->updateTotal($member_srl, null, null, $total_point, null);
 			$oPointController->setPoint($member_srl, $personal_point, 'update');
 			if ($action === 'update')
 			{
@@ -155,9 +155,9 @@ class Admin extends Base
 
 	public function procAttendanceAdminFixTotalData(): void
 	{
-		$oAttendanceModel = getModel('attendance');
-		$oAttendanceAdminModel = getAdminModel('attendance');
-		$oAttendanceController = getController('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
+		$oAttendanceController = new \Rhymix\Modules\Attendance\Controllers\Index();
 
 		$obj = \Context::getRequestVars();
 		$continuity = new \stdClass;
@@ -180,11 +180,11 @@ class Admin extends Base
 
 	public function procAttendanceAdminFixAttendanceData(): void
 	{
-		$oAttendanceModel = getModel('attendance');
-		$oAttendanceAdminModel = getAdminModel('attendance');
-		$oAttendanceController = getController('attendance');
-		$oPointModel = getModel('point');
-		$oPointController = getController('point');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
+		$oAttendanceController = new \Rhymix\Modules\Attendance\Controllers\Index();
+		$oPointModel = \PointModel::getInstance();
+		$oPointController = \PointController::getInstance();
 
 		$obj = \Context::getRequestVars();
 		$output = $oAttendanceAdminModel->getDuplicatedData($obj->member_srl, $obj->selected_date);
@@ -208,7 +208,7 @@ class Admin extends Base
 
 		$oAttendanceAdminModel->deleteDuplicatedData($obj->member_srl, $obj->selected_date);
 
-		$member_info = getModel('member')->getMemberInfoByMemberSrl($obj->member_srl);
+		$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($obj->member_srl);
 		$my_point = $oPointModel->getPoint($member_info->member_srl) - $today_point;
 		$oPointController->setPoint($member_info->member_srl, $my_point, 'update');
 
@@ -256,9 +256,9 @@ class Admin extends Base
 
 	public function procAttendanceAdminInitAll(): void
 	{
-		$oAttendanceModel = getModel('attendance');
-		$oAttendanceAdminModel = getAdminModel('attendance');
-		$oPointController = getController('point');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
+		$oPointController = \PointController::getInstance();
 		$obj = \Context::getRequestVars();
 
 		$continuity = new \stdClass;
@@ -278,7 +278,7 @@ class Admin extends Base
 			}
 			$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
 			$attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
-			getController('attendance')->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date . '000000');
+			(new \Rhymix\Modules\Attendance\Controllers\Index())->insertTotal($obj->member_srl, $continuity, $attendance, $sum, $obj->selected_date . '000000');
 			$oPointController->setPoint($obj->member_srl, $sum, 'add');
 			$oAttendanceAdminModel->fixYearMonthWeek($obj);
 		}
@@ -288,8 +288,8 @@ class Admin extends Base
 
 	public function procAttendanceAdminInsertBoard(): void
 	{
-		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
+		$oModuleController = \ModuleController::getInstance();
+		$oModuleModel = \ModuleModel::getInstance();
 
 		$args = \Context::getRequestVars();
 		$args->module = 'attendance';
@@ -318,11 +318,11 @@ class Admin extends Base
 
 	public function procAttendanceAdminDeleteBoard(): void
 	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
+		$oModuleModel = \ModuleModel::getInstance();
+		$oModuleController = \ModuleController::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleController->deleteModule($module_info->module_srl);
-		getModel('attendance')->clearCache();
+		(new \Rhymix\Modules\Attendance\Models\Attendance())->clearCache();
 	}
 
 	public function procAttendanceAdminInsertGift()
@@ -348,7 +348,7 @@ class Admin extends Base
 	public function procAttendanceAdminCheckData(): void
 	{
 		$obj = \Context::getRequestVars();
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$config = $oAttendanceModel->getConfig();
 
 		$g_obj = new \stdClass();
@@ -361,14 +361,14 @@ class Admin extends Base
 		$r_args->year_month = substr($obj->check_day, 0, 6);
 		$r_args->week = $oAttendanceModel->getWeek($obj->check_day);
 
-		getController('attendance')->insertAttendance($g_obj, $config, $obj->member_srl, $r_args);
+		(new \Rhymix\Modules\Attendance\Controllers\Index())->insertAttendance($g_obj, $config, $obj->member_srl, $r_args);
 	}
 
 	public function procAttendanceAdminDeleteData(): void
 	{
-		$oPointController = getController('point');
-		$oAttendanceModel = getModel('attendance');
-		$oAttendanceController = getController('attendance');
+		$oPointController = \PointController::getInstance();
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
+		$oAttendanceController = new \Rhymix\Modules\Attendance\Controllers\Index();
 
 		$obj = \Context::getRequestVars();
 		$year = substr($obj->check_day, 0, 4);
@@ -377,7 +377,7 @@ class Admin extends Base
 		$args->check_day = $obj->check_day;
 		$args->member_srl = $obj->member_srl;
 
-		$member_info = getModel('member')->getMemberInfoByMemberSrl($obj->member_srl);
+		$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($obj->member_srl);
 		$daily_info = $oAttendanceModel->getUserAttendanceData($member_info->member_srl, $obj->check_day);
 
 		unset($_SESSION['is_attended']);
@@ -393,7 +393,7 @@ class Admin extends Base
 		if (substr($daily_info->greetings, 0, 1) === '#')
 		{
 			$document_srl = substr($daily_info->greetings, 1);
-			getController('document')->deleteDocument($document_srl, true);
+			\DocumentController::getInstance()->deleteDocument($document_srl, true);
 		}
 
 		$output = executeQuery('attendance.deleteAttendanceData', $args);

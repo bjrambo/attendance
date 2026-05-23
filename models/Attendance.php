@@ -13,7 +13,7 @@ class Attendance extends Base
 	{
 		if (self::$config === null)
 		{
-			$config = getModel('module')->getModuleConfig('attendance');
+			$config = \ModuleModel::getInstance()->getModuleConfig('attendance');
 			if (!$config) $config = new \stdClass();
 			if (!$config->add_point) $config->add_point = '0';
 			if (!$config->first_point) $config->first_point = '0';
@@ -39,7 +39,7 @@ class Attendance extends Base
 		$output = executeQuery('attendance.getAttendance');
 		$module_srl = $output->data->module_srl;
 		if (!$module_srl) return new \stdClass();
-		return getModel('module')->getModuleInfoByModuleSrl($module_srl);
+		return \ModuleModel::getInstance()->getModuleInfoByModuleSrl($module_srl);
 	}
 
 	public function getDuplicateIpCount(string $today, string $ipaddress): int
@@ -493,7 +493,7 @@ class Attendance extends Base
 			$isReloadConfig = false;
 			if ($today !== $config->rand_open_day)
 			{
-				if (getController('attendance')->setOpenAttendanceTime())
+				if ((new \Rhymix\Modules\Attendance\Controllers\Index())->setOpenAttendanceTime())
 				{
 					$isReloadConfig = true;
 				}

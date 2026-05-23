@@ -41,7 +41,7 @@
 				<div class="member_{{ $val2->member_srl }}">{{ $val2->nick_name }}</div>
 			</td>
 			<td width="49%" style="width:300px;">
-				@php $total_info = getModel('attendance')->getTotalData($val2->member_srl); @endphp
+				@php $total_info = (new \Rhymix\Modules\Attendance\Models\Attendance())->getTotalData($val2->member_srl); @endphp
 				<div class="admin_graph">
 					@php $percent = $total_info->total ? 100 : 0; @endphp
 					<div class="progress" style="width:230px;">
@@ -62,7 +62,7 @@
 					@php
 					$pad = date('t', mktime(0, 0, 0, 02, 1, $year));
 					$yearly = ($pad == 29) ? 366 : 365;
-					$yearly_info = getModel('attendance')->getYearlyData($year, $val2->member_srl);
+					$yearly_info = (new \Rhymix\Modules\Attendance\Models\Attendance())->getYearlyData($year, $val2->member_srl);
 					$percent = (int)($yearly_info / $yearly * 100);
 					@endphp
 					<div class="admin_graph">
@@ -75,13 +75,13 @@
 					</div>
 				</div>
 			</td>
-			<td class="center">{{ getModel('attendance')->getTotalPoint($val2->member_srl) }}</td>
+			<td class="center">{{ (new \Rhymix\Modules\Attendance\Models\Attendance())->getTotalPoint($val2->member_srl) }}</td>
 		</tr>
 		<tr>
 			<td class="center" colspan="2">{{ $lang->monthly_info }}({{ $year.'-'.$month }})</td>
 			<td style="width:300px;">
 				@php
-				$monthly_information = getModel('attendance')->getMonthlyAttendance($val2->member_srl, $year_month);
+				$monthly_information = (new \Rhymix\Modules\Attendance\Models\Attendance())->getMonthlyAttendance($val2->member_srl, $year_month);
 				$percent = (int)($monthly_information->monthly / $eom * 100);
 				@endphp
 				<div class="admin_graph">
@@ -101,7 +101,7 @@
 			</td>
 			<td style="width:300px;">
 				@php
-				$weekly_information = getModel('attendance')->getWeeklyData($val2->member_srl, $week);
+				$weekly_information = (new \Rhymix\Modules\Attendance\Models\Attendance())->getWeeklyData($val2->member_srl, $week);
 				$percent = (int)($weekly_information->weekly / 7 * 100);
 				@endphp
 				<div class="admin_graph">

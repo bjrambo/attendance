@@ -12,13 +12,13 @@ class EventHandlers extends Base
 	 */
 	public function triggerDeleteMember(object $obj): object
 	{
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 		$oAttendanceAdminModel->deleteAllAttendanceData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceTotalData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceYearlyData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceMonthlyData($obj->member_srl);
 		$oAttendanceAdminModel->deleteAllAttendanceWeeklyData($obj->member_srl);
-		getModel('attendance')->clearCacheByMemberSrl($obj->member_srl);
+		(new \Rhymix\Modules\Attendance\Models\Attendance())->clearCacheByMemberSrl($obj->member_srl);
 		return $this->makeObject();
 	}
 
@@ -38,7 +38,7 @@ class EventHandlers extends Base
 			return;
 		}
 
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$config = $oAttendanceModel->getConfig();
 		if ($config->about_auto_attend != 'yes')
 		{
@@ -60,7 +60,7 @@ class EventHandlers extends Base
 			$dayData = false;
 		}
 
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$grant = $oModuleModel->getGrant($module_info, $logged_info);
 		if (!$grant->attendance)
@@ -122,7 +122,7 @@ class EventHandlers extends Base
 	 */
 	public function triggerBeforeDisplay(string &$content): object
 	{
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$config = $oAttendanceModel->getConfig();
 		$act = \Context::get('act');
 
@@ -145,10 +145,10 @@ class EventHandlers extends Base
 	public function triggerUpdateMemberBefore(object $args): ?object
 	{
 		$logged_info = \Context::get('logged_info');
-		$oMemberModel = getModel('member');
+		$oMemberModel = \MemberModel::getInstance();
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($logged_info->member_srl);
 
-		$config = getModel('module')->getModuleConfig('attendance');
+		$config = \ModuleModel::getInstance()->getModuleConfig('attendance');
 
 		if ($logged_info->is_admin !== 'Y' && $config->about_birth_day === 'yes' && $config->about_birth_day_y === 'yes')
 		{
@@ -173,7 +173,7 @@ class EventHandlers extends Base
 
 		$logged_info = \Context::get('logged_info');
 		$target_srl = \Context::get('target_srl');
-		$oMemberController = getController('member');
+		$oMemberController = \MemberController::getInstance();
 		$oMemberController->addMemberMenu('dispAttendanceMemberInfo', '출석사항');
 
 		if ($logged_info->is_admin === 'Y')

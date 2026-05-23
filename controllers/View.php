@@ -19,7 +19,7 @@ class View extends Base
 
 	public function dispAttendancePersonalInfo(): void
 	{
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 
 		$selected_date = \Context::get('selected_date');
 		$date_info = new \stdClass();
@@ -48,13 +48,13 @@ class View extends Base
 
 	public function dispAttendanceBoard(): void
 	{
-		$oMemberModel = getModel('member');
-		$oDocumentModel = getModel('document');
-		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = \MemberModel::getInstance();
+		$oDocumentModel = \DocumentModel::getInstance();
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 
 		$module_info = $oAttendanceModel->getAttendanceInfo();
-		getModel('module')->syncSkinInfoToModuleInfo($module_info);
-		$oAttendanceAdminModel = getAdminModel('attendance');
+		\ModuleModel::getInstance()->syncSkinInfoToModuleInfo($module_info);
+		$oAttendanceAdminModel = new \Rhymix\Modules\Attendance\Models\AdminAttendance();
 
 		$document_srl = \Context::get('document_srl');
 		$selected_date = \Context::get('selected_date');
@@ -156,7 +156,7 @@ class View extends Base
 			return $this->makeObject(-1, '회원번호는 필수입니다.');
 		}
 
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$data = $oAttendanceModel->getContinuityDataByMemberSrl($member_srl, \Context::get('regdate'));
 		\Context::set('data', $data);
 		$this->setTemplateFile($this->_resolveSkinTemplate('continuous'));
@@ -169,7 +169,7 @@ class View extends Base
 			return $this->makeObject(-1, '로그인 사용자만 사용가능합니다.');
 		}
 
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$logged_info = \Context::get('logged_info');
 		$member_srl = \Context::get('member_srl');
 
@@ -184,7 +184,7 @@ class View extends Base
 		}
 		else
 		{
-			$member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+			$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($member_srl);
 		}
 
 		$total_attendance = $oAttendanceModel->getTotalAttendance($member_srl);

@@ -20,8 +20,8 @@ class Install extends Base
 
 	public function moduleInstall()
 	{
-		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
+		$oModuleController = \ModuleController::getInstance();
+		$oModuleModel = \ModuleModel::getInstance();
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		if ($module_info->module_srl)
 		{
@@ -49,7 +49,7 @@ class Install extends Base
 
 	public function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = \ModuleModel::getInstance();
 
 		if (\FileHandler::exists('./modules/attendance/lang/lang.xml'))
 		{
@@ -87,7 +87,7 @@ class Install extends Base
 		if (!$oDB->isIndexExists('attendance_total', 'idx_member_srl')) return true;
 		if ($oDB->getColumnInfo('attendance', 'ipaddress')->size < 128) return true;
 
-		$module_info = getModel('attendance')->getAttendanceInfo();
+		$module_info = (new \Rhymix\Modules\Attendance\Models\Attendance())->getAttendanceInfo();
 		if (!$module_info->module_srl) return true;
 
 		foreach ($this->_triggers as $trigger)
@@ -108,9 +108,9 @@ class Install extends Base
 
 	public function moduleUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-		$oMemberModel = getModel('member');
+		$oModuleModel = \ModuleModel::getInstance();
+		$oModuleController = \ModuleController::getInstance();
+		$oMemberModel = \MemberModel::getInstance();
 		$oDB = \DB::getInstance();
 
 		if (\FileHandler::exists('./modules/attendance/lang/lang.xml'))

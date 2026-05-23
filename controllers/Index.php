@@ -39,7 +39,7 @@ class Index extends EventHandlers
 			return $this->makeObject(-1, 'msg_do_not_attendance');
 		}
 
-		getModel('attendance')->clearCacheByMemberSrl($member_srl);
+		(new \Rhymix\Modules\Attendance\Models\Attendance())->clearCacheByMemberSrl($member_srl);
 
 		if (!in_array(\Context::getRequestMethod(), ['XMLRPC', 'JSON']))
 		{
@@ -68,7 +68,7 @@ class Index extends EventHandlers
 		}
 
 		$today = date('Ymd');
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$logged_info = \Context::get('logged_info');
 		$config = $oAttendanceModel->getConfig();
 
@@ -129,8 +129,8 @@ class Index extends EventHandlers
 
 	public function procAttendanceModifyData()
 	{
-		$oPointController = getController('point');
-		$oAttendanceModel = getModel('attendance');
+		$oPointController = \PointController::getInstance();
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 
 		$obj = \Context::getRequestVars();
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($obj->attendance_srl);
@@ -200,8 +200,8 @@ class Index extends EventHandlers
 	 */
 	public function insertAttendance($g_obj, $config, $member_srl = null, $r_args = null)
 	{
-		$oMemberModel = getModel('member');
-		$oAttendanceModel = getModel('attendance');
+		$oMemberModel = \MemberModel::getInstance();
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 
 		if ($member_srl)
 		{
@@ -229,7 +229,7 @@ class Index extends EventHandlers
 			$yesterday = date('Ymd', strtotime('-1 day'));
 		}
 
-		$oPointController = getController('point');
+		$oPointController = \PointController::getInstance();
 		$obj = new \stdClass();
 		$obj->continuity_day = $config->continuity_day;
 		$obj->continuity_point = $config->continuity_point;
@@ -407,7 +407,7 @@ class Index extends EventHandlers
 			$d_obj->is_notice = 'N';
 			$d_obj->module_srl = $module_info->module_srl;
 			$d_obj->allow_comment = 'Y';
-			$output = getController('document')->insertDocument($d_obj, false);
+			$output = \DocumentController::getInstance()->insertDocument($d_obj, false);
 			if (!$output->get('document_srl'))
 			{
 				return $this->makeObject(-1, 'attend_error_no_greetings');
@@ -431,7 +431,7 @@ class Index extends EventHandlers
 
 		if ($obj->today_point != 0 && $member_info->member_srl)
 		{
-			$oPointModel = getModel('point');
+			$oPointModel = \PointModel::getInstance();
 			if ($oPointModel->getConfig()->able_module == 'Y')
 			{
 				$pointOutput = $oPointController->setPoint($member_info->member_srl, $obj->today_point, 'add');
@@ -453,7 +453,7 @@ class Index extends EventHandlers
 	public function addTotalDataUpdate($member_info, $year, $year_month, $obj, $continuity)
 	{
 		$regdate = $obj->regdate;
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$oDB = \DB::getInstance();
 		$oDB->begin();
 
@@ -616,7 +616,7 @@ class Index extends EventHandlers
 
 	public function setOpenAttendanceTime(): bool
 	{
-		$oAttendanceModel = getModel('attendance');
+		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
 		$today = date('Ymd');
 		$config = $oAttendanceModel->getConfig();
 
@@ -631,7 +631,7 @@ class Index extends EventHandlers
 		$config->rand_open_time = $randTime;
 		$config->rand_open_day = $today;
 
-		$output = getController('module')->updateModuleConfig('attendance', $config);
+		$output = \ModuleController::getInstance()->updateModuleConfig('attendance', $config);
 		return $output->toBool();
 	}
 }

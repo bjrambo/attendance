@@ -21,8 +21,7 @@
 			<tbody>
 				@foreach($admingift_list as $key => $val)
 				@php
-				$oMemberModel = getModel('member');
-				$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+				$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($val->member_srl);
 				@endphp
 				<tr>
 					<td>{{ $val->present_srl }}</td>
