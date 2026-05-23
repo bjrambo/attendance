@@ -50,7 +50,8 @@ class AdminView extends Base
 
 		if ($module_info && $module_info->module != 'attendance')
 		{
-			return $this->makeObject(-1, 'msg_invalid_request');
+			$this->makeObject(-1, 'msg_invalid_request');
+			return;
 		}
 
 		$module_category = $oModuleModel->getModuleCategories();

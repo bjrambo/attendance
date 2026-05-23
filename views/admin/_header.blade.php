@@ -1,6 +1,6 @@
 @load('^/modules/attendance/tpl/js/attendance_admin.js')
 @load('^/modules/attendance/tpl/css/attendance.css')
-@php \Context::loadJsPlugin('ui.datepicker'); @endphp
+@php \Context::loadJavascriptPlugin('ui.datepicker'); @endphp
 
 @php
 if (!$selected_date) {

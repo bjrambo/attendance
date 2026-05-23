@@ -123,7 +123,8 @@ class View extends Base
 	{
 		if (!\Context::get('is_logged'))
 		{
-			return $this->makeObject(-1, '로그인 사용자만 이용 가능합니다.');
+			$this->makeObject(-1, '로그인 사용자만 이용 가능합니다.');
+			return;
 		}
 
 		$logged_info = \Context::get('logged_info');
@@ -147,13 +148,15 @@ class View extends Base
 		$logged_info = \Context::get('logged_info');
 		if ($logged_info->is_admin != 'Y')
 		{
-			return $this->makeObject(-1, '관리자만 접속 할 수 있습니다.');
+			$this->makeObject(-1, '관리자만 접속 할 수 있습니다.');
+			return;
 		}
 
 		$member_srl = \Context::get('member_srl');
 		if (!$member_srl)
 		{
-			return $this->makeObject(-1, '회원번호는 필수입니다.');
+			$this->makeObject(-1, '회원번호는 필수입니다.');
+			return;
 		}
 
 		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
@@ -166,7 +169,8 @@ class View extends Base
 	{
 		if (!\Context::get('is_logged'))
 		{
-			return $this->makeObject(-1, '로그인 사용자만 사용가능합니다.');
+			$this->makeObject(-1, '로그인 사용자만 사용가능합니다.');
+			return;
 		}
 
 		$oAttendanceModel = new \Rhymix\Modules\Attendance\Models\Attendance();
@@ -177,7 +181,8 @@ class View extends Base
 		{
 			if ($logged_info->is_admin !== 'Y')
 			{
-				return $this->makeObject(-1, 'msg_not_permitted');
+				$this->makeObject(-1, 'msg_not_permitted');
+				return;
 			}
 			$member_srl = $logged_info->member_srl;
 			$member_info = $logged_info;

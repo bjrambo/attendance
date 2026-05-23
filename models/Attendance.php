@@ -106,23 +106,23 @@ class Attendance extends Base
 		return (int)$output->data->count > 0;
 	}
 
-	public function getAttendanceList(int $list_count, string $today): object
+	public function getAttendanceList(?int $list_count, ?string $today): object
 	{
 		$args = new \stdClass();
 		$args->page = \Context::get('page');
-		$args->now = $today;
-		$args->list_count = $list_count;
+		$args->now = $today ?: zDate(date('YmdHis'), 'Ymd');
+		$args->list_count = $list_count ?: 20;
 		$output = executeQueryArray('attendance.getAdminAttendanceList', $args);
 		if (!$output->data) $output->data = [];
 		return $output;
 	}
 
-	public function getInverseList(int $list_count, string $today): object
+	public function getInverseList(?int $list_count, ?string $today): object
 	{
 		$args = new \stdClass();
 		$args->page = \Context::get('page');
-		$args->now = $today;
-		$args->list_count = $list_count;
+		$args->now = $today ?: zDate(date('YmdHis'), 'Ymd');
+		$args->list_count = $list_count ?: 20;
 		$output = executeQueryArray('attendance.getAdminInverseList', $args);
 		if (!$output->data) $output->data = [];
 		return $output;
@@ -413,7 +413,7 @@ class Attendance extends Base
 		return $data;
 	}
 
-	public function getWeek(string $today)
+	public function getWeek(?string $today)
 	{
 		if (!$today) return false;
 		$week = new \stdClass();

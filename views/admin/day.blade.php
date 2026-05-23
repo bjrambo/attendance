@@ -1,7 +1,10 @@
 @include('_header')
-@load('^/modules/attendance/tpl/filter/check_attendance_data.xml')
-@load('^/modules/attendance/tpl/filter/delete_attendance_data.xml')
-@load('^/modules/attendance/tpl/filter/fix_attendance_data.xml')
+@php
+require_once('./classes/xml/XmlJsFilter.class.php');
+(new XmlJsFilter('./modules/attendance/tpl/filter/', 'check_attendance_data.xml'))->compile();
+(new XmlJsFilter('./modules/attendance/tpl/filter/', 'delete_attendance_data.xml'))->compile();
+(new XmlJsFilter('./modules/attendance/tpl/filter/', 'fix_attendance_data.xml'))->compile();
+@endphp
 
 <form action="{{ getUrl('') }}" method="POST" onsubmit="return procFilter(this, fix_attendance_data);" id="fixAttendanceData">
 	<input type="hidden" name="module" value="{{ $module }}" />
