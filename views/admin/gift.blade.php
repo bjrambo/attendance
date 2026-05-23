@@ -1,0 +1,69 @@
+@include('_header')
+@if($XE_VALIDATOR_MESSAGE)
+<div class="message {{ $XE_VALIDATOR_MESSAGE_TYPE }}">
+	<p>{!! $XE_VALIDATOR_MESSAGE !!}</p>
+</div>
+@endif
+<div class="x_clearfix">
+	<form action="{{ getUrl('') }}" method="post" ruleset="GiftUpdate">
+		<input type="hidden" name="module" value="attendance" />
+		<input type="hidden" name="act" value="procAttendanceAdminInsertGift" />
+		<table class="x_table x_table-striped x_table-hover" style="margin-top:20px;">
+			<thead>
+			<tr>
+				<th scope="col" class="no" style="width:100px;">상품고유번호</th>
+				<th scope="col" class="no" style="width:100px;">닉네임</th>
+				<th scope="col" class="title" style="width:500px;">상품명</th>
+				<th scope="col" class="no" style="width:100px;">지급여부</th>
+				<th scope="col" class="m_no" style="width:50px;">받은날짜</th>
+			</tr>
+			</thead>
+			<tbody>
+				@foreach($admingift_list as $key => $val)
+				@php
+				$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($val->member_srl);
+				@endphp
+				<tr>
+					<td>{{ $val->present_srl }}</td>
+					<td>{{ $member_info->nick_name }}</td>
+					@if(!$member_info->member_srl)
+					<td>타겟없음</td>
+					@endif
+					<td>{{ $val->present }}</td>
+					<td>
+						@if($val->sender === 'Y')
+						<span>지급완료</span>
+						@else
+						<button type="submit" name="present_srl" value="{{ $val->present_srl }}" class="x_btn">
+							지급중
+						</button>
+						@endif
+					</td>
+					<td>
+						{{ zdate($val->regdate, 'Y-m-d') }}<br />
+						{{ zdate($val->regdate, 'H:i:s') }}
+					</td>
+				</tr>
+				@endforeach
+				@if(!$admingift_list)
+				<tr>
+					<td colspan="8">{{ $lang->msg_not_exist_data }}</td>
+				</tr>
+				@endif
+			</tbody>
+		</table>
+	</form>
+</div>
+<div class="ListNavigation">
+	<div class="pagination">
+		<a href="{{ getUrl('page','') }}" class="prevEnd">{{ $lang->first_page }}</a>
+		@while($page_no = $page_navigation->getNextPage())
+		@if($page == $page_no)
+		<strong>{{ $page_no }}</strong>
+		@else
+		<a href="{{ getUrl('page', $page_no) }}">{{ $page_no }}</a>
+		@endif
+		@endwhile
+		<a href="{{ getUrl('page', $page_navigation->last_page) }}" class="nextEnd">{{ $lang->last_page }}</a>
+	</div>
+</div>

@@ -1,0 +1,443 @@
+@include('_header')
+@if($XE_VALIDATOR_MESSAGE)
+<div class="message {{ $XE_VALIDATOR_MESSAGE_TYPE }}">
+	<p>{!! $XE_VALIDATOR_MESSAGE !!}</p>
+</div>
+@endif
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{{ $lang->attend_board_config }}</h3>
+<div class="x_form-horizontal">
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attend_link_board }}</label>
+			<div class="x_controls" style="padding-top:5px;">
+				{{ $lang->attend_mid }} : <a href="{{ getUrl('mid','attendance','module','','act','') }}"><u>attendance</u></a>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attend_board_config }}</label>
+			<div class="x_controls" style="padding-top:5px;">
+				<a href="{{ getUrl('mid','attendance','module','','act','dispAttendanceAdminBoardConfig') }}"><u>click</u></a>
+			</div>
+		</div>
+	</section>
+</div>
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{{ $lang->attendance_module }} {{ $lang->cmd_management }}</h3>
+<form ruleset="insertConfig" action="{{ getUrl('') }}" method="post" class="x_form-horizontal" id="fo_attendance">
+	<input type="hidden" name="module" value="attendance" />
+	<input type="hidden" name="act" value="procAttendanceAdminInsertAttendance" />
+	<section class="section">
+		<h1>{{ $lang->subtitle_primary }} <button type="button" class="snToggle x_icon-chevron-up">Toggle this section</button></h1>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->use_document }}</label>
+			<div class="x_controls">
+				<select name="use_document">
+					<option value="no" @selected($config->use_document == 'no')>{{ $lang->attendance_no }}({{ $lang->dn_use }})</option>
+					<option value="yes" @selected($config->use_document == 'yes')>{{ $lang->attendance_yes }}({{ $lang->d_use }})</option>
+				</select>
+				<p>{{ $lang->use_document_help }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_add_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="add_point" value="{{ $config->add_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_first_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="first_point" value="{{ $config->first_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_second_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="second_point" value="{{ $config->second_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_third_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="third_point" value="{{ $config->third_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_yearly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="yearly_point" value="{{ $config->yearly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_monthly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="monthly_point" value="{{ $config->monthly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_weekly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="weekly_point" value="{{ $config->weekly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_target }}</label>
+			<div class="x_controls">
+				<select name="about_target" id="include_duplicated_user">
+					<option value="yes" @selected($config->about_target == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="gift" @selected($config->about_target == 'gift')>gift</option>
+					<option value="no" @selected($config->about_target == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+				<p>{{ $lang->attendance_about_target_h }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_target_day }}</label>
+			<div class="x_controls">
+				<input type="text" name="target_day" value="{{ $config->target_day }}" />
+				<p>{{ $lang->attendance_target_day_info }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_target_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="target_point" value="{{ $config->target_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->giftnames }}</label>
+			<div class="x_controls">
+				<input type="text" name="giftname" value="{{ $config->giftname }}" />
+				<p>{{ $lang->giftnames_h }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->manygiftlist }}</label>
+			<div class="x_controls">
+				<input type="text" name="manygiftlist" value="{{ $config->manygiftlist }}" />
+				<p>{{ $lang->manygiftlists }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->gift_random }}</label>
+			<div class="x_controls">
+				<input type="number" name="gift_random" value="{{ $config->gift_random }}" />
+				<p>{{ $lang->gift_random_h }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_continuity }}</label>
+			<div class="x_controls">
+				<select name="about_continuity">
+					<option value="yes" @selected($config->about_continuity == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_continuity == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_continuity_day }}</label>
+			<div class="x_controls">
+				<input type="text" name="continuity_day" value="{{ $config->continuity_day }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_continuity_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="continuity_point" value="{{ $config->continuity_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_time_control }}</label>
+			<div class="x_controls">
+				<select name="about_time_control">
+					<option value="yes" @selected($config->about_time_control == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_time_control == 'no')>{{ $lang->attendance_no }}</option>
+					<option value="rand" @selected($config->about_time_control == 'rand')>랜덤</option>
+				</select>
+				<p>{{ $lang->attendance_description_ban_time }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_start_time }}</label>
+			<div class="x_controls">
+				<input type="text" name="start_hour" value="{{ $start_time->hour }}" style="width:30px;" /> :
+				<input type="text" name="start_min" value="{{ $start_time->min }}" style="width:30px;" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_end_time }}</label>
+			<div class="x_controls">
+				<input type="text" name="end_hour" value="{{ $end_time->hour }}" style="width:30px;" /> :
+				<input type="text" name="end_min" value="{{ $end_time->min }}" style="width:30px;" />
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">랜덤 오픈 시작 시간</label>
+			<div class="x_controls">
+				<input type="number" name="start_rand_time" value="{{ $config->start_rand_time }}" />
+				<p>랜덤 오픈 시작시작을 설정합니다. 반드시 1에서 23 시간으로 입력해주세요. 0분에서 59분 사이 랜덤으로 출석 시간이 결정됩니다.</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_diligence_yearly }}</label>
+			<div class="x_controls">
+				<select name="about_diligence_yearly">
+					<option value="yes" @selected($config->about_diligence_yearly == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_diligence_yearly == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_insert }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_yearly" value="{{ $config->diligence_yearly }}" style="width:30px;" />
+				<p>{{ $lang->attendance_diligence_yearly }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_diligence_yearly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_yearly_point" value="{{ $config->diligence_yearly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_diligence_monthly }}</label>
+			<div class="x_controls">
+				<select name="about_diligence_monthly">
+					<option value="yes" @selected($config->about_diligence_monthly == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_diligence_monthly == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_insert }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_monthly" value="{{ $config->diligence_monthly }}" style="width:30px;" />
+				<p>{{ $lang->attendance_diligence_monthly }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_diligence_monthly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_monthly_point" value="{{ $config->diligence_monthly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_about_diligence_weekly }}</label>
+			<div class="x_controls">
+				<select name="about_diligence_weekly">
+					<option value="yes" @selected($config->about_diligence_weekly == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_diligence_weekly == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_insert }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_weekly" value="{{ $config->diligence_weekly }}" style="width:30px;" />
+				<p>{{ $lang->attendance_diligence_weekly }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_diligence_weekly_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="diligence_weekly_point" value="{{ $config->diligence_weekly_point }}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attend_admin_check }}</label>
+			<div class="x_controls">
+				<select name="about_admin_check">
+					<option value="no" @selected($config->about_admin_check != 'yes')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->about_admin_check == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attend_allow_duplicaton_ip_count }}</label>
+			<div class="x_controls">
+				<input type="text" name="allow_duplicaton_ip_count" value="{{ $config->allow_duplicaton_ip_count }}" style="width:30px;" />
+				<p>{{ $lang->attend_allow_duplicaton_ip_msg }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attend_about_auto_attend }}</label>
+			<div class="x_controls">
+				<select name="about_auto_attend">
+					<option value="yes" @selected($config->about_auto_attend == 'yes')>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->about_auto_attend == 'no')>{{ $lang->attendance_no }}</option>
+				</select>
+				<p>{{ $lang->attend_about_auto_attend_more }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->randomp }}</label>
+			<div class="x_controls">
+				<select name="about_random">
+					<option value="no" @selected($config->about_random == 'no')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->about_random == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->randomset }}</label>
+			<div class="x_controls">
+				<p>{{ $lang->minimum }} : <input type="text" name="minimum" value="{{ $config->minimum }}" style="width:60px" /> &nbsp;
+				{{ $lang->maximum }} : <input type="text" name="maximum" value="{{ $config->maximum }}" style="width:60px" /></p>
+				{!! $lang->randomsethelp !!}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->random_select }}</label>
+			<div class="x_controls">
+				<select name="about_lottery">
+					<option value="no" @selected($config->about_lottery == 'no')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->about_lottery == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->random_input }}</label>
+			<div class="x_controls">
+				<input type="text" name="lottery" value="{{ $config->lottery }}" style="width:60px;" />
+				<p>{{ $lang->random_input_help }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->event_random }}</label>
+			<div class="x_controls">
+				<select name="use_random_sm">
+					<option value="no" @selected($config->use_random_sm != 'yes')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->use_random_sm == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+				<a href="#use_random_sm" data-toggle class="x_icon-question-sign">{{ $lang->help }}</a> {{ $lang->attimg }}
+				<p class="x_help-block" id="use_random_sm" hidden><img src="config.jpg" /></p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->random_small_win }}</label>
+			<div class="x_controls">
+				<input type="text" name="random_small_win" value="{{ $config->random_small_win }}" />
+				<p>{{ $lang->random_small_win_h }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->small_event_point }}</label>
+			<div class="x_controls">
+				<p>
+					{{ $lang->minimum }} : <input type="text" name="random_small_point_f" value="{{ $config->random_small_point_f }}" style="width:60px" /> &nbsp;
+					{{ $lang->maximum }} : <input type="text" name="random_small_point_s" value="{{ $config->random_small_point_s }}" style="width:60px" />
+				</p>
+				<p>{{ $lang->small_event_point_h }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->large_event_point }}</label>
+			<div class="x_controls">
+				<p>
+					{{ $lang->minimum }} : <input type="text" name="random_big_point_f" value="{{ $config->random_big_point_f }}" style="width:60px" /> &nbsp;
+					{{ $lang->maximum }} : <input type="text" name="random_big_point_s" value="{{ $config->random_big_point_s }}" style="width:60px" />
+				</p>
+				<p>{{ $lang->large_event_point_h }}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->birthday_setting }}</label>
+			<div class="x_controls">
+				<select name="about_birth_day">
+					<option value="no" @selected($config->about_birth_day == 'no')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->about_birth_day == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+				<p>{{ $lang->birthday_help }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->birthday_point }}</label>
+			<div class="x_controls">
+				<input type="text" name="brithday_point" value="{{ $config->brithday_point }}" style="width:60px;" />
+				<p>{{ $lang->birthday_point_help }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->birthday_member }}</label>
+			<div class="x_controls">
+				<select name="about_birth_day_y">
+					<option value="no" @selected($config->about_birth_day_y == 'no')>{{ $lang->attendance_no }}</option>
+					<option value="yes" @selected($config->about_birth_day_y == 'yes')>{{ $lang->attendance_yes }}</option>
+				</select>
+				<p>{{ $lang->birthday_member_help }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{{ $lang->attendance_use_cache }}</label>
+			<div class="x_controls">
+				<select name="attendance_use_cache" @disabled(!$object_cache_available)>
+					<option value="yes" @selected($config->use_cache == 'yes' && $object_cache_available)>{{ $lang->attendance_yes }}</option>
+					<option value="no" @selected($config->use_cache == 'no' || !$object_cache_available)>{{ $lang->attendance_no }}</option>
+				</select>
+				<p>{{ $lang->attendance_use_cache_help }}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">인사말 설정</label>
+			<div class="x_controls">
+				<textarea name="greeting_list" style="width:300px; height:200px;">{{ $config->greeting_list }}</textarea>
+				<p>출석 인사말을 남길 수 있습니다. 출석 인사말구분은 엔터로 구분합니다. 한줄씩 내려서 기록하시면 됩니다. (여러개 사용가능합니다.)</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{{ $lang->cmd_submit }}</button>
+		</div>
+	</div>
+</form>
+<br />
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{{ $lang->attend_init_all }}</h3>
+@load('^/modules/attendance/tpl/filter/init_all.xml')
+<form action="{{ getUrl('') }}" method="post" onsubmit="return procFilter(this, init_all);">
+	<table cellspacing="0" class="rowTable">
+		<tr>
+			<td rowspan="2" width="50%">{!! $lang->attend_init_all_msg !!}</td>
+			<td>
+				<input type="hidden" name="module" value="{{ $module }}" />
+				<input type="hidden" name="act" value="{{ $act }}" />
+				<input type="hidden" name="type" value="{{ $type }}" />
+				<input type="hidden" name="selected_date" value="{{ $selected_date }}" />
+				{{ $lang->attend_insert_continuity }}<input type="text" name="continuity" value="1" class="inputTypeText w40" />
+			</td>
+		</tr>
+		<tr>
+			<td class="center"><span><input type="submit" class="x_btn x_btn-primary" value="{{ $lang->attend_init_all }}" onclick="return att_ban_dclick('{{ $lang->attend_warn2 }}');" /></span></td>
+		</tr>
+	</table>
+</form>
+
+<h3 class="xeAdmin" style="margin-bottom:0; border:none;">{{ $lang->attend_remove_board }}</h3>
+<table cellspacing="0" class="rowTable">
+	<tr>
+		<th width="150px">{{ $lang->attend_remove_board }}</th>
+		<td>
+			{!! $lang->attend_board_info !!}<br />
+			@load('^/modules/attendance/tpl/filter/delete_attendance_board.xml')
+			<form action="./" method="post" onsubmit="return procFilter(this, delete_attendance_board);">
+				<input type="hidden" name="module" value="{{ $module }}" />
+				<input type="hidden" name="act" value="{{ $act }}" />
+				<input type="hidden" name="type" value="{{ $type }}" />
+				<span class="button black small"><button class="x_btn x_btn-primary" type="submit">{{ $lang->attendance_perfectly_delete }}</button></span>
+			</form>
+		</td>
+	</tr>
+</table>

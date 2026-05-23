@@ -11,7 +11,7 @@ $oContext = &Context::getInstance();
 $oContext->init();
 
 $display = new DisplayHandler();
-/** @var attendanceController $oAttendanceController */
-$oAttendanceController = getController('attendance');
+/** @var \Rhymix\Modules\Attendance\Controllers\Index $oAttendanceController */
+$oAttendanceController = new \Rhymix\Modules\Attendance\Controllers\Index();
 $oAttendanceController->setOpenAttendanceTime();
 $display::getDebugInfo();

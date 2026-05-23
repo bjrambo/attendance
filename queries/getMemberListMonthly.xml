@@ -1,10 +1,11 @@
 <query id="getMemberListMonthly" action="select">
     <tables>
         <table name="attendance_monthly" />
-        <table name="member" type="left join"/>
+        <table name="member" type="left join">
         <conditions>
             <condition operation="equal" column="attendance_monthly.member_srl" default="member.member_srl" />
         </conditions>
+        </table>
     </tables>
     <columns>
         <column name="*"/>
