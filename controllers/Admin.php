@@ -402,13 +402,18 @@ class Admin extends Base
 			return;
 		}
 
-		$regdate = sprintf('%s235959', $obj->check_day);
+		// Preserve existing continuity and regdate — deleting one attendance record
+		// must not reset the member's streak to 1.
+		$existing_total = $oAttendanceModel->getTotalData($obj->member_srl);
 		$continuity = new \stdClass;
-		$continuity->data = 1;
-		$continuity->point = 0;
+		$continuity->data = max(1, (int)$existing_total->continuity);
+		$continuity->point = (int)$existing_total->continuity_point;
+		$regdate = $existing_total->regdate ?: sprintf('%s235959', $obj->check_day);
 
 		if ($oAttendanceModel->isExistTotal($obj->member_srl) == 0)
 		{
+			$continuity->data = 1;
+			$continuity->point = 0;
 			$total_attendance = $oAttendanceModel->getTotalAttendance($obj->member_srl);
 			$oAttendanceController->insertTotal($obj->member_srl, $continuity, $total_attendance, 0, $regdate);
 		}

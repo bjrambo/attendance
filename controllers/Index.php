@@ -468,6 +468,19 @@ class Index extends EventHandlers
 		{
 			$total_attendance = $oAttendanceModel->getTotalAttendance($member_info->member_srl);
 			$total_point = $oAttendanceModel->getTotalPoint($member_info->member_srl) + $obj->today_point;
+
+			// For historical admin insertions: if this date is older than the current
+			// attendance_total.regdate, preserve the existing continuity streak and regdate
+			// so the member's future continuity checks are not corrupted.
+			$existing_total = $oAttendanceModel->getTotalData($member_info->member_srl);
+			if ($existing_total->regdate && $regdate < $existing_total->regdate)
+			{
+				$continuity = new \stdClass();
+				$continuity->data = $existing_total->continuity;
+				$continuity->point = $existing_total->continuity_point;
+				$regdate = $existing_total->regdate;
+			}
+
 			$totalOutput = $this->updateTotal($member_info->member_srl, $continuity, $total_attendance, $total_point, $regdate);
 		}
 		if (!$totalOutput->toBool()) { $oDB->rollback(); return $totalOutput; }
