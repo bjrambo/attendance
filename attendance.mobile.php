@@ -1,44 +1,35 @@
 <?php
-/**
- * @class attendanceMobile
- * @author BJRambo (sosifam@070805.co.kr)
- * @brief attendance module mobile class
- **/
-
-require_once(_XE_PATH_ . 'modules/attendance/attendance.view.php');
-
-class attendanceMobile extends attendanceView
+class attendanceMobile extends \Rhymix\Modules\Attendance\Controllers\View
 {
-	function init()
+	public function init(): void
 	{
-		$template_path = sprintf("%sm.skins/%s/", $this->module_path, $this->module_info->mskin);
+		$template_path = sprintf('%sm.skins/%s/', $this->module_path, $this->module_info->mskin);
 		if (!is_dir($template_path) || !$this->module_info->mskin)
 		{
 			$this->module_info->mskin = 'default';
-			$template_path = sprintf("%sm.skins/%s/", $this->module_path, $this->module_info->mskin);
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, $this->module_info->mskin);
 		}
 		$this->setTemplatePath($template_path);
 		$this->setTemplateFile('index');
 	}
 
-	function dispAttendanceMobileModifyAttendance()
+	public function dispAttendanceMobileModifyAttendance(): void
 	{
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByMid('attendance');
 		$oModuleModel->syncSkinInfoToModuleInfo($module_info);
-		$attendance_srl = Context::get('attendance_srl');
+		$attendance_srl = \Context::get('attendance_srl');
 		$oAttendanceModel = getModel('attendance');
-		$oMemberModel = getModel('member');
 
 		$oAttendance = $oAttendanceModel->getAttendanceDataSrl($attendance_srl);
-		Context::set('oAttendance', $oAttendance);
-		Context::set('oAttendanceModel', $oAttendanceModel);
-		Context::set('oMemberModel', $oMemberModel);
+		\Context::set('oAttendance', $oAttendance);
+		\Context::set('oAttendanceModel', $oAttendanceModel);
+		\Context::set('oMemberModel', getModel('member'));
 
-		$template_path = sprintf("%sm.skins/%s/", $this->module_path, $this->module_info->mskin);
+		$template_path = sprintf('%sm.skins/%s/', $this->module_path, $this->module_info->mskin);
 		if (!is_dir($template_path) || !$this->module_info->mskin)
 		{
-			$template_path = sprintf("%sm.skins/%s/", $this->module_path, $this->module_info->mskin);
+			$template_path = sprintf('%sm.skins/default/', $this->module_path);
 		}
 		$this->setTemplatePath($template_path);
 		$this->setTemplateFile('modify');

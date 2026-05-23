@@ -1,0 +1,65 @@
+@load('^/modules/attendance/tpl/js/attendance_admin.js')
+@load('^/modules/attendance/tpl/css/attendance.css')
+@php \Context::loadJsPlugin('ui.datepicker'); @endphp
+
+@php
+if (!$selected_date) {
+    $selected_date = zDate(date('YmdHis'), 'Ymd');
+}
+@endphp
+<script type="text/javascript">
+	function moveDate() {
+		xGetElementById('fo_calendar').submit();
+		return true;
+	}
+</script>
+<div class="x_page-header">
+	<h1>{{ $lang->attendance_module }}<span class="gray">{{ $lang->cmd_management }}</span></h1>
+</div>
+
+<div class="header4 gap1">
+	<form action="./index.php" method="get" id="fo_calendar">
+		<input type="hidden" name="error_return_url" value="" />
+		<input type="hidden" name="mid" value="" />
+		<input type="hidden" name="module" value="{{ $module }}" />
+		<input type="hidden" name="act" value="{{ $act }}" />
+		<input type="hidden" name="type" value="{{ $type }}" />
+		<input type="hidden" name="selected_date" id="selected_date" value="{{ $selected_date }}" />
+
+		<div class="center" style="color:#5c5c5c; margin-bottom:5px;">{{ $lang->select_date }}
+			<span id="str_selected_date">&nbsp;&nbsp; [{{ zdate($selected_date, 'Y-m-d') }}]</span>
+			<input type="hidden" class="inputDate" value="{{ zdate($selected_date, 'Ymd') }}" />
+			<input type="hidden" name="type" value="{{ $type }}" />
+			<script type="text/javascript">
+				(function($){
+					$(function(){
+						var option = {
+							changeMonth: true,
+							changeYear: true,
+							gotoCurrent: false
+							,yearRange:'-100:+10'
+							,showOn:"button"
+							,buttonImage:"./modules/attendance/tpl/images/buttonCalendar.gif"
+							,buttonImageOnly:true
+							,mandatory:true
+							,onSelect:function(){
+								$("#str_selected_date").html(this.value);
+								$("#selected_date").val(this.value.replace(/-/g,''));
+								moveDate();
+							}
+						};
+						$.extend(option,$.datepicker.regional['{{ $lang_type }}']);
+						$(".inputDate").datepicker(option);
+					});
+				})(jQuery);
+			</script>
+		</div>
+	</form>
+
+	<ul class="x_nav x_nav-tabs">
+		@foreach($lang->view_type as $key => $val)
+		<li @class(['x_active' => $viewType == $key])><a href="{{ getUrl('', 'module', 'admin', 'act', 'dispAttendanceAdmin'.$key) }}">{{ $val }}</a></li>
+		@endforeach
+		<li @class(['x_active' => $act == 'dispAttendanceAdminGift'])><a href="{{ getUrl('', 'module', 'admin', 'act', 'dispAttendanceAdminGift') }}">{{ $lang->dispAttgiftList }}</a></li>
+	</ul>
+</div>
